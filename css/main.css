@@ -20,11 +20,11 @@ body{
 	padding-right:10px;
 }
 
-.inst_header h4{
+.instruction_header h4{
 	padding-top:15px;
 }
 
-.inst_header h5{
+.instruction_header h5{
 	margin-top: -10px;
 }
 
@@ -32,7 +32,7 @@ body{
 	width: 5.5%;
 }
 
-.inst_header{
+.instruction_header{
 	color: #FFF;
 	position: fixed;
 	top:30px;
@@ -41,7 +41,7 @@ body{
 	display:block;
 }
 
-.inst_footer{
+.instruction_footer{
 	background-color: #000;
 	position: fixed;
 	bottom: 0px;

@@ -38,7 +38,7 @@
         <div class="page-header">
           <h2></h2>
           <h3></h3>
-          <a class="btn btn-primary">Start the lesson</a>
+          <a id="launch" class="btn btn-primary">Start the lesson</a>
         </div>
       </div>
     </div>
@@ -50,12 +50,30 @@
   </body>
   <script>
     var lesson_id = window.location.search.split('?')[1]
-    $.getJSON('http://howtocity.herokuapp.com/api/v1/lessons/'+lesson_id,
+    // http://howtocity.herokuapp.com
+    $.getJSON('http://127.0.0.1:5000/api/v1/lessons/'+lesson_id,
       function(lesson){
         $('.page-header h2').html(lesson.name);
         $('.page-header h3').html(lesson.description);
-        $('.page-header a').attr('href','instructions.html?'+lesson_id)
+        // $('.page-header a').attr('href','instructions.html?'+lesson_id)
       })
+    </script>
+    <script>
+    var width = window.screen.width;
+    var height = window.screen.height;
+
+    var instructionSiteFeatures = {
+      height: height,
+      width: width - 1000,
+      left: 1000,
+      name: 'instructions', // specify custom name for window (overrides createNew option)
+      center: false,
+      // scrollbars: false, // safari always adds scrollbars
+    }
+
+    $("#launch").click(function() {
+      var instructionsWindow = $.popupWindow('instructions.html?'+lesson_id, instructionSiteFeatures);
+    });
     </script>
   <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.js"></script>
  
