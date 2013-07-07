@@ -54,7 +54,7 @@
   <script>
   // console.log(window.location.search.split('?')[1]);
   var category_id = window.location.search.split('?')[1]
-    $.getJSON('http://127.0.0.1:5000/api/v1/categories/'+category_id,
+    $.getJSON('http://howtocity.herokuapp.com/api/v1/categories/'+category_id,
       function(category){
         $('.page-header h2').html(category.name);
         $('.page-header h3').html(category.description);

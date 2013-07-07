@@ -51,7 +51,7 @@
   <script>
     var lesson_id = window.location.search.split('?')[1]
     // http://howtocity.herokuapp.com
-    $.getJSON('http://127.0.0.1:5000/api/v1/lessons/'+lesson_id,
+    $.getJSON('http://howtocity.herokuapp.com/api/v1/lessons/'+lesson_id,
       function(lesson){
         $('.page-header h2').html(lesson.name);
         $('.page-header h3').html(lesson.description);

@@ -12,7 +12,7 @@ var lesson = null;
 var steps = null;
 var access_token = null;
 
-$.getJSON('http://127.0.0.1:5000/api/v1/lessons/'+lesson_id,
+$.getJSON('http://howtocity.herokuapp.com/api/v1/lessons/'+lesson_id,
   // Fill in the blanks with the lesson
   function(lessonResponse){
     lesson = lessonResponse;
@@ -77,7 +77,7 @@ var checkStep = function(){
     // console.log(steps[0].hasOwnProperty('trigger_endpoint'));
     if (steps[currentStep].trigger_endpoint != '' && steps[currentStep].trigger_check != '' && steps[currentStep].trigger_value != ''){
       // console.log(steps[0]);
-      // http://127.0.0.1:5000/foursquare/loggedin/access_token
+      // http://howtocity.herokuapp.com/foursquare/loggedin/access_token
       // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
       
       // If step type is login
