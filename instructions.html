@@ -131,7 +131,7 @@
         $('#login').click(function(){
             OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
             //Using popup (option 1)
-            OAuth.popup('foursquare', function(error, result) {
+            OAuth.popup('foursquare', function(err, result) {
               if (err) {
                 console.log(err); // do something with error
                 return;
