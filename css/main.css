@@ -91,10 +91,10 @@ section .btn{
 	display: none;
 }
 
-.next{
+#next{
 	position: fixed; bottom:105px;right:10px;
 }
 
-.back{
+#back{
 	position: fixed; bottom:105px; right: 100px;
 }

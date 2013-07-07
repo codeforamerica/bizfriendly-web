@@ -44,14 +44,25 @@
         </div>
     </div>
 
-    <div class="narrow">
-        <section id="step1">
+    <a id="back" class="btn">Back</a>
+    <a id="next" class="btn">Next</a>
+
+    <div id="main" class="narrow">
+        <!--  <section id="step1">
             <h2 class="step_name"></h2>
-            <div class="step_text"></div>
+            <div class="step_text">
+              <p>Click the button below to log in to Foursquare.</p>
+              <p>If you already have a Foursquare account, please log in.</p>
+              <p>If you do not have a Foursquare account, click “sign up for Foursquare.”</p>
+              <a id="login" class="btn">Login to Foursquare</a>
+            </div>
             <a id="login" class="btn btn-large"></a>
-            <div class='feedback'></div>
+            <div class='feedback'>
+              <h2>Great Job!</h2>
+              <p>You've logged in to Foursquare and gave How to City the permissions it needs to show you around.</p>
+            </div>
         </section>
-        <!-- <section id="step2">
+         <section id="step2">
             <h2>Step 2</h2>
             <p>How to City is going to open up the Foursquare website.</p>
             <a id="open_foursquare" class="btn">Open up Foursqaure</a>
@@ -59,7 +70,8 @@
                 <h2>Let’s check it out!</h2>
             </div>
        </section>
-        <section id="step3">
+
+      <section id="step3">
             <h2>Step 3</h2>
             <p>Search for your business on Foursquare.</p>
             <p>Does your business have a page already?</p>
@@ -68,7 +80,7 @@
             <div class='feedback'>
                 <div class='yes'>
                     <h2>Great!</h2>
-                    <p>Save your business to your ToDo list!</p>-->
+                    <p>Save your business to your ToDo list!</p>
                     
                     
 
@@ -122,49 +134,9 @@
 
   </body>
   <script>
-    var lesson_id = window.location.search.split('?')[1]
-    $.getJSON('http://127.0.0.1:5000/api/v1/lessons/'+lesson_id,
-      function(lesson){
-        $('.instruction_header h4').html(lesson.name);
-        // Login Button
-        $('#login').html('Login to '+lesson.name);
-        $('#login').click(function(){
-            OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-            OAuth.popup('foursquare', function(error, result) {
-              //handle error with error
-              //use result.access_token in your API request
-              console.log(result);
-            });
-          });
-      })
-    </script>
-    <script>
-    // var instructionSiteFeatures = {
-    //   height: height,
-    //   width: width - 1000,
-    //   left: 1000,
-    //   name: 'instructions', // specify custom name for window (overrides createNew option)
-    //   center: false,
-    //   // scrollbars: false, // safari always adds scrollbars
-    // }
 
-    // $("#launch").click(function() {
-    //   var instructionsWindow = $.popupWindow('fb_page_instructions.html', instructionSiteFeatures);
-    // });
-    </script>
-    <script>
-      $.getJSON('http://127.0.0.1:5000/api/v1/steps',
-      function(response){
-        steps = response.objects;
-        $(steps).each(function(i){
-          $('#'+steps[i].url+' .step_name').html(steps[i].name);
-          $('#'+steps[i].url+' .step_text').html(steps[i].step_text);
-        });
-      });
-    </script>
-    <script>
-
-    </script>
+  </script>
+  <script src="js/instructions.js">
   <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.js"></script>
  
 </html>
