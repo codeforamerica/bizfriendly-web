@@ -79,11 +79,22 @@ var checkStep = function(){
       // console.log(steps[0]);
       // http://127.0.0.1:5000/foursquare/loggedin/access_token
       // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
+      
+      // If step type is login
       if (steps[currentStep].description == 'login'){
         $.getJSON(steps[currentStep].trigger_endpoint+access_token,
         function(response){
           // Check the trigger vs the value to see if its correct!
-          if (eval(steps[currentStep].trigger_check) == steps[currentStep].trigger_value){
+          console.log(response.installed);
+          var trigger_value;
+          if (steps[currentStep].trigger_value == 'true'){
+            trigger_value = true;
+          } else if (steps[currentStep].trigger_value == 'false'){
+            trigger_value = false;
+          } else {
+            trigger_value = steps[currentStep].trigger_value;
+          }
+          if (eval(steps[currentStep].trigger_check) == trigger_value){
             trigger = true;
           }
           if (trigger == true){
@@ -94,6 +105,8 @@ var checkStep = function(){
         })
       }
     }
+
+    // If step type is open
     if (steps[currentStep].description == 'open'){
       var width = window.screen.width;
       var height = window.screen.height;
