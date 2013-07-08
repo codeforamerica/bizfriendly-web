@@ -6,7 +6,7 @@ How to City Web Site
 How to City teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
 
 ## <a name="about"></a>About
-This is the main website for the How to City service. It is powered by the [How to City API](http://github.com/codeforamerica.org/howtocity-api)
+This is the main website for the How to City service. It is powered by the [How to City API](http://github.com/codeforamerica/howtocity-api)
 
 ## <a name="demo"></a>Demo
 Learn how to add a venue to Foursquare!
