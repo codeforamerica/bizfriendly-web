@@ -9,8 +9,14 @@ How to City teaches you how to use the internet to increase your quality of life
 This is the main website for the How to City service. It is powered by the [How to City API](http://github.com/codeforamerica.org/howtocity-api)
 
 ## <a name="demo"></a>Demo
+Learn how to add a venue to Foursquare!
+http://codeforamerica.github.io/howtocity-web/lesson.html?1
+
+Learn how to create a Facebook page!
+http://codeforamerica.github.io/howtocity-web/lesson.html?2
 
 ## <a name="development-setup"></a>Development Setup
+How to City's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
 
 ## <a name="contributing"></a>Contributing
 In the spirit of [free software][free-sw], **everyone** is encouraged to help
