@@ -2,7 +2,7 @@
    Author's custom styles
    ========================================================================== */
 body{
-	padding-top:160px;
+	padding-top:100px;
 	padding-bottom:100px;
 }
 
@@ -26,10 +26,6 @@ body{
 
 .instruction_header h5{
 	margin-top: -10px;
-}
-
-.progress .bar {
-	width: 5.5%;
 }
 
 .instruction_header{
