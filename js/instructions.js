@@ -2,35 +2,31 @@ var instructions = (function (instructions) {
 
   // private properties
   var debug = true;
-
-  var body_padding = 0;
-
-  var lesson_id = null; // might want to set a default lesson id value
+  var bodyPadding = 0;
+  var lessonId = 0; // Blank lesson
   var lesson = null;
   var steps = null;
-  var access_token = null;
-
+  var accessToken = null;
   var currentStep = 0;
-
   var checkStepInterval;
-
+  var htcApiUrl = null;
+  var htcApiVer = null;
 
   // PUBLIC METHODS 
 
   // initialize variables and load JSON
   function init()
   {
-    console.log('init');
+    if (debug) console.log('init');
 
-    //Fix width
-    var width = window.screen.width;
-    $('.narrow').css('width',280); // Hackity
+    bodyPadding = parseInt($('body').css('padding-top'), 10);
+    htcApiUrl = 'http://howtocity.herokuapp.com/api/'
+    htcApiVer = 'v1'
 
-    body_padding = parseInt($('body').css('padding-top'), 10);
-
-    // Get lesson
-    lesson_id = window.location.search.split('?')[1];
-    $.getJSON('http://howtocity.herokuapp.com/api/v1/lessons/'+lesson_id, _jsonLoadSuccess);
+    // Get lessonId from the url
+    lessonId = window.location.search.split('?')[1];
+    // Call the API and get that lesson
+    $.getJSON(htcApiUrl+htcApiVer+'/lessons/'+lessonId, _jsonLoadSuccess);
   }
 
   // PRIVATE METHODS 
@@ -40,42 +36,41 @@ var instructions = (function (instructions) {
   function _jsonLoadSuccess(lessonResponse)
   {
     lesson = lessonResponse;
-    steps = lesson.steps.sort()
-    // console.log(steps);
-
+    // Make sure steps are in order of id
+    steps = lesson.steps.sort(function(a, b){
+      if (a.id < b.id) return -1;
+      if (a.id > b.id) return 1;
+      return 0;
+    })
+    
     // Set the name of the lesson
     $('.instruction_header h4').html(lesson.name);
 
-    // Fill in Steps
+    // Loop through steps and fill out the page
     $(steps).each(function(i){
       $('#main').append('<section id="'+lesson.steps[i].url+'">'+
-              '<h2 class="step_name"></h2>'+
-              '<div class="step_text"></div>'+
-              '<div class="feedback"></div>'+
+              ' <h2 class="step_name"></h2>'+
+              ' <div class="step_text"></div>'+
+              ' <div class="feedback"></div>'+
               '</section>')
       $('#'+lesson.steps[i].url+' .step_name').html(lesson.steps[i].name);
       $('#'+lesson.steps[i].url+' .step_text').html(lesson.steps[i].step_text);
       $('#'+lesson.steps[i].url+' .feedback').html(lesson.steps[i].feedback);
     })
 
-    // Set for page scrolling
-    numOfSections = $('section').length;
-    doc_height = $('body').height();
-
     // OAuth
     $('#login').click(function(){
       OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
       OAuth.popup(lesson.url, function(error, result) {
         //handle error with error
-        access_token = result.access_token;
+        if (error) alert(error);
+        if (debug) console.log(result);
+        accessToken = result.access_token;
       });
     });
 
-    // adds button event handlers
-    // Back button
+    // Adds button event handlers
     $('#back').click(_backClicked);
-
-    // Next button
     $('#next').click(_nextClicked);
 
     checkStepInterval = setInterval(_checkStep,1000);
@@ -85,8 +80,8 @@ var instructions = (function (instructions) {
   function _nextClicked(evt)
   {
     if (debug) console.log('Next');
-    var nextStep = currentStep + 1;
-    $('html, body').animate({ scrollTop: $('#step'+nextStep).offset().top - body_padding }, 1000);
+    var next_step = currentStep + 1;
+    $('html, body').animate({ scrollTop: $('#step'+next_step).offset().top - bodyPadding }, 1000);
   }
 
   // back button is clicked
@@ -94,37 +89,27 @@ var instructions = (function (instructions) {
   {
     if (debug) console.log('Back');
     var backStep = currentStep;
-    $('html, body').animate({ scrollTop: $('#step'+backStep).offset().top - body_padding }, 1000);
+    $('html, body').animate({ scrollTop: $('#step'+backStep).offset().top - bodyPadding }, 1000);
   }
 
   function _checkStep(){
       var trigger = false;
-      if (access_token != null) {
-        // console.log(steps[0]);
-        // console.log(steps[0].hasOwnProperty('trigger_endpoint'));
+      if (accessToken != null) {
+        // Need to add in some debug info if these don't exist.
         if (steps[currentStep].trigger_endpoint != '' && 
             steps[currentStep].trigger_check != '' && 
             steps[currentStep].trigger_value != ''){
-          // console.log(steps[0]);
-          // http://howtocity.herokuapp.com/foursquare/loggedin/access_token
-          // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
-          
+                    
           // If step type is login
           if (steps[currentStep].description == 'login'){
-            $.getJSON(steps[currentStep].trigger_endpoint+access_token, _loginJsonLoaded)
+            // An example trigger_endpoint
+            // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
+            $.getJSON(steps[currentStep].trigger_endpoint+accessToken, _loginJsonLoaded)
           }
         }
 
         // If step type is open
         if (steps[currentStep].description == 'open'){
-          var width = window.screen.width;
-          var height = window.screen.height;
-          var challengeFeatures = {
-            height: height,
-            width: 1000,
-            name: 'site',
-            center: false
-          }
           $("#open").click(_openClicked);
         }
       }
@@ -133,8 +118,15 @@ var instructions = (function (instructions) {
     // #open is clicked
     function _openClicked(evt)
     {
+      var height = window.screen.height;
+      var challengeFeatures = {
+        height: height,
+        width: 1000,
+        name: 'challengeWindow',
+        center: false
+      }
       challengeWindow = $.popupWindow(steps[currentStep].trigger_endpoint, challengeFeatures);
-      $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep].next_step).offset().top - body_padding }, 1000);
+      $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep].next_step).offset().top - bodyPadding }, 1000);
       $('#'+steps[currentStep].url+' .feedback').css('display','block');
       currentStep = currentStep + 1;
     }
@@ -142,26 +134,22 @@ var instructions = (function (instructions) {
     // step type login json has loaded
     function _loginJsonLoaded(response)
     {
-      // Check the trigger vs the value to see if its correct!
-      console.log(response.installed);
-      var trigger_value;
-      if (steps[currentStep].trigger_value == 'true'){
-        trigger_value = true;
-      } else if (steps[currentStep].trigger_value == 'false'){
-        trigger_value = false;
-      } else {
-        trigger_value = steps[currentStep].trigger_value;
-      }
-      if (eval(steps[currentStep].trigger_check) == trigger_value){
+      // Cast strings to booleans
+      var triggerValue = steps[currentStep].trigger_value;
+      if (triggerValue == 'true') triggerValue = true;
+      if (triggerValue == 'false') trigger_Value = false;
+
+      // Check the trigger vs the value to see if its correct
+      if (eval(steps[currentStep].trigger_check) == triggerValue){
         trigger = true;
       }
       if (trigger == true){
-        $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep].next_step).offset().top - body_padding }, 1000);
+        console.log(steps[currentStep].next_step);
+        $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep].next_step).offset().top - bodyPadding }, 1000);
         $('#'+lesson.steps[currentStep].url+' .feedback').css('display','block');
         currentStep = currentStep + 1;
       }
     }
-
 
   // add public methods to the returned module and return it
   instructions.init = init;
