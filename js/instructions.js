@@ -11,6 +11,8 @@ var instructions = (function (instructions) {
   var checkStepInterval;
   var htcApiUrl = null;
   var htcApiVer = null;
+  var originalCount;
+  var originalCountFlag = false;
 
   // PUBLIC METHODS 
 
@@ -33,8 +35,10 @@ var instructions = (function (instructions) {
 
   // Fill in the blanks with the lesson
   // sets up post-json load initialization
-  function _jsonLoadSuccess(lesson)
+  function _jsonLoadSuccess(response)
   {
+    // Attach response to top level variable
+    lesson = response;
     // Make sure steps are in order of id
     steps = lesson.steps.sort(function(a, b){
       if (a.id < b.id) return -1;
@@ -93,7 +97,6 @@ var instructions = (function (instructions) {
   }
 
   function _checkStep(){
-
       // Make object of the current stop
       step = {
         id : steps[currentStep - 1].id,
@@ -108,7 +111,6 @@ var instructions = (function (instructions) {
         nextStep : steps[currentStep - 1].next_step
       }
 
-      var trigger = false;
       if (accessToken != null) {
         // Need to add in some debug info if these don't exist.
         if (step.triggerEndpoint != '' && 
@@ -119,7 +121,10 @@ var instructions = (function (instructions) {
           if (step.description == 'login'){
             // An example triggerEndpoint
             // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
-            $.getJSON(step.triggerEndpoint+accessToken, _loginJsonLoaded)
+            // $.getJSON(step.triggerEndpoint+accessToken, _loginJsonLoaded)
+            // $.getJSON('http://0.0.0.0:5000/'+lesson.url+'/logged_in?access_token='+accessToken, _loginJsonLoaded);
+            // $.post('howtocity.herokuapp.com/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
+            $.post('http://127.0.0.1:5000/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
           }
         }
 
@@ -127,6 +132,34 @@ var instructions = (function (instructions) {
         if (step.description == 'open'){
           $("#open").click(_openClicked);
         }
+
+        // If step type is check_for_new
+        if (step.description == 'check_for_new'){
+          // $.getJSON(step.triggerEndpoint+accessToken, _checkRemoteList);
+          // $.post('http://howtocity.herokuapp.com/check_for_new?access_token='+accessToken, step, _whenResponseIsTrue);
+          $.post('http://127.0.0.1:5000/check_for_new?access_token='+accessToken, step, _checkForNew);
+        }
+      }
+    }
+
+    function _whenResponseIsTrue(response){
+      response = $.parseJSON(response);
+      if ( response.loggedIn ){
+        if (debug) console.log(response);
+        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
+        $('#'+step.url+' .feedback').css('display','block');
+      }
+    }
+
+    // Need to keep checking list for new additon
+    function _checkForNew(response)
+    {
+      response = $.parseJSON(response);
+      if ( response.newThingName ){
+        if (debug) console.log(response);
+        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
+        $('#'+step.url+' .feedback .newThingName').html(response.newThingName);
+        $('#'+step.url+' .feedback').css('display','block');
       }
     }
 
@@ -145,22 +178,22 @@ var instructions = (function (instructions) {
     }
 
     // step type login json has loaded
-    function _loginJsonLoaded(response)
-    {
-      var trigger = false;
-      // Cast strings to booleans
-      if (step.triggerValue == 'true') step.triggerValue = true;
-      if (step.triggerValue == 'false') step.triggerValue = false;
+    // function _loginJsonLoaded(response)
+    // {
+    //   var trigger = false;
+    //   // Cast strings to booleans
+    //   if (step.triggerValue == 'true') step.triggerValue = true;
+    //   if (step.triggerValue == 'false') step.triggerValue = false;
 
-      // Check the trigger vs the value to see if its correct
-      if (eval(step.triggerCheck) == step.triggerValue){
-        trigger = true;
-      }
-      if (trigger == true){
-        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
-        $('#'+step.url+' .feedback').css('display','block');
-      }
-    }
+    //   // Check the trigger vs the value to see if its correct
+    //   if (eval(step.triggerCheck) == step.triggerValue){
+    //     trigger = true;
+    //   }
+    //   if (trigger == true){
+    //     // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
+    //     $('#'+step.url+' .feedback').css('display','block');
+    //   }
+    // }
 
   // add public methods to the returned module and return it
   instructions.init = init;
