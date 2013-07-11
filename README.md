@@ -20,6 +20,9 @@ http://codeforamerica.github.io/howtocity-web/lesson.html?2
 How to City's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
 
 ## <a name="contributing"></a>Contributing
+
+The list of [beginner friendly](https://github.com/codeforamerica/howtocity-web/issues?labels=beginner+friendly&page=1&state=open) issues is a great place to start!
+
 In the spirit of [free software][free-sw], **everyone** is encouraged to help
 improve this project.
 
