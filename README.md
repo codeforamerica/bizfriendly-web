@@ -40,7 +40,7 @@ Here are some ways *you* can contribute:
 * by reviewing patches
 * [financially][]
 
-[issues]: https://github.com/codeforamerica/howtocity/issues
+[issues]: https://github.com/codeforamerica/howtocity-web/issues
 [financially]: https://secure.codeforamerica.org/page/contribute
 
 ## <a name="issues"></a>Submitting an Issue
@@ -63,6 +63,6 @@ bug.
 ## <a name="copyright"></a>Copyright
 Copyright (c) 2013 Code for America. See [LICENSE][] for details.
 
-[license]: https://github.com/codeforamerica/howtocity
+[license]: https://github.com/codeforamerica/howtocity-web
 
-[![Code for America Tracker](http://stats.codeforamerica.org/codeforamerica/howtocity.png)](http://stats.codeforamerica.org/projects/howtocity)
+[![Code for America Tracker](http://stats.codeforamerica.org/codeforamerica/howtocity-web.png)](http://stats.codeforamerica.org/projects/howtocity-web)
