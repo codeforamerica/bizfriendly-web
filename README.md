@@ -1,3 +1,4 @@
+[![Stories in Ready](http://badge.waffle.io/codeforamerica/howtocity-web.png)](http://waffle.io/codeforamerica/howtocity-web)  
 [![Build Status](https://travis-ci.org/codeforamerica/howtocity-api.png)](https://travis-ci.org/codeforamerica/howtocity-api)
 
 How to City Web Site
