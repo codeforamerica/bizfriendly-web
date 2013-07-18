@@ -94,3 +94,15 @@ section .btn{
 #back{
 	position: fixed; bottom:105px; right: 100px;
 }
+
+.span4 {
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 10px;
+}
+
+.span8 {
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 10px;
+}
