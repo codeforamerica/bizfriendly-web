@@ -9,7 +9,7 @@ var instructions = (function (instructions) {
   var accessToken = null;
   var currentStep = 1;
   var checkStepInterval;
-  var htcApiUrl = null;
+  var htcUrl = null;
   var htcApiVer = null;
   var originalCount;
   var originalCountFlag = false;
@@ -21,14 +21,17 @@ var instructions = (function (instructions) {
   {
     if (debug) console.log('init');
 
+
     bodyPadding = parseInt($('body').css('padding-top'), 10);
-    htcApiUrl = 'http://howtocity.herokuapp.com/api/'
-    htcApiVer = 'v1'
+    // htcUrl = 'http://howtocity.herokuapp.com'
+    // htcUrl = 'http://0.0.0.0:5000'
+    htcUrl = 'http://127.0.0.1:8000'
+    htcApiVer = '/api/v1'
 
     // Get lessonId from the url
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
-    $.getJSON(htcApiUrl+htcApiVer+'/lessons/'+lessonId, _jsonLoadSuccess);
+    $.getJSON(htcUrl+htcApiVer+'/lessons/'+lessonId, _jsonLoadSuccess);
   }
 
   // PRIVATE METHODS 
@@ -63,12 +66,16 @@ var instructions = (function (instructions) {
 
     // OAuth
     $('#login').click(function(){
+
       OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
       OAuth.popup(lesson.url, function(error, result) {
         //handle error with error
         if (error) alert(error);
         if (debug) console.log(result);
         accessToken = result.access_token;
+
+        // Check first step
+        _checkStep();
       });
     });
 
@@ -76,7 +83,7 @@ var instructions = (function (instructions) {
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
 
-    checkStepInterval = setInterval(_checkStep,1000);
+    // checkStepInterval = setInterval(_checkStep,1000);
   }
 
   // next button is clicked
@@ -85,6 +92,7 @@ var instructions = (function (instructions) {
     if (currentStep < steps.length){
       currentStep = currentStep + 1;
       $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
+      setTimeout(_checkStep,2000)
     }}
 
   // back button is clicked
@@ -93,6 +101,7 @@ var instructions = (function (instructions) {
     if (currentStep > 1){
       currentStep = currentStep - 1;
       $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
+      setTimeout(_checkStep,2000)
     }
   }
 
@@ -101,49 +110,60 @@ var instructions = (function (instructions) {
       step = {
         id : steps[currentStep - 1].id,
         name : steps[currentStep - 1].name,
-        description : steps[currentStep - 1].description,
+        stepType : steps[currentStep - 1].step_type,
         url : steps[currentStep - 1].url,
         stepText : steps[currentStep - 1].step_text,
         lessonId : steps[currentStep - 1].lesson_id,
         triggerEndpoint : steps[currentStep - 1].trigger_endpoint,
         triggerCheck : steps[currentStep - 1].trigger_check,
         triggerValue : steps[currentStep - 1].trigger_value,
+        thingToRemember : steps[currentStep - 1].thing_to_remember,
         nextStep : steps[currentStep - 1].next_step
       }
 
-      if (accessToken != null) {
+      if (debug) console.log(step.name);
+      
+      // if (accessToken != null) {
         // Need to add in some debug info if these don't exist.
-        if (step.triggerEndpoint != '' && 
-            step.triggerCheck != '' && 
-            step.triggerValue != ''){
+        // if (step.triggerEndpoint != '' && 
+        //     step.triggerCheck != '' && 
+        //     step.triggerValue != ''){
                     
           // If step type is login
-          if (step.description == 'login'){
-            // An example triggerEndpoint
-            // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
-            // $.getJSON(step.triggerEndpoint+accessToken, _loginJsonLoaded)
-            // $.getJSON('http://0.0.0.0:5000/'+lesson.url+'/logged_in?access_token='+accessToken, _loginJsonLoaded);
-            // $.post('howtocity.herokuapp.com/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
-            $.post('http://127.0.0.1:5000/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
+          if (step.stepType == 'login'){
+            console.log('Asking if logged in.')
+            $.post(htcUrl+'/logged_in?access_token='+accessToken, step, _loggedIn);
           }
-        }
+        // }
 
         // If step type is open
-        if (step.description == 'open'){
+        if (step.stepType == 'open'){
           $("#open").click(_openClicked);
         }
 
         // If step type is check_for_new
-        if (step.description == 'check_for_new'){
-          // $.getJSON(step.triggerEndpoint+accessToken, _checkRemoteList);
-          // $.post('http://howtocity.herokuapp.com/check_for_new?access_token='+accessToken, step, _whenResponseIsTrue);
-          $.post('http://127.0.0.1:5000/check_for_new?access_token='+accessToken, step, _checkForNew);
+        if (step.stepType == 'check_for_new'){
+          $.post(htcUrl+'/check_for_new?access_token='+accessToken, step, _checkForNew);
         }
-      }
+
+        // If step type is 
+        if (step.stepType == 'get_remembered_thing'){
+          console.log('get_remembered_thing');
+          $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, step, _getRememberedThing);
+        }
+      // }
     }
 
-    function _whenResponseIsTrue(response){
+    function _getRememberedThing(response){
       response = $.parseJSON(response);
+      if (debug) console.log(response);
+      $('#'+step.url+' .feedback .newData').html(response.newData);
+      $('#'+step.url+' .feedback').css('display','block');
+    }
+
+    function _loggedIn(response){
+      response = $.parseJSON(response);
+      console.log(response);
       if ( response.loggedIn ){
         if (debug) console.log(response);
         // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
@@ -177,7 +197,27 @@ var instructions = (function (instructions) {
       $('#'+step.url+' .feedback').css('display','block');
     }
 
-    // step type login json has loaded
+    
+
+  // add public methods to the returned module and return it
+  instructions.init = init;
+  return instructions;
+}(instructions || {}));
+
+// initialize the module
+instructions.init()
+
+
+ // An example triggerEndpoint
+            // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
+            // $.getJSON(step.triggerEndpoint+accessToken, _loginJsonLoaded)
+            // $.getJSON('http://0.0.0.0:5000/'+lesson.url+'/logged_in?access_token='+accessToken, _loginJsonLoaded);
+            // $.post('howtocity.herokuapp.com/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
+
+// $.getJSON(step.triggerEndpoint+accessToken, _checkRemoteList);
+          // $.post('http://howtocity.herokuapp.com/check_for_new?access_token='+accessToken, step, _whenResponseIsTrue);
+
+            // step type login json has loaded
     // function _loginJsonLoaded(response)
     // {
     //   var trigger = false;
@@ -194,11 +234,3 @@ var instructions = (function (instructions) {
     //     $('#'+step.url+' .feedback').css('display','block');
     //   }
     // }
-
-  // add public methods to the returned module and return it
-  instructions.init = init;
-  return instructions;
-}(instructions || {}));
-
-// initialize the module
-instructions.init()
