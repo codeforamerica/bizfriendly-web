@@ -94,3 +94,22 @@ section .btn{
 #back{
 	position: fixed; bottom:105px; right: 100px;
 }
+
+[class*="span"] {
+	margin-top: 4px;
+}
+[class*="span"] p, h2 {
+	padding: 10px;
+	text-align: center;
+}
+.span4 {
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 16px;
+}
+
+.span8 {
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 16px;
+}
