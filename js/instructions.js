@@ -1,7 +1,7 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = true;
+  var debug = false;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
@@ -23,9 +23,8 @@ var instructions = (function (instructions) {
 
 
     bodyPadding = parseInt($('body').css('padding-top'), 10);
-    // htcUrl = 'http://howtocity.herokuapp.com'
-    // htcUrl = 'http://0.0.0.0:5000'
-    htcUrl = 'http://127.0.0.1:8000'
+    htcUrl = 'http://howtocity.herokuapp.com'
+    // htcUrl = 'http://127.0.0.1:8000'
     htcApiVer = '/api/v1'
 
     // Get lessonId from the url
@@ -36,7 +35,6 @@ var instructions = (function (instructions) {
 
   // PRIVATE METHODS 
 
-  // Fill in the blanks with the lesson
   // sets up post-json load initialization
   function _jsonLoadSuccess(response)
   {
@@ -82,8 +80,6 @@ var instructions = (function (instructions) {
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
-
-    // checkStepInterval = setInterval(_checkStep,1000);
   }
 
   // next button is clicked
@@ -123,38 +119,65 @@ var instructions = (function (instructions) {
 
       if (debug) console.log(step.name);
       
-      // if (accessToken != null) {
-        // Need to add in some debug info if these don't exist.
-        // if (step.triggerEndpoint != '' && 
-        //     step.triggerCheck != '' && 
-        //     step.triggerValue != ''){
-                    
-          // If step type is login
-          if (step.stepType == 'login'){
-            console.log('Asking if logged in.')
-            $.post(htcUrl+'/logged_in?access_token='+accessToken, step, _loggedIn);
-          }
-        // }
+      // If step type is login
+      if (step.stepType == 'login'){
+        $.post(htcUrl+'/logged_in?access_token='+accessToken, step, _loggedIn);
+      }
+    
+      // If step type is open
+      if (step.stepType == 'open'){
+        $(".open").click(_openClicked);
+      }
 
-        // If step type is open
-        if (step.stepType == 'open'){
-          $("#open").click(_openClicked);
-        }
+      // If step type is check_for_new
+      if (step.stepType == 'check_for_new'){
+        $.post(htcUrl+'/check_for_new?access_token='+accessToken, step, _checkForNew);
+      }
 
-        // If step type is check_for_new
-        if (step.stepType == 'check_for_new'){
-          $.post(htcUrl+'/check_for_new?access_token='+accessToken, step, _checkForNew);
-        }
+      // If step type is get_remembered_thing
+      if (step.stepType == 'get_remembered_thing'){
+        if (debug) console.log('get_remembered_thing');
+        $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, step, _getRememberedThing);
+      }
 
-        // If step type is 
-        if (step.stepType == 'get_remembered_thing'){
-          console.log('get_remembered_thing');
-          $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, step, _getRememberedThing);
-        }
-      // }
+      // If step type is get_added_data
+      if (step.stepType == 'get_added_data'){
+        if (debug) console.log('get_added_data');
+        $.post(htcUrl+'/get_added_data?access_token='+accessToken, step, _getAddedData);
+      }
+
+      // If step type is choose_next_step
+      if (step.stepType == 'choose_next_step'){
+        if (debug) console.log('choose_next_step');
+        $("#choice_one").click(_chooseNextStep);
+        $("#choice_two").click(_chooseNextStep);
+      }
+    }
+
+    function _goToChosenStep(response){
+      if (debug) console.log(response);
+      response = $.parseJSON(response);
+      currentStep = parseInt(response.chosenStep);
+      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
+      setTimeout(_checkStep,2000)
+    }
+
+    function _chooseNextStep(evt){
+      if (debug) console.log(evt.target.id);
+      choice = evt.target.id;
+      $.post(htcUrl+'/choose_next_step?choice='+choice, step, _goToChosenStep);
+    }
+
+    function _getAddedData(response){
+      if (response == 'TIMEOUT') _getAddedData();
+      response = $.parseJSON(response);
+      if (debug) console.log(response);
+      // $('#'+step.url+' .feedback .newData').attr('src',response.newData);
+      $('#'+step.url+' .feedback').css('display','block');
     }
 
     function _getRememberedThing(response){
+      if (response == 'TIMEOUT') _getRememberedThing();
       response = $.parseJSON(response);
       if (debug) console.log(response);
       $('#'+step.url+' .feedback .newData').html(response.newData);
@@ -162,8 +185,9 @@ var instructions = (function (instructions) {
     }
 
     function _loggedIn(response){
+      if (response == 'TIMEOUT') _loggedIn();
       response = $.parseJSON(response);
-      console.log(response);
+      if (debug) console.log(response);
       if ( response.loggedIn ){
         if (debug) console.log(response);
         // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
@@ -171,9 +195,8 @@ var instructions = (function (instructions) {
       }
     }
 
-    // Need to keep checking list for new additon
-    function _checkForNew(response)
-    {
+    function _checkForNew(response){
+      if (response == 'TIMEOUT') _checkForNew();
       response = $.parseJSON(response);
       if ( response.newThingName ){
         if (debug) console.log(response);
@@ -183,9 +206,10 @@ var instructions = (function (instructions) {
       }
     }
 
-    // #open is clicked
+    // .open is clicked
     function _openClicked(evt)
     {
+      if (debug) console.log('Open clicked.')
       var challengeFeatures = {
         height: window.screen.height,
         width: 1000,
@@ -193,11 +217,13 @@ var instructions = (function (instructions) {
         center: false
       }
       challengeWindow = $.popupWindow(step.triggerEndpoint, challengeFeatures);
-      // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
       $('#'+step.url+' .feedback').css('display','block');
+      // $('html, body').delay(1000).animate({ scrollTop: $('#'+step.nextStep).offset().top - bodyPadding }, 1000);
+      
+      // I keep forgetting to click next here.
+      // currentStep = currentStep + 1;
+      // setTimeout(_checkStep,3000);
     }
-
-    
 
   // add public methods to the returned module and return it
   instructions.init = init;
@@ -206,31 +232,3 @@ var instructions = (function (instructions) {
 
 // initialize the module
 instructions.init()
-
-
- // An example triggerEndpoint
-            // https://api.foursquare.com/v2/users/self?v=20130706&oauth_token=
-            // $.getJSON(step.triggerEndpoint+accessToken, _loginJsonLoaded)
-            // $.getJSON('http://0.0.0.0:5000/'+lesson.url+'/logged_in?access_token='+accessToken, _loginJsonLoaded);
-            // $.post('howtocity.herokuapp.com/logged_in?access_token='+accessToken, step, _whenResponseIsTrue);
-
-// $.getJSON(step.triggerEndpoint+accessToken, _checkRemoteList);
-          // $.post('http://howtocity.herokuapp.com/check_for_new?access_token='+accessToken, step, _whenResponseIsTrue);
-
-            // step type login json has loaded
-    // function _loginJsonLoaded(response)
-    // {
-    //   var trigger = false;
-    //   // Cast strings to booleans
-    //   if (step.triggerValue == 'true') step.triggerValue = true;
-    //   if (step.triggerValue == 'false') step.triggerValue = false;
-
-    //   // Check the trigger vs the value to see if its correct
-    //   if (eval(step.triggerCheck) == step.triggerValue){
-    //     trigger = true;
-    //   }
-    //   if (trigger == true){
-    //     // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
-    //     $('#'+step.url+' .feedback').css('display','block');
-    //   }
-    // }
