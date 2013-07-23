@@ -4,6 +4,7 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	font-weight: 700;
 }
 
 header {
@@ -12,9 +13,14 @@ header {
 
 header ul{
 	position: relative;
-	top: 100px;
+	top: 65px;
+	left: -6px;
 	background-color: #585b5b; 
 	height: 33px;
+}
+
+header .span9 {
+	width: 720px;
 }
 
 li {
@@ -24,7 +30,8 @@ li {
 
 ul li a {
 	color: #FFF;
-	font-size: 24px;
+	font-size: 18px;
+	font-weight: 700;
 	text-decoration: none;
 }
 
@@ -38,6 +45,7 @@ section {
 	padding-top: 25px;
 }
 
+
 #main .start {
 	position: relative;
 	top: 65px;
@@ -45,20 +53,36 @@ section {
 
 #main .start p {
 	font-size: 24px;
-	line-height: 30px;
+	font-weight: 700;
+	line-height: 26px;
+	padding-bottom: 15px;
 }
 
 #main .start .btn {
-	margin-left: 65px;
+	margin-left: 25px;
 }
 
 .bottom_links {
 	background-color: #74bbd4;
 	border-radius: 15px;
+	width: 250px;
+	display: block;
+	float: left;
+	margin-right: 16px;
+	height: 150px;
 }
 
 .bottom_links img {
 	margin-right: 5px;
+	float:left;
+	padding-left: 15px;
+	padding-top: 20px;
+}
+
+.bottom_links p {
+	padding-top: 20px;
+	margin-left: 125px;
+	width: 125px;
 }
 
 .bottom_links a {
@@ -71,17 +95,32 @@ section {
 	text-shadow: 1px 1px #ff4000;
 }
 
+.bottom_links .bottom_links_header{
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 26px;
+	margin-bottom: 0px;
+	display: block;
+}
+
 footer {
 	margin-top: 25px;
 	background-color: #585b5b;
-}
-
-footer ul {
-	padding-left: 20px;
+	height: 33px;
 }
 
 #credits {
-	color: white;
+	color: #FFF;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+#credits img {
+	width: 55px;
+}
+
+#credits {
+	text-align: right;
 }
 
 .btn-custom-lighten.active {
