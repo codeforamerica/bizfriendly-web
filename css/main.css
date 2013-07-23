@@ -1,115 +1,122 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-body{
-	padding-top:100px;
-	padding-bottom:100px;
+
+body {
+	font-family: 'Open Sans', sans-serif;
 }
 
-.category{
-	background-color: #2ecc71;
+header {
+	padding-top: 5px;
 }
 
-.header{
-	background-image:url('../img/side_header.jpg');
-	height: 45px;
+header ul{
+	position: relative;
+	top: 100px;
+	background-color: #585b5b; 
+	height: 33px;
 }
 
-.narrow{
-	padding-left:10px;
-	padding-right:10px;
+li {
+	list-style: none;
+	padding-top: 5px;
 }
 
-.instruction_header h4{
-	padding-top:15px;
-}
-
-.instruction_header h5{
-	margin-top: -10px;
-}
-
-.instruction_header{
+ul li a {
 	color: #FFF;
-	position: fixed;
-	top:30px;
-	width:100%;
-	background-color: #000;
-	display:block;
+	font-size: 24px;
+	text-decoration: none;
 }
 
-.instruction_footer{
-	background-color: #000;
-	position: fixed;
-	bottom: 0px;
-	height: 100px;
-	width: 100%;
-	display: block;
+ul li a:hover {
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
 
-section{
-	height:900px;
+section {
+	padding-top: 25px;
 }
 
-section h2{
-	color: #0e90d2;
+#main .start {
+	position: relative;
+	top: 65px;
 }
 
-section .btn{
-	margin-bottom: 10px;
+#main .start p {
+	font-size: 24px;
+	line-height: 30px;
 }
 
-.feedback{
-	display: none;
-	padding-top: 15px;
+#main .start .btn {
+	margin-left: 65px;
 }
 
-.yes, .no, #close_style_guide {
-	display : none;
+.bottom_links {
+	background-color: #74bbd4;
+	border-radius: 15px;
 }
 
-.tips {
-	text-align: right;
+.bottom_links img {
+	margin-right: 5px;
 }
 
-.feedback h2{
-	color: #347235;
+.bottom_links a {
+	color: #FFF;
 }
 
-.congrats{
-	color: #347235;
+.bottom_links a:hover {
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
 
-.pageName, .pageAbout, .pageWebsite{
-	font-weight:bold;
+footer {
+	margin-top: 25px;
+	background-color: #585b5b;
 }
 
-.feedback2{
-	display: none;
+footer ul {
+	padding-left: 20px;
 }
 
-#next{
-	position: fixed; bottom:105px;right:10px;
+#credits {
+	color: white;
 }
 
-#back{
-	position: fixed; bottom:105px; right: 100px;
+.btn-custom-lighten.active {
+  color: rgba(255, 255, 255, 0.75);
+}
+.btn-custom-lighten {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff4f14;
+  background-image: -moz-linear-gradient(top, #ff4000, #ff6633);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff4000), to(#ff6633));
+  background-image: -webkit-linear-gradient(top, #ff4000, #ff6633);
+  background-image: -o-linear-gradient(top, #ff4000, #ff6633);
+  background-image: linear-gradient(to bottom, #ff4000, #ff6633);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff4000', endColorstr='#ffff6633', GradientType=0);
+  border-color: #ff6633 #ff6633 #e53a00;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #ff6633;
+   Darken IE7 buttons by default so they stand out more given they won't have borders 
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.btn-custom-lighten:hover,
+.btn-custom-lighten:focus,
+.btn-custom-lighten:active,
+.btn-custom-lighten.active,
+.btn-custom-lighten.disabled,
+.btn-custom-lighten[disabled] {
+  color: #ffffff;
+  background-color: #ff6633;
+  *background-color: #ff5319;
+}
+.btn-custom-lighten:active,
+.btn-custom-lighten.active {
+  background-color: #ff4000 ;
 }
 
-[class*="span"] {
-	margin-top: 4px;
-}
-[class*="span"] p, h2 {
-	padding: 10px;
-	text-align: center;
-}
-.span4 {
-	border-style: solid;
-	border-width: 2px;
-	margin-left: 16px;
-}
-
-.span8 {
-	border-style: solid;
-	border-width: 2px;
-	margin-left: 16px;
-}
