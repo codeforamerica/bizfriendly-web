@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<style>
+	#droppable{
+		width: 500px;
+		height: 100px;
+		border: solid 1px;
+	}
+	</style>
+	<script>
+	$(function() {
+    $( "#draggable" ).draggable({});
+    $( "#droppable" ).droppable({
+      drop: function( event, ui ) {
+        $(this).css("background-color","yellow");
+      }
+    });
+  });
+  </script>
+  <style>
+
+  </style>
+</head>
+<body>
+ 
+<img src="img/bf_logo.png" id="draggable"> 
+<div id="droppable">
+  <p>Drop here</p>
+</div>
+
+</body>
+</html>
