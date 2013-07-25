@@ -1,7 +1,7 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = false;
+  var debug = true;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
@@ -15,14 +15,39 @@ var instructions = (function (instructions) {
   var originalCountFlag = false;
 
   // PUBLIC METHODS 
+  
+    function createStep(steps, currentStep){
+      step = {
+        id : steps[currentStep - 1].id,
+        name : steps[currentStep - 1].name,
+        stepType : steps[currentStep - 1].step_type,
+        url : steps[currentStep - 1].url,
+        stepText : steps[currentStep - 1].step_text,
+        lessonId : steps[currentStep - 1].lesson_id,
+        triggerEndpoint : steps[currentStep - 1].trigger_endpoint,
+        triggerCheck : steps[currentStep - 1].trigger_check,
+        triggerValue : steps[currentStep - 1].trigger_value,
+        thingToRemember : steps[currentStep - 1].thing_to_remember,
+        feedback : steps[currentStep - 1].feedback,
+        nextStep : steps[currentStep - 1].next_step
+      }
+      return step;
+    }
+
+    function showStep(step) {
+      $('section').attr('id',step.url);
+      $('section h2').html(step.name);
+      $('.step_text').html(step.stepText);
+      $('.feedback').html(step.feedback);
+    }
+
 
   // initialize variables and load JSON
   function init()
   {
     if (debug) console.log('init');
 
-
-    bodyPadding = parseInt($('body').css('padding-top'), 10);
+    // bodyPadding = parseInt($('body').css('padding-top'), 10);
     htcUrl = 'http://howtocity.herokuapp.com'
     // htcUrl = 'http://127.0.0.1:8000'
     htcApiVer = '/api/v1'
@@ -46,21 +71,12 @@ var instructions = (function (instructions) {
       if (a.id > b.id) return 1;
       return 0;
     })
-    
-    // Set the name of the lesson
-    $('.instruction_header h4').html(lesson.name);
 
-    // Loop through steps and fill out the page
-    $(steps).each(function(i){
-      $('#main').append('<section id="'+steps[i].url+'">'+
-              ' <h2 class="step_name"></h2>'+
-              ' <div class="step_text"></div>'+
-              ' <div class="feedback"></div>'+
-              '</section>')
-      $('#'+steps[i].url+' .step_name').html(steps[i].name);
-      $('#'+steps[i].url+' .step_text').html(steps[i].step_text);
-      $('#'+steps[i].url+' .feedback').html(steps[i].feedback);
-    })
+    // Set the name of the lesson
+    $('header h4').html(lesson.name);
+
+    step = createStep(steps, currentStep);
+    showStep(step);
 
     // OAuth
     $('#login').click(function(){
@@ -87,8 +103,13 @@ var instructions = (function (instructions) {
   {
     if (currentStep < steps.length){
       currentStep = currentStep + 1;
-      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
-      setTimeout(_checkStep,2000)
+      // $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
+      if ($('.feedback').css('display') == 'block'){
+        $('.feedback').toggle();
+      }
+      step = createStep(steps, currentStep);
+      showStep(step);
+      _checkStep()
     }}
 
   // back button is clicked
@@ -96,27 +117,15 @@ var instructions = (function (instructions) {
   {
     if (currentStep > 1){
       currentStep = currentStep - 1;
-      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
-      setTimeout(_checkStep,2000)
+      // $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
+      step = createStep(steps, currentStep);
+      showStep(step);
+      _checkStep();
     }
   }
 
   function _checkStep(){
-      // Make object of the current stop
-      step = {
-        id : steps[currentStep - 1].id,
-        name : steps[currentStep - 1].name,
-        stepType : steps[currentStep - 1].step_type,
-        url : steps[currentStep - 1].url,
-        stepText : steps[currentStep - 1].step_text,
-        lessonId : steps[currentStep - 1].lesson_id,
-        triggerEndpoint : steps[currentStep - 1].trigger_endpoint,
-        triggerCheck : steps[currentStep - 1].trigger_check,
-        triggerValue : steps[currentStep - 1].trigger_value,
-        thingToRemember : steps[currentStep - 1].thing_to_remember,
-        nextStep : steps[currentStep - 1].next_step
-      }
-
+     
       if (debug) console.log(step.name);
       
       // If step type is login
