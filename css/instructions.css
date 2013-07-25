@@ -37,7 +37,7 @@ footer{
 }
 
 section{
-	height:650px;
+	height:575px;
 }
 
 section h2{
@@ -53,62 +53,20 @@ section .btn{
 	padding-top: 15px;
 }
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-/*
-.header{
-	background-image:url('img/side_header.jpg');
-	height: 45px;
+.current_step{
+	height: 20px;
+	width: 20px;
+	background-image: url('../img/current_step.png')
 }
 
-
-
-.instruction_header h4{
-	padding-top:15px;
+.finished_step{
+	background-image: url('../img/finished_step.png')
 }
 
-.instruction_header h5{
-	margin-top: -10px;
+.unfinished_step{
+	background-image: url('../img/unfinished_step.png')
 }
 
-.instruction_header{
-	color: #FFF;
-	position: fixed;
-	top:30px;
-	width:100%;
-	background-color: #000;
-	display:block;
+#progress li{
+	display:inline;
 }
-
-
-
-
-
-.yes, .no, #close_style_guide {
-	display : none;
-}
-
-.tips {
-	text-align: right;
-}
-
-.feedback h2{
-	color: #347235;
-}
-
-.congrats{
-	color: #347235;
-}
-
-.pageName, .pageAbout, .pageWebsite{
-	font-weight:bold;
-}
-
-.feedback2{
-	display: none;
-}
-
-*/

@@ -9,13 +9,14 @@ var instructions = (function (instructions) {
   var accessToken = null;
   var currentStep = 1;
   var checkStepInterval;
-  var htcUrl = null;
-  var htcApiVer = null;
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
+  var htcApiVer = '/api/v1'
   var originalCount;
   var originalCountFlag = false;
+  var loginPopup = 'hi';
 
   // PUBLIC METHODS 
-  
     function createStep(steps, currentStep){
       step = {
         id : steps[currentStep - 1].id,
@@ -41,16 +42,25 @@ var instructions = (function (instructions) {
       $('.feedback').html(step.feedback);
     }
 
-
+    // Should we use a listener instead of a short loop?
+    function _showProgress(){
+      $(steps).each(function(i){
+        if (currentStep == i+1){
+          $('#'+steps[i].url+'_progress').html('<img src="img/current_step.png">');
+        }
+        if (currentStep > i+1){
+          $('#'+steps[i].url+'_progress').html('<img src="img/finished_step.png">');
+        }
+        if (currentStep < i+1){
+          $('#'+steps[i].url+'_progress').html('<img src="img/unfinished_step.png">');
+        }
+      })
+    }
+    
   // initialize variables and load JSON
   function init()
   {
     if (debug) console.log('init');
-
-    // bodyPadding = parseInt($('body').css('padding-top'), 10);
-    htcUrl = 'http://howtocity.herokuapp.com'
-    // htcUrl = 'http://127.0.0.1:8000'
-    htcApiVer = '/api/v1'
 
     // Get lessonId from the url
     lessonId = window.location.search.split('?')[1];
@@ -75,23 +85,28 @@ var instructions = (function (instructions) {
     // Set the name of the lesson
     $('header h4').html(lesson.name);
 
+    //Build step progress bar
+    $(steps).each(function(i){
+        $('#progress').append('<li id="'+steps[i].url+'_progress"></li>');
+      })
+
     step = createStep(steps, currentStep);
     showStep(step);
+    _showProgress();
 
     // OAuth
     $('#login').click(function(){
-
+      
       OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
       OAuth.popup(lesson.url, function(error, result) {
         //handle error with error
         if (error) alert(error);
-        if (debug) console.log(result);
         accessToken = result.access_token;
 
         // Check first step
-        _checkStep();
+        _checkStep();  
       });
-    });
+      });
 
     // Adds button event handlers
     $('#back').click(_backClicked);
@@ -109,7 +124,8 @@ var instructions = (function (instructions) {
       }
       step = createStep(steps, currentStep);
       showStep(step);
-      _checkStep()
+      _showProgress();
+      _checkStep();
     }}
 
   // back button is clicked
@@ -120,6 +136,7 @@ var instructions = (function (instructions) {
       // $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
       step = createStep(steps, currentStep);
       showStep(step);
+      _showProgress();
       _checkStep();
     }
   }
@@ -145,19 +162,16 @@ var instructions = (function (instructions) {
 
       // If step type is get_remembered_thing
       if (step.stepType == 'get_remembered_thing'){
-        if (debug) console.log('get_remembered_thing');
         $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, step, _getRememberedThing);
       }
 
       // If step type is get_added_data
       if (step.stepType == 'get_added_data'){
-        if (debug) console.log('get_added_data');
         $.post(htcUrl+'/get_added_data?access_token='+accessToken, step, _getAddedData);
       }
 
       // If step type is choose_next_step
       if (step.stepType == 'choose_next_step'){
-        if (debug) console.log('choose_next_step');
         $("#choice_one").click(_chooseNextStep);
         $("#choice_two").click(_chooseNextStep);
       }
@@ -209,7 +223,6 @@ var instructions = (function (instructions) {
       response = $.parseJSON(response);
       if ( response.newThingName ){
         if (debug) console.log(response);
-        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
         $('#'+step.url+' .feedback .newThingName').html(response.newThingName);
         $('#'+step.url+' .feedback').css('display','block');
       }
@@ -218,7 +231,6 @@ var instructions = (function (instructions) {
     // .open is clicked
     function _openClicked(evt)
     {
-      if (debug) console.log('Open clicked.')
       var challengeFeatures = {
         height: window.screen.height,
         width: 1000,
@@ -227,11 +239,6 @@ var instructions = (function (instructions) {
       }
       challengeWindow = $.popupWindow(step.triggerEndpoint, challengeFeatures);
       $('#'+step.url+' .feedback').css('display','block');
-      // $('html, body').delay(1000).animate({ scrollTop: $('#'+step.nextStep).offset().top - bodyPadding }, 1000);
-      
-      // I keep forgetting to click next here.
-      // currentStep = currentStep + 1;
-      // setTimeout(_checkStep,3000);
     }
 
   // add public methods to the returned module and return it
