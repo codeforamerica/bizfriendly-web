@@ -1,7 +1,7 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = false;
+  var debug = true;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
@@ -9,25 +9,81 @@ var instructions = (function (instructions) {
   var accessToken = null;
   var currentStep = 1;
   var checkStepInterval;
-  var htcUrl = null;
-  var htcApiVer = null;
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
+  var htcApiVer = '/api/v1'
   var originalCount;
   var originalCountFlag = false;
+  var loginPopup = 'hi';
 
-  // PUBLIC METHODS 
+  // PUBLIC METHODS
+
+    function setState(step){
+        if (currentStep == step.stepNumber){
+          step.stepState = "active";
+        }
+        if (currentStep > step.stepNumber){
+          step.stepState = "finished";
+        }
+        if (currentStep < step.stepNumber){
+          step.stepState = "unfinished";
+        }
+        return step;
+    }
+    
+
+    function createStep(steps, currentStep){
+      step = {
+        id : steps[currentStep - 1].id,
+        name : steps[currentStep - 1].name,
+        stepType : steps[currentStep - 1].step_type,
+        stepNumber : steps[currentStep - 1].step_number,
+        stepText : steps[currentStep - 1].step_text,
+        lessonId : steps[currentStep - 1].lesson_id,
+        triggerEndpoint : steps[currentStep - 1].trigger_endpoint,
+        triggerCheck : steps[currentStep - 1].trigger_check,
+        triggerValue : steps[currentStep - 1].trigger_value,
+        thingToRemember : steps[currentStep - 1].thing_to_remember,
+        feedback : steps[currentStep - 1].feedback,
+        nextStepNumber : steps[currentStep - 1].next_step_number,
+        stepState : "unfinished"
+      }
+      step = setState(step);
+      return step;
+    }
+
+    function showStep(step) {
+      $('section').attr('id','step'+step.stepNumber);
+      $('section h2').html(step.name);
+      $('.step_text').html(step.stepText);
+      $('.feedback').html(step.feedback);
+    }
+
+    function showProgress(){
+      $(steps).each(function(i){
+        if (step.stepState == 'active'){
+          $('#step'+steps[i].stepNumber+'_progress').removeClass('finished unfinished').addClass('active');
+        }
+        if (step.stepState == 'finished'){
+          $('#step'+steps[i].stepNumber+'_progress').removeClass('active unfinished').addClass('finished');
+        }
+        if (step.stepState == 'unfinished'){
+          $('#step'+steps[i].stepNumber+'_progress').removeClass('finished active').addClass('unfinished');
+        }
+      })
+    }
+
+    function updateSteps(steps, currentStep){
+      step = createStep(steps, currentStep);
+      showStep(step);
+      showProgress();
+    }
 
   // initialize variables and load JSON
   function init()
   {
     if (debug) console.log('init');
-
-
-    bodyPadding = parseInt($('body').css('padding-top'), 10);
-    htcUrl = 'http://howtocity.herokuapp.com'
-    // htcUrl = 'http://127.0.0.1:8000'
-    htcApiVer = '/api/v1'
-
-    // Get lessonId from the url
+    // Get lessonId from the stepNumber
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
     $.getJSON(htcUrl+htcApiVer+'/lessons/'+lessonId, _jsonLoadSuccess);
@@ -46,36 +102,31 @@ var instructions = (function (instructions) {
       if (a.id > b.id) return 1;
       return 0;
     })
-    
-    // Set the name of the lesson
-    $('.instruction_header h4').html(lesson.name);
 
-    // Loop through steps and fill out the page
+    // Set the name of the lesson
+    $('header h4').html(lesson.name);
+
+    //Build step progress bar
     $(steps).each(function(i){
-      $('#main').append('<section id="'+steps[i].url+'">'+
-              ' <h2 class="step_name"></h2>'+
-              ' <div class="step_text"></div>'+
-              ' <div class="feedback"></div>'+
-              '</section>')
-      $('#'+steps[i].url+' .step_name').html(steps[i].name);
-      $('#'+steps[i].url+' .step_text').html(steps[i].step_text);
-      $('#'+steps[i].url+' .feedback').html(steps[i].feedback);
-    })
+        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
+      })
+
+    // Initialize steps
+    updateSteps(steps, currentStep);
 
     // OAuth
     $('#login').click(function(){
-
+      
       OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
       OAuth.popup(lesson.url, function(error, result) {
         //handle error with error
         if (error) alert(error);
-        if (debug) console.log(result);
         accessToken = result.access_token;
 
         // Check first step
-        _checkStep();
+        _checkStep();  
       });
-    });
+      });
 
     // Adds button event handlers
     $('#back').click(_backClicked);
@@ -87,8 +138,11 @@ var instructions = (function (instructions) {
   {
     if (currentStep < steps.length){
       currentStep = currentStep + 1;
-      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
-      setTimeout(_checkStep,2000)
+      if ($('.feedback').css('display') == 'block'){
+        $('.feedback').toggle();
+      }
+      updateSteps(steps, currentStep);
+      _checkStep();
     }}
 
   // back button is clicked
@@ -96,27 +150,13 @@ var instructions = (function (instructions) {
   {
     if (currentStep > 1){
       currentStep = currentStep - 1;
-      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
-      setTimeout(_checkStep,2000)
+      updateSteps(steps, currentStep);
+      _checkStep();
     }
   }
 
   function _checkStep(){
-      // Make object of the current stop
-      step = {
-        id : steps[currentStep - 1].id,
-        name : steps[currentStep - 1].name,
-        stepType : steps[currentStep - 1].step_type,
-        url : steps[currentStep - 1].url,
-        stepText : steps[currentStep - 1].step_text,
-        lessonId : steps[currentStep - 1].lesson_id,
-        triggerEndpoint : steps[currentStep - 1].trigger_endpoint,
-        triggerCheck : steps[currentStep - 1].trigger_check,
-        triggerValue : steps[currentStep - 1].trigger_value,
-        thingToRemember : steps[currentStep - 1].thing_to_remember,
-        nextStep : steps[currentStep - 1].next_step
-      }
-
+     
       if (debug) console.log(step.name);
       
       // If step type is login
@@ -136,19 +176,16 @@ var instructions = (function (instructions) {
 
       // If step type is get_remembered_thing
       if (step.stepType == 'get_remembered_thing'){
-        if (debug) console.log('get_remembered_thing');
         $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, step, _getRememberedThing);
       }
 
       // If step type is get_added_data
       if (step.stepType == 'get_added_data'){
-        if (debug) console.log('get_added_data');
         $.post(htcUrl+'/get_added_data?access_token='+accessToken, step, _getAddedData);
       }
 
       // If step type is choose_next_step
       if (step.stepType == 'choose_next_step'){
-        if (debug) console.log('choose_next_step');
         $("#choice_one").click(_chooseNextStep);
         $("#choice_two").click(_chooseNextStep);
       }
@@ -158,8 +195,8 @@ var instructions = (function (instructions) {
       if (debug) console.log(response);
       response = $.parseJSON(response);
       currentStep = parseInt(response.chosenStep);
-      $('html, body').animate({ scrollTop: $('#step'+currentStep).offset().top - bodyPadding }, 1000);
-      setTimeout(_checkStep,2000)
+      updateSteps(steps, currentStep);
+      _checkStep();
     }
 
     function _chooseNextStep(evt){
@@ -172,16 +209,16 @@ var instructions = (function (instructions) {
       if (response == 'TIMEOUT') _getAddedData();
       response = $.parseJSON(response);
       if (debug) console.log(response);
-      // $('#'+step.url+' .feedback .newData').attr('src',response.newData);
-      $('#'+step.url+' .feedback').css('display','block');
+      // $('#step'+step.stepNumber+' .feedback .newData').attr('src',response.newData);
+      $('#step'+step.stepNumber+' .feedback').css('display','block');
     }
 
     function _getRememberedThing(response){
       if (response == 'TIMEOUT') _getRememberedThing();
       response = $.parseJSON(response);
       if (debug) console.log(response);
-      $('#'+step.url+' .feedback .newData').html(response.newData);
-      $('#'+step.url+' .feedback').css('display','block');
+      $('#step'+step.stepNumber+' .feedback .newData').html(response.newData);
+      $('#step'+step.stepNumber+' .feedback').css('display','block');
     }
 
     function _loggedIn(response){
@@ -190,8 +227,8 @@ var instructions = (function (instructions) {
       if (debug) console.log(response);
       if ( response.loggedIn ){
         if (debug) console.log(response);
-        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
-        $('#'+step.url+' .feedback').css('display','block');
+        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStepNumber).offset().top - bodyPadding }, 1000);
+        $('#step'+step.stepNumber+' .feedback').css('display','block');
       }
     }
 
@@ -200,16 +237,14 @@ var instructions = (function (instructions) {
       response = $.parseJSON(response);
       if ( response.newThingName ){
         if (debug) console.log(response);
-        // $('html, body').delay(3000).animate({ scrollTop: $('#'+steps[currentStep - 1].nextStep).offset().top - bodyPadding }, 1000);
-        $('#'+step.url+' .feedback .newThingName').html(response.newThingName);
-        $('#'+step.url+' .feedback').css('display','block');
+        $('#step'+step.stepNumber+' .feedback .newThingName').html(response.newThingName);
+        $('#step'+step.stepNumber+' .feedback').css('display','block');
       }
     }
 
     // .open is clicked
     function _openClicked(evt)
     {
-      if (debug) console.log('Open clicked.')
       var challengeFeatures = {
         height: window.screen.height,
         width: 1000,
@@ -217,12 +252,7 @@ var instructions = (function (instructions) {
         center: false
       }
       challengeWindow = $.popupWindow(step.triggerEndpoint, challengeFeatures);
-      $('#'+step.url+' .feedback').css('display','block');
-      // $('html, body').delay(1000).animate({ scrollTop: $('#'+step.nextStep).offset().top - bodyPadding }, 1000);
-      
-      // I keep forgetting to click next here.
-      // currentStep = currentStep + 1;
-      // setTimeout(_checkStep,3000);
+      $('#step'+step.stepNumber+' .feedback').css('display','block');
     }
 
   // add public methods to the returned module and return it
