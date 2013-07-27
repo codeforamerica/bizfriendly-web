@@ -18,6 +18,22 @@ header {
 	padding-right:10px;
 }
 
+#progress li{
+	display: inline;
+}
+
+/*#progress .active {
+	background-image: url('../img/active_dot.gif');
+}
+
+#progress .unfinished {
+	background-image: url('../img/unfinished_dot.gif');
+}
+
+#progress .finished {
+	background-image: url('../img/finished_dot.gif');
+}*/
+
 #next{
 	position: fixed;
 	bottom:105px;
@@ -51,22 +67,4 @@ section .btn{
 .feedback{
 	display: none;
 	padding-top: 15px;
-}
-
-.current_step{
-	height: 20px;
-	width: 20px;
-	background-image: url('../img/current_step.png')
-}
-
-.finished_step{
-	background-image: url('../img/finished_step.png')
-}
-
-.unfinished_step{
-	background-image: url('../img/unfinished_step.png')
-}
-
-#progress li{
-	display:inline;
 }
