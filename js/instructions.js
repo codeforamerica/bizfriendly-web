@@ -9,8 +9,8 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = 1;
-  // var htcUrl = 'http://howtocity.herokuapp.com'
-  var htcUrl = 'http://127.0.0.1:8000'
+  var htcUrl = 'http://howtocity.herokuapp.com'
+  // var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
 
   // PUBLIC METHODS
