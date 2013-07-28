@@ -66,7 +66,7 @@ var learn = (function (learn) {
         $(this).removeClass('active');
       }
     });
-    $(evt.target.id).delay(100).addClass('active');
+    $('#'+evt.target.id).addClass('active');
     selectedCategory = evt.target.id;
     _showLesson(selectedCategory);
   }
