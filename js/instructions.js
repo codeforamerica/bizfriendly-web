@@ -14,7 +14,6 @@ var instructions = (function (instructions) {
   var htcApiVer = '/api/v1'
 
   // PUBLIC METHODS
-
   // initialize variables and load JSON
   function init(){
     if (debug) console.log('init');
