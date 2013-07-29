@@ -1,80 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <title>How to City</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="">
-      <meta name="keywords" content="">
-      <meta name="author" content="">
-      <meta charset="utf-8">
+<head>
+  <title>How to City</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta charset="utf-8">
 
-      <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
-      <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
-      <link href="css/oldCSS.css" rel="stylesheet">
-      
-      <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
-      <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
+  <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="css/main.css" rel="stylesheet">
 
-      <link rel="shortcut icon" href="ico/favicon.ico">
-
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-      <script src="js/vendor/jquery.popupwindow.js"></script>
-  </head>
-
-  <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="header">
-        <div class="container">
-          <img src="img/header_long.jpg">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script src="js/vendor/jquery.popupwindow.js"></script>
+  <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <header class="container">
+        <div class="row">
+            <a href="index.html"><img class="span3" src="img/bf_logo.png"></a>
+            <ul class="span9 unstyled inline-block">
+                <li class="span2 offset1">
+                    <a href="learn.html">Learn</a>
+                </li>
+                <li class="span2">
+                    <a href="#">Teach</a>
+                </li>
+                <li class="span2">
+                    <a href="#">Connect</a>
+                </li>
+            </ul>
         </div>
-      </div>
-    </div>
+  </header>
 
-    <div class="container page">
-      <div class="content">
-        <div class="page-header">
-          <h2></h2>
-          <h3></h3>
-          <a id="launch" class="btn btn-primary">Start the lesson</a>
+  <section id="main" class="container">
+    <div class="row">
+      <div id="video" class="span7 offset1">
+      </div>
+      <div id="summary" class="span3">
+        <h3></h3>
+        <p></p>
+        <a href="#"><div class="btn btn-large btn-custom-lighten">Get Started</div></a>
+      </div>
+    </div>  
+  </section>
+
+  <section id="bottom" class="container">
+        <div class="row">
+            <div class="offset1">
+              <div class="bottom_links">
+                <h4>Additional Resources</h4>
+                <ul>
+                  <li>Point1</li>
+                  <li>Point2</li>
+                  <li>Point3</li>
+                </ul>
+              </div>
+              <div class="bottom_links">
+                <h4>Keep in Mind</h4>
+                <ul>
+                  <li>Point1</li>
+                  <li>Point2</li>
+                  <li>Point3</li>
+                </ul>
+              </div>
+            </div>
         </div>
-      </div>
-    </div>
+  </section>
 
-    <footer class="footer container">
-      <p>&copy; How to City</p>
+  <footer class="container">
+        <div class="row">
+            <ul class="unstyled inline-block">
+                <li class="offset1 span1"><a href="#">About</a></li>
+                <li class="span1"><a href="#">Feedback</a></li>
+                <li id="credits" class="span6 offset2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+            </ul>
+        </div>
     </footer>
+</body>
 
-  </body>
-  <script>
-    var lesson_id = window.location.search.split('?')[1]
-    // http://howtocity.herokuapp.com
-    $.getJSON('http://howtocity.herokuapp.com/api/v1/lessons/'+lesson_id,
-      function(lesson){
-        $('.page-header h2').html(lesson.name);
-        $('.page-header h3').html(lesson.description);
-        // $('.page-header a').attr('href','instructions.html?'+lesson_id)
-      })
-    </script>
-    <script>
-    var width = window.screen.width;
-    var height = window.screen.height;
-
-    var instructionSiteFeatures = {
-      height: height,
-      width: width - 1000,
-      left: 1000,
-      name: 'instructions', // specify custom name for window (overrides createNew option)
-      center: false,
-      // scrollbars: false, // safari always adds scrollbars
-    }
-
-    $("#launch").click(function() {
-      var instructionsWindow = $.popupWindow('instructions.html?'+lesson_id, instructionSiteFeatures);
-    });
-    </script>
-  <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.js"></script>
- 
+    <script src="js/lesson.js"></script>
 </html>
+

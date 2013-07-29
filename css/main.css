@@ -119,6 +119,11 @@ section {
 	margin-left: 25px;
 }
 
+#main #video{
+	height: 300px;
+	width: 516px;
+	background-color: gray;
+}
 .bottom_links {
 	background-color: #74bbd4;
 	border-radius: 15px;
@@ -127,6 +132,10 @@ section {
 	float: left;
 	margin-right: 16px;
 	height: 150px;
+}
+
+.bottom_links {
+	color: #FFF;
 }
 
 .bottom_links img {
@@ -158,6 +167,10 @@ section {
 	line-height: 26px;
 	margin-bottom: 0px;
 	display: block;
+}
+
+.bottom_links h4 {
+	padding-left: 25px;
 }
 
 footer {

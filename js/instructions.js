@@ -1,14 +1,14 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = true;
+  var debug = false;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
   var steps = [];
   var step = {};
   var accessToken = null;
-  var currentStep = 1;
+  var currentStep = {};
   var htcUrl = 'http://howtocity.herokuapp.com'
   // var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
@@ -35,6 +35,8 @@ var instructions = (function (instructions) {
     _orderSteps();
     // Convert python names to javascript names
     _convertStepsAttributesNames();
+    // Set current step
+    currentStep = steps[0];
     // Initialize steps state
     _updateStepsStates();
     //Build progress bar
@@ -49,7 +51,7 @@ var instructions = (function (instructions) {
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
   }
-  
+
   function _orderSteps(){
     if (debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
@@ -87,13 +89,13 @@ var instructions = (function (instructions) {
   function _updateStepsStates(){
     if (debug) console.log('updating steps states');
     $(steps).each(function(i){
-      if (currentStep == steps[i].stepNumber){
+      if (currentStep.stepNumber == steps[i].stepNumber){
         steps[i].stepState = "active";
       }
-      if (currentStep > steps[i].stepNumber){
+      if (currentStep.stepNumber > steps[i].stepNumber){
         steps[i].stepState = "finished";
       }
-      if (currentStep < steps[i].stepNumber){
+      if (currentStep.stepNumber < steps[i].stepNumber){
         steps[i].stepState = "unfinished";
       }
     })
@@ -103,7 +105,7 @@ var instructions = (function (instructions) {
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
-      if (steps[i].stepNumber == currentStep){
+      if (steps[i].stepNumber == currentStep.stepNumber){
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress">'+steps[i].stepNumber+'</li>');
       }
       else{
@@ -132,16 +134,16 @@ var instructions = (function (instructions) {
   // Show the current step
   function _showStep(){
     if (debug) console.log('showing step');
-    $('section').attr('id','step'+steps[currentStep-1].stepNumber);
-    $('section h2').html(steps[currentStep-1].name);
-    $('.step_text').html(steps[currentStep-1].stepText);
-    $('.feedback').html(steps[currentStep-1].feedback);
+    $('section').attr('id','step'+currentStep.stepNumber);
+    $('section h2').html(currentStep.name);
+    $('.step_text').html(currentStep.stepText);
+    $('.feedback').html(currentStep.feedback);
   }
 
   // next button is clicked
   function _nextClicked(evt){
-    if (currentStep < steps.length){
-      currentStep = currentStep + 1;
+    if (currentStep.stepNumber < steps.length){
+      currentStep = steps[currentStep.stepNumber];
       if ($('.feedback').css('display') == 'block'){
         $('.feedback').toggle();
       }
@@ -153,8 +155,8 @@ var instructions = (function (instructions) {
 
   // back button is clicked
   function _backClicked(evt){
-    if (currentStep > 1){
-      currentStep = currentStep - 1;
+    if (currentStep.stepNumber > 1){
+      currentStep = steps[currentStep.stepNumber - 2];
       _updateStepsStates();
       _updateProgressBar();
       _showStep();
@@ -177,29 +179,29 @@ var instructions = (function (instructions) {
 
   // Check steps
   function _checkStep(){
-    if (debug) console.log(steps[currentStep-1].name);
+    if (debug) console.log(currentStep.name);
     // If step type is login
-    if (steps[currentStep-1].stepType == 'login'){
-      $.post(htcUrl+'/logged_in?access_token='+accessToken, steps[currentStep-1], _loggedIn);
+    if (currentStep.stepType == 'login'){
+      $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
     }
     // If step type is open
-    if (steps[currentStep-1].stepType == 'open'){
+    if (currentStep.stepType == 'open'){
       $(".open").click(_openClicked);
     }
     // If step type is check_for_new
-    if (steps[currentStep-1].stepType == 'check_for_new'){
-      $.post(htcUrl+'/check_for_new?access_token='+accessToken, steps[currentStep-1], _checkForNew);
+    if (currentStep.stepType == 'check_for_new'){
+      $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
-    if (steps[currentStep-1].stepType == 'get_remembered_thing'){
-      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, steps[currentStep-1], _getRememberedThing);
+    if (currentStep.stepType == 'get_remembered_thing'){
+      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
-    if (steps[currentStep-1].stepType == 'get_added_data'){
-      $.post(htcUrl+'/get_added_data?access_token='+accessToken, steps[currentStep-1], _getAddedData);
+    if (currentStep.stepType == 'get_added_data'){
+      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
     }
     // If step type is choose_next_step
-    if (steps[currentStep-1].stepType == 'choose_next_step'){
+    if (currentStep.stepType == 'choose_next_step'){
       $("#choice_one").click(_chooseNextStep);
       $("#choice_two").click(_chooseNextStep);
     }
@@ -211,20 +213,34 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (debug) console.log(response);
     if ( response.loggedIn ){
-      $('#step'+step.stepNumber+' .feedback').css('display','block');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
   }
 
   // .open is clicked
   function _openClicked(evt){
+    // var width = window.screen.width;
+    // var height = window.screen.height;
+    // resizeInterval = setInterval(_resize, 100)
+    
+    // function _resize(){
+    //   width = width - 100;
+    //   left = window.screen.width - width;
+    //   window.resizeTo(width,height);
+    //   window.moveTo(left,0);
+    //   console.log(width);
+    //   if (width < 500) {
+    //     clearInterval(resizeInterval);
+    //   }
+    // }
     var challengeFeatures = {
       height: window.screen.height,
       width: 1000,
       name: 'challengeWindow',
       center: false
     }
-    challengeWindow = $.popupWindow(step.triggerEndpoint, challengeFeatures);
-    $('#step'+step.stepNumber+' .feedback').css('display','block');
+    challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
+    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
   }
 
   function _checkForNew(response){
@@ -232,8 +248,8 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if ( response.newThingName ){
       if (debug) console.log(response);
-      $('#step'+step.stepNumber+' .feedback .newThingName').html(response.newThingName);
-      $('#step'+step.stepNumber+' .feedback').css('display','block');
+      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.newThingName);
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
   }
 
@@ -241,29 +257,30 @@ var instructions = (function (instructions) {
     if (response == 'TIMEOUT') _getRememberedThing();
     response = $.parseJSON(response);
     if (debug) console.log(response);
-    $('#step'+step.stepNumber+' .feedback .newData').html(response.newData);
-    $('#step'+step.stepNumber+' .feedback').css('display','block');
+    $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.newData);
+    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
   }
 
   function _getAddedData(response){
     if (response == 'TIMEOUT') _getAddedData();
     response = $.parseJSON(response);
     if (debug) console.log(response);
-    // $('#step'+step.stepNumber+' .feedback .newData').attr('src',response.newData);
-    $('#step'+step.stepNumber+' .feedback').css('display','block');
+    // $('#step'+currentStep.stepNumber+' .feedback .newData').attr('src',response.newData);
+    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
   }
 
   function _chooseNextStep(evt){
     if (debug) console.log(evt.target.id);
     choice = evt.target.id;
-    $.post(htcUrl+'/choose_next_step?choice='+choice, step, _goToChosenStep);
+    $.post(htcUrl+'/choose_next_step?choice='+choice, currentStep, _goToChosenStep);
   }
 
   function _goToChosenStep(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
-    currentStep = parseInt(response.chosenStep);
-    updateSteps(steps, currentStep);
+    console.log(response.chosenStep);
+    currentStep = steps[parseInt(response.chosenStep)-1];
+    _showStep();
     _checkStep();
   }
 
