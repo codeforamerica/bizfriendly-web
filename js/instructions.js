@@ -24,6 +24,32 @@ var instructions = (function (instructions) {
   }
 
   // PRIVATE METHODS 
+
+  // Main Function
+  function _main(response){
+    // Attach response to global lesson variable
+    lesson = response;
+    // Set the name of the lesson
+    $('header h4').html(lesson.name);
+    // Make sure steps are in order of id
+    _orderSteps();
+    // Convert python names to javascript names
+    _convertStepsAttributesNames();
+    // Initialize steps state
+    _updateStepsStates();
+    //Build progress bar
+    _makeProgressBar();
+    // Update progress Bar
+    _updateProgressBar();
+    // Show first step
+    _showStep();
+    // First step should have a login button
+    $('#login').click(_loginClicked);
+    // Adds button event handlers
+    $('#back').click(_backClicked);
+    $('#next').click(_nextClicked);
+  }
+  
   function _orderSteps(){
     if (debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
@@ -134,31 +160,6 @@ var instructions = (function (instructions) {
       _showStep();
       _checkStep();
     }
-  }
-
-  // 
-  function _main(response){
-    // Attach response to global lesson variable
-    lesson = response;
-    // Set the name of the lesson
-    $('header h4').html(lesson.name);
-    // Make sure steps are in order of id
-    _orderSteps();
-    // Convert python names to javascript names
-    _convertStepsAttributesNames();
-    // Initialize steps state
-    _updateStepsStates();
-    //Build progress bar
-    _makeProgressBar();
-    // Update progress Bar
-    _updateProgressBar();
-    // Show first step
-    _showStep();
-    // First step should have a login button
-    $('#login').click(_loginClicked);
-    // Adds button event handlers
-    $('#back').click(_backClicked);
-    $('#next').click(_nextClicked);
   }
 
   // login clicked
