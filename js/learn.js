@@ -38,17 +38,17 @@ var learn = (function (learn) {
     }
     $(categories).each(function(i){
       if (selectedCategory == categories[i].url){
-        $('#mainmenu h3').html(categories[i].name);
+        $('#mainmenu .category-name').html(categories[i].name);
         $('#mainmenu p').html(categories[i].description);
         $('#mainmenu table tbody').html('');
         $(categories[i].lessons).each(function(x){
           $('#mainmenu table tbody').append('<tr>');
           if (categories[i].lessons[x].url == 'facebook')
           {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><img src="img/fb_lesson_icon.gif"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
+            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><img src="img/fb_lesson_icon.gif"><div class="lesson-name">'+categories[i].lessons[x].name+'</div></a>'+categories[i].lessons[x].description+'</td>');
           }
           else {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
+            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><div class="lesson-name">'+categories[i].lessons[x].name+'</div></a>'+categories[i].lessons[x].description+'</td>');
           }  
           $('#mainmenu table tbody').append('<td>10 hours</td>');
           $('#mainmenu table tbody').append('<td>Expert</td>');

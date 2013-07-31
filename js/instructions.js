@@ -30,7 +30,7 @@ var instructions = (function (instructions) {
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
-    $('header h4').html(lesson.name);
+    $('#instructions_title').html(lesson.name);
     // Make sure steps are in order of id
     _orderSteps();
     // Convert python names to javascript names

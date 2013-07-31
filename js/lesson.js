@@ -23,7 +23,7 @@ var lesson = (function (lesson) {
   }
 
   function _makeSummary(){
-    $('#main #summary h3').html(lesson.name);
+    $('#main #summary .lesson-name').html(lesson.name);
     $('#main #summary p').html(lesson.description);
     $('#main #summary a').click(_instructionsLinkClicked);
   }

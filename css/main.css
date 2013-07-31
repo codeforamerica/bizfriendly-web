@@ -5,6 +5,7 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 700;
+	color: #585b5b;
 }
 
 header {
@@ -21,6 +22,9 @@ header ul{
 
 header .span9 {
 	width: 720px;
+}
+header img{
+	float:left;
 }
 
 a {
@@ -55,6 +59,7 @@ section {
 #subheader {
 	position: relative;
 	top: -50px;
+	height: 0px;
 }
 
 #subheader p {
@@ -67,15 +72,31 @@ section {
 	float:right;
 }
 
+.instructions {
+	width:440px;
+	display: inline-block;
+}
+
+#bf_ribbon {
+	background-color: #585b5b; 
+	height: 15px;
+	width: 300px;
+	position:relative;
+	top:47px;
+	left:135px;
+
+}
+
 #sidemenu li{
 	color: #acacac;
-	font-weight: 400;
+	font-weight: 700;
 	padding-left: 10px;
 	padding-bottom: 5px;
+	cursor: pointer;
 }
 
 #sidemenu li:hover {
-	text-shadow: 1px 1px #ff4000;
+	background-color: #C7E4EE;
 }
 
 #sidemenu .active {
@@ -83,13 +104,38 @@ section {
 	background-color: #74BBD4;
 }
 
+.sidemenu-header {
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: 700;
+}
+
+#mainmenu p {
+	font-weight: 400;
+}
+
 #mainmenu table {
 	font-weight: 400;
 }
 
+#mainmenu th {
+	font-size: 12px;
+	line-height: 14px;
+	font-weight: 700;
+}
+
+#mainmenu .lesson-name {
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: 700;
+}
+
 #mainmenu table tbody td img{
 	float:left;
-	padding: 10px;
+	/*padding: 10px;*/
+	width:25px;
+/*	position: relative;
+	left: -25px;*/
 }
 
 #mainmenu a {
@@ -124,6 +170,28 @@ section {
 	width: 516px;
 	background-color: gray;
 }
+
+#main #summary .lesson-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+}
+
+#main #summary p {
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: 400;
+}
+
+.category-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+	margin: 0px;
+}
+
 .bottom_links {
 	background-color: #74bbd4;
 	border-radius: 15px;

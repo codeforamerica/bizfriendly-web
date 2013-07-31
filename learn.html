@@ -1,95 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>How to City</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="">
-	<meta charset="utf-8">
+    <title>How to City</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
 
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
-	<!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-	<link href="css/main.css" rel="stylesheet">
+    <!-- <link href="css/main.css" rel="stylesheet"> -->
+    <link href="css/mainOLD.css" rel="stylesheet">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-
-    <script src="js/vendor/bootstrap.js"></script>
-	<!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body>
-	<header class="container">
-        <div class="row">
-            <a href="index.html"><img class="span3" src="img/bf_logo.png"></a>
-            <ul class="span9 unstyled inline-block">
-                <li class="span2 offset1">
-                    <a href="learn.html">Learn</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Teach</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Connect</a>
-                </li>
+<body class="container">
+   <header class="navbar navbar-static-top row">
+        <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Connect</a></li>
+        </ul>
+    </header>
+    <div id="subheader" class="row">
+        <div class="col-lg-1 col-offset-2">
+            <img src="img/learn_gray.gif">
+        </div>
+        <div class="col-lg-8">
+            <p>Get started by picking a skill you'd like to learn.</p>
+        </div>
+    </div>
+    
+
+    <section id="main" class="row">
+        <div id="sidemenu" class="col-lg-3 col-offset-1">
+            <div class="sidemenu-header">Skills</div>
+            <ul>
+                <li id='featured'>Featured Skills</li>
+                <li id='recent'>Recently Added</li>
+                <hr/>
             </ul>
         </div>
-        <div class="row">
-            <div id="subheader">
-                <div class="span4">
-                    <img src="img/learn_gray.gif">
-                </div>
-                <div class="span8">
-                    <p>Get started by picking a skill you'd like to learn.</p>
-                </div>
-            </div>
+        <div id="mainmenu" class="col-lg-7">
+            <h2 class="category-name"></h2>
+            <p></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Lessons</th>
+                  <th>Time</th>
+                  <th>Difficulty</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
         </div>
-	</header>
-
-	<section id="main" class="container">
-		<div class="row">
-            <div id="sidemenu" class="span4">
-                <h3>Skills</h3>
-                <ul>
-                    <li id='featured'>Featured Skills</li>
-                    <li id='recent'>Recently Added</li>
-                    <hr/>
-                </ul>
-            </div>
-            <div id="mainmenu" class="span8">
-                <h3></h3>
-                <p></p>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Lessons</th>
-                      <th>Time</th>
-                      <th>Difficulty</th>
-                      <th>Rating</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-            </div>
-		</div>
     </section>
 
-	<footer class="container">
-        <div class="row">
-            <ul class="unstyled inline-block">
-                <li class="offset1 span1"><a href="#">About</a></li>
-                <li class="span1"><a href="#">Feedback</a></li>
-                <li id="credits" class="span6 offset2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
-            </ul>
-        </div>
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="#">About</a></li>
+            <li class="col-lg-1"><a href="#">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
     </footer>
 </body>
-
     <script src="js/learn.js"></script>
 </html>
-
