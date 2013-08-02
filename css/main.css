@@ -2,96 +2,179 @@
    Author's custom styles
    ========================================================================== */
 
-body {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 700;
-	color: #585b5b;
+/* POSITION */
+
+.navbar {
+	background-color: #FFF;
 }
 
-header {
-	padding-top: 5px;
-}
-
-header ul{
-	position: relative;
-	top: 65px;
-	left: -6px;
-	background-color: #585b5b; 
+.nav {
+	margin-top: 75px;
+	margin-left: 5px;
 	height: 33px;
 }
 
-header .span9 {
-	width: 720px;
-}
-header img{
-	float:left;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
-}
-
-li {
-	list-style: none;
+.navbar-nav li a {
 	padding-top: 5px;
-}
 
-ul li a {
-	color: #FFF;
-	font-size: 18px;
-	font-weight: 700;
-	
-}
-
-ul li a:hover {
-	color: #FFF;
-}
-
-section {
-	padding-top: 25px;
 }
 
 #subheader {
 	position: relative;
-	top: -50px;
-	height: 0px;
+	top: -75px;
+}
+
+#subheader img {
+	float: right;
 }
 
 #subheader p {
-	font-weight: 700;
 	position: relative;
 	top: 15px;
 }
 
-#subheader img {
-	float:right;
+#main-text {
+	position: relative;
+	top: 65px;
 }
 
-.instructions {
-	width:440px;
-	display: inline-block;
+#main .btn {
+	margin-left: 50px;
+	margin-top: 10px;
 }
 
-#bf_ribbon {
-	background-color: #585b5b; 
-	height: 15px;
-	width: 300px;
-	position:relative;
-	top:47px;
-	left:135px;
+#sidemenu, #mainmenu {
+	position: relative;
+	top: -65px;
+}
 
+#sidemenu ul {
+	padding-left: 0px;
+}
+
+#sidemenu li {
+	padding: 10px;
+}
+
+#mainmenu th {
+	padding-left: 0px;
+}
+
+#bottom {
+	padding-top: 25px;
+}
+
+.bottom_links {
+	height: 150px;
+	width: 30%;
+	padding: 20px;
+	float: left;
+}
+
+.bottom_links_spacer {
+	margin-right: 3%;
+}
+
+.bottom_links img {
+	float:left;
+	margin-right: 15px;
+}
+
+.bottom_links h2 {
+	display: inline;
+	margin: 0px;
+}
+
+.bottom_links p {
+	margin-left: 100px;
+}
+
+footer {
+	margin-top: 25px;
+	height: 33px;
+}
+
+footer ul li {
+	padding-top: 5px;
+}
+
+#credits img {
+	width: 55px;
+}
+
+#credits {
+	text-align: right;
+}
+
+/* APPEARANCE */
+
+body, h1, h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	color: #585b5b;
+}
+
+a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #FFF;
+	text-decoration: none;
+}
+
+.nav {
+	background-color: #585b5b;
+}
+
+.navbar-nav li a{
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #FFF;
+}
+
+.navbar-nav li a:hover{
+	color: #FFF;
+}
+
+#main h1 {
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 26px;
+}
+
+.btn-primary {
+	font-size: 18px;
+	font-weight: 700;
+	background-color: #FF4000;
+	border-color: #FF4000;
+}
+
+.btn-primary:hover {
+	background-color: #FF5000;
+	border-color: #FF5000;
+}
+
+h2 {
+	margin: 0px;
+}
+
+.category-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+}
+
+#sidemenu ul {
+	list-style: none;
 }
 
 #sidemenu li{
 	color: #acacac;
 	font-weight: 700;
-	padding-left: 10px;
-	padding-bottom: 5px;
 	cursor: pointer;
 }
 
@@ -130,12 +213,18 @@ section {
 	font-weight: 700;
 }
 
+#main #main-text .lesson-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+}
+
+
+
 #mainmenu table tbody td img{
 	float:left;
-	/*padding: 10px;*/
 	width:25px;
-/*	position: relative;
-	left: -25px;*/
 }
 
 #mainmenu a {
@@ -149,151 +238,37 @@ section {
 	text-shadow: 1px 1px #ff4000;
 }
 
-#main .start {
-	position: relative;
-	top: 65px;
-}
-
-#main .start p {
-	font-size: 24px;
-	font-weight: 700;
-	line-height: 26px;
-	padding-bottom: 15px;
-}
-
-#main .start .btn {
-	margin-left: 25px;
-}
-
-#main #video{
-	height: 300px;
-	width: 516px;
-	background-color: gray;
-}
-
-#main #summary .lesson-name {
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 700;
-	color: #ff4000;
-}
-
-#main #summary p {
-	font-size: 14px;
-	line-height: 16px;
-	font-weight: 400;
-}
-
-.category-name {
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 700;
-	color: #ff4000;
-	margin: 0px;
-}
-
 .bottom_links {
 	background-color: #74bbd4;
 	border-radius: 15px;
-	width: 250px;
-	display: block;
-	float: left;
-	margin-right: 16px;
-	height: 150px;
 }
 
-.bottom_links {
+.bottom_links:hover {
+	background-color: #68A8BF;
+}
+
+.bottom_links h2 {
 	color: #FFF;
-}
-
-.bottom_links img {
-	margin-right: 5px;
-	float:left;
-	padding-left: 15px;
-	padding-top: 20px;
-}
-
-.bottom_links p {
-	padding-top: 20px;
-	margin-left: 125px;
-	width: 125px;
-}
-
-.bottom_links a {
-	color: #FFF;
-}
-
-.bottom_links a:hover {
-	color: #FFF;
-	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
-}
-
-.bottom_links .bottom_links_header{
-	font-size: 24px;
+	font-size: 18px;
 	font-weight: 700;
-	line-height: 26px;
-	margin-bottom: 0px;
 	display: block;
 }
 
-.bottom_links h4 {
-	padding-left: 25px;
+.bottom_links ul {
+	list-style: none;
+}
+
+.bottom_links li {
+	color: #FFF;
 }
 
 footer {
-	margin-top: 25px;
 	background-color: #585b5b;
-	height: 33px;
+	font-weight: 700;
 }
 
 #credits {
 	color: #FFF;
 	font-size: 12px;
-	font-weight: normal;
+	font-weight: 400;
 }
-
-#credits img {
-	width: 55px;
-}
-
-#credits {
-	text-align: right;
-}
-
-.btn-custom-lighten.active {
-  color: rgba(255, 255, 255, 0.75);
-}
-.btn-custom-lighten {
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff4f14;
-  background-image: -moz-linear-gradient(top, #ff4000, #ff6633);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff4000), to(#ff6633));
-  background-image: -webkit-linear-gradient(top, #ff4000, #ff6633);
-  background-image: -o-linear-gradient(top, #ff4000, #ff6633);
-  background-image: linear-gradient(to bottom, #ff4000, #ff6633);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff4000', endColorstr='#ffff6633', GradientType=0);
-  border-color: #ff6633 #ff6633 #e53a00;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #ff6633;
-   Darken IE7 buttons by default so they stand out more given they won't have borders 
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-custom-lighten:hover,
-.btn-custom-lighten:focus,
-.btn-custom-lighten:active,
-.btn-custom-lighten.active,
-.btn-custom-lighten.disabled,
-.btn-custom-lighten[disabled] {
-  color: #ffffff;
-  background-color: #ff6633;
-  *background-color: #ff5319;
-}
-.btn-custom-lighten:active,
-.btn-custom-lighten.active {
-  background-color: #ff4000 ;
-}
-
