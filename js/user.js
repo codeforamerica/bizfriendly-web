@@ -17,14 +17,16 @@ function User (userData) {
 
   ///// PUBLIC METHODS /////
 
-  // Remember the most step progress
-  var save_step = function() {
-
+  // Remember the access token of a service connection
+  var save_connection = function(serviceName, serviceToken) {
+    var connection = {service: serviceName, service_access: serviceToken}
+    // TODO: What to do with no return function?
+    _token_post(htcUrl + '/create_connection', connection, function() {return true;})
   }
 
-  // Remember the access token of a service connection
-  var save_connection = function() {
-
+  // Remember the most recent step progress
+  var save_step = function(data) {
+    _token_post(htcUrl + '/record_step', data, function() {return true;})
   }
 
   //Check to see if user is logged in to service
@@ -71,14 +73,15 @@ function User (userData) {
   
 };
 
-
-/////////////////////////
-var userCookie = $.cookie('bf_user');
-$.cookie.json = true;
-if (userCookie == undefined) {
-  userCookie = {email: "", bfAccessToken: "", loggedIn: false}
+/////GLOBAL/////
+$.function(){
+  $.cookie.json = true;
+  var userCookie = $.cookie('bf_user');
+  if (userCookie == undefined) {
+    userCookie = {email: "", bfAccessToken: "", loggedIn: false}
+  }
+  var cur_user = new User(userCookie)
+  cur_user.token_post
 }
-var cur_user = new User(userCookie)
-cur_user.token_post
 
 

@@ -79,9 +79,7 @@ var instructions = (function (instructions) {
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
-        lessonUrl : lesson.url,
-        access_token : '0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d',
-        service : 'facebook'
+        lessonUrl : lesson.url
       }
       steps_with_js_names.push(step);
     })
@@ -103,6 +101,7 @@ var instructions = (function (instructions) {
       }
     })
   }
+
   
   // Make progress bar
   function _makeProgressBar(){
@@ -152,6 +151,10 @@ var instructions = (function (instructions) {
       }
       _updateStepsStates();
       _updateProgressBar();
+
+      // Record most recent opened step 
+      cur_user.save_step(currentStep);
+
       _showStep();
       _checkStep();
     }}
@@ -170,41 +173,33 @@ var instructions = (function (instructions) {
   // login clicked
   function _loginClicked(evt){
     if (debug) console.log('login clicked');
-    // OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    // OAuth.popup(lesson.url, function(error, result) {
-    //   //handle error with error
-    //   if (error) console.log(error);
-    //   accessToken = result.access_token;
-    //   // Check first step
+    OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
+    OAuth.popup(lesson.url, function(error, result) {
+      //handle error with error
+      if (error) console.log(error);
+      accessToken = result.access_token;
 
+      // Add connection to server db
+      cur_user.save_connection(lesson.url.toLowerCase(), accessToken);
 
-    // var width = window.screen.width;
-    // var height = window.screen.height;
-    // var instructionSiteFeatures = {
-    //   height: height,
-    //   // width: width,
-    //   width: width - 1000,
+      // Check first step
+      _checkStep();  
+    });
+
+    // var loginWindowFeatures = {
+    //   height: window.screen.height - 400,
+    //   width: window.screen.width - 1000,
     //   left: 1000,
-    //   name: 'instructions',
-    //   center: false,
-    // }
-    // var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+    //   bottom: 400,
+    //   name: 'login',
+    //   center: false
+    // };
 
+    // var loginUrl = htcUrl + '/' + lesson.url.toLowerCase() + '/login';
+    // var loginRequest = loginUrl + '?access_token=0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d'
+    // var loginWindow = $.popupWindow(loginRequest, loginWindowFeatures);
 
-    var loginWindowFeatures = {
-      height: window.screen.height - 400,
-      width: window.screen.width - 1000,
-      left: 1000,
-      bottom: 400,
-      name: 'login',
-      center: false
-    };
-
-    var loginUrl = htcUrl + '/' + lesson.url.toLowerCase() + '/login';
-    var loginRequest = loginUrl + '?access_token=0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d'
-    var loginWindow = $.popupWindow(loginRequest, loginWindowFeatures);
-
-    _checkStep();  
+    // _checkStep();  
   }
 
   // Check steps
@@ -220,15 +215,18 @@ var instructions = (function (instructions) {
     }
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new'){
-      $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
+      // $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
+      cur_user.check_for_new(currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
     if (currentStep.stepType == 'get_remembered_thing'){
-      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+      // $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+      cur_user.get_remembered_thing(currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
     if (currentStep.stepType == 'get_added_data'){
-      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
+      // $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
+      cur_user.get_added_data(currentStep, _getAddedData);
     }
     // If step type is choose_next_step
     if (currentStep.stepType == 'choose_next_step'){
