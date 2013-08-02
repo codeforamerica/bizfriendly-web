@@ -10,11 +10,8 @@ How to City teaches you how to use the internet to increase your quality of life
 This is the main website for the How to City service. It is powered by the [How to City API](http://github.com/codeforamerica/howtocity-api)
 
 ## <a name="demo"></a>Demo
-New design at: 
 http://codeforamerica.github.io/howtocity-web/
 
-Working lessons at:
-http://codeforamerica.github.io/howtocity-web/categories.html
 
 ## <a name="development-setup"></a>Development Setup
 How to City's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
