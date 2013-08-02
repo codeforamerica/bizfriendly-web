@@ -1,5 +1,5 @@
-var instructions = (function (instructions) {
 
+var instructions = (function (instructions) { 
   // private properties
   var debug = false;
   var bodyPadding = 0;
@@ -9,9 +9,9 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
-  var htcApiVer = '/api/v1'
+  // var htcUrl = 'http://howtocity.herokuapp.com';
+  var htcUrl = 'http://127.0.0.1:8000';
+  var htcApiVer = '/api/v1';
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -78,7 +78,10 @@ var instructions = (function (instructions) {
         triggerValue : steps[i].trigger_value,
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
-        nextStepNumber : steps[i].next_step_number
+        nextStepNumber : steps[i].next_step_number,
+        lessonUrl : lesson.url,
+        access_token : '0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d',
+        service : 'facebook'
       }
       steps_with_js_names.push(step);
     })
@@ -165,16 +168,43 @@ var instructions = (function (instructions) {
   }
 
   // login clicked
-  function _loginClicked(){
+  function _loginClicked(evt){
     if (debug) console.log('login clicked');
-    OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    OAuth.popup(lesson.url, function(error, result) {
-      //handle error with error
-      if (error) console.log(error);
-      accessToken = result.access_token;
-      // Check first step
-      _checkStep();  
-    });
+    // OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
+    // OAuth.popup(lesson.url, function(error, result) {
+    //   //handle error with error
+    //   if (error) console.log(error);
+    //   accessToken = result.access_token;
+    //   // Check first step
+
+
+    // var width = window.screen.width;
+    // var height = window.screen.height;
+    // var instructionSiteFeatures = {
+    //   height: height,
+    //   // width: width,
+    //   width: width - 1000,
+    //   left: 1000,
+    //   name: 'instructions',
+    //   center: false,
+    // }
+    // var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+
+
+    var loginWindowFeatures = {
+      height: window.screen.height - 400,
+      width: window.screen.width - 1000,
+      left: 1000,
+      bottom: 400,
+      name: 'login',
+      center: false
+    };
+
+    var loginUrl = htcUrl + '/' + lesson.url.toLowerCase() + '/login';
+    var loginRequest = loginUrl + '?access_token=0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d'
+    var loginWindow = $.popupWindow(loginRequest, loginWindowFeatures);
+
+    _checkStep();  
   }
 
   // Check steps
@@ -182,7 +212,7 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
+      $.post(htcUrl+'/logged_in', currentStep, _loggedIn);
     }
     // If step type is open
     if (currentStep.stepType == 'open'){

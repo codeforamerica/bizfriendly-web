@@ -1,0 +1,22 @@
+
+.group {
+	width: 50%;
+}
+
+#user_action {
+	color: #fff;
+	background-color: #74bbd4;
+	border-radius: 15px;
+	padding: 10px;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#user_action form {
+	margin-bottom: 0;
+}
+
+.group h2 {
+	color: #585b5b;
+	width: 90%;
+	margin: 0 auto;
+}

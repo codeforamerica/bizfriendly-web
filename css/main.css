@@ -43,6 +43,14 @@ ul li a {
 	font-weight: 700;
 	
 }
+#login_link a {
+	color: #585b5b;
+	text-decoration: none;
+}
+
+#login_link a:hover {
+	text-shadow: 1px 1px #74bbd4;
+}
 
 ul li a:hover {
 	color: #FFF;
