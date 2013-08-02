@@ -41,6 +41,7 @@ var learn = (function (learn) {
       if (selectedCategory == categories[i].url){
         $('#mainmenu .category-name').html(categories[i].name);
         $('#mainmenu .category-description').html(categories[i].description);
+        $('#mainmenu table tbody').html('');
         $(categories[i].lessons).each(function(x){
           $('#mainmenu table tbody').append('<tr>');
           if (categories[i].lessons[x].url == 'facebook')

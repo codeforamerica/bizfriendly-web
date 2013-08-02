@@ -2,7 +2,49 @@
    Author's custom styles
    ========================================================================== */
 
-/* POSITION */
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	color: #585b5b;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 26px;
+}
+
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 20px;
+	margin: 0px;
+}
+
+a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #FFF;
+	text-decoration: none;
+}
+
+ul {
+	padding-left: 0px;
+	list-style: none;
+}
+
+li {
+	padding-top: 5px;
+}
 
 .navbar {
 	background-color: #FFF;
@@ -12,11 +54,21 @@
 	margin-top: 75px;
 	margin-left: 5px;
 	height: 33px;
+	background-color: #585b5b;
 }
 
 .navbar-nav li a {
-	padding-top: 5px;
+	padding-top: 0px;
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #FFF;
+}
 
+.navbar-nav li a:hover{
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
 
 #subheader {
@@ -43,108 +95,6 @@
 	margin-top: 10px;
 }
 
-#sidemenu, #mainmenu {
-	position: relative;
-	top: -65px;
-}
-
-#sidemenu ul {
-	padding-left: 0px;
-}
-
-#sidemenu li {
-	padding: 10px;
-}
-
-#mainmenu th {
-	padding-left: 0px;
-}
-
-#bottom {
-	padding-top: 25px;
-}
-
-.bottom_links {
-	height: 150px;
-	width: 30%;
-	padding: 20px;
-	float: left;
-}
-
-.bottom_links_spacer {
-	margin-right: 3%;
-}
-
-.bottom_links img {
-	float:left;
-	margin-right: 15px;
-}
-
-.bottom_links h2 {
-	display: inline;
-	margin: 0px;
-}
-
-.bottom_links p {
-	margin-left: 100px;
-}
-
-footer {
-	margin-top: 25px;
-	height: 33px;
-}
-
-footer ul li {
-	padding-top: 5px;
-}
-
-#credits img {
-	width: 55px;
-}
-
-#credits {
-	text-align: right;
-}
-
-/* APPEARANCE */
-
-body, h1, h2 {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 400;
-	color: #585b5b;
-}
-
-a {
-	color: #FFF;
-	text-decoration: none;
-}
-
-a:hover {
-	color: #FFF;
-	text-decoration: none;
-}
-
-.nav {
-	background-color: #585b5b;
-}
-
-.navbar-nav li a{
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 700;
-	color: #FFF;
-}
-
-.navbar-nav li a:hover{
-	color: #FFF;
-}
-
-#main h1 {
-	font-size: 24px;
-	font-weight: 700;
-	line-height: 26px;
-}
-
 .btn-primary {
 	font-size: 18px;
 	font-weight: 700;
@@ -157,22 +107,13 @@ a:hover {
 	border-color: #FF5000;
 }
 
-h2 {
-	margin: 0px;
-}
-
-.category-name {
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 700;
-	color: #ff4000;
-}
-
-#sidemenu ul {
-	list-style: none;
+#sidemenu, #mainmenu {
+	position: relative;
+	top: -65px;
 }
 
 #sidemenu li{
+	padding: 10px;
 	color: #acacac;
 	font-weight: 700;
 	cursor: pointer;
@@ -187,12 +128,6 @@ h2 {
 	background-color: #74BBD4;
 }
 
-.sidemenu-header {
-	font-size: 14px;
-	line-height: 16px;
-	font-weight: 700;
-}
-
 #mainmenu p {
 	font-weight: 400;
 }
@@ -202,6 +137,7 @@ h2 {
 }
 
 #mainmenu th {
+	padding-left: 0px;
 	font-size: 12px;
 	line-height: 14px;
 	font-weight: 700;
@@ -220,8 +156,6 @@ h2 {
 	color: #ff4000;
 }
 
-
-
 #mainmenu table tbody td img{
 	float:left;
 	width:25px;
@@ -238,24 +172,42 @@ h2 {
 	text-shadow: 1px 1px #ff4000;
 }
 
+.category-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+}
+
+#bottom {
+	padding-top: 25px;
+	color: #FFF;
+}
+
 .bottom_links {
+	height: 150px;
+	width: 30%;
+	padding: 20px;
+	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
 }
 
+.bottom_links_spacer {
+	margin-right: 3%;
+}
+
+.bottom_links img {
+	float:left;
+	margin-right: 15px;
+}
+
+.bottom_links p {
+	margin-left: 100px;
+}
+
 .bottom_links:hover {
 	background-color: #68A8BF;
-}
-
-.bottom_links h2 {
-	color: #FFF;
-	font-size: 18px;
-	font-weight: 700;
-	display: block;
-}
-
-.bottom_links ul {
-	list-style: none;
 }
 
 .bottom_links li {
@@ -265,10 +217,22 @@ h2 {
 footer {
 	background-color: #585b5b;
 	font-weight: 700;
+	margin-top: 25px;
+	height: 33px;
+	color: #FFF;
 }
 
 #credits {
-	color: #FFF;
 	font-size: 12px;
 	font-weight: 400;
+	text-align: right;
+}
+
+#credits img {
+	width: 55px;
+}
+
+footer a:hover {
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
