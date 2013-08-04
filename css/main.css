@@ -2,6 +2,10 @@
    Author's custom styles
    ========================================================================== */
 
+#subheader img {
+	background-color: #666;
+}
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
@@ -184,6 +188,22 @@ li {
 	color: #ff4000;
 }
 
+
+.teach {
+	margin-top: 20px;
+	border: solid 1px;
+	height: 380px;
+	float: left;
+}
+
+.three-columns {
+	width: 30%;
+}
+
+.three-column-spacer {
+	margin-right: 3%;
+}
+
 #bottom {
 	padding-top: 25px;
 	color: #FFF;
@@ -191,15 +211,10 @@ li {
 
 .bottom_links {
 	height: 150px;
-	width: 30%;
 	padding: 20px;
 	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
-}
-
-.bottom_links_spacer {
-	margin-right: 3%;
 }
 
 .bottom_links img {
@@ -329,25 +344,3 @@ section .btn{
 #instructions footer {
 	height: 15px;
 }
-
-#slideout {
-    background: #666;
-    width: 280px;
-    height: 80px;
-    position: relative;
-    top: -40px;
-    right: -320px;
-    padding-left: 20px
-}
-    
-#clickme {
-    position: absolute;
-    top: 0; left: 0;
-    height: 20px;
-    width: 20px;
-    background: #ff0000;
-}
-
-/*#slidecontent {
-    float:left;
-}*/
