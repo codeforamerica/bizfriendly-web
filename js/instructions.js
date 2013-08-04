@@ -276,13 +276,15 @@ var instructions = (function (instructions) {
   }
 
   $(function () {
-    $("#slideout").click(function () {
-        if($(this).hasClass("popped")){
-        $(this).animate({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
-    }else {
-        $(this).animate({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
+    $("#rating-handle").click(function () {
+      if ($(this).parent().hasClass("popped")) {
+        $(this).parent().animate({right:'-310px'}, {queue: false, duration: 500}).removeClass("popped");
+    } else {
+      $(this).parent().animate({right: "-100px" }, {queue: false, duration: 500}).addClass("popped");}
     });
   });
+
+  $('#rating-stars').raty();
 
   // add public methods to the returned module and return it
   instructions.init = init;

@@ -6,6 +6,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	color: #585b5b;
+	overflow-x: hidden;
 }
 
 .bold {
@@ -330,24 +331,23 @@ section .btn{
 	height: 15px;
 }
 
-#slideout {
-    background: #666;
+#rating {
+    background: #74BBD4;
     width: 280px;
-    height: 80px;
+    height: 40px;
     position: relative;
     top: -40px;
-    right: -320px;
-    padding-left: 20px
+    right: -310px;
+    padding-left: 35px;
+    border-radius: 25px;
 }
     
-#clickme {
+#rating-handle {
     position: absolute;
-    top: 0; left: 0;
-    height: 20px;
-    width: 20px;
-    background: #ff0000;
+    top: 10px; left: 10px;
+    border-radius: 25px; 
 }
 
-/*#slidecontent {
-    float:left;
-}*/
+#rating-content {
+	color: #FFF;
+}
