@@ -103,8 +103,13 @@ li {
 }
 
 .btn-primary:hover {
-	background-color: #FF5000;
-	border-color: #FF5000;
+	background-color: #FF8C66;
+	border-color: #FF8C66;
+}
+
+.btn-default {
+	background-color: #585B5B;
+	border-color: #585B5B;
 }
 
 #sidemenu, #mainmenu {
@@ -149,7 +154,7 @@ li {
 	font-weight: 700;
 }
 
-#main #main-text .lesson-name {
+.lesson-name {
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 700;
@@ -236,3 +241,113 @@ footer a:hover {
 	text-decoration: none;
 	text-shadow: 1px 1px #ff4000;
 }
+
+#instructions {
+	width: 340px;
+}
+
+#instructions .col-6{
+	padding-left: 0px;
+}
+
+button {
+	color: #FFF;
+	background-color: #BFBFBF;
+}
+
+#share {
+	margin-top: 20px;
+}
+
+#next {
+	background-color: #ff4000;
+	background-border: #ff4000;
+}
+
+#next:hover {
+	background-color: #FF8C66;
+	background-border: #FF8C66;
+}
+
+#bf_ribbon {
+	margin-top: 46px;
+	margin-left: 135px;
+	height: 15px;
+	background-color: #585b5b;
+}
+
+#progress .unfinished {
+	background-image: url('../img/unfinished_dot.gif');
+	height: 25px;
+	width: 25px;
+}
+
+#progress .active {
+	background-image: url('../img/active_dot.gif');
+	height: 50px;
+	width: 50px;
+}
+
+#progress .active h2 {
+	position: relative;
+	top: 10px;
+	left: 15px;
+}
+
+#progress .finished {
+	background-image: url('../img/finished_dot.gif');
+	height: 25px;
+	width: 25px;
+}
+
+#progress li {
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+
+#instructions section{
+	height:500px;
+	width: 300px;
+	margin: 0 auto;
+}
+
+section .btn{
+	margin-bottom: 10px;
+}
+
+.feedback{
+	display: none;
+	padding-top: 15px;
+}
+
+#controls {
+	width: 120px;
+	margin: 0 auto;
+}
+
+#instructions footer {
+	height: 15px;
+}
+
+#slideout {
+    background: #666;
+    width: 280px;
+    height: 80px;
+    position: relative;
+    top: -40px;
+    right: -320px;
+    padding-left: 20px
+}
+    
+#clickme {
+    position: absolute;
+    top: 0; left: 0;
+    height: 20px;
+    width: 20px;
+    background: #ff0000;
+}
+
+/*#slidecontent {
+    float:left;
+}*/

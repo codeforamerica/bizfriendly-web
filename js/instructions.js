@@ -1,7 +1,9 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = false;
+  var debug = true;
+  var width = window.screen.width;
+  var height = window.screen.height;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
@@ -30,7 +32,7 @@ var instructions = (function (instructions) {
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
-    $('#instructions_title').html(lesson.name);
+    $('#instructions-title').html(lesson.name);
     // Make sure steps are in order of id
     _orderSteps();
     // Convert python names to javascript names
@@ -105,12 +107,7 @@ var instructions = (function (instructions) {
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
-      if (steps[i].stepNumber == currentStep.stepNumber){
-        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress">'+steps[i].stepNumber+'</li>');
-      }
-      else{
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
-      }
     })
   }
 
@@ -118,15 +115,11 @@ var instructions = (function (instructions) {
   function _updateProgressBar(){
     if (debug) console.log('updating progress bar');
     $(steps).each(function(i){
-      if (steps[i].stepState == 'active'){
-        // $('#step'+steps[i].stepNumber+'_progress').removeClass('finished unfinished').addClass('active');
-      $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/active_dot.gif">');
-      }
-      if (steps[i].stepState == 'unfinished'){
-        $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/unfinished_dot.gif">');
-      }
-      if (steps[i].stepState == 'finished'){
-        $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/finished_dot.gif">');
+      $('#step'+steps[i].stepNumber+'_progress').removeClass('unfinished active finished').addClass(steps[i].stepState);
+      if (steps[i].stepNumber == currentStep.stepNumber){
+        $('#step'+steps[i].stepNumber+'_progress').html('<h2>'+currentStep.stepNumber+'</h2>');
+      } else {
+        $('#step'+steps[i].stepNumber+'_progress').html('');
       }
     })
   }
@@ -219,8 +212,6 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
-    // var width = window.screen.width;
-    // var height = window.screen.height;
     // resizeInterval = setInterval(_resize, 100)
     
     // function _resize(){
@@ -234,8 +225,8 @@ var instructions = (function (instructions) {
     //   }
     // }
     var challengeFeatures = {
-      height: window.screen.height,
-      width: 1000,
+      height: height,
+      width: width - 340,
       name: 'challengeWindow',
       center: false
     }
@@ -283,6 +274,15 @@ var instructions = (function (instructions) {
     _showStep();
     _checkStep();
   }
+
+  $(function () {
+    $("#slideout").click(function () {
+        if($(this).hasClass("popped")){
+        $(this).animate({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
+    }else {
+        $(this).animate({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
+    });
+  });
 
   // add public methods to the returned module and return it
   instructions.init = init;
