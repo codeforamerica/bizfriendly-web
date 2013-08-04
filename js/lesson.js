@@ -34,8 +34,8 @@ var lesson = (function (lesson) {
     var instructionSiteFeatures = {
       height: height,
       // width: width,
-      width: width - 1000,
-      left: 1000,
+      width: 340,
+      left: width - 340,
       name: 'instructions',
       center: false,
     }
