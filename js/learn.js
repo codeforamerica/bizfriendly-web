@@ -2,8 +2,8 @@ var learn = (function (learn) {
 
   // private properties
   var debug = true;
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
   var categories = [];
   var featuredCategory = 'promote';
@@ -46,13 +46,13 @@ var learn = (function (learn) {
           $('#mainmenu table tbody').append('<tr>');
           if (categories[i].lessons[x].url == 'facebook')
           {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><img src="img/fb_lesson_icon.gif"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
+            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><img src="img/fb_lesson_icon.gif"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].short_description+'</td>');
           }
           else {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
+            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].short_description+'</td>');
           }  
-          $('#mainmenu table tbody').append('<td>10 hours</td>');
-          $('#mainmenu table tbody').append('<td>Expert</td>');
+          $('#mainmenu table tbody').append('<td>'+categories[i].lessons[x].time_estimate+'</td>');
+          $('#mainmenu table tbody').append('<td>'+categories[i].lessons[x].difficulty+'</td>');
           $('#mainmenu table tbody').append('<td>5 stars</td>');
           $('#mainmenu table tbody').append('</tr>');
         });
