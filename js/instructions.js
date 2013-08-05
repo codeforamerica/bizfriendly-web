@@ -161,7 +161,7 @@ var instructions = (function (instructions) {
   function _loginClicked(){
     if (debug) console.log('login clicked');
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    OAuth.popup(lesson.url, function(error, result) {
+    OAuth.popup(lesson.third_party_service, function(error, result) {
       //handle error with error
       if (error) console.log(error);
       accessToken = result.access_token;
