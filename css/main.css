@@ -237,3 +237,17 @@ footer {
   background-color: #ff4000 ;
 }
 
+#bottom-section form{
+	background-color: #74bbd4;
+	border-radius: 15px;
+	padding: 25px;
+}
+
+input {
+	margin: 10px;
+}
+
+#bottom-section button {
+	margin: 10px;
+}
+
