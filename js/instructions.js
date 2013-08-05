@@ -79,7 +79,8 @@ var instructions = (function (instructions) {
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
-        lessonUrl : lesson.url
+        stepState : '', // Add the stepState attribute
+        lessonUrl : lesson.url  // Add the lesson url
       }
       steps_with_js_names.push(step);
     })
