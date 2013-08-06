@@ -125,6 +125,7 @@ li {
 }
 
 #sidemenu li:hover {
+	color: #FFF;
 	background-color: #C7E4EE;
 }
 
@@ -211,8 +212,12 @@ li {
 	margin-left: 100px;
 }
 
-.bottom_links:hover {
+#index .bottom_links:hover {
 	background-color: #68A8BF;
+}
+
+#lesson .bottom_links a:hover {
+	text-shadow: 1px 1px #ff4000;
 }
 
 .bottom_links li {
