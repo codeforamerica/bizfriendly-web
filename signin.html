@@ -38,8 +38,11 @@
                     <a href="#">Connect</a>
                 </li>
             </ul>
-            <div class="span2 offset7" id="login_link">
-                <a href="signup.html">Signup</a> | <a href="signin.html">Login</a>
+            <div class="span2 offset7 userDash" id="signInLink">
+                <a href="signup.html">Signup</a> | <a href="signin.html">SignIn</a>
+            </div>
+            <div class="span2 offset7 userDash" id="signOutLink">
+                <span class="bfUserName"></span> | <a id="bfSignOut" href="index.html">SignOut</a>
             </div>
         </div>
     </header>
@@ -51,7 +54,7 @@
             <label for="signin-email">Email</label>
             <input type="password" id="signin-password">
             <label for="signin-password">Password</label>
-            <button type="button" class="btn btn-custom-lighten" id="bfsignin">Sign In</button>
+            <button type="button" class="btn btn-custom-lighten" id="bfSignIn">Sign In</button>
         </form>
     </section>
 
@@ -70,6 +73,5 @@
         </div>
     </footer>
 </body>
-
-<script type="text/javascript" src="js/signin.js"></script>
+<script type="text/javascript" src="js/BfUser.js"></script>
 </html>

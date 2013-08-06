@@ -29,7 +29,7 @@ a {
 
 a:hover {
 	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
+	text-shadow: 1px 1px #FF8C66;
 }
 
 li {
@@ -43,13 +43,16 @@ ul li a {
 	font-weight: 700;
 	
 }
-#login_link a {
+.userDash {
+	color: #585b5b;
+}
+.userDash a {
 	color: #585b5b;
 	text-decoration: none;
 }
 
-#login_link a:hover {
-	text-shadow: 1px 1px #74bbd4;
+#userDash a:hover {
+	text-shadow: 1px 1px #FF8C66;
 }
 
 ul li a:hover {
@@ -166,7 +169,7 @@ section {
 .bottom_links a:hover {
 	color: #FFF;
 	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
+	text-shadow: 1px 1px #FFA385;
 }
 
 .bottom_links .bottom_links_header{

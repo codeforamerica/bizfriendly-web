@@ -14,6 +14,9 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link href="css/main.css" rel="stylesheet">
 
+    <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
+
 	<!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,8 +37,11 @@
                     <a href="#">Connect</a>
                 </li>
             </ul>
-            <div class="span2 offset7" id="login_link">
-                <a href="signup.html">Signup</a> | <a href="signin.html">Login</a>
+            <div class="span2 offset7 userDash" id="signInLink">
+                <a href="signup.html">Signup</a> | <a href="signin.html">SignIn</a>
+            </div>
+            <div class="span2 offset7 userDash" id="signOutLink">
+                <span class="bfUserName"></span> | <a id="bfSignOut" href="index.html">SignOut</a>
             </div>
         </div>
 	</header>
@@ -85,7 +91,6 @@
         </div>
     </footer>
 </body>
-
-<!-- <script type="text/javascript" src="js/user.js"></script> -->
+<script type="text/javascript" src="js/BfUser.js"></script>
 </html>
 

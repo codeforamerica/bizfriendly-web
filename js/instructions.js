@@ -67,19 +67,19 @@ var instructions = (function (instructions) {
     var steps_with_js_names = [];
     $(steps).each(function(i){
       step = {
-        id : steps[i].id,
-        name : steps[i].name,
-        stepType : steps[i].step_type,
-        stepNumber : steps[i].step_number,
-        stepText : steps[i].step_text,
-        lessonId : steps[i].lesson_id,
-        triggerEndpoint : steps[i].trigger_endpoint,
-        triggerCheck : steps[i].trigger_check,
-        triggerValue : steps[i].trigger_value,
-        thingToRemember : steps[i].thing_to_remember,
-        feedback : steps[i].feedback,
-        nextStepNumber : steps[i].next_step_number,
-        lessonUrl : lesson.url
+        id                : steps[i].id,
+        name              : steps[i].name,
+        stepType          : steps[i].step_type,
+        stepNumber        : steps[i].step_number,
+        stepText          : steps[i].step_text,
+        lessonId          : steps[i].lesson_id,
+        triggerEndpoint   : steps[i].trigger_endpoint,
+        triggerCheck      : steps[i].trigger_check,
+        triggerValue      : steps[i].trigger_value,
+        thingToRemember   : steps[i].thing_to_remember,
+        feedback          : steps[i].feedback,
+        nextStepNumber    : steps[i].next_step_number,
+        lessonUrl         : lesson.url
       }
       steps_with_js_names.push(step);
     })
