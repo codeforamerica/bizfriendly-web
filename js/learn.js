@@ -27,7 +27,7 @@ var learn = (function (learn) {
       // Style selected category
       $('#'+selectedCategory).addClass('active');
     })
-    // Show Featured Lessons
+    // Show Featured Lessons - 'promote'
     _showLessonsFor(selectedCategory);
     $('#sidemenu li').on('click', _sidemenuClicked);
   }
@@ -39,41 +39,40 @@ var learn = (function (learn) {
     var categoryJSON = _findCategoryByUrl(selectedCategory, categories);
 
     _updateTableForCategory(categoryJSON);
+  }
 
-    function _updateTableForCategory(category) {
-      var html, $tbody = $('#mainmenu table tbody');
+  function _updateTableForCategory(category) {
+    var html, $tbody = $('#mainmenu table tbody');
 
-      $('#mainmenu .category-name').html(category.name);
-      $('#mainmenu .category-description').html(category.description);
+    $('#mainmenu .category-name').html(category.name);
+    $('#mainmenu .category-description').html(category.description);
 
-      $tbody.html('');
-      $(category.lessons).each(function(x){
-        var lesson = category.lessons[x];
-        html += '<tr>';
-        if (lesson.url == 'facebook')
-          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><h4>'+lesson.name+'</h4></a>'+lesson.short_description+'</td>';
-        else
-          html += '<td><a href="lesson.html?'+lesson.id+'"><h4>'+lesson.name+'</h4></a>'+lesson.short_description+'</td>';
+    $tbody.html('');
+    $(category.lessons).each(function(x){
+      var lesson = category.lessons[x];
+      html += '<tr>';
+      if (lesson.third_party_service == 'facebook')
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><h4>'+lesson.name+'</h4></a>'+lesson.short_description+'</td>';
+      else
+        html += '<td><a href="lesson.html?'+lesson.id+'"><h4>'+lesson.name+'</h4></a>'+lesson.short_description+'</td>';
 
-        html += '<td>'+lesson.time_estimate+'</td>'
-             +  '<td>'+lesson.difficulty+'</td>'
-             +  '<td>5 stars</td>'
-             + '</tr>';
-      });
-      $tbody.html(html);
-    }
+      html += '<td>'+lesson.time_estimate+'</td>'
+           +  '<td>'+lesson.difficulty+'</td>'
+           +  '<td>5 stars</td>'
+           + '</tr>';
+    });
+    $tbody.html(html);
+  }
 
-    function _findCategoryByUrl(needle, haystack) {
-      var response;
-      $(haystack).each(function(i){
-        if (haystack[i].url == needle) {
-          response = haystack[i];
-          return;
-        }
-      });
-      return response;
-    }
-
+  function _findCategoryByUrl(needle, haystack) {
+    var response;
+    $(haystack).each(function(i){
+      if (haystack[i].url == needle) {
+        response = haystack[i];
+        return;
+      }
+    });
+    return response;
   }
 
   function _sidemenuClicked(evt){
