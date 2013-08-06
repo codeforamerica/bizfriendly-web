@@ -154,7 +154,7 @@ var instructions = (function (instructions) {
       _updateProgressBar();
 
       // Record most recent opened step 
-      cur_user.save_step(currentStep);
+      BfUser.save_step(currentStep);
 
       _showStep();
       _checkStep();
@@ -181,7 +181,7 @@ var instructions = (function (instructions) {
       accessToken = result.access_token;
 
       // Add connection to server db
-      cur_user.save_connection(lesson.url.toLowerCase(), accessToken);
+      BfUser.save_connection(lesson.url.toLowerCase(), accessToken);
 
       // Check first step
       _checkStep();  
@@ -217,17 +217,17 @@ var instructions = (function (instructions) {
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new'){
       // $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
-      cur_user.check_for_new(currentStep, _checkForNew);
+      BfUser.check_for_new(currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
     if (currentStep.stepType == 'get_remembered_thing'){
       // $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
-      cur_user.get_remembered_thing(currentStep, _getRememberedThing);
+      BfUser.get_remembered_thing(currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
     if (currentStep.stepType == 'get_added_data'){
       // $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
-      cur_user.get_added_data(currentStep, _getAddedData);
+      BfUser.get_added_data(currentStep, _getAddedData);
     }
     // If step type is choose_next_step
     if (currentStep.stepType == 'choose_next_step'){
