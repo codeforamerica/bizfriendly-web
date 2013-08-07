@@ -281,6 +281,10 @@ button {
 	background-color: #585b5b;
 }
 
+#progress {
+	text-align: center;
+}
+
 #progress .unfinished {
 	background-image: url('../img/unfinished_dot.gif');
 	height: 25px;
@@ -297,7 +301,7 @@ button {
 #progress .active h2 {
 	position: relative;
 	top: 10px;
-	left: 15px;
+	/*left: 15px;*/
 }
 
 #progress .finished {
@@ -323,16 +327,18 @@ section .btn{
 }
 
 #popover {
-	margin: 10px 90px;
+	margin: 10px 60px;
 }
 
 .step_text {
-	margin-top: 15px;
+	margin: 15px auto;
+	width: 260px;
 }
 
 .feedback{
 	display: none;
-	padding-top: 15px;
+	margin: 15px auto;
+	width: 260px;
 }
 
 .feedback h2 {
@@ -343,6 +349,13 @@ section .btn{
 	color: #ff4000;
 	font-size: 14px;
 	font-weight: 700;
+}
+
+#congrats {
+	display: none;
+	width: 260px;
+	text-align: center;
+	margin: 0 auto;
 }
 
 #controls {

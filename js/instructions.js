@@ -135,23 +135,34 @@ var instructions = (function (instructions) {
     $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
+    // Set step_text back to visible and hide others
+    if ($('.step_text').css('display') == 'none'){
+      $('.step_text').toggle();
+    }
+    if ($('.feedback').css('display') == 'block'){
+      $('.feedback').toggle();
+    }
+    if ($('#congrats').css('display') == 'block'){
+      $('#congrats').toggle();
+    }
+    
   }
 
   // next button is clicked
   function _nextClicked(evt){
     if (currentStep.stepNumber < steps.length){
       currentStep = steps[currentStep.stepNumber];
-      if ($('.feedback').css('display') == 'block'){
-        $('.feedback').toggle();
-      }
-      if ($('.step_text').css('display') == 'none'){
-        $('.step_text').toggle();
-      }
       _updateStepsStates();
       _updateProgressBar();
       _showStep();
       _checkStep();
-    }}
+    }
+    // } else {
+    //   $('section h2').css('display','none');
+    //   $('.step_text').css('display','none');
+    //   $('#congrats').css('display','block');
+    // }
+  }
 
   // back button is clicked
   function _backClicked(evt){
@@ -204,6 +215,9 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'choose_next_step'){
       $("#choice_one").click(_chooseNextStep);
       $("#choice_two").click(_chooseNextStep);
+    }
+    if (currentStep.stepType == 'congrats'){
+      _showCongrats();
     }
     // Add example popover clicker
     var html = $('#example').html();
@@ -301,6 +315,12 @@ var instructions = (function (instructions) {
     currentStep = steps[parseInt(response.chosenStep)-1];
     _showStep();
     _checkStep();
+  }
+
+  function _showCongrats(){
+    $('section h2').toggle();
+    $('.step_text').toggle();
+    $('#congrats').css('display','block');
   }
 
   $(function () {
