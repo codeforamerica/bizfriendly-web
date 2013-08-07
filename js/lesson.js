@@ -29,17 +29,22 @@ var lesson = (function (lesson) {
   }
 
   function _instructionsLinkClicked(evt){
-    var width = window.screen.width;
-    var height = window.screen.height;
-    var instructionSiteFeatures = {
-      height: height,
-      // width: width,
-      width: width - 1000,
-      left: 1000,
-      name: 'instructions',
-      center: false,
+    if (BfUser.signedIn) {
+      var width = window.screen.width;
+      var height = window.screen.height;
+      var instructionSiteFeatures = {
+        height: height,
+        // width: width,
+        width: width - 1000,
+        left: 1000,
+        name: 'instructions',
+        center: false,
+      }
+      var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
     }
-    var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+    else {
+      window.location.replace('signin.html');
+    }
   }
 
   // add public methods to the returned module and return it

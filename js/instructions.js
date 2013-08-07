@@ -80,7 +80,7 @@ var instructions = (function (instructions) {
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
         stepState : '', // Add the stepState attribute
-        lessonUrl : lesson.url  // Add the lesson url
+        lessonService : lesson.third_party_service  // Add the lesson url
       }
       steps_with_js_names.push(step);
     })
@@ -175,13 +175,13 @@ var instructions = (function (instructions) {
   function _loginClicked(evt){
     if (debug) console.log('login clicked');
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    OAuth.popup(lesson.url, function(error, result) {
+    OAuth.popup(lesson.third_party_service, function(error, result) {
       //handle error with error
       if (error) console.log(error);
       accessToken = result.access_token;
 
       // Add connection to server db
-      BfUser.save_connection(lesson.url.toLowerCase(), accessToken);
+      BfUser.save_connection(lesson.third_party_service.toLowerCase(), accessToken);
 
       // Check first step
       _checkStep();  
@@ -208,7 +208,8 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      $.post(htcUrl+'/logged_in', currentStep, _loggedIn);
+      // $.post(htcUrl+'/logged_in', currentStep, _loggedIn);
+      BfUser.is_logged_in(currentStep, _loggedIn);
     }
     // If step type is open
     if (currentStep.stepType == 'open'){

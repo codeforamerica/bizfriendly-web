@@ -12,11 +12,14 @@ var BfUser = (function (BfUser)  {
 
   ///// PUBLIC METHODS /////
   function init(){
-    userData = _readUserCookie();
-    name = userData.name;
-    email = userData.email;
-    bfAccessToken = userData.bfAccessToken;
-    signedIn = userData.signedIn;
+    console.log("Init BfUser.");
+    var userData = _readUserCookie();
+    BfUser.name = userData.name;
+    BfUser.email = userData.email;
+    BfUser.bfAccessToken = userData.access_token;
+    BfUser.signedIn = userData.signedIn;
+    console.log(BfUser);
+
     _main();
   };
 
@@ -60,13 +63,12 @@ var BfUser = (function (BfUser)  {
     $('#bfSignIn').click(_signInClicked);
     // SignOut clicked, clear state cookie
     $('#bfSignOut').click(_signOutClicked);
-    console.log(signedIn);
     // Setup page based on signin state
     _updatePage();
   };
   // Make a post to server with API access token appended
   function _token_post(requestUrl, data, successFunc) {
-    $.post(requestUrl+'?access_token='+self.bfAccessToken, data, successFunc);
+    $.post(requestUrl+'?access_token='+BfUser.bfAccessToken, data, successFunc);
   };
   // Read the user state cookie: return json
   function _readUserCookie(){
@@ -89,9 +91,9 @@ var BfUser = (function (BfUser)  {
   };
   // Update page to reflect user state
   function _updatePage(){
-    if (signedIn) {
+    if (BfUser.signedIn) {
       $('#signInLink').hide();
-      $('.bfUserName').text(name);
+      $('.bfUserName').text(BfUser.name);
       $('#signOutLink').show();
     }
     else {
@@ -100,7 +102,7 @@ var BfUser = (function (BfUser)  {
     }
   }
   // Send sign up info to server on signup click.
-  function _signUpClicked(){
+  function _signUpClicked(event){
     if (debug) console.log("Submitting signup info.")
     newUser = {
         name : $('#signup-name').val(),
@@ -109,23 +111,22 @@ var BfUser = (function (BfUser)  {
       }
       if (debug) console.log(newUser);
       $.post(htcUrl + '/signup', newUser, _signedUp)
-  }
+    }
   // Send sign in info to server on signin click.
-  function _signInClicked(){
+  function _signInClicked(event){
     returningUser = {
       email : $('#signin-email').val(),
       password : $('#signin-password').val()
     };
     if (debug) console.log(returningUser);
     $.post(htcUrl + '/signin', returningUser, _signedIn);
-    _updatePage();
   }
   // Sign out clicked, clear user state/cookie
-  function _signOutClicked(){
-    email = "";
-    name = "";
-    signedIn = false;
-    access_token = "";
+  function _signOutClicked(event){
+    BfUser.email = "";
+    BfUser.name = "";
+    BfUser.signedIn = false;
+    BfUser.access_token = "";
     $.removeCookie('BfUser');
     _setUserCookie("", "", false, "");
     _updatePage();
@@ -136,10 +137,10 @@ var BfUser = (function (BfUser)  {
     // Set User state based on login
     response = $.parseJSON(response);
     if (response.status == 200) {
-      email = response.email;
-      bfAccessToken = response.access_token;
-      signedIn = true;
-      name = response.name;
+      BfUser.email = response.email;
+      BfUser.bfAccessToken = response.access_token;
+      BfUser.signedIn = true;
+      BfUser.name = response.name;
 
       // Set a cookie!
       $.removeCookie('BfUser');
@@ -148,6 +149,8 @@ var BfUser = (function (BfUser)  {
 
       $('#feedback h2').html('Coooool! You\'re logged in!');
       _updatePage();
+      // TODO: fix this flow
+      window.location.replace('learn.html')
     }
     // Login failed, decide how to respond
     else if (response.status == 403){
@@ -159,18 +162,21 @@ var BfUser = (function (BfUser)  {
     if (debug) console.log(response);
     response = $.parseJSON(response);
     if (response.status == 200) {
-      email = response.email;
-      bfAccessToken = response.access_token;
-      signedIn = true;
-      name = response.name;
+      BfUser.email = response.email;
+      BfUser.bfAccessToken = response.access_token;
+      BfUser.signedIn = true;
+      BfUser.name = response.name;
 
       // Set a cookie!
       $.removeCookie('BfUser');
-      _setUserCookie(name, email, signedIn, bfAccessToken);
+      _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
       console.log($.cookie('BfUser'));
 
       $('#feedback h2').html('Coooool! You\'re logged in!');
       _updatePage();
+      // TODO: fix this flow
+      window.location.replace('learn.html')
+
     }
     else if (response.status == 403){
       $('#feedback h2').html(response.error);
@@ -185,9 +191,10 @@ var BfUser = (function (BfUser)  {
   BfUser.check_for_new = check_for_new;
   BfUser.get_added_data = get_added_data;
   BfUser.get_remembered_thing = get_remembered_thing;
+
   return BfUser;
 }(BfUser || {}));
 //Initialize Module
 BfUser.init();
-
+console.log(BfUser);
 
