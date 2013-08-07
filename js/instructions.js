@@ -220,9 +220,9 @@ var instructions = (function (instructions) {
       _showCongrats();
     }
     // Add example popover clicker
-    var html = $('#example').html();
+    var example = $('#example').html();
     $('#example').css('display','none');
-    $('#popover').popover({ content: html, html: true, placement: 'top' });
+    $('#popover').popover({ content: example, html: true, placement: 'top', trigger: 'hover' });
   }
 
   // Are they logged in?

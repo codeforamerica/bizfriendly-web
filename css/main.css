@@ -108,8 +108,15 @@ li {
 }
 
 .btn-default {
-	background-color: #585B5B;
-	border-color: #585B5B;
+	background-color: #74BBD4;
+	border-color: #74BBD4;
+	font-weight: 700;
+}
+
+.btn-default:hover {
+	background-color: #74BBD4;
+	border-color: #74BBD4;
+	font-weight: 700;
 }
 
 #sidemenu, #mainmenu {
@@ -315,10 +322,9 @@ button {
 	vertical-align: middle;
 }
 
-
 #instructions section{
-	height:500px;
 	width: 300px;
+	height: 450px;
 	margin: 0 auto;
 }
 
@@ -326,13 +332,22 @@ section .btn{
 	margin-bottom: 10px;
 }
 
-#popover {
-	margin: 10px 60px;
+.tooltip {
+	background-color: #FFF;
 }
 
 .step_text {
 	margin: 15px auto;
 	width: 260px;
+	overflow: auto;
+}
+
+.step_text #popover {
+	color: #ff4000;
+}
+
+.step_text #popover:hover {
+	color: #ff4000;
 }
 
 .feedback{
@@ -358,6 +373,12 @@ section .btn{
 	margin: 0 auto;
 }
 
+#congrats h3 {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+}
+
 #controls {
 	width: 120px;
 	margin: 0 auto;
@@ -367,7 +388,7 @@ section .btn{
 	height: 15px;
 }
 
-#slideout {
+/*#slideout {
     background: #666;
     width: 280px;
     height: 80px;
@@ -383,7 +404,7 @@ section .btn{
     height: 20px;
     width: 20px;
     background: #ff0000;
-}
+}*/
 
 /*#slidecontent {
     float:left;
