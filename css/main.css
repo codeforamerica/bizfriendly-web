@@ -291,6 +291,7 @@ button {
 	background-image: url('../img/active_dot.gif');
 	height: 50px;
 	width: 50px;
+	color: #FFF;
 }
 
 #progress .active h2 {
@@ -321,9 +322,27 @@ section .btn{
 	margin-bottom: 10px;
 }
 
+#popover {
+	margin: 10px 90px;
+}
+
+.step_text {
+	margin-top: 15px;
+}
+
 .feedback{
 	display: none;
 	padding-top: 15px;
+}
+
+.feedback h2 {
+	color: #79C040;
+}
+
+.feedback .responseDisplay {
+	color: #ff4000;
+	font-size: 14px;
+	font-weight: 700;
 }
 
 #controls {

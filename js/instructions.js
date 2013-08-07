@@ -105,10 +105,14 @@ var instructions = (function (instructions) {
   
   // Make progress bar
   function _makeProgressBar(){
+    var widthPercent = '';
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
-    })
+    });
+    // Todo: Need to account for 12 possible steps
+    // widthPercent = 100/steps.length+'%';
+    // $('#progress li').attr('width',widthPercent);
   }
 
   // Update the progress bar
@@ -139,6 +143,9 @@ var instructions = (function (instructions) {
       currentStep = steps[currentStep.stepNumber];
       if ($('.feedback').css('display') == 'block'){
         $('.feedback').toggle();
+      }
+      if ($('.step_text').css('display') == 'none'){
+        $('.step_text').toggle();
       }
       _updateStepsStates();
       _updateProgressBar();
@@ -198,14 +205,19 @@ var instructions = (function (instructions) {
       $("#choice_one").click(_chooseNextStep);
       $("#choice_two").click(_chooseNextStep);
     }
+    // Add example popover clicker
+    var html = $('#example').html();
+    $('#example').css('display','none');
+    $('#popover').popover({ content: html, html: true, placement: 'top' });
   }
 
   // Are they logged in?
   function _loggedIn(response){
+    if (debug) console.log(response);
     if (response == 'TIMEOUT') _loggedIn();
     response = $.parseJSON(response);
-    if (debug) console.log(response);
     if ( response.loggedIn ){
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
   }
@@ -231,32 +243,48 @@ var instructions = (function (instructions) {
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
+    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    // Advance to next step
+    currentStep = steps[currentStep.stepNumber];
+    if ($('.feedback').css('display') == 'block'){
+      $('.feedback').toggle();
+    }
+    if ($('.step_text').css('display') == 'none'){
+      $('.step_text').toggle();
+    }
+    _updateStepsStates();
+    _updateProgressBar();
+    _showStep();
+    _checkStep();
   }
 
   function _checkForNew(response){
+    if (debug) console.log(response);
     if (response == 'TIMEOUT') _checkForNew();
     response = $.parseJSON(response);
     if ( response.newThingName ){
-      if (debug) console.log(response);
       $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.newThingName);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
   }
 
   function _getRememberedThing(response){
+    if (debug) console.log(response);
     if (response == 'TIMEOUT') _getRememberedThing();
     response = $.parseJSON(response);
-    if (debug) console.log(response);
     $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.newData);
+    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
   }
 
   function _getAddedData(response){
+    if (debug) console.log(response);
     if (response == 'TIMEOUT') _getAddedData();
     response = $.parseJSON(response);
-    if (debug) console.log(response);
     // $('#step'+currentStep.stepNumber+' .feedback .newData').attr('src',response.newData);
+    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
   }
 
