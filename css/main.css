@@ -274,6 +274,8 @@ button {
 #next {
 	background-color: #ff4000;
 	background-border: #ff4000;
+	-webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
 }
 
 #next:hover {
