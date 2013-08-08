@@ -304,7 +304,7 @@ button {
 	background-color: #ff4000;
 	background-border: #ff4000;
 	font-weight: 700;
-	-webkit-animation-duration: 1s;
+	-webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
 }
 
@@ -413,7 +413,7 @@ section .btn{
 }
 
 #controls {
-	width: 125px;
+	width: 145px;
 	margin: 0 auto;
 }
 
