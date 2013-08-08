@@ -13,6 +13,7 @@ var instructions = (function (instructions) {
   var currentStep = {};
   var htcUrl = 'http://howtocity.herokuapp.com'
   // var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://0.0.0.0:5000'
   var htcApiVer = '/api/v1'
 
   // PUBLIC METHODS
@@ -47,8 +48,7 @@ var instructions = (function (instructions) {
     _updateProgressBar();
     // Show first step
     _showStep();
-    // First step should have a login button
-    $('#login').click(_loginClicked);
+    _checkStep();
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
@@ -63,10 +63,10 @@ var instructions = (function (instructions) {
     })
   }
 
-  // Set steps to have javascript style names
+  // Change steps attributes to have camelCase
   function _convertStepsAttributesNames(){
-    if (debug) console.log('changing attribute names');
-    var steps_with_js_names = [];
+    if (debug) console.log('Change attribute names to camelCase.');
+    var stepsWithJsNames = [];
     $(steps).each(function(i){
       step = {
         id : steps[i].id,
@@ -82,9 +82,9 @@ var instructions = (function (instructions) {
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number
       }
-      steps_with_js_names.push(step);
+      stepsWithJsNames.push(step);
     })
-    steps = steps_with_js_names;
+    steps = stepsWithJsNames;
   }
 
   // Set the steps state
@@ -105,12 +105,12 @@ var instructions = (function (instructions) {
   
   // Make progress bar
   function _makeProgressBar(){
-    var widthPercent = '';
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
     });
     // Todo: Need to account for 12 possible steps
+    // var widthPercent = '';
     // widthPercent = 100/steps.length+'%';
     // $('#progress li').attr('width',widthPercent);
   }
@@ -157,11 +157,6 @@ var instructions = (function (instructions) {
       _showStep();
       _checkStep();
     }
-    // } else {
-    //   $('section h2').css('display','none');
-    //   $('.step_text').css('display','none');
-    //   $('#congrats').css('display','block');
-    // }
   }
 
   // back button is clicked
@@ -193,22 +188,27 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
+      if (!accessToken) {
+        // First step should have a login button
+        $('#login').click(_loginClicked);
+      } else {
+        $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
+      }
     }
     // If step type is open
     if (currentStep.stepType == 'open'){
       $(".open").click(_openClicked);
     }
     // If step type is check_for_new
-    if (currentStep.stepType == 'check_for_new'){
+    if (currentStep.stepType == 'check_for_new' && accessToken){
       $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing'){
+    if (currentStep.stepType == 'get_remembered_thing' && accessToken){
       $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data'){
+    if (currentStep.stepType == 'get_added_data' && accessToken){
       $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
     }
     // If step type is choose_next_step
@@ -228,9 +228,9 @@ var instructions = (function (instructions) {
   // Are they logged in?
   function _loggedIn(response){
     if (debug) console.log(response);
-    if (response == 'TIMEOUT') _loggedIn();
     response = $.parseJSON(response);
-    if ( response.loggedIn ){
+    if (response.timeout) _checkStep();
+    if ( response.logged_in ){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
@@ -238,18 +238,6 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
-    // resizeInterval = setInterval(_resize, 100)
-    
-    // function _resize(){
-    //   width = width - 100;
-    //   left = window.screen.width - width;
-    //   window.resizeTo(width,height);
-    //   window.moveTo(left,0);
-    //   console.log(width);
-    //   if (width < 500) {
-    //     clearInterval(resizeInterval);
-    //   }
-    // }
     var challengeFeatures = {
       height: height,
       width: width - 340,
@@ -259,6 +247,7 @@ var instructions = (function (instructions) {
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
     $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    
     // Advance to next step
     currentStep = steps[currentStep.stepNumber];
     if ($('.feedback').css('display') == 'block'){
@@ -275,10 +264,10 @@ var instructions = (function (instructions) {
 
   function _checkForNew(response){
     if (debug) console.log(response);
-    if (response == 'TIMEOUT') _checkForNew();
     response = $.parseJSON(response);
-    if ( response.newThingName ){
-      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.newThingName);
+    if (response.timeout) _checkStep();
+    if ( response.new_thing_name ){
+      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.new_thing_name);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     }
@@ -286,20 +275,23 @@ var instructions = (function (instructions) {
 
   function _getRememberedThing(response){
     if (debug) console.log(response);
-    if (response == 'TIMEOUT') _getRememberedThing();
     response = $.parseJSON(response);
-    $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.newData);
-    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    if (response.timeout) _checkStep();
+    if (response.new_data) {
+      $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.new_data);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    }
   }
 
   function _getAddedData(response){
     if (debug) console.log(response);
-    if (response == 'TIMEOUT') _getAddedData();
     response = $.parseJSON(response);
-    // $('#step'+currentStep.stepNumber+' .feedback .newData').attr('src',response.newData);
-    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    if (response.timeout) _checkStep();
+    if (response.new_data) {
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    }
   }
 
   function _chooseNextStep(evt){
@@ -323,14 +315,14 @@ var instructions = (function (instructions) {
     $('#congrats').css('display','block');
   }
 
-  $(function () {
-    $("#slideout").click(function () {
-        if($(this).hasClass("popped")){
-        $(this).animate({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
-    }else {
-        $(this).animate({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
-    });
-  });
+  // $(function () {
+  //   $("#slideout").click(function () {
+  //       if($(this).hasClass("popped")){
+  //       $(this).animate({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
+  //   }else {
+  //       $(this).animate({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
+  //   });
+  // });
 
   // add public methods to the returned module and return it
   instructions.init = init;
