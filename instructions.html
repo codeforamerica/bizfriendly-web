@@ -1,50 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <title>How to City</title>
-      <meta name="viewport" content="initial-scale=1.0">
-      <meta name="description" content="">
-      <meta name="keywords" content="">
-      <meta name="author" content="">
-      <meta charset="utf-8">
+<head>
+  <title>How to City</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta charset="utf-8">
 
-      <link href="css/bootstrap.min.css" rel="stylesheet">
-      <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
-      <link href="css/instructions.css" rel="stylesheet">
-      
-      <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
-      <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
+  <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="css/main.css" rel="stylesheet">
 
-      <link rel="shortcut icon" href="ico/favicon.ico">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+  <script src="js/vendor/jquery.popupwindow.js"></script>
+  <script src="js/vendor/oauth.js"></script>
+  <script src="js/vendor/bootstrap.js"></script>
+  <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
 
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-      <script src="js/vendor/jquery.popupwindow.js"></script>
-      <script src="js/vendor/jquery.cookie.js"></script>
-      <script src="js/vendor/oauth.js"></script>
-  </head>
+<body id="instructions" class="container">
 
-  <body>
-    <header class="narrow">
-      <h4></h4>
-    </header>
-    <ul id="progress" class="unstyled inline-block"></ul>
+  <header class="row">
+    <img id="instruction-logo" class="col-6" src="img/bf_logo_small.gif">
+    <div id="bf_ribbon"></div>
+  </header>
 
-    <a id="back" class="btn">Back</a>
-    <a id="next" class="btn">Next</a>
+  <div class="row">
+    <h1 id="instructions-title" class="lesson-name col-8"></h1>
+    <button id="share" type="button" class="btn">Share</button>
+  </div>
+  
+  <ul id="progress" class="list-unstyled list-inline col-11"></ul>
 
-    <section class="narrow">
+  <section class="row">
       <h2></h2>
       <div class="step_text"></div>
       <div class="feedback"></div>
-    </section>
+      <div id="congrats">
+        <h3>Celebrate your growing business!</h3>
+        <img class="congrats-img" src="img/celebration_like.gif">
+        <h3>Share Your Success</h3>
+        <ul class="list-inline">
+          <li><img src="img/celebration_fb.gif"></li>
+          <li><img src="img/celebration_twitter.gif"></li>
+          <li><img src="img/celebration_g+.gif"></li>
+          <li><img src="img/celebration_li.gif"></li>
+        </ul>
+        <button type="button" class="btn btn-default btn-block">Additional Resources</button>
+        <button type="button" class="btn btn-default btn-block">More Lessons</button>
+        <!-- <button type="button" class="btn btn-default btn-block">Invite A Friend</button> -->
+      </div>
+  </section>
 
-    <footer class="narrow">
-      <p>&copy; How to City</p>
-    </footer>
+  <div id="controls">
+      <button type="button" id="back" class="btn">Back</button>
+      <button type="button" id="next" class="btn">Next</button>
+  </div>
 
-  </body>
+  <footer></footer>
+
+</body>
 
   <script src="js/instructions.js"></script>
   <script type="text/javascript" src="js/BfUser.js"></script>

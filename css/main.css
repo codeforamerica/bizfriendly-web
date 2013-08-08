@@ -4,46 +4,61 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	color: #585b5b;
+}
+
+.bold {
 	font-weight: 700;
 }
 
-header {
-	padding-top: 5px;
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 26px;
 }
 
-header ul{
-	position: relative;
-	top: 65px;
-	left: -6px;
-	background-color: #585b5b; 
-	height: 33px;
-}
-
-header .span9 {
-	width: 720px;
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 20px;
+	margin: 0px;
 }
 
 a {
+	color: #FFF;
 	text-decoration: none;
 }
 
 a:hover {
+	color: #FFF;
 	text-decoration: none;
 	text-shadow: 1px 1px #FF8C66;
 }
 
-li {
+ul {
+	padding-left: 0px;
 	list-style: none;
+}
+
+li {
 	padding-top: 5px;
 }
 
-ul li a {
-	color: #FFF;
-	font-size: 18px;
-	font-weight: 700;
-	
+.navbar {
+	background-color: #FFF;
+}
+
+.nav {
+	margin-top: 0px;
+	margin-left: 5px;
+	height: 33px;
+	background-color: #585b5b;
 }
 .userDash {
+	margin-top: 55px;
 	color: #585b5b;
 }
 .userDash a {
@@ -55,38 +70,83 @@ ul li a {
 	text-shadow: 1px 1px #FF8C66;
 }
 
-ul li a:hover {
+.navbar-nav li a {
+	padding-top: 0px;
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
 	color: #FFF;
 }
 
-section {
-	padding-top: 25px;
+.navbar-nav li a:hover{
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
 
 #subheader {
 	position: relative;
-	top: -50px;
+	top: -75px;
+}
+
+#subheader img {
+	float: right;
 }
 
 #subheader p {
-	font-weight: 700;
 	position: relative;
 	top: 15px;
 }
 
-#subheader img {
-	float:right;
+#main-text {
+	position: relative;
+	top: 65px;
+}
+
+#main .btn {
+	margin-left: 50px;
+	margin-top: 10px;
+}
+
+.btn-primary {
+	font-size: 18px;
+	font-weight: 700;
+	background-color: #FF4000;
+	border-color: #FF4000;
+}
+
+.btn-primary:hover {
+	background-color: #FF8C66;
+	border-color: #FF8C66;
+}
+
+.btn-default {
+	background-color: #74BBD4;
+	border-color: #74BBD4;
+	font-weight: 700;
+}
+
+.btn-default:hover {
+	background-color: #74BBD4;
+	border-color: #74BBD4;
+	font-weight: 700;
+}
+
+#sidemenu, #mainmenu {
+	position: relative;
+	top: -65px;
 }
 
 #sidemenu li{
+	padding: 10px;
 	color: #acacac;
-	font-weight: 400;
-	padding-left: 10px;
-	padding-bottom: 5px;
+	font-weight: 700;
+	cursor: pointer;
 }
 
 #sidemenu li:hover {
-	text-shadow: 1px 1px #ff4000;
+	color: #FFF;
+	background-color: #C7E4EE;
 }
 
 #sidemenu .active {
@@ -94,13 +154,37 @@ section {
 	background-color: #74BBD4;
 }
 
+#mainmenu p {
+	font-weight: 400;
+}
+
 #mainmenu table {
 	font-weight: 400;
 }
 
+#mainmenu th {
+	padding-left: 0px;
+	font-size: 12px;
+	line-height: 14px;
+	font-weight: 700;
+}
+
+#mainmenu .lesson-name {
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: 700;
+}
+
+.lesson-name {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	color: #ff4000;
+}
+
 #mainmenu table tbody td img{
 	float:left;
-	padding: 10px;
+	width:25px;
 }
 
 #mainmenu a {
@@ -114,131 +198,233 @@ section {
 	text-shadow: 1px 1px #ff4000;
 }
 
-#main .start {
-	position: relative;
-	top: 65px;
-}
-
-#main .start p {
-	font-size: 24px;
+.category-name {
+	font-size: 18px;
+	line-height: 20px;
 	font-weight: 700;
-	line-height: 26px;
-	padding-bottom: 15px;
+	color: #ff4000;
 }
 
-#main .start .btn {
-	margin-left: 25px;
+#bottom {
+	padding-top: 25px;
+	color: #FFF;
 }
 
-#main #video{
-	height: 300px;
-	width: 516px;
-	background-color: gray;
-}
 .bottom_links {
+	height: 150px;
+	width: 30%;
+	padding: 20px;
+	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
-	width: 250px;
-	display: block;
-	float: left;
-	margin-right: 16px;
-	height: 150px;
 }
 
-.bottom_links {
-	color: #FFF;
+.bottom_links_spacer {
+	margin-right: 3%;
 }
 
 .bottom_links img {
-	margin-right: 5px;
 	float:left;
-	padding-left: 15px;
-	padding-top: 20px;
+	margin-right: 15px;
 }
 
 .bottom_links p {
-	padding-top: 20px;
-	margin-left: 125px;
-	width: 125px;
+	margin-left: 100px;
 }
 
-.bottom_links a {
-	color: #FFF;
+#index .bottom_links:hover {
+	background-color: #68A8BF;
 }
 
+/*<<<<<<< HEAD
 .bottom_links a:hover {
 	color: #FFF;
 	text-decoration: none;
 	text-shadow: 1px 1px #FFA385;
+=======*/
+#lesson .bottom_links a:hover {
+	text-shadow: 1px 1px #ff4000;
+/*>>>>>>> b30afd44a5a7e5435a9de34fc80481bf578c64dc*/
 }
 
-.bottom_links .bottom_links_header{
-	font-size: 24px;
-	font-weight: 700;
-	line-height: 26px;
-	margin-bottom: 0px;
-	display: block;
-}
-
-.bottom_links h4 {
-	padding-left: 25px;
+.bottom_links li {
+	color: #FFF;
 }
 
 footer {
-	margin-top: 25px;
 	background-color: #585b5b;
+	font-weight: 700;
+	margin-top: 25px;
 	height: 33px;
+	color: #FFF;
 }
 
 #credits {
-	color: #FFF;
 	font-size: 12px;
-	font-weight: normal;
+	font-weight: 400;
+	text-align: right;
 }
 
 #credits img {
 	width: 55px;
 }
 
-#credits {
-	text-align: right;
+footer a:hover {
+	text-decoration: none;
+	text-shadow: 1px 1px #ff4000;
 }
 
-.btn-custom-lighten.active {
-  color: rgba(255, 255, 255, 0.75);
+#instructions {
+	width: 340px;
 }
-.btn-custom-lighten {
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff4f14;
-  background-image: -moz-linear-gradient(top, #ff4000, #ff6633);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff4000), to(#ff6633));
-  background-image: -webkit-linear-gradient(top, #ff4000, #ff6633);
-  background-image: -o-linear-gradient(top, #ff4000, #ff6633);
-  background-image: linear-gradient(to bottom, #ff4000, #ff6633);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff4000', endColorstr='#ffff6633', GradientType=0);
-  border-color: #ff6633 #ff6633 #e53a00;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #ff6633;
-   Darken IE7 buttons by default so they stand out more given they won't have borders 
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+#instructions .col-6{
+	padding-left: 0px;
 }
-.btn-custom-lighten:hover,
-.btn-custom-lighten:focus,
-.btn-custom-lighten:active,
-.btn-custom-lighten.active,
-.btn-custom-lighten.disabled,
-.btn-custom-lighten[disabled] {
-  color: #ffffff;
-  background-color: #ff6633;
-  *background-color: #ff5319;
+
+button {
+	color: #FFF;
+	background-color: #BFBFBF;
 }
-.btn-custom-lighten:active,
-.btn-custom-lighten.active {
-  background-color: #ff4000 ;
+
+#share {
+	margin-top: 20px;
 }
+
+#next {
+	background-color: #ff4000;
+	background-border: #ff4000;
+}
+
+#next:hover {
+	background-color: #FF8C66;
+	background-border: #FF8C66;
+}
+
+#bf_ribbon {
+	margin-top: 46px;
+	margin-left: 135px;
+	height: 15px;
+	background-color: #585b5b;
+}
+
+#progress {
+	text-align: center;
+}
+
+#progress .unfinished {
+	background-image: url('../img/unfinished_dot.gif');
+	height: 25px;
+	width: 25px;
+}
+
+#progress .active {
+	background-image: url('../img/active_dot.gif');
+	height: 50px;
+	width: 50px;
+	color: #FFF;
+}
+
+#progress .active h2 {
+	position: relative;
+	top: 10px;
+	/*left: 15px;*/
+}
+
+#progress .finished {
+	background-image: url('../img/finished_dot.gif');
+	height: 25px;
+	width: 25px;
+}
+
+#progress li {
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+#instructions section{
+	width: 300px;
+	height: 450px;
+	margin: 0 auto;
+}
+
+section .btn{
+	margin-bottom: 10px;
+}
+
+.tooltip {
+	background-color: #FFF;
+}
+
+.step_text {
+	margin: 15px auto;
+	width: 260px;
+	overflow: auto;
+}
+
+.step_text #popover {
+	color: #ff4000;
+}
+
+.step_text #popover:hover {
+	color: #ff4000;
+}
+
+.feedback{
+	display: none;
+	margin: 15px auto;
+	width: 260px;
+}
+
+.feedback h2 {
+	color: #79C040;
+}
+
+.feedback .responseDisplay {
+	color: #ff4000;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+#congrats {
+	display: none;
+	width: 260px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#congrats h3 {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+}
+
+#controls {
+	width: 120px;
+	margin: 0 auto;
+}
+
+#instructions footer {
+	height: 15px;
+}
+
+/*#slideout {
+    background: #666;
+    width: 280px;
+    height: 80px;
+    position: relative;
+    top: -40px;
+    right: -320px;
+    padding-left: 20px
+}
+    
+#clickme {
+    position: absolute;
+    top: 0; left: 0;
+    height: 20px;
+    width: 20px;
+    background: #ff0000;
+}*/
 
 #bottom-section form{
 	background-color: #74bbd4;
@@ -254,3 +440,6 @@ input {
 	margin: 10px;
 }
 
+/*#slidecontent {
+    float:left;
+}*/

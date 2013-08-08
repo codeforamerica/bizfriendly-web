@@ -9,11 +9,9 @@
   <meta charset="utf-8">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
-  <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href="css/main.css" rel="stylesheet">
-
+  <link href="css/user.css" rel="stylesheet">
   <script src="js/vendor/jquery-1.9.1.min.js"></script>
   <script src="js/vendor/jquery.cookie.js"></script>
 
@@ -24,37 +22,35 @@
 </head>
 
 <body>
-    <header class="container">
-        <div class="row">
-            <a href="index.html"><img class="span3" src="img/bf_logo.png"></a>
-            <ul class="span9 unstyled inline-block">
-                <li class="span2 offset1">
-                    <a href="learn.html">Learn</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Teach</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Connect</a>
-                </li>
-            </ul>
-            <div class="span2 offset7 userDash" id="signInLink">
-                <a href="signup.html">Signup</a> | <a href="signin.html">SignIn</a>
+  <header class="navbar navbar-static-top row">
+        <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
+        <div class="userDash col-lg-10 col-sm-7">
+            <div class="col-lg-2 col-sm-2 col-offset-9" id="signInLink">
+                <a href="signin.html">SignIn</a> | <a href="signup.html">SignUp</a>
             </div>
-            <div class="span2 offset7 userDash" id="signOutLink">
-                <span class="bfUserName"></span> | <a id="bfSignOut" href="index.html">SignOut</a>
+            <div class="col-lg-2 col-sm-2 col-offset-9" id="signOutLink">
+                <span class="bfUserName"></span> | <a href="signup.html">SignUp</a>
             </div>
         </div>
-    </header>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Connect</a></li>
+        </ul>
+  </header>
 
    <section id="bottom-section" class="container">
-        <h2 class="span6 offset3">Returning to BizFriendly?</h2>
-        <form id="signin-form" class="form-inline span5 offset3">
+        <h2 class="col-lg-6 col-sm-4 col-offset-3">Returning to BizFriendly?</h2>
+        <form id="signin-form" class="form-inline col-lg-5 col-offset-3">
+          <div class="input-line">
             <input type="email" id="signin-email" placeholder="jane.doe@email.com">
             <label for="signin-email">Email</label>
+          </div>
+          <div class="input-line">
             <input type="password" id="signin-password">
             <label for="signin-password">Password</label>
-            <button type="button" class="btn btn-custom-lighten" id="bfSignIn">Sign In</button>
+          </div>
+            <button type="button" class="btn btn-primary btn-lrg" id="bfSignIn">Sign In</button>
         </form>
     </section>
 
@@ -63,14 +59,14 @@
         <h2 class="span5 offset3"></h2>
     </section>
 
-    <footer class="container">
-        <div class="row">
-            <ul class="unstyled inline-block">
-                <li class="offset1 span1"><a href="#">About</a></li>
-                <li class="span1"><a href="#">Feedback</a></li>
-                <li id="credits" class="span6 offset2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
-            </ul>
-        </div>
+
+
+  <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="#">About</a></li>
+            <li class="col-lg-1"><a href="#">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
     </footer>
 </body>
 <script type="text/javascript" src="js/BfUser.js"></script>
