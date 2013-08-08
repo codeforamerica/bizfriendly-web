@@ -113,14 +113,10 @@ li {
 }
 
 .btn-default:hover {
-	background-color: #74BBD4;
-	border-color: #74BBD4;
+	background-color: #C7E4EE;
+	border-color: #C7E4EE;
+	color: #0F6095;
 	font-weight: 700;
-}
-
-.btn-default:hover {
-  background-color: #BFBFBF;
-  border-color: #BFBFBF;
 }
 
 .btn-green {
@@ -252,7 +248,7 @@ li {
 	background-color: #C7E4EE;
 }
 
-#lesson .bottom_links a:hover {
+.bottom_links a:hover {
   color: #0F6095;
 }
 
@@ -300,14 +296,20 @@ button {
 	margin-top: 20px;
 }
 
+#back, #back:hover {
+	font-weight: 700;
+}
+
 #next {
 	background-color: #ff4000;
 	background-border: #ff4000;
+	font-weight: 700;
 }
 
 #next:hover {
 	background-color: #FF8C66;
 	background-border: #FF8C66;
+	font-weight: 700;
 }
 
 #bf_ribbon {
@@ -409,7 +411,7 @@ section .btn{
 }
 
 #controls {
-	width: 120px;
+	width: 125px;
 	margin: 0 auto;
 }
 
