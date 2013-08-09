@@ -248,6 +248,10 @@ li {
 	background-color: #C7E4EE;
 }
 
+#lesson .bottom_links {
+	height: 190px;
+}
+
 .bottom_links a:hover {
   color: #0F6095;
 }
