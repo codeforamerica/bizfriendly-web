@@ -133,15 +133,13 @@ var BfUser = (function (BfUser)  {
   
 
   // Remember the access token of a service connection
-  function save_connection(serviceName, serviceToken) {
-    var connection = {service: serviceName, service_access: serviceToken}
-    // TODO: What to do with no return function?
-    _token_post(htcUrl + '/create_connection', connection, function() {return true;})
+  function create_connection(data, successFunc) {
+    _token_post(htcUrl + '/create_connection', data, successFunc)
   };
 
   // Remember the most recent step progress
-  function save_step(data) {
-    _token_post(htcUrl + '/record_step', data, function() {return true;})
+  function record_step(data, successFunc) {
+    _token_post(htcUrl + '/record_step', data, successFunc)
   };
 
   //Check to see if user is logged in to service
@@ -171,8 +169,8 @@ var BfUser = (function (BfUser)  {
   
   // add public methods to the returned module and return it
   BfUser.init = init;
-  BfUser.save_step = save_step;
-  BfUser.save_connection = save_connection;
+  BfUser.record_step = record_step;
+  BfUser.create_connection = create_connection;
   BfUser.is_logged_in = is_logged_in;
   BfUser.check_for_new = check_for_new;
   BfUser.get_added_data = get_added_data;

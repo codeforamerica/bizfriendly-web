@@ -1,4 +1,3 @@
-
 var instructions = (function (instructions) { 
   // private properties
   var debug = true;
@@ -9,7 +8,7 @@ var instructions = (function (instructions) {
   var lesson = {};
   var steps = [];
   var step = {};
-  var accessToken = null;
+  var oauthToken = null;
   var currentStep = {};
   // var htcUrl = 'http://howtocity.herokuapp.com'
   var htcUrl = 'http://127.0.0.1:8000'
@@ -82,7 +81,7 @@ var instructions = (function (instructions) {
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
         stepState : '', // Add the stepState attribute
-        lessonService : lesson.third_party_service  // Add the lesson url
+        lessonService : lesson.third_party_service  // Add the name of the service
       }
       stepsWithJsNames.push(step);
     })
@@ -160,7 +159,7 @@ var instructions = (function (instructions) {
       _updateStepsStates();
       _updateProgressBar();
       // Record most recent opened step 
-      BfUser.save_step(currentStep);
+      // BfUser.record_step(currentStep, _recordedStep);
       _showStep();
       _checkStep();
     }
@@ -184,10 +183,12 @@ var instructions = (function (instructions) {
     OAuth.popup(lesson.third_party_service, function(error, result) {
       //handle error with error
       if (error) console.log(error);
-      accessToken = result.access_token;
+      oauthToken = result.access_token;
 
       // Add connection to server db
-      BfUser.save_connection(lesson.third_party_service.toLowerCase(), accessToken);
+      var serviceName = lesson.third_party_service.toLowerCase()
+      var data = {service_name: serviceName, oauth_token: oauthToken}
+      BfUser.create_connection(data, _createdConnection);
 
       // Check first step
       _checkStep();  
@@ -199,23 +200,26 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      console.log(currentStep);
-      BfUser.is_logged_in(currentStep, _loggedIn);
+      //Activate _loginClicked
+      $('#login').click(_loginClicked);
+      if (oauthToken){
+        BfUser.is_logged_in(currentStep, _loggedIn);
+      }
     }
     // If step type is open
     if (currentStep.stepType == 'open'){
       $(".open").click(_openClicked);
     }
     // If step type is check_for_new
-    if (currentStep.stepType == 'check_for_new'){
+    if (currentStep.stepType == 'check_for_new' && oauthToken){
       BfUser.check_for_new(currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing'){
+    if (currentStep.stepType == 'get_remembered_thing' && oauthToken){
       BfUser.get_remembered_thing(currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data'){
+    if (currentStep.stepType == 'get_added_data' && oauthToken){
       BfUser.get_added_data(currentStep, _getAddedData);
     }
     // If step type is choose_next_step
@@ -244,6 +248,15 @@ var instructions = (function (instructions) {
     }
   }
 
+  // Saved a connection in the db
+  function _createdConnection(response){
+    if (debug) console.log(response);
+  }
+
+  function _recordedStep(response){
+    if (debug) console.log(response);
+  }
+
   // .open is clicked
   function _openClicked(evt){
     var challengeFeatures = {
@@ -267,7 +280,7 @@ var instructions = (function (instructions) {
     _updateStepsStates();
     _updateProgressBar();
     // Record most recent opened step 
-    BfUser.save_step(currentStep);
+    // BfUser.record_step(currentStep, _recordedStep);
     _showStep();
     _checkStep();
   }
@@ -302,6 +315,7 @@ var instructions = (function (instructions) {
     if (response.timeout) _checkStep();
     if (response.new_data) {
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      // ToDo: Show added facebook page logo
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
     }
