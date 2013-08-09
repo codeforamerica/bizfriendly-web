@@ -24,7 +24,9 @@ var lesson = (function (lesson) {
 
   function _makeSummary(){
     $('#main #main-text .lesson-name').html(lesson.name);
-    $('#main #main-text .lesson-description').html(lesson.description);
+    $('#main #main-text .lesson-description').html(lesson.long_description);
+    $('#additional_resources ul').html(lesson.additional_resources);
+    $('#tips ul').html(lesson.tips);
     $('#main #main-text a').click(_instructionsLinkClicked);
   }
 
