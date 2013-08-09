@@ -11,8 +11,8 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
   // var htcUrl = 'http://0.0.0.0:5000'
   var htcApiVer = '/api/v1'
 
@@ -105,7 +105,6 @@ var instructions = (function (instructions) {
     })
   }
 
-  
   // Make progress bar
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
@@ -160,10 +159,8 @@ var instructions = (function (instructions) {
       currentStep = steps[currentStep.stepNumber];
       _updateStepsStates();
       _updateProgressBar();
-
       // Record most recent opened step 
       BfUser.save_step(currentStep);
-
       _showStep();
       _checkStep();
     }
@@ -194,22 +191,7 @@ var instructions = (function (instructions) {
 
       // Check first step
       _checkStep();  
-    });
-
-    // var loginWindowFeatures = {
-    //   height: window.screen.height - 400,
-    //   width: window.screen.width - 1000,
-    //   left: 1000,
-    //   bottom: 400,
-    //   name: 'login',
-    //   center: false
-    // };
-
-    // var loginUrl = htcUrl + '/' + lesson.url.toLowerCase() + '/login';
-    // var loginRequest = loginUrl + '?access_token=0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d'
-    // var loginWindow = $.popupWindow(loginRequest, loginWindowFeatures);
-
-    // _checkStep();  
+    }); 
   }
 
   // Check steps
@@ -217,6 +199,7 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
+      console.log(currentStep);
       BfUser.is_logged_in(currentStep, _loggedIn);
     }
     // If step type is open
@@ -234,6 +217,7 @@ var instructions = (function (instructions) {
     // If step type is get_added_data
     if (currentStep.stepType == 'get_added_data'){
       BfUser.get_added_data(currentStep, _getAddedData);
+    }
     // If step type is choose_next_step
     if (currentStep.stepType == 'choose_next_step'){
       $("#choice_one").click(_chooseNextStep);
@@ -282,6 +266,8 @@ var instructions = (function (instructions) {
     }
     _updateStepsStates();
     _updateProgressBar();
+    // Record most recent opened step 
+    BfUser.save_step(currentStep);
     _showStep();
     _checkStep();
   }
@@ -341,15 +327,6 @@ var instructions = (function (instructions) {
     $('.step_text').toggle();
     $('#congrats').css('display','block');
   }
-
-  // $(function () {
-  //   $("#slideout").click(function () {
-  //       if($(this).hasClass("popped")){
-  //       $(this).animated({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
-  //   }else {
-  //       $(this).animated({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
-  //   });
-  // });
 
   // add public methods to the returned module and return it
   instructions.init = init;
