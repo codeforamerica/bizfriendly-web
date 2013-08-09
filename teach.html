@@ -14,6 +14,7 @@
     <link href="css/main.css" rel="stylesheet">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -37,10 +38,12 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="lesson-name col-lg-2 col-offset-2">Lesson Name</div>
-        <input type="text" class="col-lg-6" placeholder="Create a short, catchy name for your lesson.">
-    </div>
+    <form class="form-horizontal">
+        <div class="col-offset-3 col-lg-6">
+            <label for="lesson-name">Lesson Name</label>
+            <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
+        </div>
+    </form>
 
     <div class="row">
         <div class="col-lg-6 col-offset-3">
@@ -50,13 +53,22 @@
     
     <section id="main" class="row">
         <div class="col-lg-10 col-offset-1">
+            <h3>Elements</h3>
             <div id="teach-elements" class="teach three-columns three-column-spacer">
-                <h3>Elements</h3>
+                
+                <img class="draggable" src="img/celebration_flag.gif">
+                <img class="draggable" src="img/celebration_heart.gif">
+                <img class="draggable" src="img/celebration_like.gif">
+                <img class="draggable" src="img/celebration_star.gif">
+                <div id="lesson-name" class="lesson-name draggable">
+                    Lesson Name
+                </div>
             </div>
-            <div id="teach-instructions" class="teach three-columns three-column-spacer">
-                <h3>Instructions</h3>
+            <h3>Instructions</h3>
+            <div id="teach-instructions" class="teach three-columns three-column-spacer droppable">
+                
             </div>
-            <div id="teach-feedback" class="teach three-columns">
+            <div id="teach-feedback" class="teach three-columns droppable">
                 <h3>Feedback</h3>
             </div>
         </div>
