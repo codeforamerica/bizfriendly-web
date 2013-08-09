@@ -249,7 +249,7 @@ li {
 }
 
 #lesson .bottom_links {
-	height: 190px;
+	height: auto;
 }
 
 .bottom_links a:hover {
