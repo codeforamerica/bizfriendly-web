@@ -82,6 +82,7 @@ li {
 #subheader p {
 	position: relative;
 	top: 15px;
+	font-weight: 700;
 }
 
 #main-text {
@@ -167,6 +168,14 @@ li {
 
 #mainmenu table {
 	font-weight: 400;
+}
+
+table img {
+	margin-right: 10px;
+}
+
+table .lesson-name {
+	margin-top: 5px;
 }
 
 #mainmenu th {

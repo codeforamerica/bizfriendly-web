@@ -66,7 +66,7 @@ var learn = (function (learn) {
 
       html += '<td>'+lesson.time_estimate+'</td>'
            +  '<td>'+lesson.difficulty+'</td>'
-           +  '<td>5 stars</td>'
+           // +  '<td>5 stars</td>'
            + '</tr>';
     });
     $tbody.html(html);
