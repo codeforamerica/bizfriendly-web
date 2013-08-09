@@ -57,6 +57,9 @@ var learn = (function (learn) {
       else if (lesson.third_party_service == 'foursquare'){
         html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
       }
+      else if (lesson.third_party_service == 'trello'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
       else {
         html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
       }
