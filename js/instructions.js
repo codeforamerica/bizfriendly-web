@@ -130,25 +130,16 @@ var instructions = (function (instructions) {
 
   // Show the current step
   function _showStep(){
+    _stepTransition();
     if (debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
     $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
-    // Set step_text back to visible and hide others
-    if ($('.step_text').css('display') == 'none'){
-      $('.step_text').toggle();
-    }
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
-    if ($('#next').hasClass('animated pulse')){
-      $('#next').removeClass('animated pulse');
-    }
-    if ($('#congrats').css('display') == 'block'){
-      $('#congrats').toggle();
-    }
-    
+  }
+
+  function _stepTransition(){
+    if (debug) console.log('Step Transition');
   }
 
   // next button is clicked
