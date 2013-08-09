@@ -79,9 +79,8 @@ li {
 }
 
 .navbar-nav li a:hover{
-	color: #FFF;
+	color: #74BBD4;
 	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
 }
 
 #subheader {
@@ -127,9 +126,30 @@ li {
 }
 
 .btn-default:hover {
-	background-color: #74BBD4;
-	border-color: #74BBD4;
+	background-color: #C7E4EE;
+	border-color: #C7E4EE;
+	color: #0F6095;
 	font-weight: 700;
+}
+
+.btn-green {
+  background-color: #79c040;
+  border-color: #79c040;
+}
+
+.btn-green:hover {
+  background-color: #C9E6B3;
+  border-color: #C9E6B3;
+}
+
+.btn-blue {
+ background-color: #74BBD4;
+ border-color: #74BBD4;  
+}
+
+.btn-blue:hover {
+  background-color: #C7E4EE;
+  border-color: #C7E4EE;
 }
 
 #sidemenu, #mainmenu {
@@ -139,13 +159,13 @@ li {
 
 #sidemenu li{
 	padding: 10px;
-	color: #acacac;
+	color: #BFBFBF;
 	font-weight: 700;
 	cursor: pointer;
 }
 
 #sidemenu li:hover {
-	color: #FFF;
+	color: #0F6095;
 	background-color: #C7E4EE;
 }
 
@@ -179,7 +199,11 @@ li {
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 700;
-	color: #ff4000;
+	color: #585B5B;
+}
+
+.lesson-name:hover {
+  color: #ff4000;
 }
 
 #mainmenu table tbody td img{
@@ -188,14 +212,15 @@ li {
 }
 
 #mainmenu a {
-	color: #585b5b;
+	color: #BFBFBF;
 	text-decoration: none;
 }
 
 #mainmenu a:hover {
-	color: #585b5b;
+	color: #C7E4EE;
+	background-color: #0F6095;
 	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
+/* 	text-shadow: 1px 1px #ff4000; */
 }
 
 .category-name {
@@ -233,18 +258,11 @@ li {
 }
 
 #index .bottom_links:hover {
-	background-color: #68A8BF;
+	background-color: #C7E4EE;
 }
 
-/*<<<<<<< HEAD
 .bottom_links a:hover {
-	color: #FFF;
-	text-decoration: none;
-	text-shadow: 1px 1px #FFA385;
-=======*/
-#lesson .bottom_links a:hover {
-	text-shadow: 1px 1px #ff4000;
-/*>>>>>>> b30afd44a5a7e5435a9de34fc80481bf578c64dc*/
+  color: #0F6095;
 }
 
 .bottom_links li {
@@ -271,7 +289,7 @@ footer {
 
 footer a:hover {
 	text-decoration: none;
-	text-shadow: 1px 1px #ff4000;
+  color: #74BBD4;
 }
 
 #instructions {
@@ -291,14 +309,22 @@ button {
 	margin-top: 20px;
 }
 
+#back, #back:hover {
+	font-weight: 700;
+}
+
 #next {
 	background-color: #ff4000;
 	background-border: #ff4000;
+	font-weight: 700;
+	-webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
 }
 
 #next:hover {
 	background-color: #FF8C66;
 	background-border: #FF8C66;
+	font-weight: 700;
 }
 
 #bf_ribbon {
@@ -400,7 +426,7 @@ section .btn{
 }
 
 #controls {
-	width: 120px;
+	width: 145px;
 	margin: 0 auto;
 }
 

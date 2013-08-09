@@ -145,6 +145,9 @@ var instructions = (function (instructions) {
     if ($('.feedback').css('display') == 'block'){
       $('.feedback').toggle();
     }
+    if ($('#next').hasClass('animated pulse')){
+      $('#next').removeClass('animated pulse');
+    }
     if ($('#congrats').css('display') == 'block'){
       $('#congrats').toggle();
     }
@@ -253,6 +256,7 @@ var instructions = (function (instructions) {
     if ( response.logged_in ){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
   }
 
@@ -265,8 +269,8 @@ var instructions = (function (instructions) {
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
-    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+    // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     
     // Advance to next step
     currentStep = steps[currentStep.stepNumber];
@@ -290,6 +294,7 @@ var instructions = (function (instructions) {
       $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.new_thing_name);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
   }
 
@@ -301,6 +306,7 @@ var instructions = (function (instructions) {
       $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.new_data);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
   }
 
@@ -311,6 +317,7 @@ var instructions = (function (instructions) {
     if (response.new_data) {
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
   }
 
@@ -338,9 +345,9 @@ var instructions = (function (instructions) {
   // $(function () {
   //   $("#slideout").click(function () {
   //       if($(this).hasClass("popped")){
-  //       $(this).animate({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
+  //       $(this).animated({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
   //   }else {
-  //       $(this).animate({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
+  //       $(this).animated({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
   //   });
   // });
 
