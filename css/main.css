@@ -17,6 +17,7 @@ h1 {
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 26px;
+	margin-top: 0px;
 }
 
 h2 {
@@ -70,6 +71,10 @@ li {
 	text-decoration: none;
 }
 
+#bfUserName, #signOutLink {
+	display: none;
+}
+
 #subheader {
 	position: relative;
 	top: -75px;
@@ -89,21 +94,20 @@ li {
 	top: 65px;
 }
 
-#main .btn {
-	margin-left: 50px;
-	margin-top: 10px;
+.login-required {
+	display: none;
 }
 
 .btn-primary {
-	font-size: 18px;
-	font-weight: 700;
 	background-color: #FF4000;
 	border-color: #FF4000;
+	font-weight: 700;
 }
 
 .btn-primary:hover {
 	background-color: #FF8C66;
 	border-color: #FF8C66;
+	font-weight: 700;
 }
 
 .btn-default {
@@ -232,7 +236,7 @@ li {
 }
 
 .bottom_links_spacer {
-	margin-right: 3%;
+	margin-right: 5%;
 }
 
 .bottom_links img {
@@ -246,6 +250,10 @@ li {
 
 #index .bottom_links:hover {
 	background-color: #C7E4EE;
+}
+
+#index .bottom_links:hover a {
+	color: #0F6095;
 }
 
 .bottom_links a:hover {
@@ -421,6 +429,18 @@ section .btn{
 	height: 15px;
 }
 
+
+/*#signup-form {
+	background-color: #74bbd4;
+	border-radius: 15px;
+	padding: 25px;
+}
+
+#signin-form {
+	background-color: #74bbd4;
+	border-radius: 15px;
+	padding: 25px;
+}*/
 /*#slideout {
     background: #666;
     width: 280px;
@@ -441,4 +461,4 @@ section .btn{
 
 /*#slidecontent {
     float:left;
-}*/
+}

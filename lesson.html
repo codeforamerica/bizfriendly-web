@@ -13,20 +13,25 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/main.css" rel="stylesheet">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/vendor/jquery-1.9.1.min.js"></script> 
     <script src="js/vendor/jquery.popupwindow.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
 <body id="lesson" class="container">
-   <header class="navbar navbar-static-top row">
+    <header class="navbar navbar-static-top row">
         <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Teach</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="#">Connect</a></li>
+            <li class="col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-offset-1"><a href="#">Teach</a></li>
+            <li class="col-offset-1"><a href="#">Connect</a></li>
+            <li id="signUpLink" class="pull-right"><a href="signup.html">Sign Up</a></li>
+            <li id="signInLink" class="pull-right"><a href="signin.html">Sign In</a></li>
+            <li id="signOutLink" class="pull-right"><a href="#">Sign Out</a></li>
+            <li id="bfUserName" class="pull-right"><a href="#"></a></li>
         </ul>
     </header>
 
@@ -38,6 +43,9 @@
           <div class="lesson-name"></div>
           <div class="lesson-description"></div>
           <a class="btn btn-primary btn-lrg" href="#">Get Started</a>
+          <div class="alert alert-info login-required">
+            You'll need to create a BizFriend.ly account before you can start the lesson. Sign up then come back to this lesson.
+          </div>
         </div>
     </section>
 
@@ -70,5 +78,6 @@
         </ul>
     </footer>
 </body>
+    <script src="js/BfUser.js"></script>
     <script src="js/lesson.js"></script>
 </html>

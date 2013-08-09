@@ -1,5 +1,4 @@
-var instructions = (function (instructions) {
-
+var instructions = (function (instructions) { 
   // private properties
   var debug = true;
   var width = window.screen.width;
@@ -9,10 +8,10 @@ var instructions = (function (instructions) {
   var lesson = {};
   var steps = [];
   var step = {};
-  var accessToken = null;
+  var oauthToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
   // var htcUrl = 'http://0.0.0.0:5000'
   var htcApiVer = '/api/v1'
 
@@ -80,7 +79,9 @@ var instructions = (function (instructions) {
         triggerValue : steps[i].trigger_value,
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
-        nextStepNumber : steps[i].next_step_number
+        nextStepNumber : steps[i].next_step_number,
+        stepState : '', // Add the stepState attribute
+        lessonService : lesson.third_party_service  // Add the name of the service
       }
       stepsWithJsNames.push(step);
     })
@@ -102,7 +103,7 @@ var instructions = (function (instructions) {
       }
     })
   }
-  
+
   // Make progress bar
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
@@ -157,6 +158,8 @@ var instructions = (function (instructions) {
       currentStep = steps[currentStep.stepNumber];
       _updateStepsStates();
       _updateProgressBar();
+      // Record most recent opened step 
+      // BfUser.record_step(currentStep, _recordedStep);
       _showStep();
       _checkStep();
     }
@@ -174,16 +177,22 @@ var instructions = (function (instructions) {
   }
 
   // login clicked
-  function _loginClicked(){
+  function _loginClicked(evt){
     if (debug) console.log('login clicked');
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
     OAuth.popup(lesson.third_party_service, function(error, result) {
       //handle error with error
       if (error) console.log(error);
-      accessToken = result.access_token;
+      oauthToken = result.access_token;
+
+      // Add connection to server db
+      var serviceName = lesson.third_party_service.toLowerCase()
+      var data = {service_name: serviceName, oauth_token: oauthToken}
+      BfUser.create_connection(data, _createdConnection);
+
       // Check first step
       _checkStep();  
-    });
+    }); 
   }
 
   // Check steps
@@ -191,11 +200,10 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      if (!accessToken) {
-        // First step should have a login button
-        $('#login').click(_loginClicked);
-      } else {
-        $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
+      //Activate _loginClicked
+      $('#login').click(_loginClicked);
+      if (oauthToken){
+        BfUser.is_logged_in(currentStep, _loggedIn);
       }
     }
     // If step type is open
@@ -203,16 +211,16 @@ var instructions = (function (instructions) {
       $(".open").click(_openClicked);
     }
     // If step type is check_for_new
-    if (currentStep.stepType == 'check_for_new' && accessToken){
-      $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
+    if (currentStep.stepType == 'check_for_new' && oauthToken){
+      BfUser.check_for_new(currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing' && accessToken){
-      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+    if (currentStep.stepType == 'get_remembered_thing' && oauthToken){
+      BfUser.get_remembered_thing(currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data' && accessToken){
-      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
+    if (currentStep.stepType == 'get_added_data' && oauthToken){
+      BfUser.get_added_data(currentStep, _getAddedData);
     }
     // If step type is choose_next_step
     if (currentStep.stepType == 'choose_next_step'){
@@ -240,6 +248,15 @@ var instructions = (function (instructions) {
     }
   }
 
+  // Saved a connection in the db
+  function _createdConnection(response){
+    if (debug) console.log(response);
+  }
+
+  function _recordedStep(response){
+    if (debug) console.log(response);
+  }
+
   // .open is clicked
   function _openClicked(evt){
     var challengeFeatures = {
@@ -262,6 +279,8 @@ var instructions = (function (instructions) {
     }
     _updateStepsStates();
     _updateProgressBar();
+    // Record most recent opened step 
+    // BfUser.record_step(currentStep, _recordedStep);
     _showStep();
     _checkStep();
   }
@@ -296,6 +315,7 @@ var instructions = (function (instructions) {
     if (response.timeout) _checkStep();
     if (response.new_data) {
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      // ToDo: Show added facebook page logo
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
     }
@@ -321,15 +341,6 @@ var instructions = (function (instructions) {
     $('.step_text').toggle();
     $('#congrats').css('display','block');
   }
-
-  // $(function () {
-  //   $("#slideout").click(function () {
-  //       if($(this).hasClass("popped")){
-  //       $(this).animated({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
-  //   }else {
-  //       $(this).animated({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
-  //   });
-  // });
 
   // add public methods to the returned module and return it
   instructions.init = init;

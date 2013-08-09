@@ -2,8 +2,8 @@ var lesson = (function (lesson) {
 
   // private properties
   var debug = true;
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
   var lesson = {};
 
@@ -20,6 +20,7 @@ var lesson = (function (lesson) {
   function _main(response){
     lesson = response;
     _makeSummary();
+    _checkIfLoggedIn();
   }
 
   function _makeSummary(){
@@ -30,12 +31,18 @@ var lesson = (function (lesson) {
     $('#main #main-text a').click(_instructionsLinkClicked);
   }
 
+  function _checkIfLoggedIn(){
+    if (!BfUser.bfAccessToken){
+      $('#main-text .btn').hide();
+      $('.login-required').show();
+    }
+  }
+
   function _instructionsLinkClicked(evt){
     var width = window.screen.width;
     var height = window.screen.height;
     var instructionSiteFeatures = {
       height: height,
-      // width: width,
       width: 340,
       left: width - 340,
       name: 'instructions',

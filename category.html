@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>How to City</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <meta name="author" content="">
+      <meta charset="utf-8">
+
+      <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+      <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+      <link href="css/oldCSS.css" rel="stylesheet">
+      
+      <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+      <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+      <link rel="shortcut icon" href="ico/favicon.ico">
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+      <script src="js/vendor/jquery.popupwindow.js"></script>
+      <script src="js/vendor/jquery.cookie.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="header">
+        <div class="container">
+          <img src="img/header_long.jpg">
+        </div>
+      </div>
+    </div>
+
+    <div class="container page">
+      <div class="content">
+        <div class="page-header">
+          <h2></h2>
+          <h3></h3>
+          <div class="row">
+            <ul class="thumbnails">
+            </ul> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer container">
+      <p>&copy; How to City</p>
+    </footer>
+
+  </body>
+  <script>
+  // console.log(window.location.search.split('?')[1]);
+  var category_id = window.location.search.split('?')[1]
+    $.getJSON('http://howtocity.herokuapp.com/api/v1/categories/'+category_id,
+      function(category){
+        $('.page-header h2').html(category.name);
+        $('.page-header h3').html(category.description);
+        $(category.lessons).each(function(i){
+          lesson = category.lessons[i]
+          // console.log(categories[i].name);
+          lesson_html = '<li class="span4">'+
+                          '<a href="lesson.html?'+lesson.id+'">'+
+                          '<h4>'+lesson.name+'</h4>'+
+                              '<p>'+lesson.description+'</p>'+
+                            '</a>'+
+                          '</li>'
+          $('.thumbnails').append(lesson_html);
+        })
+      })
+    </script>
+  <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.js"></script>
+ 
+</html>
