@@ -1,11 +1,6 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
-#subheader img {
-	background-color: #666;
-}
-
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
@@ -249,7 +244,6 @@ table .lesson-name {
 	top: -50px;
 }
 
-
 .teach-column {
 	position: relative;
 	left: 50px;
@@ -260,10 +254,21 @@ table .lesson-name {
 .teach-box {
 	border: solid 1px;
 	height: 375px;
+	text-align: center;
 }
 
-#teach-elements{
-	overflow:scroll;
+.draggable {
+	margin: 10px;
+}
+.gray {
+	width: 200px;
+	padding-left: 50px;
+	padding-top: 150px;
+	color: #BFBFBF;
+}
+
+#teach #main .btn{
+	margin: 0px;
 }
 
 .three-columns {

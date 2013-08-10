@@ -20,8 +20,11 @@ var teach = (function (teach) {
     $( ".draggable" ).draggable();
     $( ".droppable" ).droppable({
       drop: function( event, ui ) {
-        console.log();
-        $( this ).append('<img src="'+$(ui.draggable[0]).attr('src')+'">');
+
+        $(ui.draggable[0]).attr('style','position:relative;').editable();
+        $( this ).append($(ui.draggable[0]));
+        $('.gray').remove();
+        $('#teach-button').popover({ content: '', html: true, placement: 'top', trigger: 'click' });
       }
     });
   }
