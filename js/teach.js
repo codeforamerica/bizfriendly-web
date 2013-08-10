@@ -21,10 +21,11 @@ var teach = (function (teach) {
     $( ".droppable" ).droppable({
       drop: function( event, ui ) {
 
-        $(ui.draggable[0]).attr('style','position:relative;').editable();
-        $( this ).append($(ui.draggable[0]));
+        $(ui.draggable[0]).attr('style','position:relative;');
+        $( this ).append($(ui.draggable[0]).editable());
         $('.gray').remove();
-        $('#teach-button').popover({ content: '', html: true, placement: 'top', trigger: 'click' });
+        var content = '<form class="form-horizontal"><label for="urlLink">What web address should this button open?</label><input id="urlLink" type="url" class="form-control" placeholder="https://google.com"></form>';
+        $('#teach-button').popover({ content: content, html: true, placement: 'top', trigger: 'click' });
       }
     });
   }
