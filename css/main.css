@@ -230,6 +230,15 @@ table .lesson-name {
 	color: #ff4000;
 }
 
+#teach #progress {
+	margin-top: 15px;
+}
+
+#teach #progress #plusSteps{
+	position:relative;
+	top: -2px;
+}
+
 
 .teach {
 	margin-top: 20px;

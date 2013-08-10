@@ -5,6 +5,7 @@ var teach = (function (teach) {
   var htcUrl = 'http://howtocity.herokuapp.com'
   // var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
+  var numberOfSteps = 1;
 
   // PUBLIC METHODS
   function init(){
@@ -14,6 +15,7 @@ var teach = (function (teach) {
 
   // PRIVATE METHODS
   function _main(){
+    $('#plusSteps').click(_plusStepsClicked);
     $( ".draggable" ).draggable();
     $( ".droppable" ).droppable({
       drop: function( event, ui ) {
@@ -21,6 +23,13 @@ var teach = (function (teach) {
         $( this ).append('<img src="'+$(ui.draggable[0]).attr('src')+'">');
       }
     });
+  }
+
+  function _plusStepsClicked(evt){
+    numberOfSteps = numberOfSteps + 1;
+    $('#progress').prepend('<li class="finished"></li>');
+    $('#progress .active h2').html(numberOfSteps);
+
   }
 
   // add public methods to the returned module and return it

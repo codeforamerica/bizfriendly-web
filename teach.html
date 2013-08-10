@@ -20,7 +20,7 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body class="container">
+<body id="teach" class="container">
    <header class="navbar navbar-static-top row">
         <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <form class="form-horizontal">
+    <form class="row">
         <div class="col-offset-3 col-lg-6">
             <label for="lesson-name">Lesson Name</label>
             <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
@@ -46,16 +46,16 @@
     </form>
 
     <div class="row">
-        <div class="col-lg-6 col-offset-3">
-            <img src="img/active_dot.gif">
-        </div>
+        <ul id="progress" class="list-unstyled list-inline col-6 col-offset-3">
+            <li class="active"><h2>1</h2></li>
+            <li class="unfinished"><a id="plusSteps" href="#">+</a></li>
+        </ul>
     </div>
     
     <section id="main" class="row">
         <div class="col-lg-10 col-offset-1">
             <h3>Elements</h3>
             <div id="teach-elements" class="teach three-columns three-column-spacer">
-                
                 <img class="draggable" src="img/celebration_flag.gif">
                 <img class="draggable" src="img/celebration_heart.gif">
                 <img class="draggable" src="img/celebration_like.gif">
