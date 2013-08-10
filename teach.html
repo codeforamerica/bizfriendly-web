@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <form class="row">
+    <form id="lesson-name-form" class="row">
         <div class="col-offset-3 col-lg-6">
             <label for="lesson-name">Lesson Name</label>
             <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
@@ -48,28 +48,36 @@
     <div class="row">
         <ul id="progress" class="list-unstyled list-inline col-6 col-offset-3">
             <li class="active"><h2>1</h2></li>
+            <li class="unfinished"><a id="minusSteps" href="#">-</a></li>
             <li class="unfinished"><a id="plusSteps" href="#">+</a></li>
         </ul>
     </div>
     
     <section id="main" class="row">
-        <div class="col-lg-10 col-offset-1">
-            <h3>Elements</h3>
-            <div id="teach-elements" class="teach three-columns three-column-spacer">
-                <img class="draggable" src="img/celebration_flag.gif">
-                <img class="draggable" src="img/celebration_heart.gif">
-                <img class="draggable" src="img/celebration_like.gif">
-                <img class="draggable" src="img/celebration_star.gif">
-                <div id="lesson-name" class="lesson-name draggable">
-                    Lesson Name
+        <div class="col-lg-12">
+            
+            <div class="col-lg-3 teach-column">
+                <h3>Elements</h3>
+                <div id="teach-elements" class="teach-box">
+                    <img class="draggable" src="img/celebration_flag.gif">
+                    <img class="draggable" src="img/celebration_heart.gif">
+                    <img class="draggable" src="img/celebration_like.gif">
+                    <img class="draggable" src="img/celebration_star.gif">
+                    <div id="lesson-name" class="lesson-name draggable">
+                        Lesson Name
+                    </div>
                 </div>
             </div>
-            <h3>Instructions</h3>
-            <div id="teach-instructions" class="teach three-columns three-column-spacer droppable">
-                
+            
+            <div class="col-lg-3 col-offset-1 teach-column">
+                <h3>Instructions</h3>
+                <div id="teach-instructions" class="teach-box droppable">
+                </div>
             </div>
-            <div id="teach-feedback" class="teach three-columns droppable">
+            <div id="teach-feedback" class="col-lg-3 col-offset-1 teach-column">
                 <h3>Feedback</h3>
+                <div id="teach-feedback" class="teach-box droppable">
+                </div>
             </div>
         </div>
     </section>

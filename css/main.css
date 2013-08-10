@@ -239,12 +239,31 @@ table .lesson-name {
 	top: -2px;
 }
 
+#teach #progress #minusSteps{
+	position:relative;
+	top: -2px;
+}
 
-.teach {
+#teach #lesson-name-form,#teach #progress,#teach #main{
+	position:relative;
+	top: -50px;
+}
+
+
+.teach-column {
+	position: relative;
+	left: 50px;
 	margin-top: 20px;
-	border: solid 1px;
 	height: 380px;
-	float: left;
+}
+
+.teach-box {
+	border: solid 1px;
+	height: 375px;
+}
+
+#teach-elements{
+	overflow:scroll;
 }
 
 .three-columns {

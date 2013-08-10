@@ -16,6 +16,7 @@ var teach = (function (teach) {
   // PRIVATE METHODS
   function _main(){
     $('#plusSteps').click(_plusStepsClicked);
+    $('#minusSteps').click(_minusStepsClicked);
     $( ".draggable" ).draggable();
     $( ".droppable" ).droppable({
       drop: function( event, ui ) {
@@ -27,9 +28,14 @@ var teach = (function (teach) {
 
   function _plusStepsClicked(evt){
     numberOfSteps = numberOfSteps + 1;
-    $('#progress').prepend('<li class="finished"></li>');
+    $('#progress').prepend('<li id="teach'+numberOfSteps+'" class="finished"></li>');
     $('#progress .active h2').html(numberOfSteps);
+  }
 
+  function _minusStepsClicked(evt){
+    numberOfSteps = numberOfSteps - 1;
+    $('#progress li')[0].remove();
+    $('#progress .active h2').html(numberOfSteps);
   }
 
   // add public methods to the returned module and return it
