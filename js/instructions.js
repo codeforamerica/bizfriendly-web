@@ -11,10 +11,11 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
-  // var htcUrl = 'http://0.0.0.0:5000'
-  var htcApiVer = '/api/v1'
+  var htcUrl = 'http://howtocity.herokuapp.com';
+  // var htcUrl = 'http://127.0.0.1:8000';
+  // var htcUrl = 'http://0.0.0.0:5000';
+  var htcApiVer = '/api/v1';
+  var rememberMe;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -205,11 +206,20 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'get_added_data' && accessToken){
       $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
     }
-    // If step type is choose_next_step
-    if (currentStep.stepType == 'choose_next_step'){
-      $("#choice_one").click(_chooseNextStep);
-      $("#choice_two").click(_chooseNextStep);
+    // Is step type get_user_input
+    if (currentStep.stepType == 'get_user_input'){
+      _getUserInput();
     }
+    // Is step type check_user_input
+    // if (currentStep.stepType == 'check_user_input'){
+    //   // $.post(htcUrl+'/check_user_input?access_token='+accessToken, currentStep, _checkUserInput);
+    //   console.log(currentStep);
+    // }
+    // If step type is choose_next_step
+    // if (currentStep.stepType == 'choose_next_step'){
+    //   $("#choice_one").click(_chooseNextStep);
+    //   $("#choice_two").click(_chooseNextStep);
+    // }
     if (currentStep.stepType == 'congrats'){
       _showCongrats();
     }
@@ -292,20 +302,55 @@ var instructions = (function (instructions) {
     }
   }
 
-  function _chooseNextStep(evt){
-    if (debug) console.log(evt.target.id);
-    choice = evt.target.id;
-    $.post(htcUrl+'/choose_next_step?choice='+choice, currentStep, _goToChosenStep);
+  function _getUserInput(){
+    $('#fsNewBizUrlSubmit').click(function(evt){
+      if (debug) console.log($('#fsNewBizUrl').val());
+      rememberMe = $('#fsNewBizUrl').val();
+      var challengeFeatures = {
+        height: height,
+        width: width - 340,
+        name: 'challengeWindow',
+        center: false
+      }
+      // ToDO: Check that this is on the domain we expect
+      challengeWindow = $.popupWindow(rememberMe, challengeFeatures);
+
+      // ToDo: Move this logic to the API!!!!
+      // Get page id
+      var pathArray = rememberMe.split( '/' );
+      var venueId = pathArray.pop();
+
+      // Get page info
+      $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+        var venueName = response.response.venue.name;
+        var category = response.response.venue.categories[0].shortName;
+        //Build feedback
+        $('#fsBizName').html(venueName);
+        $('#fsBizCategory').html(category);
+        $('#fsBizUrl').html(rememberMe);
+      });
+
+      // Show feedback
+      $('.step_text').toggle();
+      $('.feedback').toggle();
+
+    });
   }
 
-  function _goToChosenStep(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    console.log(response.chosenStep);
-    currentStep = steps[parseInt(response.chosenStep)-1];
-    _showStep();
-    _checkStep();
-  }
+  // function _chooseNextStep(evt){
+  //   if (debug) console.log(evt.target.id);
+  //   choice = evt.target.id;
+  //   $.post(htcUrl+'/choose_next_step?choice='+choice, currentStep, _goToChosenStep);
+  // }
+
+  // function _goToChosenStep(response){
+  //   if (debug) console.log(response);
+  //   response = $.parseJSON(response);
+  //   console.log(response.chosenStep);
+  //   currentStep = steps[parseInt(response.chosenStep)-1];
+  //   _showStep();
+  //   _checkStep();
+  // }
 
   function _showCongrats(){
     $('section h2').toggle();
