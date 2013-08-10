@@ -17,6 +17,7 @@ h1 {
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 26px;
+	margin-top: 0px;
 }
 
 h2 {
@@ -85,14 +86,13 @@ li {
 	font-weight: 700;
 }
 
-#main-text {
-	position: relative;
-	top: 65px;
-}
-
 #main .btn {
 	margin-left: 50px;
-	margin-top: 10px;
+	margin-top: 20px;
+}
+
+#main-text .lesson-name {
+	padding-bottom: 15px;
 }
 
 .btn-primary {
@@ -229,6 +229,11 @@ table .lesson-name {
 #bottom {
 	padding-top: 25px;
 	color: #FFF;
+}
+
+#bottom ul{
+	list-style-type: disc;
+	margin-left: 15px;
 }
 
 .bottom_links {
