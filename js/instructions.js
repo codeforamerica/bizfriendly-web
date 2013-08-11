@@ -138,7 +138,7 @@ var instructions = (function (instructions) {
     _stepTransition();
     if (debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    $('section h2').html(currentStep.name);
+    // $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
   }
