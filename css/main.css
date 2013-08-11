@@ -38,7 +38,7 @@ a:hover {
 	text-decoration: none;
 }
 
-header ul, footer ul {
+header ul, footer ul, #sidemenu ul{
 	padding-left: 0px;
 	list-style: none;
 }
