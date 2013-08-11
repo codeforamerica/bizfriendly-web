@@ -17,6 +17,7 @@ h1 {
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 26px;
+	margin-top: 0px;
 }
 
 h2 {
@@ -82,16 +83,16 @@ li {
 #subheader p {
 	position: relative;
 	top: 15px;
-}
-
-#main-text {
-	position: relative;
-	top: 65px;
+	font-weight: 700;
 }
 
 #main .btn {
 	margin-left: 50px;
-	margin-top: 10px;
+	margin-top: 20px;
+}
+
+#main-text .lesson-name {
+	padding-bottom: 15px;
 }
 
 .btn-primary {
@@ -169,6 +170,14 @@ li {
 	font-weight: 400;
 }
 
+table img {
+	margin-right: 10px;
+}
+
+table .lesson-name {
+	margin-top: 5px;
+}
+
 #mainmenu th {
 	padding-left: 0px;
 	font-size: 12px;
@@ -222,6 +231,11 @@ li {
 	color: #FFF;
 }
 
+#bottom ul{
+	list-style-type: disc;
+	margin-left: 15px;
+}
+
 .bottom_links {
 	height: 150px;
 	width: 30%;
@@ -246,6 +260,10 @@ li {
 
 #index .bottom_links:hover {
 	background-color: #C7E4EE;
+}
+
+#lesson .bottom_links {
+	height: auto;
 }
 
 .bottom_links a:hover {
@@ -397,6 +415,14 @@ section .btn{
 	color: #ff4000;
 	font-size: 14px;
 	font-weight: 700;
+}
+
+.feedback span {
+	color: #ff4000;
+}
+
+.orange {
+	color: #ff4000;
 }
 
 #congrats {
