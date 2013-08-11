@@ -11,10 +11,13 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
-  // var htcUrl = 'http://0.0.0.0:5000'
-  var htcApiVer = '/api/v1'
+  var htcUrl = 'http://howtocity.herokuapp.com';
+  // var htcUrl = 'http://127.0.0.1:8000';
+  // var htcUrl = 'http://0.0.0.0:5000';
+  var htcApiVer = '/api/v1';
+  var rememberMe;
+  var venueId;
+  var venueName;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -57,8 +60,8 @@ var instructions = (function (instructions) {
   function _orderSteps(){
     if (debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
-      if (a.id < b.id) return -1;
-      if (a.id > b.id) return 1;
+      if (a.step_number < b.step_number) return -1;
+      if (a.step_number > b.step_number) return 1;
       return 0;
     })
   }
@@ -80,7 +83,9 @@ var instructions = (function (instructions) {
         triggerValue : steps[i].trigger_value,
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
-        nextStepNumber : steps[i].next_step_number
+        nextStepNumber : steps[i].next_step_number,
+        stepState : "unfinished",
+        thirdPartyService : lesson.third_party_service
       }
       stepsWithJsNames.push(step);
     })
@@ -195,6 +200,7 @@ var instructions = (function (instructions) {
         // First step should have a login button
         $('#login').click(_loginClicked);
       } else {
+        console.log(currentStep);
         $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
       }
     }
@@ -214,10 +220,31 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'get_added_data' && accessToken){
       $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
     }
-    // If step type is choose_next_step
-    if (currentStep.stepType == 'choose_next_step'){
-      $("#choice_one").click(_chooseNextStep);
-      $("#choice_two").click(_chooseNextStep);
+    // Is step type get_user_input
+    if (currentStep.stepType == 'get_user_input'){
+      _getUserInput();
+    }
+    if (currentStep.stepType == 'check_for_value' && accessToken){
+      // Todo: Move all this to the API
+        $('.fsBizName').html(venueName);
+      var checkForValueInterval = setInterval(function(){
+        $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+          console.log('Liked: '+response.response.venue.like);
+          if (response.response.venue.like == true){
+            clearInterval(checkForValueInterval);
+            $('.fsBizName').html(venueName);
+            $('.step_text').toggle();
+            $('.feedback').toggle();
+            $('#next').addClass('animated pulse');
+          }
+        });
+      }, 1000);
+    }
+    if (currentStep.stepType == 'check_for_new_tip'){
+      if (currentStep.triggerEndpoint.search('replaceMe') != -1){
+        currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replaceMe',venueId);
+      }
+      $.post(htcUrl+'/check_for_new_tip?access_token='+accessToken, currentStep, _checkForNewTip);
     }
     if (currentStep.stepType == 'congrats'){
       _showCongrats();
@@ -278,6 +305,18 @@ var instructions = (function (instructions) {
     }
   }
 
+  function _checkForNewTip(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if ( response.new_tip_added ){
+      $('.fsBizName').html(venueName);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
   function _getRememberedThing(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
@@ -301,19 +340,40 @@ var instructions = (function (instructions) {
     }
   }
 
-  function _chooseNextStep(evt){
-    if (debug) console.log(evt.target.id);
-    choice = evt.target.id;
-    $.post(htcUrl+'/choose_next_step?choice='+choice, currentStep, _goToChosenStep);
-  }
+  function _getUserInput(){
+    $('#fsNewBizUrlSubmit').click(function(evt){
+      if (debug) console.log($('#fsNewBizUrl').val());
+      rememberMe = $('#fsNewBizUrl').val();
+      var challengeFeatures = {
+        height: height,
+        width: width - 340,
+        name: 'challengeWindow',
+        center: false
+      }
+      // ToDO: Check that this is on the domain we expect
+      challengeWindow = $.popupWindow(rememberMe, challengeFeatures);
 
-  function _goToChosenStep(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    console.log(response.chosenStep);
-    currentStep = steps[parseInt(response.chosenStep)-1];
-    _showStep();
-    _checkStep();
+      // ToDo: Move this logic to the API!!!!
+      // Get page id
+      var pathArray = rememberMe.split( '/' );
+      venueId = pathArray.pop();
+
+      // Get page info
+      $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+        venueName = response.response.venue.name;
+        var category = response.response.venue.categories[0].shortName;
+        //Build feedback
+        $('#fsBizName').html(venueName);
+        $('#fsBizCategory').html(category);
+        $('#fsBizUrl').html(rememberMe);
+      });
+
+      // Show feedback
+      $('#next').addClass('animated pulse');
+      $('.step_text').toggle();
+      $('.feedback').toggle();
+
+    });
   }
 
   function _showCongrats(){
@@ -321,15 +381,6 @@ var instructions = (function (instructions) {
     $('.step_text').toggle();
     $('#congrats').css('display','block');
   }
-
-  // $(function () {
-  //   $("#slideout").click(function () {
-  //       if($(this).hasClass("popped")){
-  //       $(this).animated({right:'-280px'}, {queue: false, duration: 500}).removeClass("popped");
-  //   }else {
-  //       $(this).animated({right: "0px" }, {queue: false, duration: 500}).addClass("popped");}
-  //   });
-  // });
 
   // add public methods to the returned module and return it
   instructions.init = init;
