@@ -38,7 +38,7 @@ a:hover {
 	text-decoration: none;
 }
 
-ul {
+header ul, footer ul {
 	padding-left: 0px;
 	list-style: none;
 }
@@ -232,7 +232,7 @@ table .lesson-name {
 }
 
 #bottom ul{
-	list-style-type: disc;
+	/*list-style-type: disc;*/
 	margin-left: 15px;
 }
 
