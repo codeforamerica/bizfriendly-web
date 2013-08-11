@@ -13,11 +13,19 @@ var lesson = (function (lesson) {
     if (debug) console.log('init');
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
+    _loading();
     $.getJSON(htcUrl+htcApiVer+'/lessons/'+lessonId, _main);
   }
 
   // PRIVATE METHODS
+  function _loading(){
+    // console.log('Loading');
+    $('#main').toggle();
+  }
+
   function _main(response){
+    $('#loading').toggle();
+    $('#main').toggle();
     lesson = response;
     _makeSummary();
   }

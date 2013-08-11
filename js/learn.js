@@ -4,6 +4,7 @@ var learn = (function (learn) {
   var debug = true;
   var htcUrl = 'http://howtocity.herokuapp.com'
   // var htcUrl = 'http://127.0.0.1:8000'
+  
   var htcApiVer = '/api/v1'
   var categories = [];
   var featuredCategory = 'promote';
@@ -14,11 +15,19 @@ var learn = (function (learn) {
   function init(){
     if (debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
+    _loading();
     $.getJSON(htcUrl+htcApiVer+'/categories', _main);
   }
 
   // PRIVATE METHODS
+  function _loading(){
+    // console.log('Loading');
+    $('#main').toggle();
+  }
+
   function _main(response){
+    $('#loading').toggle();
+    $('#main').toggle();
     categories = response.objects;
     $(categories).each(function(i){
       if (debug) console.log(categories[i]);
