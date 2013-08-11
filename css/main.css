@@ -403,6 +403,10 @@ section .btn{
 	color: #ff4000;
 }
 
+.orange {
+	color: #ff4000;
+}
+
 #congrats {
 	display: none;
 	width: 260px;
