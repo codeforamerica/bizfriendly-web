@@ -266,18 +266,28 @@ table .lesson-name {
 	height: 390px;
 }
 
+#about section a {
+	color: #FF4000;
+}
+
 #about #subheader {
 	position: relative;
 	top: -95px;
+	left: -12px;
 }
 
 #about #subheader p {
 	color: #FFF;
 	font-weight: 700;
 	position: relative;
-	top: -95px;
-	left: 250px;
-	width: 380px;
+	top: -100px;
+	left: 50px;
+	width: 400px;
+}
+
+#about section {
+	position: relative;
+	top: -160px;
 }
 
 #lesson .bottom_links {
@@ -441,6 +451,10 @@ section .btn{
 
 .orange {
 	color: #ff4000;
+}
+
+.blue {
+	color: #74BBD4;
 }
 
 #congrats {
