@@ -22,12 +22,22 @@ var teach = (function (teach) {
       drop: function( event, ui ) {
 
         $(ui.draggable[0]).attr('style','position:relative;');
-        $( this ).append($(ui.draggable[0]).editable());
+        $( this ).append($(ui.draggable[0]).clone().editable());
         $('.gray').remove();
-        var content = '<form class="form-horizontal"><label for="urlLink">What web address should this button open?</label><input id="urlLink" type="url" class="form-control" placeholder="https://google.com"></form>';
-        $('#teach-button').popover({ content: content, html: true, placement: 'top', trigger: 'click' });
+        // var content = '<form class="form-horizontal"><label for="urlLink">What web address should this button open?</label><input id="urlLink" type="url" class="form-control" placeholder="https://google.com"></form>';
+        // $('#teach-instructions #teach-button, #teach-instructions #teach-button').popover({ content: content, html: true, placement: 'top', trigger: 'click' });
+      
+        // $('form').bind("keyup", function(e) {
+        //   var code = e.keyCode || e.which; 
+        //   if (code  == 13) {               
+        //     e.preventDefault();
+        //     return false;
+        //   }
+        // });
+
       }
     });
+    
   }
 
   function _plusStepsClicked(evt){
@@ -37,9 +47,11 @@ var teach = (function (teach) {
   }
 
   function _minusStepsClicked(evt){
-    numberOfSteps = numberOfSteps - 1;
-    $('#progress li')[0].remove();
-    $('#progress .active h2').html(numberOfSteps);
+    if (numberOfSteps > 1){
+      numberOfSteps = numberOfSteps - 1;
+      $('#progress li')[0].remove();
+      $('#progress .active h2').html(numberOfSteps);
+    } 
   }
 
   // add public methods to the returned module and return it
