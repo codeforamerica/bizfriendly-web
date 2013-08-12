@@ -242,7 +242,7 @@ var instructions = (function (instructions) {
             $('#next').addClass('animated pulse');
           }
         });
-      }, 1000);
+      }, 3000);
     }
     if (currentStep.stepType == 'check_for_new_tip'){
       if (currentStep.triggerEndpoint.search('replaceMe') != -1){
