@@ -291,10 +291,15 @@ table .lesson-name {
 
 .bottom_links {
 	height: 150px;
+	width: 30%;
 	padding: 20px;
 	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
+}
+
+.bottom_links_spacer {
+	margin-right: 3%;
 }
 
 .bottom_links img {
