@@ -152,6 +152,7 @@ var instructions = (function (instructions) {
       $('#next').removeClass('animated pulse');
     }
     if ($('#congrats').css('display') == 'block'){
+      $('#additional-resource').attr('href=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#congrats').toggle();
     }
   }
