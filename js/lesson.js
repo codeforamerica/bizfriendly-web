@@ -31,12 +31,12 @@ var lesson = (function (lesson) {
   }
 
   function _makeSummary(){
-    if (lesson.third_party_service == 'facebook'){
-      $('#main-video iframe').attr('src','http://player.vimeo.com/video/72059276');
-    }
-    if (lesson.third_party_service == 'foursquare'){
-      $('#main-video iframe').attr('src','http://player.vimeo.com/video/72066312');
-    }
+    // if (lesson.third_party_service == 'facebook'){
+    //   $('#main-video iframe').attr('src','http://player.vimeo.com/video/72059276');
+    // }
+    // if (lesson.third_party_service == 'foursquare'){
+    //   $('#main-video iframe').attr('src','http://player.vimeo.com/video/72066312');
+    // }
     $('#main #main-text .lesson-name').html(lesson.name);
     $('#main #main-text .lesson-description').html(lesson.long_description);
     $('#additional_resources ul').html(lesson.additional_resources);
