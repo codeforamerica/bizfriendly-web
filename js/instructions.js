@@ -153,6 +153,7 @@ var instructions = (function (instructions) {
     }
     if ($('#congrats').css('display') == 'block'){
       $('#additional-resource').attr('href=http://bizfriend.ly/lesson.html?'+lessonId);
+      $('#additional-resource').attr('target','_parent');
       $('#congrats').toggle();
     }
   }
