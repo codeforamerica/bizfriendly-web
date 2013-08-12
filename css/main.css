@@ -1,7 +1,6 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
@@ -226,6 +225,60 @@ table .lesson-name {
 	color: #ff4000;
 }
 
+#teach #progress {
+	margin-top: 15px;
+}
+
+#teach #progress #plusSteps{
+	position:relative;
+	top: -2px;
+}
+
+#teach #progress #minusSteps{
+	position:relative;
+	top: -2px;
+}
+
+#teach #lesson-name-form,#teach #progress,#teach #main{
+	position:relative;
+	top: -50px;
+}
+
+.teach-column {
+	position: relative;
+	left: 50px;
+	margin-top: 20px;
+	height: 380px;
+}
+
+.teach-box {
+	border: solid 1px;
+	height: 375px;
+	text-align: center;
+}
+
+.draggable {
+	margin: 10px;
+}
+.gray {
+	width: 200px;
+	padding-left: 50px;
+	padding-top: 150px;
+	color: #BFBFBF;
+}
+
+#teach #main .btn{
+	margin: 0px;
+}
+
+.three-columns {
+	width: 30%;
+}
+
+.three-column-spacer {
+	margin-right: 3%;
+}
+
 #bottom {
 	padding-top: 25px;
 	color: #FFF;
@@ -238,15 +291,10 @@ table .lesson-name {
 
 .bottom_links {
 	height: 150px;
-	width: 30%;
 	padding: 20px;
 	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
-}
-
-.bottom_links_spacer {
-	margin-right: 3%;
 }
 
 .bottom_links img {
