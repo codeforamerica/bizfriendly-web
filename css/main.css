@@ -52,8 +52,8 @@ li {
 }
 
 .nav {
-	margin-top: 75px;
-	margin-left: 5px;
+	margin-top: 76px;
+	margin-left: -7px;
 	height: 33px;
 	background-color: #585b5b;
 }
@@ -260,6 +260,24 @@ table .lesson-name {
 
 #index .bottom_links:hover {
 	background-color: #C7E4EE;
+}
+
+#loading {
+	height: 390px;
+}
+
+#about #subheader {
+	position: relative;
+	top: -95px;
+}
+
+#about #subheader p {
+	color: #FFF;
+	font-weight: 700;
+	position: relative;
+	top: -95px;
+	left: 250px;
+	width: 380px;
 }
 
 #lesson .bottom_links {
