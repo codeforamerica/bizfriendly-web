@@ -33,6 +33,7 @@ var instructions = (function (instructions) {
 
   // Main Function
   function _main(response){
+    _checkWindowSize();
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
@@ -55,6 +56,14 @@ var instructions = (function (instructions) {
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
+  }
+
+  function _checkWindowSize(){
+    console.log(window.innerWidth);
+    if(window.innerWidth > 340){
+      window.resizeTo(340,height);
+      window.moveTo(width-340,0);
+    }
   }
 
   function _orderSteps(){
