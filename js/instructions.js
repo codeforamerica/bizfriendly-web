@@ -286,7 +286,7 @@ var instructions = (function (instructions) {
     var height = window.screen.height;
     width = width - 340;
     // var left = width - 340;
-    var challengeSiteFeatures = 'height='+height+',width='+width;
+    var challengeSiteFeatures = '"height='+height+',width='+width+'"';
     window.open(currentStep.triggerEndpoint,'challengeSiteFeatures',challengeSiteFeatures,false);
   
 

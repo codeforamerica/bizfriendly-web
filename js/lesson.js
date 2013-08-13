@@ -58,7 +58,9 @@ var lesson = (function (lesson) {
   //   }
   //   var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
   // }
-    var instructionSiteFeatures = 'height='+height+',left='+left+',width=340';
+  // location=yes,links=no,scrollbars=yes,toolbar=no,status=no,width=716,height=480
+    var instructionSiteFeatures = '"height='+height+',left='+left+',width=340"';
+    console.log(instructionSiteFeatures);
     window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
   }
   // add public methods to the returned module and return it
