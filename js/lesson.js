@@ -48,20 +48,20 @@ var lesson = (function (lesson) {
     var width = window.screen.width;
     var height = window.screen.height;
     var left = width - 340;
-  //   var instructionSiteFeatures = {
-  //     height: height,
-  //     // width: width,
-  //     width: 340,
-  //     left: width - 340,
-  //     name: 'instructions',
-  //     center: false,
-  //   }
-  //   var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
-  // }
+    var instructionSiteFeatures = {
+      height: height,
+      // width: width,
+      width: 340,
+      left: width - 340,
+      name: 'instructions',
+      center: false,
+    }
+    var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+  }
   // location=yes,links=no,scrollbars=yes,toolbar=no,status=no,width=716,height=480
-    var instructionSiteFeatures = 'width=340';
-    console.log(instructionSiteFeatures);
-    window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
+    // var instructionSiteFeatures = 'width=340';
+    // console.log(instructionSiteFeatures);
+    // window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
   }
   // add public methods to the returned module and return it
   lesson.init = init;
