@@ -62,7 +62,6 @@ var lesson = (function (lesson) {
     // var instructionSiteFeatures = 'width=340';
     // console.log(instructionSiteFeatures);
     // window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
-  }
   // add public methods to the returned module and return it
   lesson.init = init;
   return lesson;
