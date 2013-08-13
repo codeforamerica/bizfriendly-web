@@ -275,13 +275,21 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
-    var challengeFeatures = {
-      height: height,
-      width: width - 340,
-      name: 'challengeWindow',
-      center: false
-    }
-    challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
+    // var challengeFeatures = {
+    //   height: height,
+    //   width: width - 340,
+    //   name: 'challengeWindow',
+    //   center: false
+    // }
+    // challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
+    var width = window.screen.width;
+    var height = window.screen.height;
+    width = width - 340;
+    // var left = width - 340;
+    var challengeSiteFeatures = 'height='+height+',width='+width;
+    window.open(currentStep.triggerEndpoint,'challengeSiteFeatures',challengeSiteFeatures,false);
+  
+
     // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     

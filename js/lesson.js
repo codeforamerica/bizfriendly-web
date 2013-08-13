@@ -47,17 +47,20 @@ var lesson = (function (lesson) {
   function _instructionsLinkClicked(evt){
     var width = window.screen.width;
     var height = window.screen.height;
-    var instructionSiteFeatures = {
-      height: height,
-      // width: width,
-      width: 340,
-      left: width - 340,
-      name: 'instructions',
-      center: false,
-    }
-    var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+    var left = width - 340;
+  //   var instructionSiteFeatures = {
+  //     height: height,
+  //     // width: width,
+  //     width: 340,
+  //     left: width - 340,
+  //     name: 'instructions',
+  //     center: false,
+  //   }
+  //   var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+  // }
+    var instructionSiteFeatures = 'height='+height+',left='+left+',width=340';
+    window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
   }
-
   // add public methods to the returned module and return it
   lesson.init = init;
   return lesson;
