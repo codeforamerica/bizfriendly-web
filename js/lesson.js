@@ -45,23 +45,13 @@ var lesson = (function (lesson) {
   }
 
   function _instructionsLinkClicked(evt){
-    var width = window.screen.width;
+    var url = 'instructions.html?'+lessonId;
+    var target = 'instructions';
+    var width = 340;
     var height = window.screen.height;
-    var left = width - 340;
-    var instructionSiteFeatures = {
-      height: height,
-      // width: width,
-      width: 340,
-      left: width - 340,
-      name: 'instructions',
-      center: false,
-    }
-    var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+    var left = window.screen.width - 340;
+    window.open(url,target,'height='+height+',width='+width+',left='+left+',resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no',false)
   }
-  // location=yes,links=no,scrollbars=yes,toolbar=no,status=no,width=716,height=480
-    // var instructionSiteFeatures = 'width=340';
-    // console.log(instructionSiteFeatures);
-    // window.open('instructions.html?'+lessonId,'instructions',instructionSiteFeatures,false);
   // add public methods to the returned module and return it
   lesson.init = init;
   return lesson;
