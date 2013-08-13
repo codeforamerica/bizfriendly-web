@@ -277,7 +277,6 @@ var instructions = (function (instructions) {
   function _openClicked(evt){
     var width = window.screen.width;
     var height = window.screen.height;
-    width = width - 340;
     var challengeFeatures = {
       height: height,
       width: width - 340,
