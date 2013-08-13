@@ -50,7 +50,9 @@ var lesson = (function (lesson) {
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
-    window.open(url,target,'height='+height+',width='+width+',left='+left+',resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no',false)
+    instructionOptions = 'height='+height+',width='+width+',left='+left;
+    console.log(instructionOptions);
+    window.open(url,'instructions',instructionOptions);
   }
   // add public methods to the returned module and return it
   lesson.init = init;
