@@ -75,6 +75,11 @@ li {
 	top: -75px;
 }
 
+#subheader a {
+	color: #0F6095;
+	font-weight: 700;
+}
+
 #subheader img {
 	float: right;
 }
