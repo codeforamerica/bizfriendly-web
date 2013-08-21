@@ -118,22 +118,21 @@ var BfUser = (function (BfUser)  {
       BfUser.bfAccessToken = response.access_token;
       BfUser.signedIn = true;
       BfUser.name = response.name;
-
+    
       // Set a cookie!
       $.removeCookie('BfUser');
-      _setUserCookie(name, email, signedIn, bfAccessToken);
-      console.log($.cookie('BfUser'));
+      _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+      if (debug) console.log($.cookie('BfUser'));
 
-      $('#feedback h2').html('Coooool! You\'re logged in!');
-      _updatePage();
-      // TODO: fix this flow
-      window.location.replace('learn.html')
+      
+      window.location.replace('index.html')
+
     }
-    // Login failed, decide how to respond
     else if (response.status == 403){
-      $('#feedback h2').html(response.error);
+      $('#feedback h2').addClass('alert alert-danger').html(response.error);
     }
   };
+
   //Set User state based on sign in response
   function _signedIn(response){
     if (debug) console.log(response);
@@ -219,17 +218,12 @@ var BfUser = (function (BfUser)  {
 
   // Get remembered thing
   function get_remembered_thing(data, successFunc) {
-    _tokenPost(htcUrl + '/get_remembered_thing', data, successFunc)
+    _token_post(htcUrl + '/get_remembered_thing', data, successFunc)
   };
 
   // Get added data
   function get_added_data(data, successFunc) {
     _tokenPost(htcUrl + '/get_added_data', data, successFunc)
-  };
-
-  // Make a post to server with API access token appended
-  function _tokenPost(requestUrl, data, successFunc) {
-    $.post(requestUrl+'?access_token='+BfUser.bfAccessToken, data, successFunc);
   };
   
   // add public methods to the returned module and return it

@@ -238,7 +238,6 @@ var instructions = (function (instructions) {
 
   // Are they logged in?
   function _loggedIn(response){
-    if (response.timeout) _loggedIn();
     if (debug) console.log(response);
     if (response.timeout) _checkStep();
     if ( response.logged_in ){
