@@ -187,7 +187,7 @@ var instructions = (function (instructions) {
 
       // Add connection to server db
       var serviceName = lesson.third_party_service.toLowerCase()
-      var data = {service_name: serviceName, oauth_token: oauthToken}
+      var data = {service: serviceName, service_access: oauthToken}
       BfUser.create_connection(data, _createdConnection);
 
       // Check first step

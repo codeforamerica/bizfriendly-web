@@ -40,7 +40,7 @@ var BfUser = (function (BfUser)  {
       url: requestUrl,
       type:"POST",
       beforeSend: function(xhr) {
-        xhr.setRequestHeader("Authorization", BfUesr.bfAccessToken);
+        xhr.setRequestHeader("Authorization", BfUser.bfAccessToken);
       },
       data:data,
       success:successFunc
@@ -218,7 +218,7 @@ var BfUser = (function (BfUser)  {
 
   // Get remembered thing
   function get_remembered_thing(data, successFunc) {
-    _token_post(htcUrl + '/get_remembered_thing', data, successFunc)
+    _tokenPost(htcUrl + '/get_remembered_thing', data, successFunc)
   };
 
   // Get added data
