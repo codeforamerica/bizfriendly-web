@@ -290,6 +290,10 @@ table .lesson-name {
 	margin-top: 10px;
 }
 
+#instructions .btn {
+	margin-top: 10px;
+}
+
 .draggable {
 	margin: 30px;
 
