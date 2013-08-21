@@ -1,99 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>How to City</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="author" content="">
-  <meta charset="utf-8">
+    <title>BizFriend.ly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
-  <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link href="css/main.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
 
     <script src="js/vendor/jquery-1.9.1.min.js"></script> 
     <script src="js/vendor/jquery.popupwindow.js"></script>
-      <script src="js/vendor/jquery.cookie.js"></script>
-  <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <script src="js/vendor/jquery.cookie.js"></script>
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body>
-  <header class="container">
-        <div class="row">
-            <a href="index.html"><img class="span3" src="img/bf_logo.png"></a>
-            <ul class="span9 unstyled inline-block">
-                <li class="span2 offset1">
-                    <a href="learn.html">Learn</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Teach</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Connect</a>
-                </li>
+<body id="lesson" class="container">
+    <header class="navbar navbar-static-top row">
+        <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-offset-1"><a href="#">Teach</a></li>
+            <li class="col-offset-1"><a href="#">Connect</a></li>
+            <li id="signUpLink" class="pull-right"><a href="signup.html">Sign Up</a></li>
+            <li id="signInLink" class="pull-right"><a href="signin.html">Sign In</a></li>
+            <li id="signOutLink" class="pull-right"><a href="#">Sign Out</a></li>
+            <li id="bfUserName" class="pull-right"><a href="#"></a></li>
+        </ul>
+    </header>
+
+    <section id="main" class="row">
+        <div id="main-img" class="col-lg-7 col-sm-7 col-offset-1">
+            <img class="img-responsive" src="img/promo_vid.png">
+        </div>
+        <div id="main-text" class="col-lg-3">
+          <div class="lesson-name"></div>
+          <div class="lesson-description"></div>
+          <a class="btn btn-primary btn-lrg" href="#">Get Started</a>
+          <div class="alert alert-info login-required">
+            You'll need to create a BizFriend.ly account before you can start the lesson. Sign up then come back to this lesson.
+          </div>
+        </div>
+    </section>
+
+    <section id="bottom" class="row">
+        <div class="col-lg-10 col-offset-1">
+          <div id="additional_resources" class="bottom_links bottom_links_spacer">
+            <h2>Additional Resources</h2>
+            <ul>
+              <li>Point1</li>
+              <li>Point2</li>
+              <li>Point3</li>
             </ul>
-            <div class="span2 offset7 userDash" id="signInLink">
-                <a href="signup.html">Signup</a> | <a href="signin.html">SignIn</a>
-            </div>
-            <div class="span2 offset7 userDash" id="signOutLink">
-                <span class="bfUserName"></span> | <a id="bfSignOut" href="index.html">SignOut</a>
-            </div>
-        </div>
-  </header>
-
-  <section id="main" class="container">
-    <div class="row">
-      <div id="video" class="span7 offset1">
-      </div>
-      <div id="summary" class="span3">
-        <h3></h3>
-        <p></p>
-        <a href="#"><div class="btn btn-large btn-custom-lighten">Get Started</div></a>
-      </div>
-    </div>  
-  </section>
-
-  <section id="bottom" class="container">
-        <div class="row">
-            <div class="offset1">
-              <div class="bottom_links">
-                <h4>Additional Resources</h4>
-                <ul>
-                  <li>Point1</li>
-                  <li>Point2</li>
-                  <li>Point3</li>
-                </ul>
-              </div>
-              <div class="bottom_links">
-                <h4>Keep in Mind</h4>
-                <ul>
-                  <li>Point1</li>
-                  <li>Point2</li>
-                  <li>Point3</li>
-                </ul>
-              </div>
-            </div>
-        </div>
-  </section>
-
-  <footer class="container">
-        <div class="row">
-            <ul class="unstyled inline-block">
-                <li class="offset1 span1"><a href="#">About</a></li>
-                <li class="span1"><a href="#">Feedback</a></li>
-                <li id="credits" class="span6 offset2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+          </div>
+          <div id="tips" class="bottom_links bottom_links_spacer">
+            <h2>Keep in Mind</h2>
+            <ul>
+              <li>Point1</li>
+              <li>Point2</li>
+              <li>Point3</li>
             </ul>
+          </div>
         </div>
+    </section>
+
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="#">About</a></li>
+            <li class="col-lg-1"><a href="#">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
     </footer>
 </body>
-
-    <!--<script type="text/javascript" src="js/user.js"></script>-->
-    <script src="js/lesson.js"></script>
     <script src="js/BfUser.js"></script>
+    <script src="js/lesson.js"></script>
 </html>
-

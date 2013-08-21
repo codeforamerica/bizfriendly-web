@@ -20,31 +20,35 @@ var lesson = (function (lesson) {
   function _main(response){
     lesson = response;
     _makeSummary();
+    _checkIfLoggedIn();
   }
 
   function _makeSummary(){
-    $('#main #summary h3').html(lesson.name);
-    $('#main #summary p').html(lesson.description);
-    $('#main #summary a').click(_instructionsLinkClicked);
+    $('#main #main-text .lesson-name').html(lesson.name);
+    $('#main #main-text .lesson-description').html(lesson.long_description);
+    $('#additional_resources ul').html(lesson.additional_resources);
+    $('#tips ul').html(lesson.tips);
+    $('#main #main-text a').click(_instructionsLinkClicked);
+  }
+
+  function _checkIfLoggedIn(){
+    if (!BfUser.bfAccessToken){
+      $('#main-text .btn').hide();
+      $('.login-required').show();
+    }
   }
 
   function _instructionsLinkClicked(evt){
-    if (BfUser.signedIn) {
-      var width = window.screen.width;
-      var height = window.screen.height;
-      var instructionSiteFeatures = {
-        height: height,
-        // width: width,
-        width: width - 1000,
-        left: 1000,
-        name: 'instructions',
-        center: false,
-      }
-      var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
+    var width = window.screen.width;
+    var height = window.screen.height;
+    var instructionSiteFeatures = {
+      height: height,
+      width: 340,
+      left: width - 340,
+      name: 'instructions',
+      center: false,
     }
-    else {
-      window.location.replace('signin.html');
-    }
+    var instructionsWindow = $.popupWindow('instructions.html?'+lessonId, instructionSiteFeatures);
   }
 
   // add public methods to the returned module and return it

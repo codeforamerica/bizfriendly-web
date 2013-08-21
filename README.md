@@ -1,23 +1,20 @@
 [![Stories in Ready](http://badge.waffle.io/codeforamerica/howtocity-web.png)](http://waffle.io/codeforamerica/howtocity-web)  
 [![Build Status](https://travis-ci.org/codeforamerica/howtocity-api.png)](https://travis-ci.org/codeforamerica/howtocity-api)
 
-How to City Web Site
+BizFriend.ly Web Site
 =========
 
-How to City teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
+BizFriend.ly teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
 
 ## <a name="about"></a>About
-This is the main website for the How to City service. It is powered by the [How to City API](http://github.com/codeforamerica/howtocity-api)
+This is the main website for the BizFriend.ly service. It is powered by the [BizFriend.ly API](http://github.com/codeforamerica/howtocity-api)
 
 ## <a name="demo"></a>Demo
-New design at: 
 http://codeforamerica.github.io/howtocity-web/
 
-Working lessons at:
-http://codeforamerica.github.io/howtocity-web/categories.html
 
 ## <a name="development-setup"></a>Development Setup
-How to City's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
+BizFriend.ly's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
 
 ## <a name="contributing"></a>Contributing
 

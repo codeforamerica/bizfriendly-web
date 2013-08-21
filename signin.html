@@ -9,9 +9,7 @@
   <meta charset="utf-8">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="css/flat-ui.css" rel="stylesheet"> -->
-  <!-- <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href="css/main.css" rel="stylesheet">
 
   <script src="js/vendor/jquery-1.9.1.min.js"></script>
@@ -23,54 +21,45 @@
     <![endif]-->
 </head>
 
-<body>
-    <header class="container">
-        <div class="row">
-            <a href="index.html"><img class="span3" src="img/bf_logo.png"></a>
-            <ul class="span9 unstyled inline-block">
-                <li class="span2 offset1">
-                    <a href="learn.html">Learn</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Teach</a>
-                </li>
-                <li class="span2">
-                    <a href="#">Connect</a>
-                </li>
-            </ul>
-            <div class="span2 offset7 userDash" id="signInLink">
-                <a href="signup.html">Signup</a> | <a href="signin.html">SignIn</a>
-            </div>
-            <div class="span2 offset7 userDash" id="signOutLink">
-                <span class="bfUserName"></span> | <a id="bfSignOut" href="index.html">SignOut</a>
-            </div>
-        </div>
+<body class="container">
+    <header class="navbar navbar-static-top row">
+        <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-offset-1"><a href="#">Teach</a></li>
+            <li class="col-offset-1"><a href="#">Connect</a></li>
+            <li id="signUpLink" class="pull-right"><a href="signup.html">Sign Up</a></li>
+            <li id="signInLink" class="pull-right"><a href="signin.html">Sign In</a></li>
+            <li id="signOutLink" class="pull-right"><a href="#">Sign Out</a></li>
+            <li id="bfUserName" class="pull-right"><a href="#"></a></li>
+        </ul>
     </header>
 
-   <section id="bottom-section" class="container">
-        <h2 class="span6 offset3">Returning to BizFriendly?</h2>
-        <form id="signin-form" class="form-inline span5 offset3">
-            <input type="email" id="signin-email" placeholder="jane.doe@email.com">
-            <label for="signin-email">Email</label>
-            <input type="password" id="signin-password">
-            <label for="signin-password">Password</label>
-            <button type="button" class="btn btn-custom-lighten" id="bfSignIn">Sign In</button>
+    <section id="main" class="row">
+        <h1 class="col-offset-3">Returning to BizFriendly?</h1>
+        <form id="signin-form" class="col-lg-6 col-offset-3">
+            <div class="form-group">   
+              <input type="email" id="signin-email" class="form-control" placeholder="jane.doe@email.com">
+              <label for="signin-email">Email</label>
+            </div>
+            <div class="form-group">
+              <input type="password" id="signin-password" class="form-control" >
+              <label for="signin-password">Password</label>
+            </div>
+            <button type="button" class="btn btn-primary" id="bfSignIn">Sign In</button>
         </form>
     </section>
 
-
-    <section id="feedback" class="container">
-        <h2 class="span5 offset3"></h2>
+    <section id="feedback" class="row">
+        <h2 class="col-lg-6 col-offset-3"></h2>
     </section>
 
-    <footer class="container">
-        <div class="row">
-            <ul class="unstyled inline-block">
-                <li class="offset1 span1"><a href="#">About</a></li>
-                <li class="span1"><a href="#">Feedback</a></li>
-                <li id="credits" class="span6 offset2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
-            </ul>
-        </div>
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="#">About</a></li>
+            <li class="col-lg-1"><a href="#">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
     </footer>
 </body>
 <script type="text/javascript" src="js/BfUser.js"></script>

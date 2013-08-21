@@ -1,17 +1,19 @@
-
 var instructions = (function (instructions) { 
   // private properties
-  var debug = false;
+  var debug = true;
+  var width = window.screen.width;
+  var height = window.screen.height;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
   var steps = [];
   var step = {};
-  var accessToken = null;
+  var oauthToken = null;
   var currentStep = {};
-  // var htcUrl = 'http://howtocity.herokuapp.com';
-  var htcUrl = 'http://127.0.0.1:8000';
-  var htcApiVer = '/api/v1';
+  // var htcUrl = 'http://howtocity.herokuapp.com'
+  var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'http://0.0.0.0:5000'
+  var htcApiVer = '/api/v1'
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -30,7 +32,7 @@ var instructions = (function (instructions) {
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
-    $('header h4').html(lesson.name);
+    $('#instructions-title').html(lesson.name);
     // Make sure steps are in order of id
     _orderSteps();
     // Convert python names to javascript names
@@ -45,8 +47,7 @@ var instructions = (function (instructions) {
     _updateProgressBar();
     // Show first step
     _showStep();
-    // First step should have a login button
-    $('#login').click(_loginClicked);
+    _checkStep();
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
@@ -61,10 +62,10 @@ var instructions = (function (instructions) {
     })
   }
 
-  // Set steps to have javascript style names
+  // Change steps attributes to have camelCase
   function _convertStepsAttributesNames(){
-    if (debug) console.log('changing attribute names');
-    var steps_with_js_names = [];
+    if (debug) console.log('Change attribute names to camelCase.');
+    var stepsWithJsNames = [];
     $(steps).each(function(i){
       step = {
         id : steps[i].id,
@@ -80,11 +81,11 @@ var instructions = (function (instructions) {
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
         stepState : '', // Add the stepState attribute
-        lessonService : lesson.third_party_service  // Add the lesson url
+        lessonService : lesson.third_party_service  // Add the name of the service
       }
-      steps_with_js_names.push(step);
+      stepsWithJsNames.push(step);
     })
-    steps = steps_with_js_names;
+    steps = stepsWithJsNames;
   }
 
   // Set the steps state
@@ -103,33 +104,27 @@ var instructions = (function (instructions) {
     })
   }
 
-  
   // Make progress bar
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
-      if (steps[i].stepNumber == currentStep.stepNumber){
-        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress">'+steps[i].stepNumber+'</li>');
-      }
-      else{
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
-      }
-    })
+    });
+    // Todo: Need to account for 12 possible steps
+    // var widthPercent = '';
+    // widthPercent = 100/steps.length+'%';
+    // $('#progress li').attr('width',widthPercent);
   }
 
   // Update the progress bar
   function _updateProgressBar(){
     if (debug) console.log('updating progress bar');
     $(steps).each(function(i){
-      if (steps[i].stepState == 'active'){
-        // $('#step'+steps[i].stepNumber+'_progress').removeClass('finished unfinished').addClass('active');
-      $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/active_dot.gif">');
-      }
-      if (steps[i].stepState == 'unfinished'){
-        $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/unfinished_dot.gif">');
-      }
-      if (steps[i].stepState == 'finished'){
-        $('#step'+steps[i].stepNumber+'_progress').html('<img src="img/finished_dot.gif">');
+      $('#step'+steps[i].stepNumber+'_progress').removeClass('unfinished active finished').addClass(steps[i].stepState);
+      if (steps[i].stepNumber == currentStep.stepNumber){
+        $('#step'+steps[i].stepNumber+'_progress').html('<h2>'+currentStep.stepNumber+'</h2>');
+      } else {
+        $('#step'+steps[i].stepNumber+'_progress').html('');
       }
     })
   }
@@ -141,24 +136,34 @@ var instructions = (function (instructions) {
     $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
+    // Set step_text back to visible and hide others
+    if ($('.step_text').css('display') == 'none'){
+      $('.step_text').toggle();
+    }
+    if ($('.feedback').css('display') == 'block'){
+      $('.feedback').toggle();
+    }
+    if ($('#next').hasClass('animated pulse')){
+      $('#next').removeClass('animated pulse');
+    }
+    if ($('#congrats').css('display') == 'block'){
+      $('#congrats').toggle();
+    }
+    
   }
 
   // next button is clicked
   function _nextClicked(evt){
     if (currentStep.stepNumber < steps.length){
       currentStep = steps[currentStep.stepNumber];
-      if ($('.feedback').css('display') == 'block'){
-        $('.feedback').toggle();
-      }
       _updateStepsStates();
       _updateProgressBar();
-
       // Record most recent opened step 
-      BfUser.save_step(currentStep);
-
+      // BfUser.record_step(currentStep, _recordedStep);
       _showStep();
       _checkStep();
-    }}
+    }
+  }
 
   // back button is clicked
   function _backClicked(evt){
@@ -178,29 +183,16 @@ var instructions = (function (instructions) {
     OAuth.popup(lesson.third_party_service, function(error, result) {
       //handle error with error
       if (error) console.log(error);
-      accessToken = result.access_token;
+      oauthToken = result.access_token;
 
       // Add connection to server db
-      BfUser.save_connection(lesson.third_party_service.toLowerCase(), accessToken);
+      var serviceName = lesson.third_party_service.toLowerCase()
+      var data = {service_name: serviceName, oauth_token: oauthToken}
+      BfUser.create_connection(data, _createdConnection);
 
       // Check first step
       _checkStep();  
-    });
-
-    // var loginWindowFeatures = {
-    //   height: window.screen.height - 400,
-    //   width: window.screen.width - 1000,
-    //   left: 1000,
-    //   bottom: 400,
-    //   name: 'login',
-    //   center: false
-    // };
-
-    // var loginUrl = htcUrl + '/' + lesson.url.toLowerCase() + '/login';
-    // var loginRequest = loginUrl + '?access_token=0cdb6d412f587dd4cee1a8e98c0c5496f322d5a353750f571fbdd2fc66cae66d'
-    // var loginWindow = $.popupWindow(loginRequest, loginWindowFeatures);
-
-    // _checkStep();  
+    }); 
   }
 
   // Check steps
@@ -208,26 +200,26 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      // $.post(htcUrl+'/logged_in', currentStep, _loggedIn);
-      BfUser.is_logged_in(currentStep, _loggedIn);
+      //Activate _loginClicked
+      $('#login').click(_loginClicked);
+      if (oauthToken){
+        BfUser.is_logged_in(currentStep, _loggedIn);
+      }
     }
     // If step type is open
     if (currentStep.stepType == 'open'){
       $(".open").click(_openClicked);
     }
     // If step type is check_for_new
-    if (currentStep.stepType == 'check_for_new'){
-      // $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
+    if (currentStep.stepType == 'check_for_new' && oauthToken){
       BfUser.check_for_new(currentStep, _checkForNew);
     }
     // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing'){
-      // $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+    if (currentStep.stepType == 'get_remembered_thing' && oauthToken){
       BfUser.get_remembered_thing(currentStep, _getRememberedThing);
     }
     // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data'){
-      // $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
+    if (currentStep.stepType == 'get_added_data' && oauthToken){
       BfUser.get_added_data(currentStep, _getAddedData);
     }
     // If step type is choose_next_step
@@ -235,68 +227,95 @@ var instructions = (function (instructions) {
       $("#choice_one").click(_chooseNextStep);
       $("#choice_two").click(_chooseNextStep);
     }
+    if (currentStep.stepType == 'congrats'){
+      _showCongrats();
+    }
+    // Add example popover clicker
+    var example = $('#example').html();
+    $('#example').css('display','none');
+    $('#popover').popover({ content: example, html: true, placement: 'top', trigger: 'hover' });
   }
 
   // Are they logged in?
   function _loggedIn(response){
-    if (response == 'TIMEOUT') _loggedIn();
-    response = $.parseJSON(response);
+    if (response.timeout) _loggedIn();
     if (debug) console.log(response);
-    if ( response.loggedIn ){
+    if (response.timeout) _checkStep();
+    if ( response.logged_in ){
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
+  }
+
+  // Saved a connection in the db
+  function _createdConnection(response){
+    if (debug) console.log(response);
+  }
+
+  function _recordedStep(response){
+    if (debug) console.log(response);
   }
 
   // .open is clicked
   function _openClicked(evt){
-    // var width = window.screen.width;
-    // var height = window.screen.height;
-    // resizeInterval = setInterval(_resize, 100)
-    
-    // function _resize(){
-    //   width = width - 100;
-    //   left = window.screen.width - width;
-    //   window.resizeTo(width,height);
-    //   window.moveTo(left,0);
-    //   console.log(width);
-    //   if (width < 500) {
-    //     clearInterval(resizeInterval);
-    //   }
-    // }
     var challengeFeatures = {
-      height: window.screen.height,
-      width: 1000,
+      height: height,
+      width: width - 340,
       name: 'challengeWindow',
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+    // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    
+    // Advance to next step
+    currentStep = steps[currentStep.stepNumber];
+    if ($('.feedback').css('display') == 'block'){
+      $('.feedback').toggle();
+    }
+    if ($('.step_text').css('display') == 'none'){
+      $('.step_text').toggle();
+    }
+    _updateStepsStates();
+    _updateProgressBar();
+    // Record most recent opened step 
+    // BfUser.record_step(currentStep, _recordedStep);
+    _showStep();
+    _checkStep();
   }
 
   function _checkForNew(response){
-    if (response == 'TIMEOUT') _checkForNew();
-    response = $.parseJSON(response);
-    if ( response.newThingName ){
-      if (debug) console.log(response);
-      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.newThingName);
+    if (debug) console.log(response);
+    if (response.timeout) _checkStep();
+    if ( response.new_thing_name ){
+      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.new_thing_name);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
     }
   }
 
   function _getRememberedThing(response){
-    if (response == 'TIMEOUT') _getRememberedThing();
-    response = $.parseJSON(response);
     if (debug) console.log(response);
-    $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.newData);
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    if (response.timeout) _checkStep();
+    if (response.new_data) {
+      $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.new_data);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
   }
 
   function _getAddedData(response){
-    if (response == 'TIMEOUT') _getAddedData();
-    response = $.parseJSON(response);
     if (debug) console.log(response);
-    // $('#step'+currentStep.stepNumber+' .feedback .newData').attr('src',response.newData);
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    if (response.timeout) _checkStep();
+    if (response.new_data) {
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      // ToDo: Show added facebook page logo
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
   }
 
   function _chooseNextStep(evt){
@@ -307,11 +326,16 @@ var instructions = (function (instructions) {
 
   function _goToChosenStep(response){
     if (debug) console.log(response);
-    response = $.parseJSON(response);
     console.log(response.chosenStep);
     currentStep = steps[parseInt(response.chosenStep)-1];
     _showStep();
     _checkStep();
+  }
+
+  function _showCongrats(){
+    $('section h2').toggle();
+    $('.step_text').toggle();
+    $('#congrats').css('display','block');
   }
 
   // add public methods to the returned module and return it
