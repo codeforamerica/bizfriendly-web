@@ -33,7 +33,7 @@ var instructions = (function (instructions) {
 
   // Main Function
   function _main(response){
-    _checkWindowSize();
+    // _checkWindowSize();
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
