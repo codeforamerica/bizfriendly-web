@@ -82,6 +82,8 @@ li {
 
 #subheader img {
 	float: right;
+	position:relative;
+	top: 75px;
 }
 
 #subheader p {
@@ -270,19 +272,19 @@ table .lesson-name {
 
 .teach-column {
 	width: 340px;
-	height: 700px;
+	height: 780px;
 	margin-right: 15px;
 	float: left;
 }
 
 .teach-box-elements {
-	height: 695px;
+	height: 775px;
 	text-align: center;
 }
 
 .teach-box {
 	border: solid 1px;
-	height: 695px;
+	height: 775px;
 	text-align: center;
 }
 
@@ -296,6 +298,8 @@ table .lesson-name {
 
 .draggable {
 	margin: 30px;
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
 
 }
 .gray {
@@ -311,6 +315,11 @@ table .lesson-name {
 
 #teach #main .btn{
 	margin: 0px;
+}
+
+#teach-instructions {
+	background-image: url('../img/fake-instructions.gif');
+	padding-top: 150px;
 }
 
 .three-columns {
