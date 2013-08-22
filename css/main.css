@@ -371,22 +371,22 @@ table .lesson-name {
 
 #about #subheader {
 	position: relative;
-	top: -95px;
+	top: -100px;
 	left: -12px;
 }
 
-#about #subheader p {
+.text-overlay{
 	color: #FFF;
 	font-weight: 700;
 	position: relative;
-	top: -100px;
+	top: -125px;
 	left: 50px;
 	width: 400px;
 }
 
 #about section {
 	position: relative;
-	top: -160px;
+	top: -100px;
 }
 
 #lesson .bottom_links {
