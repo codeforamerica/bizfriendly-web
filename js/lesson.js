@@ -52,7 +52,7 @@ var lesson = (function (lesson) {
     var left = window.screen.width - 340;
     instructionOptions = 'height='+height+',width='+width+',left='+left;
     console.log(instructionOptions);
-    window.open(url,'',instructionOptions);
+    window.open(url,'instructions',instructionOptions);
   }
   // add public methods to the returned module and return it
   lesson.init = init;
