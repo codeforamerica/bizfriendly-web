@@ -12,11 +12,12 @@ var instructions = (function (instructions) {
   var step = {};
   var accessToken = null;
   var currentStep = {};
-  var htcUrl = 'http://howtocity.herokuapp.com';
-  // var htcUrl = 'http://127.0.0.1:8000';
+  // var htcUrl = 'http://howtocity.herokuapp.com';
+  var htcUrl = 'http://127.0.0.1:8000';
   // var htcUrl = 'http://0.0.0.0:5000';
   var htcApiVer = '/api/v1';
   var rememberMe;
+  var rememberedAttribute;
   var venueId;
   var venueName;
 
@@ -210,6 +211,7 @@ var instructions = (function (instructions) {
   // Check steps
   function _checkStep(){
     if (debug) console.log(currentStep.name);
+
     // If step type is login
     if (currentStep.stepType == 'login'){
       if (!accessToken) {
@@ -241,20 +243,21 @@ var instructions = (function (instructions) {
       _getUserInput();
     }
     if (currentStep.stepType == 'check_for_value' && accessToken){
+      $.post(htcUrl+'/check_for_value?access_token='+accessToken+'&rememberedAttribute='+rememberedAttribute, currentStep, _checkForValue);
       // Todo: Move all this to the API
-        $('.fsBizName').html(venueName);
-      var checkForValueInterval = setInterval(function(){
-        $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
-          console.log('Liked: '+response.response.venue.like);
-          if (response.response.venue.like == true){
-            clearInterval(checkForValueInterval);
-            $('.fsBizName').html(venueName);
-            $('.step_text').toggle();
-            $('.feedback').toggle();
-            $('#next').addClass('animated pulse');
-          }
-        });
-      }, 3000);
+      //   $('.fsBizName').html(venueName);
+      // var checkForValueInterval = setInterval(function(){
+      //   $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+      //     console.log('Liked: '+response.response.venue.like);
+      //     if (response.response.venue.like == true){
+      //       clearInterval(checkForValueInterval);
+      //       $('.fsBizName').html(venueName);
+      //       $('.step_text').toggle();
+      //       $('.feedback').toggle();
+      //       $('#next').addClass('animated pulse');
+      //     }
+      //   });
+      // }, 3000);
     }
     if (currentStep.stepType == 'check_for_new_tip'){
       if (currentStep.triggerEndpoint.search('replaceMe') != -1){
@@ -332,8 +335,9 @@ var instructions = (function (instructions) {
     if (debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
-    if ( response.new_thing_name ){
-      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.new_thing_name);
+    if ( response.new_resource_added ){
+      rememberedAttribute = response.resource_attribute_to_remember
+      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.resource_attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
