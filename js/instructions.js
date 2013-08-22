@@ -1,7 +1,8 @@
 var instructions = (function (instructions) {
 
   // private properties
-  var debug = true;
+  // var debug = true;
+  var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
@@ -33,7 +34,7 @@ var instructions = (function (instructions) {
 
   // Main Function
   function _main(response){
-    // _checkWindowSize();
+    _checkWindowSize();
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
@@ -59,7 +60,7 @@ var instructions = (function (instructions) {
   }
 
   function _checkWindowSize(){
-    console.log(window.innerWidth);
+    if (debug) console.log(window.innerWidth);
     if(window.innerWidth > 340){
       window.resizeTo(340,height);
       window.moveTo(width-340,0);
@@ -215,7 +216,7 @@ var instructions = (function (instructions) {
         // First step should have a login button
         $('#login').click(_loginClicked);
       } else {
-        console.log(currentStep);
+        if (debug) console.log(currentStep);
         $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
       }
     }
