@@ -361,6 +361,11 @@ table .lesson-name {
 	background-color: #C7E4EE;
 }
 
+#index #main, #index #bottom, #index footer {
+	position:relative;
+	top: -50px;
+}
+
 #loading {
 	height: 390px;
 }
