@@ -49,7 +49,7 @@ var lesson = (function (lesson) {
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
-    var instructionOptions = "height="+height+",width="+width+",left="+left+",fullscreen=no";
+    var instructionOptions = "height="+height+",width="+width+",left="+left;
     window.open(url,"instructions",instructionOptions);
   }
   // add public methods to the returned module and return it
