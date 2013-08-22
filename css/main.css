@@ -80,7 +80,7 @@ li {
 	font-weight: 700;
 }
 
-#subheader img {
+#teach #subheader img {
 	float: right;
 	position:relative;
 	top: 75px;
@@ -376,7 +376,7 @@ table .lesson-name {
 
 #about #subheader {
 	position: relative;
-	top: -100px;
+	top: -75px;
 	left: -12px;
 }
 
@@ -384,14 +384,14 @@ table .lesson-name {
 	color: #FFF;
 	font-weight: 700;
 	position: relative;
-	top: -125px;
+	top: -175px;
 	left: 50px;
 	width: 400px;
 }
 
 #about section {
 	position: relative;
-	top: -100px;
+	top: -125px;
 }
 
 #lesson .bottom_links {
