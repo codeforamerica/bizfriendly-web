@@ -46,12 +46,10 @@ var lesson = (function (lesson) {
 
   function _instructionsLinkClicked(evt){
     var url = 'instructions.html?'+lessonId;
-    var target = 'instructions';
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
     instructionOptions = 'height='+height+',width='+width+',left='+left;
-    console.log(instructionOptions);
     window.open(url,'instructions',instructionOptions);
   }
   // add public methods to the returned module and return it
