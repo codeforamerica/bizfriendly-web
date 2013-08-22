@@ -300,7 +300,7 @@ var instructions = (function (instructions) {
     var challengeFeatures = {
       height: height,
       width: width - 340,
-      name: '',
+      name: 'challenge',
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
