@@ -236,6 +236,11 @@ table .lesson-name {
 	text-align: center;
 }
 
+#connect section img {
+	width : 250px;
+	padding-bottom: 100px;
+}
+
 #teach .alert-info {
 	background-color: #C7E4EE;
 	color: #0F6095;
