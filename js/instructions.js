@@ -1,8 +1,8 @@
 var instructions = (function (instructions) {
 
   // private properties
-  // var debug = true;
-  var debug = false;
+  var debug = true;
+  // var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
@@ -16,10 +16,8 @@ var instructions = (function (instructions) {
   var htcUrl = 'http://127.0.0.1:8000';
   // var htcUrl = 'http://0.0.0.0:5000';
   var htcApiVer = '/api/v1';
-  var rememberMe;
   var rememberedAttribute;
-  var venueId;
-  var venueName;
+  var postData = {};
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -88,7 +86,6 @@ var instructions = (function (instructions) {
         stepType : steps[i].step_type,
         stepNumber : steps[i].step_number,
         stepText : steps[i].step_text,
-        lessonId : steps[i].lesson_id,
         triggerEndpoint : steps[i].trigger_endpoint,
         triggerCheck : steps[i].trigger_check,
         triggerValue : steps[i].trigger_value,
@@ -96,7 +93,6 @@ var instructions = (function (instructions) {
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
         stepState : "unfinished",
-        thirdPartyService : lesson.third_party_service
       }
       stepsWithJsNames.push(step);
     })
@@ -212,6 +208,15 @@ var instructions = (function (instructions) {
   function _checkStep(){
     if (debug) console.log(currentStep.name);
 
+    // Create postData
+    postData = {
+      currentStep : currentStep,
+      rememberedAttribute : rememberedAttribute,
+      lessonName : lesson.name,
+      lessonId : lesson.id,
+      thirdPartyService : lesson.third_party_service
+    }
+
     // If step type is login
     if (currentStep.stepType == 'login'){
       if (!accessToken) {
@@ -219,7 +224,7 @@ var instructions = (function (instructions) {
         $('#login').click(_loginClicked);
       } else {
         if (debug) console.log(currentStep);
-        $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
+        _loggedIn();
       }
     }
     // If step type is open
@@ -228,22 +233,12 @@ var instructions = (function (instructions) {
     }
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && accessToken){
-      $.post(htcUrl+'/check_for_new?access_token='+accessToken, currentStep, _checkForNew);
-    }
-    // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing' && accessToken){
-      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
-    }
-    // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data' && accessToken){
-      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
-    }
-    // Is step type get_user_input
-    if (currentStep.stepType == 'get_user_input'){
-      _getUserInput();
+      $.post(htcUrl+'/check_for_new?access_token='+accessToken, postData, _checkForNew);
     }
     if (currentStep.stepType == 'check_for_value' && accessToken){
-      $.post(htcUrl+'/check_for_value?access_token='+accessToken+'&rememberedAttribute='+rememberedAttribute, currentStep, _checkForValue);
+      if (debug) console.log(currentStep);
+      $.post(htcUrl+'/check_for_value?access_token='+accessToken, postData, _checkForValue);
+    }
       // Todo: Move all this to the API
       //   $('.fsBizName').html(venueName);
       // var checkForValueInterval = setInterval(function(){
@@ -258,6 +253,17 @@ var instructions = (function (instructions) {
       //     }
       //   });
       // }, 3000);
+    // If step type is get_remembered_thing
+    if (currentStep.stepType == 'get_remembered_thing' && accessToken){
+      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+    }
+    // If step type is get_added_data
+    if (currentStep.stepType == 'get_added_data' && accessToken){
+      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
+    }
+    // Is step type get_user_input
+    if (currentStep.stepType == 'get_user_input'){
+      _getUserInput();
     }
     if (currentStep.stepType == 'check_for_new_tip'){
       if (currentStep.triggerEndpoint.search('replaceMe') != -1){
@@ -286,15 +292,10 @@ var instructions = (function (instructions) {
   }
 
   // Are they logged in?
-  function _loggedIn(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    if (response.timeout) _checkStep();
-    if ( response.logged_in ){
+  function _loggedIn(){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
-    }
   }
 
   // .open is clicked
@@ -336,8 +337,21 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( response.new_resource_added ){
-      rememberedAttribute = response.resource_attribute_to_remember
+      // Add the rememberedAttribute to steps
+      rememberedAttribute = response.resource_attribute_to_remember;
       $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.resource_attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
+  function _checkForValue(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if ( response.resource_attribute_to_display ){
+      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.resource_attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
