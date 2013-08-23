@@ -235,31 +235,16 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'check_for_new' && accessToken){
       $.post(htcUrl+'/check_for_new?access_token='+accessToken, postData, _checkForNew);
     }
-    if (currentStep.stepType == 'check_for_value' && accessToken){
+    if (currentStep.stepType == 'check_if_attribute_exists' && accessToken){
       if (debug) console.log(currentStep);
-      $.post(htcUrl+'/check_for_value?access_token='+accessToken, postData, _checkForValue);
+      $.post(htcUrl+'/check_if_attribute_exists?access_token='+accessToken, postData, _checkIfAttributeExists);
     }
-      // Todo: Move all this to the API
-      //   $('.fsBizName').html(venueName);
-      // var checkForValueInterval = setInterval(function(){
-      //   $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
-      //     console.log('Liked: '+response.response.venue.like);
-      //     if (response.response.venue.like == true){
-      //       clearInterval(checkForValueInterval);
-      //       $('.fsBizName').html(venueName);
-      //       $('.step_text').toggle();
-      //       $('.feedback').toggle();
-      //       $('#next').addClass('animated pulse');
-      //     }
-      //   });
-      // }, 3000);
+    if (currentStep.stepType == 'check_attribute_for_value' && accessToken){
+      $.post(htcUrl+'/check_attribute_for_value?access_token='+accessToken, postData, _checkAttributeForValue);
+    }
     // If step type is get_remembered_thing
     if (currentStep.stepType == 'get_remembered_thing' && accessToken){
       $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
-    }
-    // If step type is get_added_data
-    if (currentStep.stepType == 'get_added_data' && accessToken){
-      $.post(htcUrl+'/get_added_data?access_token='+accessToken, currentStep, _getAddedData);
     }
     // Is step type get_user_input
     if (currentStep.stepType == 'get_user_input'){
@@ -336,15 +321,40 @@ var instructions = (function (instructions) {
     if (debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
-    if ( response.new_resource_added ){
-      // Add the rememberedAttribute to steps
-      rememberedAttribute = response.resource_attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .newThingName').html(response.resource_attribute_to_display);
+    if ( response.new_object_added ){
+      // Remember the attribute!
+      rememberedAttribute = response.attribute_to_remember;
+      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
     }
   }
+
+  function _checkIfAttributeExists(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if ( response.attribute_exists ){
+      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
+  function _checkAttributeForValue(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if (response.attribute_value_matches) {
+      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
 
   function _checkForValue(response){
     if (debug) console.log(response);
@@ -357,6 +367,7 @@ var instructions = (function (instructions) {
       $('#next').addClass('animated pulse');
     }
   }
+
 
   function _checkForNewTip(response){
     if (debug) console.log(response);
@@ -376,17 +387,6 @@ var instructions = (function (instructions) {
     if (response.timeout) _checkStep();
     if (response.new_data) {
       $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.new_data);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
-    }
-  }
-
-  function _getAddedData(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    if (response.timeout) _checkStep();
-    if (response.new_data) {
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
