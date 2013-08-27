@@ -230,10 +230,12 @@ var instructions = (function (instructions) {
         _loggedIn();
       }
     }
+
     // If step type is open
     if (currentStep.stepType == 'open'){
       $(".open").click(_openClicked);
     }
+
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && accessToken){
       // This step fires at least twice. First time it just gets the originalCount
@@ -244,13 +246,18 @@ var instructions = (function (instructions) {
       }
       $.post(htcUrl+'/check_for_new?access_token='+accessToken, postData, _checkForNew);
     }
+
+    // check_if_attribute_exists
     if (currentStep.stepType == 'check_if_attribute_exists' && accessToken){
       if (debug) console.log(currentStep);
       $.post(htcUrl+'/check_if_attribute_exists?access_token='+accessToken, postData, _checkIfAttributeExists);
     }
+
+    // check_attribute_for_value
     if (currentStep.stepType == 'check_attribute_for_value' && accessToken){
       $.post(htcUrl+'/check_attribute_for_value?access_token='+accessToken, postData, _checkAttributeForValue);
     }
+
     // Is step type get_attributes_from_input
     if (currentStep.stepType == 'get_attributes_from_input'){
       // First get the id from the input
@@ -269,17 +276,8 @@ var instructions = (function (instructions) {
         $.post(htcUrl+'/get_attributes?access_token='+accessToken, postData, _getAttributes);
       });
     }
-    // If step type is get_remembered_thing
-    // if (currentStep.stepType == 'get_remembered_thing' && accessToken){
-    //   $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
-    // }
-    
-    if (currentStep.stepType == 'check_for_new_tip'){
-      if (currentStep.triggerEndpoint.search('replaceMe') != -1){
-        currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replaceMe',venueId);
-      }
-      $.post(htcUrl+'/check_for_new_tip?access_token='+accessToken, currentStep, _checkForNewTip);
-    }
+
+    // congrats
     if (currentStep.stepType == 'congrats'){
       $('#fb-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/facebook/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I just finished '+lesson.name+' with help from BizFriendly!');
@@ -294,19 +292,21 @@ var instructions = (function (instructions) {
       });
       _showCongrats();
     }
+
     // Add example popover clicker
     var example = $('#example').html();
     $('#example').css('display','none');
     $('#popover').popover({ content: example, html: true, placement: 'top', trigger: 'hover' });
   }
 
-  // Are they logged in?
+  // If they are loggedIn
   function _loggedIn(){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
   }
 
+  // Open up the main window to the web service we want to teach.
   function _openChallengeWindow(url){
     var width = window.screen.width;
     var height = window.screen.height;
@@ -337,6 +337,9 @@ var instructions = (function (instructions) {
     _checkStep();
   }
 
+  // A new object is added at a url endpoint
+  // Remember a certain attribute, object id for example.
+  // Display another attribute
   function _checkForNew(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
@@ -359,6 +362,8 @@ var instructions = (function (instructions) {
     }
   }
 
+  // A certain attribute exists at the url endpoint
+  // Display the returned attribute
   function _checkIfAttributeExists(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
@@ -371,6 +376,8 @@ var instructions = (function (instructions) {
     }
   }
 
+  // A certain attribute equals a determined value
+  // Display the returned attribute
   function _checkAttributeForValue(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
@@ -388,44 +395,7 @@ var instructions = (function (instructions) {
     }
   }
 
-
-  function _checkForValue(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    if (response.timeout) _checkStep();
-    if ( response.resource_attribute_to_display ){
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.resource_attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
-    }
-  }
-
-
-  function _checkForNewTip(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    if (response.timeout) _checkStep();
-    if ( response.new_tip_added ){
-      $('.fsBizName').html(venueName);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
-    }
-  }
-
-  function _getRememberedThing(response){
-    if (debug) console.log(response);
-    response = $.parseJSON(response);
-    if (response.timeout) _checkStep();
-    if (response.new_data) {
-      $('#step'+currentStep.stepNumber+' .feedback .newData').html(response.new_data);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
-    }
-  }
-
+  // Display the returned attributes
   function _getAttributes(response){
     if (debug) console.log(response);
     response = $.parseJSON(response);
