@@ -18,6 +18,7 @@ var instructions = (function (instructions) {
   var htcApiVer = '/api/v1';
   var rememberedAttribute;
   var postData = {};
+  var originalCount = false;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -214,7 +215,8 @@ var instructions = (function (instructions) {
       rememberedAttribute : rememberedAttribute,
       lessonName : lesson.name,
       lessonId : lesson.id,
-      thirdPartyService : lesson.third_party_service
+      thirdPartyService : lesson.third_party_service,
+      originalCount: false
     }
 
     // If step type is login
@@ -233,6 +235,12 @@ var instructions = (function (instructions) {
     }
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && accessToken){
+      // This step fires at least twice. First time it just gets the originalCount
+      // Every following time it compares the number of objects to the originalCount
+      if ( originalCount ){
+        if (debug) console.log("originalCount: " + originalCount);
+        postData["originalCount"] = originalCount;
+      }
       $.post(htcUrl+'/check_for_new?access_token='+accessToken, postData, _checkForNew);
     }
     if (currentStep.stepType == 'check_if_attribute_exists' && accessToken){
@@ -321,6 +329,14 @@ var instructions = (function (instructions) {
     if (debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
+    if ( !response.new_object_added ){
+      if ( response.original_count ){
+        // If no new thing added, yet there is an original count
+        // then ask again with the count in the post data.
+        originalCount = response.original_count;
+        _checkStep();
+      }
+    }
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
