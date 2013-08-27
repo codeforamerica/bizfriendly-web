@@ -19,6 +19,7 @@ var instructions = (function (instructions) {
   var rememberedAttribute;
   var postData = {};
   var originalCount = false;
+  var challengeWindow;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -250,14 +251,29 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'check_attribute_for_value' && accessToken){
       $.post(htcUrl+'/check_attribute_for_value?access_token='+accessToken, postData, _checkAttributeForValue);
     }
+    // Is step type get_attributes_from_input
+    if (currentStep.stepType == 'get_attributes_from_input'){
+      // First get the id from the input
+      $('#userInputSubmit').click(function(evt){
+        var userInput = $('#userInput').val();
+        // If Foursquare, get venue id from input URL.
+        if (lesson.third_party_service == 'foursquare'){
+          var userInputPath = userInput.split( '/' );
+          rememberedAttribute = userInputPath.pop();
+        }
+        challengeWindow.close();
+        _openChallengeWindow(userInput);
+
+        postData["rememberedAttribute"] = rememberedAttribute;
+        // Then call get_attributes
+        $.post(htcUrl+'/get_attributes?access_token='+accessToken, postData, _getAttributes);
+      });
+    }
     // If step type is get_remembered_thing
-    if (currentStep.stepType == 'get_remembered_thing' && accessToken){
-      $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
-    }
-    // Is step type get_user_input
-    if (currentStep.stepType == 'get_user_input'){
-      _getUserInput();
-    }
+    // if (currentStep.stepType == 'get_remembered_thing' && accessToken){
+    //   $.post(htcUrl+'/get_remembered_thing?access_token='+accessToken, currentStep, _getRememberedThing);
+    // }
+    
     if (currentStep.stepType == 'check_for_new_tip'){
       if (currentStep.triggerEndpoint.search('replaceMe') != -1){
         currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replaceMe',venueId);
@@ -291,8 +307,7 @@ var instructions = (function (instructions) {
       $('#next').addClass('animated pulse');
   }
 
-  // .open is clicked
-  function _openClicked(evt){
+  function _openChallengeWindow(url){
     var width = window.screen.width;
     var height = window.screen.height;
     var challengeFeatures = {
@@ -301,15 +316,12 @@ var instructions = (function (instructions) {
       name: 'challenge',
       center: false
     }
-    challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
-    
-    // var left = width - 340;
-    // var challengeSiteFeatures = 'height='+height+',width='+width;
-    // window.open(currentStep.triggerEndpoint,'challengeSiteFeatures',challengeSiteFeatures,false);
-  
+    challengeWindow = $.popupWindow(url, challengeFeatures);
+  }
 
-    // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+  // .open is clicked
+  function _openClicked(evt){
+    _openChallengeWindow(currentStep.triggerEndpoint);
     
     // Advance to next step
     currentStep = steps[currentStep.stepNumber];
@@ -364,7 +376,12 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
+      if (lesson.third_party_service == 'facebook'){
+        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
+      }
+      if ( lesson.third_party_service == 'foursquare'){
+        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      }
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
@@ -409,41 +426,17 @@ var instructions = (function (instructions) {
     }
   }
 
-  function _getUserInput(){
-    $('#fsNewBizUrlSubmit').click(function(evt){
-      if (debug) console.log($('#fsNewBizUrl').val());
-      rememberMe = $('#fsNewBizUrl').val();
-      var challengeFeatures = {
-        height: height,
-        width: width - 340,
-        name: 'challengeWindow',
-        center: false
-      }
-      // ToDO: Check that this is on the domain we expect
-      challengeWindow = $.popupWindow(rememberMe, challengeFeatures);
-
-      // ToDo: Move this logic to the API!!!!
-      // Get page id
-      var pathArray = rememberMe.split( '/' );
-      venueId = pathArray.pop();
-
-      // Get page info
-      $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
-        venueName = response.response.venue.name;
-        var category = response.response.venue.categories[0].shortName;
-        //Build feedback
-        $('#fsBizName').html(venueName);
-        $('#fsBizCategory').html(category);
-        $('#fsBizUrl').html(rememberMe);
-      });
-
-      // Show feedback
-      $('#next').addClass('animated pulse');
-      $('.step_text').toggle();
-      $('.feedback').toggle();
-
-    });
+  function _getAttributes(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
+    $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
+    $('#step'+currentStep.stepNumber+' .feedback #attribute-3').html(response.attribute_3);
+    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+    $('#next').addClass('animated pulse');
   }
+
 
   function _showCongrats(){
     $('section h2').toggle();
