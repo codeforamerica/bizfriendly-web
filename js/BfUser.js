@@ -207,34 +207,34 @@ var BfUser = (function (BfUser)  {
     _tokenPost(htcUrl + '/record_step', data, successFunc)
   };
 
-  //Check to see if user is logged in to service
-  function is_logged_in(data, successFunc) {
-    _tokenPost(htcUrl + '/logged_in', data, successFunc)
-  };
-
   // Check for new
   function check_for_new(data, successFunc) {
     _tokenPost(htcUrl + '/check_for_new', data, successFunc)
   };
 
-  // Get remembered thing
-  function get_remembered_thing(data, successFunc) {
-    _tokenPost(htcUrl + '/get_remembered_thing', data, successFunc)
+  // Check if attribute exists
+  function check_if_attribute_exists(data, successFunc) {
+    _tokenPost(htcUrl + '/check_if_attribute_exists', data, successFunc)
   };
 
-  // Get added data
-  function get_added_data(data, successFunc) {
-    _tokenPost(htcUrl + '/get_added_data', data, successFunc)
+  // Check attribute for value
+  function check_attribute_for_value(data, successFunc) {
+    _tokenPost(htcUrl + '/check_attribute_for_value', data, successFunc)
   };
-  
+
+  // Get attributes
+  function get_attributes(data, successFunc) {
+    _tokenPost(htcUrl + '/get_attributes', data, successFunc)
+  };
+
   // add public methods to the returned module and return it
   BfUser.init = init;
   BfUser.record_step = record_step;
   BfUser.create_connection = create_connection;
-  BfUser.is_logged_in = is_logged_in;
   BfUser.check_for_new = check_for_new;
-  BfUser.get_added_data = get_added_data;
-  BfUser.get_remembered_thing = get_remembered_thing;
+  BfUser.check_if_attribute_exists = check_if_attribute_exists;
+  BfUser.check_attribute_for_value = check_attribute_for_value;
+  BfUser.get_attributes = get_attributes;
 
   return BfUser;
 }(BfUser || {}));
