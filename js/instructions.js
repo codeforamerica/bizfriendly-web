@@ -30,6 +30,7 @@ var instructions = (function (instructions) {
 
   // Main Function
   function _main(response){
+    _checkWindowSize();
     // Attach response to global lesson variable
     lesson = response;
     // Set the name of the lesson
@@ -54,11 +55,19 @@ var instructions = (function (instructions) {
     $('#next').click(_nextClicked);
   }
 
+  function _checkWindowSize(){
+    console.log(window.innerWidth);
+    if(window.innerWidth > 340){
+      window.resizeTo(340,height);
+      window.moveTo(width-340,0);
+    }
+  }
+
   function _orderSteps(){
     if (debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
-      if (a.id < b.id) return -1;
-      if (a.id > b.id) return 1;
+      if (a.step_number < b.step_number) return -1;
+      if (a.step_number > b.step_number) return 1;
       return 0;
     })
   }
@@ -81,8 +90,8 @@ var instructions = (function (instructions) {
         thingToRemember : steps[i].thing_to_remember,
         feedback : steps[i].feedback,
         nextStepNumber : steps[i].next_step_number,
-        stepState : '', // Add the stepState attribute
-        lessonService : lesson.third_party_service  // Add the name of the service
+        stepState : "unfinished",
+        thirdPartyService : lesson.third_party_service
       }
       stepsWithJsNames.push(step);
     })
@@ -132,9 +141,10 @@ var instructions = (function (instructions) {
 
   // Show the current step
   function _showStep(){
+    _stepTransition();
     if (debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    $('section h2').html(currentStep.name);
+    // $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
     // Set step_text back to visible and hide others
@@ -148,9 +158,14 @@ var instructions = (function (instructions) {
       $('#next').removeClass('animated pulse');
     }
     if ($('#congrats').css('display') == 'block'){
+      // $('#additional-resource').attr('href=http://bizfriend.ly/lesson.html?'+lessonId);
+      // $('#additional-resource').attr('target','_parent');
       $('#congrats').toggle();
     }
-    
+  }
+
+  function _stepTransition(){
+    if (debug) console.log('Step Transition');
   }
 
   // next button is clicked
@@ -201,10 +216,12 @@ var instructions = (function (instructions) {
     if (debug) console.log(currentStep.name);
     // If step type is login
     if (currentStep.stepType == 'login'){
-      //Activate _loginClicked
-      $('#login').click(_loginClicked);
-      if (oauthToken){
-        BfUser.is_logged_in(currentStep, _loggedIn);
+      if (!accessToken) {
+        // First step should have a login button
+        $('#login').click(_loginClicked);
+      } else {
+        console.log(currentStep);
+        $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
       }
     }
     // If step type is open
@@ -223,12 +240,44 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'get_added_data' && oauthToken){
       BfUser.get_added_data(currentStep, _getAddedData);
     }
-    // If step type is choose_next_step
-    if (currentStep.stepType == 'choose_next_step'){
-      $("#choice_one").click(_chooseNextStep);
-      $("#choice_two").click(_chooseNextStep);
+    // Is step type get_user_input
+    if (currentStep.stepType == 'get_user_input'){
+      _getUserInput();
+    }
+    if (currentStep.stepType == 'check_for_value' && accessToken){
+      // Todo: Move all this to the API
+        $('.fsBizName').html(venueName);
+      var checkForValueInterval = setInterval(function(){
+        $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+          console.log('Liked: '+response.response.venue.like);
+          if (response.response.venue.like == true){
+            clearInterval(checkForValueInterval);
+            $('.fsBizName').html(venueName);
+            $('.step_text').toggle();
+            $('.feedback').toggle();
+            $('#next').addClass('animated pulse');
+          }
+        });
+      }, 3000);
+    }
+    if (currentStep.stepType == 'check_for_new_tip'){
+      if (currentStep.triggerEndpoint.search('replaceMe') != -1){
+        currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replaceMe',venueId);
+      }
+      $.post(htcUrl+'/check_for_new_tip?access_token='+accessToken, currentStep, _checkForNewTip);
     }
     if (currentStep.stepType == 'congrats'){
+      $('#fb-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/facebook/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
+      $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I created a Facebook page using BizFriend.ly. Check it out!');
+      $('#g-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/google_plusone_share/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
+      $('#li-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/linkedin/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
+      $('#additional-resources').click(function(evt){
+        window.close();
+      });
+      $('#more-lessons').click(function(evt){
+        window.opener.location.href='learn.html';
+        window.close();
+      });
       _showCongrats();
     }
     // Add example popover clicker
@@ -259,6 +308,8 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
+    var width = window.screen.width;
+    var height = window.screen.height;
     var challengeFeatures = {
       height: height,
       width: width - 340,
@@ -266,6 +317,12 @@ var instructions = (function (instructions) {
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
+    
+    // var left = width - 340;
+    // var challengeSiteFeatures = 'height='+height+',width='+width;
+    // window.open(currentStep.triggerEndpoint,'challengeSiteFeatures',challengeSiteFeatures,false);
+  
+
     // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     
@@ -296,6 +353,18 @@ var instructions = (function (instructions) {
     }
   }
 
+  function _checkForNewTip(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if ( response.new_tip_added ){
+      $('.fsBizName').html(venueName);
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
   function _getRememberedThing(response){
     if (debug) console.log(response);
     if (response.timeout) _checkStep();
@@ -318,23 +387,46 @@ var instructions = (function (instructions) {
     }
   }
 
-  function _chooseNextStep(evt){
-    if (debug) console.log(evt.target.id);
-    choice = evt.target.id;
-    $.post(htcUrl+'/choose_next_step?choice='+choice, currentStep, _goToChosenStep);
-  }
+  function _getUserInput(){
+    $('#fsNewBizUrlSubmit').click(function(evt){
+      if (debug) console.log($('#fsNewBizUrl').val());
+      rememberMe = $('#fsNewBizUrl').val();
+      var challengeFeatures = {
+        height: height,
+        width: width - 340,
+        name: 'challengeWindow',
+        center: false
+      }
+      // ToDO: Check that this is on the domain we expect
+      challengeWindow = $.popupWindow(rememberMe, challengeFeatures);
 
-  function _goToChosenStep(response){
-    if (debug) console.log(response);
-    console.log(response.chosenStep);
-    currentStep = steps[parseInt(response.chosenStep)-1];
-    _showStep();
-    _checkStep();
+      // ToDo: Move this logic to the API!!!!
+      // Get page id
+      var pathArray = rememberMe.split( '/' );
+      venueId = pathArray.pop();
+
+      // Get page info
+      $.getJSON('https://api.foursquare.com/v2/venues/'+venueId+'?v=20130706&oauth_token='+accessToken, function(response){
+        venueName = response.response.venue.name;
+        var category = response.response.venue.categories[0].shortName;
+        //Build feedback
+        $('#fsBizName').html(venueName);
+        $('#fsBizCategory').html(category);
+        $('#fsBizUrl').html(rememberMe);
+      });
+
+      // Show feedback
+      $('#next').addClass('animated pulse');
+      $('.step_text').toggle();
+      $('.feedback').toggle();
+
+    });
   }
 
   function _showCongrats(){
     $('section h2').toggle();
     $('.step_text').toggle();
+    $('#controls').toggle();
     $('#congrats').css('display','block');
   }
 

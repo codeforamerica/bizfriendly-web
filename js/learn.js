@@ -15,11 +15,19 @@ var learn = (function (learn) {
   function init(){
     if (debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
+    _loading();
     $.getJSON(htcUrl+htcApiVer+'/categories', _main);
   }
 
   // PRIVATE METHODS
+  function _loading(){
+    // console.log('Loading');
+    $('#main').toggle();
+  }
+
   function _main(response){
+    $('#loading').toggle();
+    $('#main').toggle();
     categories = response.objects;
     $(categories).each(function(i){
       if (debug) console.log(categories[i]);
@@ -52,14 +60,22 @@ var learn = (function (learn) {
     $(category.lessons).each(function(x){
       var lesson = category.lessons[x];
       html += '<tr>';
-      if (lesson.third_party_service == 'facebook')
+      if (lesson.third_party_service == 'facebook'){
         html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-      else
+      }
+      else if (lesson.third_party_service == 'foursquare'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+      else if (lesson.third_party_service == 'trello'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+      else {
         html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
 
       html += '<td>'+lesson.time_estimate+'</td>'
            +  '<td>'+lesson.difficulty+'</td>'
-           +  '<td>5 stars</td>'
+           // +  '<td>5 stars</td>'
            + '</tr>';
     });
     $tbody.html(html);

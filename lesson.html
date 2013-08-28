@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <meta charset="utf-8">
 
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/main.css" rel="stylesheet">
@@ -23,11 +23,11 @@
 </head>
 <body id="lesson" class="container">
     <header class="navbar navbar-static-top row">
-        <a class="navbar-brand" href="index.html"><img src="img/bf_logo.png"></a>
+        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
-            <li class="col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-offset-1"><a href="#">Teach</a></li>
-            <li class="col-offset-1"><a href="#">Connect</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
             <li id="signUpLink" class="pull-right"><a href="signup.html">Sign Up</a></li>
             <li id="signInLink" class="pull-right"><a href="signin.html">Sign In</a></li>
             <li id="signOutLink" class="pull-right"><a href="#">Sign Out</a></li>
@@ -35,14 +35,18 @@
         </ul>
     </header>
 
+    <div id="loading" class="row">
+        <img class="image-responsive col-offset-5 col-lig-2" src="img/loading.gif">
+    </div>
+
     <section id="main" class="row">
-        <div id="main-img" class="col-lg-7 col-sm-7 col-offset-1">
-            <img class="img-responsive" src="img/promo_vid.png">
+        <div id="main-video" class="col-lg-7 col-sm-7 col-offset-1">
+          <img src="img/loading.gif">
         </div>
         <div id="main-text" class="col-lg-3">
           <div class="lesson-name"></div>
           <div class="lesson-description"></div>
-          <a class="btn btn-primary btn-lrg" href="#">Get Started</a>
+          <a class="btn btn-primary btn-lrg" href="#">Start Lesson</a>
           <div class="alert alert-info login-required">
             You'll need to create a BizFriend.ly account before you can start the lesson. Sign up then come back to this lesson.
           </div>
@@ -72,12 +76,22 @@
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
-            <li class="col-lg-1 col-offset-1"><a href="#">About</a></li>
-            <li class="col-lg-1"><a href="#">Feedback</a></li>
+            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
+            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
             <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
         </ul>
     </footer>
 </body>
     <script src="js/BfUser.js"></script>
     <script src="js/lesson.js"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43086540-1', 'bizfriend.ly');
+    ga('send', 'pageview');
+
+  </script>
 </html>

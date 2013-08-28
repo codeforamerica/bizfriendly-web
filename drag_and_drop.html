@@ -12,7 +12,7 @@
 	</style>
 	<script>
 	$(function() {
-    $( "#draggable" ).draggable({});
+    $( "#draggable" ).draggable({ snap: ".droppable" });
     $( "#droppable" ).droppable({
       drop: function( event, ui ) {
         $(this).css("background-color","yellow");
