@@ -53,22 +53,22 @@
 	<section id="bottom" class="row">
         <div class="col-lg-10 col-offset-1">
     		<div class="bottom_links bottom_links_spacer">
-                <a href="learn.html">
-                    <img src="img/learn.png">
+                <a href="learn.html" onMouseOver="document.learn.src='img/learn-blue.png';" onMouseOut="document.learn.src='img/learn.png';">
+                    <img src="img/learn.png" name="learn">
                     <h2>Learn</h2>
                     <p>how to use the web for your business.</p>
                 </a>
             </div>
     		<div class="bottom_links bottom_links_spacer">
-                <a href="#">
-                    <img src="img/teach.png">
+                <a href="teach.html" onMouseOver="document.teach.src='img/teach-blue.png';" onMouseOut="document.teach.src='img/teach.png';">
+                    <img src="img/teach.png" name="teach">
                     <h2>Teach</h2>
                     <p>other how you use the web for your business.</p>
                 </a>
             </div>
     		<div class="bottom_links">
-                <a href="#">
-                    <img src="img/connect.png">
+                <a href="connect.html" onMouseOver="document.connect.src='img/connect-blue.png';" onMouseOut="document.connect.src='img/connect.png';">
+                    <img src="img/connect.png" name="connect">
                     <h2>Connect</h2>
                     <p>to a community of learners and teachers.</p>
                 </a>
@@ -85,6 +85,12 @@
     </footer>
 </body>
     <script type="text/javascript" src="js/BfUser.js"></script>
+    <script>
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+     alert('BizFriend.ly is still in Alpha and doesn\'t work on mobile yet. Check back again for later versions.')
+    }
+</script>
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

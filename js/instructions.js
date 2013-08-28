@@ -1,6 +1,7 @@
 var instructions = (function (instructions) { 
   // private properties
-  var debug = true;
+  // var debug = true;
+  var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
@@ -56,7 +57,7 @@ var instructions = (function (instructions) {
   }
 
   function _checkWindowSize(){
-    console.log(window.innerWidth);
+    if (debug) console.log(window.innerWidth);
     if(window.innerWidth > 340){
       window.resizeTo(340,height);
       window.moveTo(width-340,0);
@@ -220,7 +221,7 @@ var instructions = (function (instructions) {
         // First step should have a login button
         $('#login').click(_loginClicked);
       } else {
-        console.log(currentStep);
+        if (debug) console.log(currentStep);
         $.post(htcUrl+'/logged_in?access_token='+accessToken, currentStep, _loggedIn);
       }
     }
@@ -268,7 +269,7 @@ var instructions = (function (instructions) {
     }
     if (currentStep.stepType == 'congrats'){
       $('#fb-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/facebook/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
-      $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I created a Facebook page using BizFriend.ly. Check it out!');
+      $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I just finished '+lesson.name+' with help from BizFriendly!');
       $('#g-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/google_plusone_share/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#li-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/linkedin/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#additional-resources').click(function(evt){
@@ -313,7 +314,7 @@ var instructions = (function (instructions) {
     var challengeFeatures = {
       height: height,
       width: width - 340,
-      name: 'challengeWindow',
+      name: 'challenge',
       center: false
     }
     challengeWindow = $.popupWindow(currentStep.triggerEndpoint, challengeFeatures);
