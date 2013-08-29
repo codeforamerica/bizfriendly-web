@@ -2,9 +2,9 @@ var signin = (function (signin) {
 
   // private properties
   var debug = true;
-  // var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://howtocity-staging.herokuapp.com';
-  var htcUrl = 'http://127.0.0.1:8000'
+  // var htcUrl = 'https://howtocity.herokuapp.com'
+  var htcUrl = 'https://howtocity-staging.herokuapp.com';
+  // var htcUrl = 'http://127.0.0.1:8000'
   var htcApiVer = '/api/v1'
   var returningUser = {};
   
