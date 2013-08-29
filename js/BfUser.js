@@ -81,13 +81,21 @@ var BfUser = (function (BfUser)  {
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
     if (debug) console.log("Submitting signup info.")
-    newUser = {
+      newUser = {
         name : $('#signup-name').val(),
         email : $('#signup-email').val(),
         password : $('#signup-password').val()
     }
     if (debug) console.log(newUser);
-    $.post(htcUrl + '/signup', newUser, _signedIn)
+    function isEmail(email) {
+      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      return regex.test(email);
+    }
+    if (isEmail($('#signup-email').val())){
+      $.post(htcUrl + '/signup', newUser, _signedIn)
+    } else {
+      $('#feedback h2').addClass('alert alert-danger').html('That email doesn\'t look right.');
+    }
   }
 
   // Send sign in info to server on signin click.
@@ -126,7 +134,7 @@ var BfUser = (function (BfUser)  {
       if (debug) console.log($.cookie('BfUser'));
 
       
-      window.location.replace('index.html')
+      window.location.replace('/')
 
     }
     else if (response.status == 403){
@@ -149,7 +157,7 @@ var BfUser = (function (BfUser)  {
       if (debug) console.log($.cookie('BfUser'));
 
       // TODO: fix this flow
-      window.location.replace('index.html')
+      window.location.replace('/')
 
     }
     else if (response.status == 403){
@@ -162,7 +170,7 @@ var BfUser = (function (BfUser)  {
     if (BfUser.signedIn) {
       $('#signInLink').hide();
       $('#signUpLink').hide();
-      $('#bfUserName a').text(BfUser.name);
+      $('#bfUserName').text(BfUser.name);
       $('#bfUserName').show();
       $('#signOutLink').show();
     }
