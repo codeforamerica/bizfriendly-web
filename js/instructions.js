@@ -198,7 +198,11 @@ var instructions = (function (instructions) {
   // progress circle li element is clicked
   function _progressClicked(evt) {
     console.log("Clicked Step: " + $(this).attr('data-target'));
-
+    
+    if (currentStep.stepNumber == steps.length) {
+      // toggle congrats off if already on last step
+      _showCongrats();
+    }
     currentStep = steps[$(this).attr('data-target') - 1];
     _updateStepsStates();
     _updateProgressBar();
