@@ -248,6 +248,8 @@ table .lesson-name {
 	margin-top: 15px;
 }
 
+li.progress-button { cursor: pointer; }
+
 #teach #progress #plusSteps{
 	position:relative;
 	top: -2px;
