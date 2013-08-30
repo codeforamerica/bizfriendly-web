@@ -1,7 +1,8 @@
 var teach = (function (teach) {
 
   // private properties
-  var debug = true;
+  // var debug = true;
+  var debug = false;
   // var htcUrl = 'https://howtocity.herokuapp.com'
   var htcUrl = 'https://howtocity-staging.herokuapp.com'
   // var htcUrl = 'http://127.0.0.1:8000'

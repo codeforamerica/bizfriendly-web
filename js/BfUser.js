@@ -1,5 +1,5 @@
 var BfUser = (function (BfUser)  {
-  var debug = true;
+  var debug = false;
   ///// CONSTRUCTION /////
   var name = "";
   var email = "";
@@ -99,6 +99,7 @@ var BfUser = (function (BfUser)  {
   }
 
   function _badPost(response){
+    console.log(response);
     response = $.parseJSON(response.responseText);
     $('#feedback h2').addClass('alert alert-danger').html(response.error);
   }
@@ -123,29 +124,29 @@ var BfUser = (function (BfUser)  {
     // _setUserCookie("", "", false, "");
     _updatePage();
   }
-  // Set User state based on sign up response
-  function _signedUp(response) {
-    if (debug) console.log(response);
-    // Set User state based on login
-    if (response.status == 200) {
-      BfUser.email = response.email;
-      BfUser.bfAccessToken = response.access_token;
-      BfUser.signedIn = true;
-      BfUser.name = response.name;
+  // // Set User state based on sign up response
+  // function _signedUp(response) {
+  //   if (debug) console.log(response);
+  //   // Set User state based on login
+  //   if (response.status == 200) {
+  //     BfUser.email = response.email;
+  //     BfUser.bfAccessToken = response.access_token;
+  //     BfUser.signedIn = true;
+  //     BfUser.name = response.name;
     
-      // Set a cookie!
-      $.removeCookie('BfUser');
-      _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-      if (debug) console.log($.cookie('BfUser'));
+  //     // Set a cookie!
+  //     $.removeCookie('BfUser');
+  //     _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+  //     if (debug) console.log($.cookie('BfUser'));
 
       
-      window.location.replace('/')
+  //     window.location.replace('/')
 
-    }
-    else if (response.status == 403){
-      $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
-    }
-  };
+  //   }
+  //   else if (response.status == 403){
+  //     $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
+  //   }
+  // };
 
   //Set User state based on sign in response
   function _signedIn(response){

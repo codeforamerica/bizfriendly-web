@@ -1,7 +1,7 @@
 var instructions = (function (instructions) { 
   // private properties
-  var debug = true;
-  // var debug = false;
+  // var debug = true;
+  var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
