@@ -92,10 +92,15 @@ var BfUser = (function (BfUser)  {
       return regex.test(email);
     }
     if (isEmail($('#signup-email').val())){
-      $.post(htcUrl + '/signup', newUser, _signedIn)
+      $.post(htcUrl + '/signup', newUser, _signedIn).fail(_badPost);
     } else {
       $('#feedback h2').addClass('alert alert-danger').html('That email doesn\'t look right.');
     }
+  }
+
+  function _badPost(response){
+    response = $.parseJSON(response.responseText);
+    $('#feedback h2').addClass('alert alert-danger').html(response.error);
   }
 
   // Send sign in info to server on signin click.
@@ -105,7 +110,7 @@ var BfUser = (function (BfUser)  {
       password : $('#signin-password').val()
     };
     if (debug) console.log(returningUser);
-    $.post(htcUrl + '/signin', returningUser, _signedIn);
+    $.post(htcUrl + '/signin', returningUser, _signedIn).fail(_badPost);
   }
 
   // Sign out clicked, clear user state/cookie
@@ -138,7 +143,7 @@ var BfUser = (function (BfUser)  {
 
     }
     else if (response.status == 403){
-      $('#feedback h2').addClass('alert alert-danger').html(response.error);
+      $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
     }
   };
 
@@ -161,6 +166,7 @@ var BfUser = (function (BfUser)  {
 
     }
     else if (response.status == 403){
+      console.log(response);
       $('#feedback h2').addClass('alert alert-danger').html(response.error);
     }
   };
