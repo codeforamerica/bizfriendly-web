@@ -57,6 +57,7 @@ var instructions = (function (instructions) {
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
+    $('li.progress-button').click(_progressClicked);
   }
 
   function _checkWindowSize(){
@@ -120,7 +121,7 @@ var instructions = (function (instructions) {
   function _makeProgressBar(){
     if (debug) console.log('making progress bar');
     $(steps).each(function(i){
-        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress"></li>');
+        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
     });
     // Todo: Need to account for 12 possible steps
     // var widthPercent = '';
@@ -172,6 +173,7 @@ var instructions = (function (instructions) {
 
   // next button is clicked
   function _nextClicked(evt){
+    console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
       currentStep = steps[currentStep.stepNumber];
       _updateStepsStates();
@@ -192,6 +194,21 @@ var instructions = (function (instructions) {
       _showStep();
       _checkStep();
     }
+  }
+
+  // progress circle li element is clicked
+  function _progressClicked(evt) {
+    console.log("Clicked Step: " + $(this).attr('data-target'));
+    
+    if (currentStep.stepNumber == steps.length) {
+      // toggle congrats off if already on last step
+      _showCongrats();
+    }
+    currentStep = steps[$(this).attr('data-target') - 1];
+    _updateStepsStates();
+    _updateProgressBar();
+    _showStep();
+    _checkStep();
   }
 
   // login clicked
