@@ -5,10 +5,10 @@ var BfUser = (function (BfUser)  {
   var email = "";
   var bfAccessToken = "";
   var signedIn = false;
-  var htcUrl = 'https://howtocity.herokuapp.com';
-  // var htcUrl = 'https://howtocity-staging.herokuapp.com';
-  // var htcUrl = 'http://127.0.0.1:8000';
-  var htcApiVer = '/api/v1';
+  var bfUrl = 'https://app.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  // var bfUrl = 'http://127.0.0.1:8000';
+  var bfApiVersion = '/api/v1';
 
   ///// PUBLIC METHODS /////
   function init(){
@@ -92,7 +92,7 @@ var BfUser = (function (BfUser)  {
       return regex.test(email);
     }
     if (isEmail($('#signup-email').val())){
-      $.post(htcUrl + '/signup', newUser, _signedIn).fail(_badPost);
+      $.post(bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
     } else {
       $('#feedback h2').addClass('alert alert-danger').html('That email doesn\'t look right.');
     }
@@ -111,7 +111,7 @@ var BfUser = (function (BfUser)  {
       password : $('#signin-password').val()
     };
     if (debug) console.log(returningUser);
-    $.post(htcUrl + '/signin', returningUser, _signedIn).fail(_badPost);
+    $.post(bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
   }
 
   // Sign out clicked, clear user state/cookie
@@ -214,32 +214,32 @@ var BfUser = (function (BfUser)  {
 
   // Remember the access token of a service connection
   function create_connection(data, successFunc) {
-    _tokenPost(htcUrl + '/create_connection', data, successFunc)
+    _tokenPost(bfUrl + '/create_connection', data, successFunc)
   };
 
   // Remember the most recent step progress
   function record_step(data, successFunc) {
-    _tokenPost(htcUrl + '/record_step', data, successFunc)
+    _tokenPost(bfUrl + '/record_step', data, successFunc)
   };
 
   // Check for new
   function check_for_new(data, successFunc) {
-    _tokenPost(htcUrl + '/check_for_new', data, successFunc)
+    _tokenPost(bfUrl + '/check_for_new', data, successFunc)
   };
 
   // Check if attribute exists
   function check_if_attribute_exists(data, successFunc) {
-    _tokenPost(htcUrl + '/check_if_attribute_exists', data, successFunc)
+    _tokenPost(bfUrl + '/check_if_attribute_exists', data, successFunc)
   };
 
   // Check attribute for value
   function check_attribute_for_value(data, successFunc) {
-    _tokenPost(htcUrl + '/check_attribute_for_value', data, successFunc)
+    _tokenPost(bfUrl + '/check_attribute_for_value', data, successFunc)
   };
 
   // Get attributes
   function get_attributes(data, successFunc) {
-    _tokenPost(htcUrl + '/get_attributes', data, successFunc)
+    _tokenPost(bfUrl + '/get_attributes', data, successFunc)
   };
 
   // add public methods to the returned module and return it

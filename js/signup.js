@@ -2,10 +2,10 @@ var signup = (function (signup) {
 
   // private properties
   var debug = true;
-  // var htcUrl = 'https://howtocity.herokuapp.com'
-  var htcUrl = 'https://howtocity-staging.herokuapp.com';
-  // var htcUrl = 'http://127.0.0.1:8000'
-  var htcApiVer = '/api/v1'
+  var bfUrl = 'https://app.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  // var bfUrl = 'http://127.0.0.1:8000';
+  var bfApiVersion = '/api/v1'
   var newUser = {};
 
   // PUBLIC METHODS
@@ -23,7 +23,7 @@ var signup = (function (signup) {
       password : $('#signup-password').val()
     }
     if (debug) console.log(newUser);
-    $.post(htcUrl + '/signup', newUser, _signedUp)
+    $.post(bfUrl + '/signup', newUser, _signedUp)
   })
 
   function _signedUp(response) {

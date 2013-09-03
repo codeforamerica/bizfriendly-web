@@ -3,10 +3,10 @@ var learn = (function (learn) {
   // private properties
   // var debug = true;
   var debug = false;
-  var htcUrl = 'https://howtocity.herokuapp.com'
-  // var htcUrl = 'https://howtocity-staging.herokuapp.com';
-  // var htcUrl = 'http://127.0.0.1:8000'
-  var htcApiVer = '/api/v1'
+  var bfUrl = 'https://app.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  // var bfUrl = 'http://127.0.0.1:8000';
+  var bfApiVersion = '/api/v1'
   var categories = [];
   var featuredCategory = 'promote';
   var selectedCategory = 'featured';
@@ -17,7 +17,7 @@ var learn = (function (learn) {
     if (debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
     _loading();
-    $.getJSON(htcUrl+htcApiVer+'/categories', _main);
+    $.getJSON(bfUrl+bfApiVersion+'/categories', _main);
   }
 
   // PRIVATE METHODS

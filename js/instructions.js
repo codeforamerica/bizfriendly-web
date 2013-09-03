@@ -11,10 +11,10 @@ var instructions = (function (instructions) {
   var step = {};
   var oauthToken = null;
   var currentStep = {};
-  var htcUrl = 'https://howtocity.herokuapp.com';
-  // var htcUrl = 'https://howtocity-staging.herokuapp.com';
-  // var htcUrl = 'http://127.0.0.1:8000';
-  var htcApiVer = '/api/v1';
+  var bfUrl = 'https://app.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  // var bfUrl = 'http://127.0.0.1:8000';
+  var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
   var originalCount = false;
@@ -27,7 +27,7 @@ var instructions = (function (instructions) {
     // Get lessonId from the url
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
-    $.getJSON(htcUrl+htcApiVer+'/lessons/'+lessonId, _main);
+    $.getJSON(bfUrl+bfApiVersion+'/lessons/'+lessonId, _main);
   }
 
   // PRIVATE METHODS 
@@ -362,7 +362,7 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( !response.new_object_added ){
-      if ( response.original_count ){
+      if ( response.original_count != false ){
         // If no new thing added, yet there is an original count
         // then ask again with the count in the post data.
         originalCount = response.original_count;
