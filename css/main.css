@@ -79,15 +79,17 @@ li {
 	top: -75px;
 }
 
-#subheader a {
+#alpha {
+	z-index:9999;
+}
+
+#alpha a {
 	color: #0F6095;
 	font-weight: 700;
 }
 
-#teach #subheader img {
+#subheader img {
 	float: right;
-	position:relative;
-	top: 75px;
 }
 
 #subheader p {
@@ -391,7 +393,7 @@ li.progress-button { cursor: pointer; }
 	color: #0F6095;
 }
 
-#index #main, #index #bottom, #index footer {
+header, #main, #bottom, footer {
 	position:relative;
 	top: -50px;
 }
@@ -404,9 +406,9 @@ li.progress-button { cursor: pointer; }
 	color: #FF4000;
 }
 
-#about #subheader {
+#subheader {
 	position: relative;
-	top: -75px;
+	top: -125px;
 	left: -12px;
 }
 
