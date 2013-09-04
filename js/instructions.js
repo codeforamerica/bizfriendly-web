@@ -1,7 +1,7 @@
 var instructions = (function (instructions) { 
   // private properties
-  // var debug = true;
-  var debug = false;
+  var debug = true;
+  // var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
@@ -12,12 +12,14 @@ var instructions = (function (instructions) {
   var oauthToken = null;
   var currentStep = {};
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
-  // var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'http://0.0.0.0:5000'
   var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
   var originalCount = false;
+  var originalAttributeValues = false;
   var challengeWindow;
 
   // PUBLIC METHODS
@@ -213,12 +215,26 @@ var instructions = (function (instructions) {
 
   // login clicked
   function _loginClicked(evt){
-    if (debug) console.log('login clicked');
+    if (debug) console.log('Logging into '+lesson.third_party_service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    OAuth.popup(lesson.third_party_service, function(error, result) {
+    var options
+    if (lesson.third_party_service == 'facebook'){
+      options = {authorize:{display:"popup"}};
+    }
+    if (lesson.third_party_service == 'trello'){
+      options = {authorize:{name:"BizFriendly",expiration:"never"}};
+    }
+    OAuth.popup(lesson.third_party_service, options, function(error, result) {
       //handle error with error
       if (error) console.log(error);
-      oauthToken = result.access_token;
+      if (debug) console.log(result);
+
+      if (result.hasOwnProperty("access_token")){
+        oauthToken = result.access_token;
+      }
+      if (result.hasOwnProperty("oauth_token")){
+        oauthToken = result.oauth_token;
+      }
 
       // Add connection to server db
       var data = {service: lesson.third_party_service, service_access: oauthToken}
@@ -240,7 +256,8 @@ var instructions = (function (instructions) {
       lessonName : lesson.name,
       lessonId : lesson.id,
       thirdPartyService : lesson.third_party_service,
-      originalCount : false
+      originalCount : false,
+      originalAttributeValues : false
     }
 
     // If step type is login
@@ -298,6 +315,19 @@ var instructions = (function (instructions) {
         // Then call get_attributes
         BfUser.get_attributes(postData, _getAttributes);
       });
+    }
+
+    // check_attribute_for_update
+    if (currentStep.stepType == 'check_attribute_for_update' && oauthToken){
+      console.log(originalAttributeValues);
+      // This step fires at least twice. First time it just gets the originalAttributeValues
+      // Every following time it compares the value of the attribute to the originalAttributeValues
+      if ( originalAttributeValues ){
+        if (debug) console.log("originalAttributeValues: " + originalAttributeValues);
+        postData["originalAttributeValues"] = originalAttributeValues.toString();
+      }
+      console.log(postData);
+      BfUser.check_attribute_for_update(postData, _checkAttributeForUpdate);
     }
 
     // congrats
@@ -423,6 +453,29 @@ var instructions = (function (instructions) {
       if ( lesson.third_party_service == 'foursquare'){
         $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       }
+      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      $('#next').addClass('animated pulse');
+    }
+  }
+
+  // An attribute of the object is updated
+  // Display that attribute
+  function _checkAttributeForUpdate(response){
+    if (debug) console.log(response);
+    response = $.parseJSON(response);
+    if (response.timeout) _checkStep();
+    if ( !response.attribute_value_updated ){
+      if ( response.original_attribute_values != false ){
+        // If the attribute hasn't been updated, yet we have the original value
+        // then ask again with the original value in the request.
+        originalAttributeValues = response.original_attribute_values;
+        console.log('Checking again with original_value');
+        _checkStep();
+      }
+    }
+    if ( response.attribute_value_updated ){
+      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');

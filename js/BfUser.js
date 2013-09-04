@@ -1,13 +1,15 @@
 var BfUser = (function (BfUser)  {
-  var debug = false;
+  // var debug = false;
+  var debug = true;
   ///// CONSTRUCTION /////
   var name = "";
   var email = "";
   var bfAccessToken = "";
   var signedIn = false;
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
-  // var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'http://0.0.0.0:5000'
   var bfApiVersion = '/api/v1';
 
   ///// PUBLIC METHODS /////
@@ -237,6 +239,11 @@ var BfUser = (function (BfUser)  {
     _tokenPost(bfUrl + '/check_attribute_for_value', data, successFunc)
   };
 
+  // Check attribute for update
+  function check_attribute_for_update(data, successFunc) {
+    _tokenPost(bfUrl + '/check_attribute_for_update', data, successFunc)
+  };
+
   // Get attributes
   function get_attributes(data, successFunc) {
     _tokenPost(bfUrl + '/get_attributes', data, successFunc)
@@ -249,6 +256,7 @@ var BfUser = (function (BfUser)  {
   BfUser.check_for_new = check_for_new;
   BfUser.check_if_attribute_exists = check_if_attribute_exists;
   BfUser.check_attribute_for_value = check_attribute_for_value;
+  BfUser.check_attribute_for_update = check_attribute_for_update;
   BfUser.get_attributes = get_attributes;
 
   return BfUser;
