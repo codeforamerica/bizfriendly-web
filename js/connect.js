@@ -29,13 +29,44 @@ var connect = (function (connect) {
     $('#main').toggle();
     console.log(response);
     var most_recent;
-    // Last object with a
+    var user_lesson_count = {};
+    var html;
+    // Last object with a completed date
     $.each(response.objects, function(i){
+      // Get the most recent completed lesson
       if (response.objects[i].end_dt){
         most_recent = response.objects[i];
       }
+      // Count how many completed by each user
+      if (response.objects[i].user.name in user_lesson_count){
+        user_lesson_count[response.objects[i].user.name] = user_lesson_count[response.objects[i].user.name] + 1
+      } else {
+        user_lesson_count[response.objects[i].user.name] = 1
+      }
     })
-    $("#recent-content").html(most_recent["user"]["name"]+' recently finished '+most_recent["lesson"]["name"]);
+    // Display most recent lesson
+    var recentHtml = most_recent["user"]["name"]
+         + ' recently finished <a href="http://bizfriend.ly/lesson.html?'
+         + most_recent["lesson"]["id"]
+         + '">' + most_recent["lesson"]["name"] + '</a>'
+    $("#recent-content").html(recentHtml);
+    
+    // Display top learners
+    if (debug) console.log(user_lesson_count);
+    for (name in user_lesson_count){
+      html += '<tr>'
+           + '<td>'+name+'</td>'
+           +  '<td>'+user_lesson_count[name]+'</td>'
+           + '</tr>';
+    }
+    $('#top-learners-content table tbody').html(html);
+  }
+
+  function _updateTableForLessonsCompleted(user_lesson_count) {
+    // $('#top-learners-content table tbody')
+    for (name in user_lesson_count){
+      console.log(name);
+    }
   }
 
 

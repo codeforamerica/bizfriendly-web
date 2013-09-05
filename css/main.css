@@ -167,9 +167,9 @@ li {
   border-color: #C7E4EE;
 }
 
-#sidemenu, #mainmenu {
+#main {
 	position: relative;
-	top: -65px;
+	top: -125px;
 }
 
 #sidemenu li{
@@ -253,13 +253,25 @@ table .lesson-name {
 	color: #ff4000;
 }
 
-#recent {
+#recent, #top-learners {
 	position: relative;
-	top: -75px;
+	top: -125px;
 }
 
 #recent-content {
+	padding-top: 25px;
 	border: solid 1px;
+	height: 150px;
+	font-weight: 700;
+	margin-bottom: 25px;
+}
+
+#recent-content a {
+	color: #FF4000;
+}
+
+#recent-content a:hover {
+	color: #FF4000;
 }
 
 #teach .alert-info {
@@ -270,27 +282,6 @@ table .lesson-name {
 #alpha {
 	position: relative;
 	top: 15px;
-}
-
-#teach #progress {
-	margin-top: 15px;
-}
-
-li.progress-button { cursor: pointer; }
-
-#teach #progress #plusSteps{
-	position:relative;
-	top: -2px;
-}
-
-#teach #progress #minusSteps{
-	position:relative;
-	top: -2px;
-}
-
-#teach #lesson-name-form,#teach #progress,#teach #main{
-	position:relative;
-	top: -75px;
 }
 
 #teach h3{
@@ -398,9 +389,9 @@ li.progress-button { cursor: pointer; }
 	color: #0F6095;
 }
 
-header, #main, #bottom, footer {
+header, #bottom, footer{
 	position:relative;
-	top: -50px;
+	top: -75px;
 }
 
 #loading {
@@ -413,7 +404,7 @@ header, #main, #bottom, footer {
 
 #subheader {
 	position: relative;
-	top: -125px;
+	top: -150px;
 	left: -12px;
 }
 

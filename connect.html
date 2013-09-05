@@ -15,8 +15,7 @@
     <link href="css/main.css" rel="stylesheet">
 
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="js/vendor/jquery-ui.js"></script>
-    <script src="js/vendor/jquery.editable.min.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
@@ -59,6 +58,22 @@
         </div>
     </section>
 
+    <section id="top-learners" class="row">
+        <h2 class="blue col-offset-3 col-lg-6">Top Learners</h2>
+        <div id="top-learners-content" class="col-offset-3 col-lg-6">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Number of Lessons</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+        </div>
+    </section>
+
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
             <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
@@ -67,5 +82,6 @@
         </ul>
     </footer>
 </body>
-    <script src="js/connect.js"></script>
+    <script type="text/javascript" src="js/BfUser.js"></script>
+    <script type="text/javascript" src="js/connect.js"></script>
 </html>
