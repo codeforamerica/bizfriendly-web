@@ -12,8 +12,8 @@ var instructions = (function (instructions) {
   var oauthToken = null;
   var currentStep = {};
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
-  // var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
   var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
@@ -179,7 +179,12 @@ var instructions = (function (instructions) {
       _updateStepsStates();
       _updateProgressBar();
       // Record most recent opened step 
-      // BfUser.record_step(currentStep, _recordedStep);
+      postData = {
+        currentStep : currentStep,
+        lessonName : lesson.name,
+        lessonId : lesson.id,
+      }
+      BfUser.record_step(postData, _recordedStep);
       _showStep();
       _checkStep();
     }
@@ -365,8 +370,13 @@ var instructions = (function (instructions) {
     }
     _updateStepsStates();
     _updateProgressBar();
-    // Record most recent opened step 
-    // BfUser.record_step(currentStep, _recordedStep);
+    // Record most recent opened step
+    postData = {
+        currentStep : currentStep,
+        lessonName : lesson.name,
+        lessonId : lesson.id,
+      }
+    BfUser.record_step(postData, _recordedStep);
     _showStep();
     _checkStep();
   }
@@ -440,7 +450,6 @@ var instructions = (function (instructions) {
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
     $('#next').addClass('animated pulse');
   }
-
 
   function _showCongrats(){
     $('section h2').toggle();

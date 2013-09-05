@@ -253,13 +253,13 @@ table .lesson-name {
 	color: #ff4000;
 }
 
-#connect section {
-	text-align: center;
+#recent {
+	position: relative;
+	top: -75px;
 }
 
-#connect section img {
-	width : 250px;
-	padding-bottom: 100px;
+#recent-content {
+	border: solid 1px;
 }
 
 #teach .alert-info {
@@ -318,6 +318,11 @@ li.progress-button { cursor: pointer; }
 
 .instruction-header-img {
 	margin-top: 10px;
+}
+
+#instructions header, #instructions footer {
+	position:relative;
+	top: 0px;
 }
 
 #instructions .btn {
