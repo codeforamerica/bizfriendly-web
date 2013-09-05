@@ -6,7 +6,8 @@ var BfUser = (function (BfUser)  {
   var bfAccessToken = "";
   var signedIn = false;
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'https://howtocity-staging.herokuapp.com'
   // var bfUrl = 'http://127.0.0.1:8000';
   var bfApiVersion = '/api/v1';
 
