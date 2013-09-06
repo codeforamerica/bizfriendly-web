@@ -611,6 +611,10 @@ section .btn{
 	height: 15px;
 }
 
+#signin #feedback, #signup #feedback {
+	position: relative;
+	top: -75px;
+}
 
 /*#signup-form {
 	background-color: #74bbd4;

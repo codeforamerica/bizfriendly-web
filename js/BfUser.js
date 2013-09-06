@@ -79,6 +79,14 @@ var BfUser = (function (BfUser)  {
       $('#signOutLink').hide();
     }
   }
+
+  function _badPost(response){
+    response = $.parseJSON(response.responseText);
+    console.log(response.error);
+    $('#feedback h2').addClass('alert alert-danger').html(response.error);
+  }
+
+
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
     if (debug) console.log("Submitting signup info.")
@@ -97,12 +105,6 @@ var BfUser = (function (BfUser)  {
     } else {
       $('#feedback h2').addClass('alert alert-danger').html('That email doesn\'t look right.');
     }
-  }
-
-  function _badPost(response){
-    console.log(response);
-    response = $.parseJSON(response.responseText);
-    $('#feedback h2').addClass('alert alert-danger').html(response.error);
   }
 
   // Send sign in info to server on signin click.
