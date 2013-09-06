@@ -86,7 +86,6 @@ var BfUser = (function (BfUser)  {
     $('#feedback h2').addClass('alert alert-danger').html(response.error);
   }
 
-
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
     if (debug) console.log("Submitting signup info.")
@@ -96,15 +95,7 @@ var BfUser = (function (BfUser)  {
         password : $('#signup-password').val()
     }
     if (debug) console.log(newUser);
-    function isEmail(email) {
-      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      return regex.test(email);
-    }
-    if (isEmail($('#signup-email').val())){
-      $.post(bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
-    } else {
-      $('#feedback h2').addClass('alert alert-danger').html('That email doesn\'t look right.');
-    }
+    $.post(bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
   }
 
   // Send sign in info to server on signin click.
