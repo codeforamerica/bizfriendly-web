@@ -47,7 +47,7 @@ var connect = (function (connect) {
     })
     // Display most recent lesson
     var recentHtml = most_recent["user"]["name"]
-         + ' recently finished <a href="http://bizfriend.ly/lesson.html?'
+         + ' recently finished <a href="http://staging.bizfriend.ly/lesson.html?'
          + most_recent["lesson"]["id"]
          + '">' + most_recent["lesson"]["name"] + '</a>'
     $("#recent-content").html(recentHtml);
