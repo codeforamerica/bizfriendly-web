@@ -281,7 +281,7 @@ var instructions = (function (instructions) {
       console.log(originalCount);
       // This step fires at least twice. First time it just gets the originalCount
       // Every following time it compares the number of objects to the originalCount
-      if ( originalCount ){
+      if ( originalCount !== false ){
         if (debug) console.log("originalCount: " + originalCount);
         postData["originalCount"] = originalCount;
       }
@@ -409,7 +409,7 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( !response.new_object_added ){
-      if ( response.original_count != false ){
+      if ( response.original_count !== false ){
         // If no new thing added, yet there is an original count
         // then ask again with the count in the post data.
         originalCount = response.original_count;
@@ -423,6 +423,8 @@ var instructions = (function (instructions) {
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
+      // Cancel out originalCount!!!
+      originalCount = false;
     }
   }
 
@@ -475,10 +477,14 @@ var instructions = (function (instructions) {
       }
     }
     if ( response.attribute_value_updated ){
+      // Remember the attribute!
+      // rememberedAttribute = response.attribute_to_remember;
       $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
+      // Cancel out original attributes!!!
+      originalAttributeValues = false;
     }
   }
 
