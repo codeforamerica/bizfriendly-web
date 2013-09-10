@@ -146,7 +146,7 @@ var BfUser = (function (BfUser)  {
   function _signedIn(response){
     if (debug) console.log(response);
     if (response.status == 200) {
-      BfUser.email = response.email;
+      BfUser.email = response.email.toLowerCase();
       BfUser.bfAccessToken = response.access_token;
       BfUser.signedIn = true;
       BfUser.name = response.name;
