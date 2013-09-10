@@ -224,9 +224,12 @@ var instructions = (function (instructions) {
   function _loginClicked(evt){
     if (debug) console.log('Logging into '+lesson.third_party_service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
-    var options
+    var options;
     if (lesson.third_party_service == 'facebook'){
       options = {authorize:{display:"popup"}};
+    }
+    if (lesson.third_party_service == 'foursquare'){
+      options = {authorize:{display:"touch"}};
     }
     if (lesson.third_party_service == 'trello'){
       options = {authorize:{name:"BizFriendly",expiration:"never"}};
