@@ -12,8 +12,8 @@ var instructions = (function (instructions) {
   var oauthToken = null;
   var currentStep = {};
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
-  // var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
   var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
