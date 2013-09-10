@@ -4,8 +4,8 @@ var lesson = (function (lesson) {
   // var debug = true;
   var debug = false;
   // var bfUrl = 'https://app.bizfriend.ly';
-  var bfUrl = 'https://app-staging.bizfriend.ly';
-  // var bfUrl = 'http://127.0.0.1:8000';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
   var bfApiVersion = '/api/v1'
   var lesson = {};
 
@@ -39,6 +39,9 @@ var lesson = (function (lesson) {
     }
     if (lesson.third_party_service == 'foursquare'){
       $('#main-video').html('<iframe src="http://player.vimeo.com/video/72066312" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+    }
+    else {
+      $('#main-video').html('<img width="610" height="340" src="img/promo_vid.png">');
     }
     $('#main #main-text .lesson-name').html(lesson.name);
     $('#main #main-text .lesson-description').html(lesson.long_description);
