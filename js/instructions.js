@@ -22,6 +22,11 @@ var instructions = (function (instructions) {
   var originalAttributeValues = false;
   var challengeWindow;
 
+  // variables for meta lesson
+  var bizType;
+  var city;
+  var state;
+
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
@@ -177,18 +182,7 @@ var instructions = (function (instructions) {
   function _nextClicked(evt){
     console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
-      currentStep = steps[currentStep.stepNumber];
-      _updateStepsStates();
-      _updateProgressBar();
-      // Record most recent opened step 
-      postData = {
-        currentStep : currentStep,
-        lessonName : lesson.name,
-        lessonId : lesson.id,
-      }
-      BfUser.record_step(postData, _recordedStep);
-      _showStep();
-      _checkStep();
+      _goToNextStep();
     }
   }
 
@@ -253,6 +247,27 @@ var instructions = (function (instructions) {
     }); 
   }
 
+  function _goToNextStep(){
+    currentStep = steps[currentStep.stepNumber];
+    if ($('.feedback').css('display') == 'block'){
+      $('.feedback').toggle();
+    }
+    if ($('.step_text').css('display') == 'none'){
+      $('.step_text').toggle();
+    }
+    _updateStepsStates();
+    _updateProgressBar();
+    // Record most recent opened step
+    postData = {
+        currentStep : currentStep,
+        lessonName : lesson.name,
+        lessonId : lesson.id,
+      }
+    BfUser.record_step(postData, _recordedStep);
+    _showStep();
+    _checkStep();
+  }
+
   // Check steps
   function _checkStep(){
     if (debug) console.log(currentStep.name);
@@ -270,28 +285,53 @@ var instructions = (function (instructions) {
 
     if (currentStep.stepType == 'meta_intro'){
       // Get the users name
-      $("#userInputSubmit").click(_metaIntroClicked);
+      $("#userInputSubmit").click(function(evt){
+        bizType = $('#userInput').val();
+        _goToNextStep();
+      });
     }
 
     if (currentStep.stepType == 'meta_location'){
       // Get the users name
       $.getJSON('http://ip-api.com/json', function(response){
-        $('.cityName').text(response.city);
-        $('.stateName').text(response.regionName);
+        city = response.city;
+        state = response.regionName;
+        $('.cityName').text(city);
+        $('.stateName').text(state);
+        rememberedAttribute = 'find_desc='+bizType+'&find_loc='+city+',+'+state
+        rememberedAttribute = rememberedAttribute.replace(' ','+');
       });
 
+      // Check with them if location was correct
       $('#yes').click(function(evt){
-        $('.feedback').toggle();
-        $('#feedbackNo').hide();
-        $('.step_text').toggle();
-        $('#next').addClass('animated pulse');
+        _goToNextStep();
       });
+      // If no, then take in the new address
       $('#no').click(function(evt){
         $('.feedback').toggle();
         $('#feedbackYes').hide();
         $('.step_text').toggle();
-        // $('#next').addClass('animated pulse');
+        // Get new city, state and go to the next step.
+        $('#userInputSubmit').click(function(evt){
+          city = $('#userInputCity').val();
+          state = $('#userInputState').val();
+          rememberedAttribute = 'find_desc='+bizType+'&find_loc='+city+',+'+state
+          rememberedAttribute = rememberedAttribute.replace(' ','+');
+          _goToNextStep();
+        });
+      });
+    }
 
+    if (currentStep.stepType == 'meta_found_biz'){
+      // Did they find their biz?
+      $('#yes').click(function(evt){
+        _goToNextStep();
+      });
+      // If no, then take in the new address
+      $('#no').click(function(evt){
+        $('.feedback').toggle();
+        $('#feedbackYes').hide();
+        $('.step_text').toggle();
       });
     }
 
@@ -387,14 +427,6 @@ var instructions = (function (instructions) {
     $('#popover').popover({ content: example, html: true, placement: 'top', trigger: 'hover' });
   }
 
-  // metaIntro step clicked
-  function _metaIntroClicked(evt){
-    $('.feedback').toggle();
-    $('.step_text').toggle();
-    $('.responseDisplay').html($('#userInput').val());
-    $('#next').addClass('animated pulse');
-  }
-
   // They are loggedIn
   function _loggedIn(){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
@@ -426,27 +458,16 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
+    // If url has replace_me in it, replace with rememberedAttribute
+    console.log(currentStep.triggerEndpoint);
+    console.log(rememberedAttribute);
+    if(currentStep.triggerEndpoint.indexOf('replace_me') != -1){
+      currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replace_me',rememberedAttribute);
+    }
     _openChallengeWindow(currentStep.triggerEndpoint);
     
     // Advance to next step
-    currentStep = steps[currentStep.stepNumber];
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
-    if ($('.step_text').css('display') == 'none'){
-      $('.step_text').toggle();
-    }
-    _updateStepsStates();
-    _updateProgressBar();
-    // Record most recent opened step
-    postData = {
-        currentStep : currentStep,
-        lessonName : lesson.name,
-        lessonId : lesson.id,
-      }
-    BfUser.record_step(postData, _recordedStep);
-    _showStep();
-    _checkStep();
+    _goToNextStep();
   }
 
   // A new object is added at a url endpoint
