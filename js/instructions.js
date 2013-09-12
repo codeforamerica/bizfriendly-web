@@ -276,7 +276,22 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'meta_location'){
       // Get the users name
       $.getJSON('http://ip-api.com/json', function(response){
-        console.log(response);
+        $('.cityName').text(response.city);
+        $('.stateName').text(response.regionName);
+      });
+
+      $('#yes').click(function(evt){
+        $('.feedback').toggle();
+        $('#feedbackNo').hide();
+        $('.step_text').toggle();
+        $('#next').addClass('animated pulse');
+      });
+      $('#no').click(function(evt){
+        $('.feedback').toggle();
+        $('#feedbackYes').hide();
+        $('.step_text').toggle();
+        // $('#next').addClass('animated pulse');
+
       });
     }
 
