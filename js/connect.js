@@ -20,7 +20,7 @@ var connect = (function (connect) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
-    console.log(response);
+    if (config.debug) console.log(response);
     var most_recent;
     var user_lesson_count = {};
     var html;
@@ -58,7 +58,7 @@ var connect = (function (connect) {
   function _updateTableForLessonsCompleted(user_lesson_count) {
     // $('#top-learners-content table tbody')
     for (name in user_lesson_count){
-      console.log(name);
+      if (config.debug) console.log(name);
     }
   }
 
