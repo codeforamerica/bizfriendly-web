@@ -168,7 +168,7 @@ var instructions = (function (instructions) {
 
   // next button is clicked
   function _nextClicked(evt){
-    console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
+    if (config.debug) console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
       currentStep = steps[currentStep.stepNumber];
       _updateStepsStates();
