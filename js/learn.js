@@ -1,14 +1,5 @@
 var learn = (function (learn) {
 
-  // private properties
-  // var debug = true;
-  var debug = false;
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1'
   var categories = [];
   var featuredCategory = 'promote';
   var selectedCategory = 'featured';
@@ -16,10 +7,10 @@ var learn = (function (learn) {
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
+    if (config.debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
     _loading();
-    $.getJSON(bfUrl+bfApiVersion+'/categories', _main);
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/categories', _main);
   }
 
   // PRIVATE METHODS
@@ -33,7 +24,7 @@ var learn = (function (learn) {
     $('#main').toggle();
     categories = response.objects;
     $(categories).each(function(i){
-      if (debug) console.log(categories[i]);
+      if (config.debug) console.log(categories[i]);
       // Fill up the sidemenu
       $('#sidemenu ul').append('<li id="'+categories[i].url+'">'+categories[i].name+'</li>');
       // Style selected category

@@ -1,22 +1,14 @@
 var connect = (function (connect) {
 
   // private properties
-  // var debug = true;
-  var debug = false;
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1'
 
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
+    if (config.debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
     _loading();
-    $.getJSON(bfUrl+bfApiVersion+'/userlessons', _main);
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', _main);
   }
 
   // PRIVATE METHODS
@@ -53,7 +45,7 @@ var connect = (function (connect) {
     $("#recent-content").html(recentHtml);
     
     // Display top learners
-    if (debug) console.log(user_lesson_count);
+    if (config.debug) console.log(user_lesson_count);
     for (name in user_lesson_count){
       html += '<tr>'
            + '<td>'+name+'</td>'

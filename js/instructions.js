@@ -1,7 +1,5 @@
 var instructions = (function (instructions) { 
   // private properties
-  var debug = true;
-  // var debug = false;
   var width = window.screen.width;
   var height = window.screen.height;
   var bodyPadding = 0;
@@ -11,13 +9,6 @@ var instructions = (function (instructions) {
   var step = {};
   var oauthToken = null;
   var currentStep = {};
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
   var originalCount = false;
@@ -27,11 +18,11 @@ var instructions = (function (instructions) {
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
+    if (config.debug) console.log('init');
     // Get lessonId from the url
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
-    $.getJSON(bfUrl+bfApiVersion+'/lessons/'+lessonId, _main);
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, _main);
   }
 
   // PRIVATE METHODS 
@@ -65,7 +56,7 @@ var instructions = (function (instructions) {
   }
 
   function _checkWindowSize(){
-    if (debug) console.log(window.innerWidth);
+    if (config.debug) console.log(window.innerWidth);
     if(window.innerWidth > 340){
       window.resizeTo(340,height);
       window.moveTo(width-340,0);
@@ -73,7 +64,7 @@ var instructions = (function (instructions) {
   }
 
   function _orderSteps(){
-    if (debug) console.log('ordering steps');
+    if (config.debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
       if (a.step_number < b.step_number) return -1;
       if (a.step_number > b.step_number) return 1;
@@ -83,7 +74,7 @@ var instructions = (function (instructions) {
 
   // Change steps attributes to have camelCase
   function _convertStepsAttributesNames(){
-    if (debug) console.log('Change attribute names to camelCase.');
+    if (config.debug) console.log('Change attribute names to camelCase.');
     var stepsWithJsNames = [];
     $(steps).each(function(i){
       step = {
@@ -107,7 +98,7 @@ var instructions = (function (instructions) {
 
   // Set the steps state
   function _updateStepsStates(){
-    if (debug) console.log('updating steps states');
+    if (config.debug) console.log('updating steps states');
     $(steps).each(function(i){
       if (currentStep.stepNumber == steps[i].stepNumber){
         steps[i].stepState = "active";
@@ -123,7 +114,7 @@ var instructions = (function (instructions) {
 
   // Make progress bar
   function _makeProgressBar(){
-    if (debug) console.log('making progress bar');
+    if (config.debug) console.log('making progress bar');
     $(steps).each(function(i){
         $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
     });
@@ -135,7 +126,7 @@ var instructions = (function (instructions) {
 
   // Update the progress bar
   function _updateProgressBar(){
-    if (debug) console.log('updating progress bar');
+    if (config.debug) console.log('updating progress bar');
     $(steps).each(function(i){
       $('#step'+steps[i].stepNumber+'_progress').removeClass('unfinished active finished').addClass(steps[i].stepState);
       if (steps[i].stepNumber == currentStep.stepNumber){
@@ -149,7 +140,7 @@ var instructions = (function (instructions) {
   // Show the current step
   function _showStep(){
     _stepTransition();
-    if (debug) console.log('showing step');
+    if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
     // $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
@@ -172,7 +163,7 @@ var instructions = (function (instructions) {
   }
 
   function _stepTransition(){
-    if (debug) console.log('Step Transition');
+    if (config.debug) console.log('Step Transition');
   }
 
   // next button is clicked
@@ -222,7 +213,7 @@ var instructions = (function (instructions) {
 
   // login clicked
   function _loginClicked(evt){
-    if (debug) console.log('Logging into '+lesson.third_party_service);
+    if (config.debug) console.log('Logging into '+lesson.third_party_service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
     var options;
     if (lesson.third_party_service == 'facebook'){
@@ -237,7 +228,7 @@ var instructions = (function (instructions) {
     OAuth.popup(lesson.third_party_service, options, function(error, result) {
       //handle error with error
       if (error) console.log(error);
-      if (debug) console.log(result);
+      if (config.debug) console.log(result);
 
       if (result.hasOwnProperty("access_token")){
         oauthToken = result.access_token;
@@ -257,7 +248,7 @@ var instructions = (function (instructions) {
 
   // Check steps
   function _checkStep(){
-    if (debug) console.log(currentStep.name);
+    if (config.debug) console.log(currentStep.name);
 
     // Create postData
     postData = {
@@ -292,14 +283,14 @@ var instructions = (function (instructions) {
       // This step fires at least twice. First time it just gets the originalCount
       // Every following time it compares the number of objects to the originalCount
       if ( originalCount !== false ){
-        if (debug) console.log("originalCount: " + originalCount);
+        if (config.debug) console.log("originalCount: " + originalCount);
         postData["originalCount"] = originalCount;
       }
       BfUser.check_for_new(postData, _checkForNew);
     }
     // check_if_attribute_exists
     if (currentStep.stepType == 'check_if_attribute_exists' && oauthToken){
-      if (debug) console.log(currentStep);
+      if (config.debug) console.log(currentStep);
       BfUser.check_if_attribute_exists(postData, _checkIfAttributeExists);
     }
 
@@ -333,7 +324,7 @@ var instructions = (function (instructions) {
       // This step fires at least twice. First time it just gets the originalAttributeValues
       // Every following time it compares the value of the attribute to the originalAttributeValues
       if ( originalAttributeValues ){
-        if (debug) console.log("originalAttributeValues: " + originalAttributeValues);
+        if (config.debug) console.log("originalAttributeValues: " + originalAttributeValues);
         postData["originalAttributeValues"] = originalAttributeValues.toString();
       }
       console.log(postData);
@@ -371,11 +362,11 @@ var instructions = (function (instructions) {
 
   // Saved a connection in the db
   function _createdConnection(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
   }
 
   function _recordedStep(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
   }
 
   // Open up the main window to the web service we want to teach.
@@ -420,7 +411,7 @@ var instructions = (function (instructions) {
   // Remember a certain attribute, object id for example.
   // Display another attribute
   function _checkForNew(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( !response.new_object_added ){
@@ -446,7 +437,7 @@ var instructions = (function (instructions) {
   // A certain attribute exists at the url endpoint
   // Display the returned attribute
   function _checkIfAttributeExists(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( response.attribute_exists ){
@@ -460,7 +451,7 @@ var instructions = (function (instructions) {
   // A certain attribute equals a determined value
   // Display the returned attribute
   function _checkAttributeForValue(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
@@ -479,7 +470,7 @@ var instructions = (function (instructions) {
   // An attribute of the object is updated
   // Display that attribute
   function _checkAttributeForUpdate(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( !response.attribute_value_updated ){
@@ -505,7 +496,7 @@ var instructions = (function (instructions) {
 
   // Display the returned attributes
   function _getAttributes(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     response = $.parseJSON(response);
     $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
     $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);

@@ -1,24 +1,16 @@
 var lesson = (function (lesson) {
 
-  // private properties
-  // var debug = true;
-  var debug = false;
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1'
+  // Construction
   var lesson = {};
 
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
+    if (config.debug) console.log('init');
     lessonId = window.location.search.split('?')[1];
     // Call the API and get that lesson
     _loading();
-    $.getJSON(bfUrl+bfApiVersion+'/lessons/'+lessonId, _main);
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, _main);
   }
 
   // PRIVATE METHODS

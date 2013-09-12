@@ -1,22 +1,13 @@
 var BfUser = (function (BfUser)  {
-  // var debug = false;
-  var debug = true;
   ///// CONSTRUCTION /////
   var name = "";
   var email = "";
   var bfAccessToken = "";
   var signedIn = false;
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1';
 
   ///// PUBLIC METHODS /////
   function init(){
-    if (debug) console.log("Init BfUser.");
+    if (config.debug) console.log("Init BfUser.");
     var userData = _readUserCookie();
     if (userData){
       BfUser.name = userData.name;
@@ -91,14 +82,14 @@ var BfUser = (function (BfUser)  {
 
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
-    if (debug) console.log("Submitting signup info.")
+    if (config.debug) console.log("Submitting signup info.")
       newUser = {
         name : $('#signup-name').val(),
         email : $('#signup-email').val(),
         password : $('#signup-password').val()
     }
-    if (debug) console.log(newUser);
-    $.post(bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
+    if (config.debug) console.log(newUser);
+    $.post(config.bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
   }
 
   // Send sign in info to server on signin click.
@@ -107,8 +98,8 @@ var BfUser = (function (BfUser)  {
       email : $('#signin-email').val(),
       password : $('#signin-password').val()
     };
-    if (debug) console.log(returningUser);
-    $.post(bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
+    if (config.debug) console.log(returningUser);
+    $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
   }
 
   // Sign out clicked, clear user state/cookie
@@ -123,7 +114,7 @@ var BfUser = (function (BfUser)  {
   }
   // // Set User state based on sign up response
   // function _signedUp(response) {
-  //   if (debug) console.log(response);
+  //   if (config.debug) console.log(response);
   //   // Set User state based on login
   //   if (response.status == 200) {
   //     BfUser.email = response.email;
@@ -134,7 +125,7 @@ var BfUser = (function (BfUser)  {
   //     // Set a cookie!
   //     $.removeCookie('BfUser');
   //     _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-  //     if (debug) console.log($.cookie('BfUser'));
+  //     if (config.debug) console.log($.cookie('BfUser'));
 
       
   //     window.location.replace('/')
@@ -147,7 +138,7 @@ var BfUser = (function (BfUser)  {
 
   //Set User state based on sign in response
   function _signedIn(response){
-    if (debug) console.log(response);
+    if (config.debug) console.log(response);
     if (response.status == 200) {
       BfUser.email = response.email.toLowerCase();
       BfUser.bfAccessToken = response.access_token;
@@ -157,7 +148,7 @@ var BfUser = (function (BfUser)  {
       // Set a cookie!
       $.removeCookie('BfUser');
       _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-      if (debug) console.log($.cookie('BfUser'));
+      if (config.debug) console.log($.cookie('BfUser'));
 
       // TODO: fix this flow
       window.location.replace('/')
@@ -210,37 +201,37 @@ var BfUser = (function (BfUser)  {
 
   // Remember the access token of a service connection
   function create_connection(data, successFunc) {
-    _tokenPost(bfUrl + '/create_connection', data, successFunc)
+    _tokenPost(config.bfUrl + '/create_connection', data, successFunc)
   };
 
   // Remember the most recent step progress
   function record_step(data, successFunc) {
-    _tokenPost(bfUrl + '/record_step', data, successFunc)
+    _tokenPost(config.bfUrl + '/record_step', data, successFunc)
   };
 
   // Check for new
   function check_for_new(data, successFunc) {
-    _tokenPost(bfUrl + '/check_for_new', data, successFunc)
+    _tokenPost(config.bfUrl + '/check_for_new', data, successFunc)
   };
 
   // Check if attribute exists
   function check_if_attribute_exists(data, successFunc) {
-    _tokenPost(bfUrl + '/check_if_attribute_exists', data, successFunc)
+    _tokenPost(config.bfUrl + '/check_if_attribute_exists', data, successFunc)
   };
 
   // Check attribute for value
   function check_attribute_for_value(data, successFunc) {
-    _tokenPost(bfUrl + '/check_attribute_for_value', data, successFunc)
+    _tokenPost(config.bfUrl + '/check_attribute_for_value', data, successFunc)
   };
 
   // Check attribute for update
   function check_attribute_for_update(data, successFunc) {
-    _tokenPost(bfUrl + '/check_attribute_for_update', data, successFunc)
+    _tokenPost(config.bfUrl + '/check_attribute_for_update', data, successFunc)
   };
 
   // Get attributes
   function get_attributes(data, successFunc) {
-    _tokenPost(bfUrl + '/get_attributes', data, successFunc)
+    _tokenPost(config.bfUrl + '/get_attributes', data, successFunc)
   };
 
   // add public methods to the returned module and return it
