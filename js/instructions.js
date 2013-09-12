@@ -13,10 +13,8 @@ var instructions = (function (instructions) {
   var currentStep = {};
   // var bfUrl = 'https://app.bizfriend.ly';
   // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
+  // var bfUrl = 'https://howtocity-staging.herokuapp.com'
+  var bfUrl = 'http://127.0.0.1:8000';
   var bfApiVersion = '/api/v1';
   var rememberedAttribute;
   var postData = {};
@@ -270,6 +268,18 @@ var instructions = (function (instructions) {
       originalAttributeValues : false
     }
 
+    if (currentStep.stepType == 'meta_intro'){
+      // Get the users name
+      $("#userInputSubmit").click(_metaIntroClicked);
+    }
+
+    if (currentStep.stepType == 'meta_location'){
+      // Get the users name
+      $.getJSON('http://ip-api.com/json', function(response){
+        console.log(response);
+      });
+    }
+
     // If step type is login
     if (currentStep.stepType == 'login'){
         // First step should have a login button
@@ -360,6 +370,14 @@ var instructions = (function (instructions) {
     var example = $('#example').html();
     $('#example').css('display','none');
     $('#popover').popover({ content: example, html: true, placement: 'top', trigger: 'hover' });
+  }
+
+  // metaIntro step clicked
+  function _metaIntroClicked(evt){
+    $('.feedback').toggle();
+    $('.step_text').toggle();
+    $('.responseDisplay').html($('#userInput').val());
+    $('#next').addClass('animated pulse');
   }
 
   // They are loggedIn
