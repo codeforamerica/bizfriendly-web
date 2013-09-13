@@ -23,7 +23,7 @@ var instructions = (function (instructions) {
   var challengeWindow;
 
   // variables for meta lesson
-  var bizType;
+  var userName;
   var city;
   var state;
 
@@ -263,7 +263,9 @@ var instructions = (function (instructions) {
         lessonName : lesson.name,
         lessonId : lesson.id,
       }
-    BfUser.record_step(postData, _recordedStep);
+    if (lesson.name != 'Welcome to BizFriendly'){
+      BfUser.record_step(postData, _recordedStep);
+    }
     _showStep();
     _checkStep();
   }
@@ -286,8 +288,10 @@ var instructions = (function (instructions) {
     if (currentStep.stepType == 'meta_intro'){
       // Get the users name
       $("#userInputSubmit").click(function(evt){
-        bizType = $('#userInput').val();
-        _goToNextStep();
+        userName = $('#userInput').val();
+        $('.responseDisplay').text(userName);
+        $('.feedback').toggle();
+        $('.step_text').toggle();
       });
     }
 
@@ -298,7 +302,7 @@ var instructions = (function (instructions) {
         state = response.regionName;
         $('.cityName').text(city);
         $('.stateName').text(state);
-        rememberedAttribute = 'find_desc='+bizType+'&find_loc='+city+',+'+state
+        rememberedAttribute = 'find_loc='+city+',+'+state
         rememberedAttribute = rememberedAttribute.replace(' ','+');
       });
 
@@ -315,24 +319,66 @@ var instructions = (function (instructions) {
         $('#userInputSubmit').click(function(evt){
           city = $('#userInputCity').val();
           state = $('#userInputState').val();
-          rememberedAttribute = 'find_desc='+bizType+'&find_loc='+city+',+'+state
+          rememberedAttribute = 'find_loc='+city+',+'+state
           rememberedAttribute = rememberedAttribute.replace(' ','+');
           _goToNextStep();
         });
       });
     }
 
-    if (currentStep.stepType == 'meta_found_biz'){
+    if (currentStep.stepType == 'meta_search'){
       // Did they find their biz?
-      $('#yes').click(function(evt){
-        _goToNextStep();
+      $('.yes').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').show();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
       });
-      // If no, then take in the new address
-      $('#no').click(function(evt){
-        $('.feedback').toggle();
-        $('#feedbackYes').hide();
-        $('.step_text').toggle();
+      // If no, then search again
+      $('.no').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').show();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
       });
+      $('.no2').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').show();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      $('.yes3').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').show();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      $('.no3').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').show()
+        $('.step_text').hide();
+      });
+    }
+
+    if (currentStep.stepType == 'meta_signup'){
+      console.log('meta_signup');
+      $('#signup-name').val(userName);
     }
 
     // If step type is login
