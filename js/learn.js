@@ -1,5 +1,15 @@
 var learn = (function (learn) {
 
+<<<<<<< HEAD
+=======
+  // private properties
+  // var debug = true;
+  var debug = false;
+  // var bfUrl = 'https://app.bizfriend.ly';
+  // var bfUrl = 'https://app-staging.bizfriend.ly';
+  var bfUrl = 'http://127.0.0.1:8000';
+  var bfApiVersion = '/api/v1'
+>>>>>>> teach
   var categories = [];
   var featuredCategory = 'promote';
   var selectedCategory = 'featured';

@@ -4,7 +4,6 @@ var BfUser = (function (BfUser)  {
   var email = "";
   var bfAccessToken = "";
   var signedIn = false;
-
   ///// PUBLIC METHODS /////
   function init(){
     if (config.debug) console.log("Init BfUser.");
