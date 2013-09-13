@@ -1,5 +1,8 @@
 var teach = (function (teach) {
 
+
+  var numberOfSteps = 1;
+
   // PUBLIC METHODS
   function init(){
     if (config.debug) console.log('init');
