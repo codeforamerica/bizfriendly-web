@@ -42,22 +42,31 @@ header ul, footer ul, #sidemenu ul{
 	list-style: none;
 }
 
+header {
+}
+
 li {
 	padding-top: 5px;
 }
 
 .navbar {
-	background-color: #FFF;
+	padding: 0px;
+	background-color: #fff;
+	margin: 0px;
+	border: none;
+	z-index: 1;
+/*	background-color: #FFF;
+	margin-bottom: 0px;*/
 }
 
 .nav {
-	margin-top: 57px;
-	margin-left: -7px;
+/*	margin-top: 50px;
+	margin-left: -15px;
 	height: 33px;
-	background-color: #585b5b;
+	background-color: #585b5b;*/
 }
 
-.navbar-nav li a {
+.navbar-default .navbar-nav>li>a {
 	padding-top: 0px;
 	font-size: 18px;
 	line-height: 20px;
@@ -65,9 +74,39 @@ li {
 	color: #FFF;
 }
 
-.navbar-nav li a:hover{
+.navbar-brand {
+/*	padding: 15px 0 0;
+	margin-right: 0px;*/
+}
+
+.navbar .links {
+	background-color: #585b5b;
+	margin-top: 61px;
+	margin-left: -16px;
+	color: #fff;
+	height: 35px;
+	position: absolute;
+	top: 0;
+	display: inline-block;
+}
+
+.navbar-nav {
+	float: none;
+}
+
+.navbar-nav>li {
+	display: inline-block;
+	float: none;
+	padding: 5px 70px;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
 	color: #74BBD4;
 	text-decoration: none;
+}
+
+.navbar .logo {
+	float: left;
 }
 
 #bfUserName, #signOutLink {
@@ -76,7 +115,6 @@ li {
 
 #subheader {
 	position: relative;
-	top: -75px;
 }
 
 #alpha {
@@ -104,8 +142,9 @@ li {
 
 #signinlinks {
 	position: relative;
-	top: 50px;
-	left: -20px;
+	top: 35px;
+	right: 5px;
+	z-index: 2;
 }
 
 #signinlinks a{
@@ -120,6 +159,21 @@ li {
 
 #main-text .lesson-name {
 	padding-bottom: 15px;
+}
+
+#main-video {
+	position: relative; 
+	padding-bottom: 32.75%; 
+	padding-top: 0px; 
+	height: 0; 
+	overflow: hidden;
+}
+
+#main-video iframe {
+	position: absolute; 
+	top: 0; 
+	width: 100%; 
+	height: 100%;
 }
 
 .btn-primary {
@@ -169,7 +223,6 @@ li {
 
 #main {
 	position: relative;
-	top: -125px;
 }
 
 #sidemenu li{
@@ -255,7 +308,6 @@ table .lesson-name {
 
 #recent, #top-learners {
 	position: relative;
-	top: -125px;
 }
 
 #recent-content {
@@ -281,7 +333,6 @@ table .lesson-name {
 
 #alpha {
 	position: relative;
-	top: 15px;
 }
 
 #teach h3{
@@ -361,20 +412,23 @@ table .lesson-name {
 
 .bottom_links {
 	height: 150px;
-	width: 30%;
 	padding: 20px;
 	float: left;
 	background-color: #74bbd4;
 	border-radius: 15px;
+	font-size: 12px;
+	overflow: hidden;
 }
 
 .bottom_links_spacer {
-	margin-right: 5%;
 }
 
 .bottom_links img {
 	float:left;
-	margin-right: 15px;
+	margin-right: 10px;
+	width: 90px;
+	height: 90px;
+	margin-top: 5px;
 }
 
 .bottom_links p {
@@ -391,7 +445,6 @@ table .lesson-name {
 
 header, #bottom, footer{
 	position:relative;
-	top: -75px;
 }
 
 #loading {
@@ -404,22 +457,20 @@ header, #bottom, footer{
 
 #subheader {
 	position: relative;
-	top: -150px;
-	left: -12px;
+	top: -40px;
+	z-index: 10;
 }
 
 .text-overlay{
 	color: #FFF;
 	font-weight: 700;
 	position: relative;
-	top: -175px;
 	left: 50px;
 	width: 400px;
 }
 
 #about section {
 	position: relative;
-	top: -125px;
 }
 
 #lesson .bottom_links {
@@ -613,7 +664,6 @@ section .btn{
 
 #signin #feedback, #signup #feedback {
 	position: relative;
-	top: -75px;
 }
 
 /*#signup-form {

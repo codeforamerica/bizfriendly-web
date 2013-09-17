@@ -23,67 +23,82 @@
 </head>
 <body id="index" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
-	<header class="navbar navbar-static-top row">
+	<header class="" role="navigation">
+        <div class="container">
         <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
             <a id="signUpLink" href="signup.html" >| Sign Up</a>
             <a id="bfUserName" href="#"></a>
             <a id="signOutLink" href="#">| Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
-        <ul class="nav navbar-nav col-lg-10 col-sm-7">
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
-        </ul>
+
+            <nav class="navbar navbar-default" role="navigation">
+                    <a class="logo" href="http://bizfriend.ly"><img width="200" src="img/bizfriendly_weblogo_alpha.png"></a>
+                    <div class="links col-sm-10">
+                        <ul class="nav navbar-nav">
+                            <li class=""><a href="learn.html">Learn</a></li>
+                            <li class=""><a href="teach.html">Teach</a></li>
+                            <li class=""><a href="connect.html">Connect</a></li>
+                        </ul>
+                    </div>
+            </nav>
+            </div>
 	</header>
 
-	<section id="main" class="row">
-        <div id="main-video" class="col-lg-7 col-sm-7 col-offset-1">
-            <iframe src="http://player.vimeo.com/video/72077227" width="605" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    <div class="container">
+        <div class="row">
+            <div id="alpha" class="alert alert-info col-md-offset-2 col-md-8">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
         </div>
-		<div id="main-text" class="col-lg-3">
-			<h1>BizFriendly makes it easy to use the web for your business.</h1>
-            <a type="button" href="learn.html" class="btn btn-primary btn-large">Get Started</a>
-		</div>
-    </section>
 
-	<section id="bottom" class="row">
-        <div class="col-lg-10 col-offset-1">
-    		<div class="bottom_links bottom_links_spacer">
-                <a href="learn.html" onMouseOver="document.learn.src='img/learn-blue.png';" onMouseOut="document.learn.src='img/learn.png';">
-                    <img src="img/learn.png" name="learn">
-                    <h2>Learn</h2>
-                    <p>how to use the web for your business.</p>
-                </a>
+    	<section id="main" class="row">
+            <div id="main-video" class="col-md-7 col-md-offset-1">
+                <iframe src="http://player.vimeo.com/video/72077227" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
             </div>
-    		<div class="bottom_links bottom_links_spacer">
-                <a href="teach.html" onMouseOver="document.teach.src='img/teach-blue.png';" onMouseOut="document.teach.src='img/teach.png';">
-                    <img src="img/teach.png" name="teach">
-                    <h2>Teach</h2>
-                    <p>other how you use the web for your business.</p>
-                </a>
+    		<div id="main-text" class="col-md-3">
+    			<h1>BizFriendly makes it easy to use the web for your business.</h1>
+                <a type="button" href="learn.html" class="btn btn-primary btn-large">Get Started</a>
+    		</div>
+        </section>
+
+    	<section id="bottom" class="row">
+            <div class="col-md-11">
+                <div class="row">
+                    <a href="learn.html" onMouseOver="document.learn.src='img/learn-blue.png';" onMouseOut="document.learn.src='img/learn.png';">
+                		<div class="col-sm-3 col-sm-offset-1 bottom_links">
+                            <div class="bottom-images"><img src="img/learn.png" name="learn"></div>
+                            <h2>Learn</h2>
+                            <p>how to use the web for your business.</p>
+                        </div>
+                    </a>
+                    <a href="teach.html" onMouseOver="document.teach.src='img/teach-blue.png';" onMouseOut="document.teach.src='img/teach.png';">
+                		<div class="col-sm-3 col-sm-offset-1 bottom_links">
+                            <img src="img/teach.png" name="teach">
+                            <h2>Teach</h2>
+                            <p>other how you use the web for your business.</p>
+                        </div>
+                    </a>
+                    <a href="connect.html" onMouseOver="document.connect.src='img/connect-blue.png';" onMouseOut="document.connect.src='img/connect.png';">
+                		<div class="col-sm-3 col-sm-offset-1 bottom_links">
+                            <img src="img/connect.png" name="connect">
+                            <h2>Connect</h2>
+                            <p>to a community of learners and teachers.</p>
+                    </div>
+                    </a>    
+                </div>
             </div>
-    		<div class="bottom_links">
-                <a href="connect.html" onMouseOver="document.connect.src='img/connect-blue.png';" onMouseOut="document.connect.src='img/connect.png';">
-                    <img src="img/connect.png" name="connect">
-                    <h2>Connect</h2>
-                    <p>to a community of learners and teachers.</p>
-                </a>
+    	</section>
+    </div>
+
+	<footer class="footer">
+        <div class="container">
+            <div class="row">
+                <ul class="list-unstyled list-inline col-md-12">
+                    <li class="col-md-1 col-offset-1"><a href="about.html">About</a></li>
+                    <li class="col-md-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
+                    <li id="credits" class="col-md-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+                </ul>
             </div>
         </div>
-	</section>
-
-	<footer class="row">
-        <ul class="list-unstyled list-inline col-lg-12">
-            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
-            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
-            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
-        </ul>
     </footer>
 </body>
     <script type="text/javascript" src="js/BfUser.js"></script>
