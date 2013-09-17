@@ -26,7 +26,11 @@ var BfUser = (function (BfUser)  {
     $('#bfSignIn').click(_signInClicked);
     // SignOut clicked, clear state cookie
     $('#signOutLink').click(_signOutClicked);
-    // Setup page based on signin state
+    // A password reset is requested
+    $('#request-password-reset-btn').click(_requestPasswordResetClicked);
+    // The password is reset
+    $('#password-reset-btn').click(_passwordResetClicked);
+  // Setup page based on signin state
     _updatePage();
   };
   // Make a post to server with API access token appended
@@ -134,6 +138,34 @@ var BfUser = (function (BfUser)  {
   //     $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
   //   }
   // };
+
+  // A password reset is requested
+  function _requestPasswordResetClicked(response){
+    var email = {"email" : $('#reset-email').val()}
+    $.post(config.bfUrl+'/request_password_reset',email, function(response){
+      response = $.parseJSON(response);
+      console.log(response.message);
+      if (response.message == "Queued. Thank you."){
+        $('#feedback h2').removeClass('alert-danger').addClass('alert alert-success').text("Check your email.");
+      }
+    }).fail(_badPost);
+  }
+
+  // THe new password is sent in
+  function _passwordResetClicked(response){
+    var postData = {
+      "email" : $('#reset-email').val(),
+      "password" : $('#reset-password-field').val(),
+      "resetToken" : window.location.search.split('?')[1]
+    }
+    $.post(config.bfUrl+'/password_reset', postData, function(response){
+      console.log(response);
+      console.log(response.status);
+      if (response.status == 200){
+        $('#feedback h2').removeClass('alert-danger').addClass('alert alert-success').text("Password reset.");
+      }
+    }).fail(_badPost);
+  }
 
   //Set User state based on sign in response
   function _signedIn(response){

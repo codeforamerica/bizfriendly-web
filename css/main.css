@@ -611,7 +611,11 @@ section .btn{
 	height: 15px;
 }
 
-#signin #feedback, #signup #feedback {
+#signin a:hover {
+	color: #74BBD4;
+}
+
+#signin #feedback, #signup #feedback, #request-password-reset #feedback, #password-reset #feedback {
 	position: relative;
 	top: -75px;
 }
