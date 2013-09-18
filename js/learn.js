@@ -53,24 +53,26 @@ var learn = (function (learn) {
     $tbody.html('');
     $(category.lessons).each(function(x){
       var lesson = category.lessons[x];
-      html += '<tr>';
-      if (lesson.third_party_service == 'facebook'){
-        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      // Only show published lessons in the main menu.
+      if (lesson.state == 'published'){
+        html += '<tr>';
+        if (lesson.third_party_service == 'facebook'){
+          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+        }
+        else if (lesson.third_party_service == 'foursquare'){
+          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+        }
+        else if (lesson.third_party_service == 'trello'){
+          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+        }
+        else {
+          html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+        }
+        html += '<td>'+lesson.time_estimate+'</td>'
+             +  '<td>'+lesson.difficulty+'</td>'
+             // +  '<td>5 stars</td>'
+             + '</tr>';
       }
-      else if (lesson.third_party_service == 'foursquare'){
-        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-      }
-      else if (lesson.third_party_service == 'trello'){
-        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-      }
-      else {
-        html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-      }
-
-      html += '<td>'+lesson.time_estimate+'</td>'
-           +  '<td>'+lesson.difficulty+'</td>'
-           // +  '<td>5 stars</td>'
-           + '</tr>';
     });
     $tbody.html(html);
   }
