@@ -333,6 +333,8 @@ table .lesson-name {
 
 #alpha {
 	position: relative;
+	margin-bottom: -50px;
+	margin-top: 10px;
 }
 
 #teach h3{
