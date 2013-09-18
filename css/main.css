@@ -132,8 +132,8 @@ li {
 
 #subheader p {
 	position: relative;
-	top: 15px;
 	font-weight: 700;
+	margin-top: 10px;
 }
 
 .login-required {
