@@ -31,7 +31,7 @@ var lesson = (function (lesson) {
     if (lesson.third_party_service == 'facebook'){
       $('#main-video').html('<iframe src="http://player.vimeo.com/video/72059276" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
     }
-    if (lesson.third_party_service == 'foursquare'){
+    else if (lesson.third_party_service == 'foursquare'){
       $('#main-video').html('<iframe src="http://player.vimeo.com/video/72066312" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
     }
     else {
