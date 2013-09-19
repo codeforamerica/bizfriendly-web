@@ -1,5 +1,7 @@
 var teach = (function (teach) {
 
+  var user_id = false;
+
   // PUBLIC METHODS
   function init(){
     if (config.debug) console.log('init');
@@ -19,7 +21,24 @@ var teach = (function (teach) {
     if (!BfUser.bfAccessToken){
       $('#lesson-form').hide();
       $('.login-required').show();
+    } else {
+      if (config.debug) console.log('Logged In');
+      _getUserId();
     }
+  }
+
+  function _getUserId(){
+    var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
+    $.ajax({
+      url: 'http://127.0.0.1:8000/api/v1/users',
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data) { 
+        user_id = data.objects[0].id; 
+        console.log(data.objects[0].id);
+      }
+    });
   }
 
   function _getCategories(){
@@ -61,7 +80,9 @@ var teach = (function (teach) {
       time_estimate : $('#time-estimate').val(),
       difficulty: $('#difficulty').val(),
       additional_resources : additional_resources,
-      tips : tips
+      tips : tips, 
+      state : "published",
+      creator_id : user_id
     }
     $.ajax({
       type: "POST",
@@ -95,6 +116,9 @@ var teach = (function (teach) {
       thing_to_remember: $('#thing-to-remember').val(),
       feedback: $('#step-feedback').val(),
       next_step_number: parseInt($('#next-step-number').val())
+    }
+    if (newStep.step_type == 'open') {
+      newStep.step_text += '<button type="button" class="open btn btn-default btn-block">'+$('#open-btn-text').val()+'</button>'
     }
     $.ajax({
       type: "POST",
