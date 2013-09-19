@@ -291,7 +291,7 @@ table .lesson-name {
 
 .teach-column {
 	width: 340px;
-	height: 780px;
+	/*height: 780px;*/
 	margin-right: 15px;
 	float: left;
 }
@@ -389,7 +389,7 @@ table .lesson-name {
 	color: #0F6095;
 }
 
-header, #bottom, footer{
+header, #bottom {
 	position:relative;
 	top: -75px;
 }
@@ -615,7 +615,7 @@ section .btn{
 	color: #74BBD4;
 }
 
-#signin #feedback, #signup #feedback, #request-password-reset #feedback, #password-reset #feedback {
+#feedback {
 	position: relative;
 	top: -75px;
 }

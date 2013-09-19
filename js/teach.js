@@ -1,7 +1,5 @@
 var teach = (function (teach) {
 
-  var numberOfSteps = 1;
-
   // PUBLIC METHODS
   function init(){
     if (config.debug) console.log('init');
@@ -10,99 +8,110 @@ var teach = (function (teach) {
 
   // PRIVATE METHODS
   function _main(){
-    // Get the list of thirdPartyServices
-    $.get(bfUrl+'/third_party_services', _getThirdPartyServices);
-    // Load endpoints based on what is selected
-    // $('#plusSteps').click(_plusStepsClicked);
-    // $('#minusSteps').click(_minusStepsClicked);
-    $( ".draggable" ).draggable();
-    $( ".droppable" ).droppable({
-      drop: function( event, ui ) {
-
-        $(ui.draggable[0]).attr('style','position:relative;');
-        $( this ).append($(ui.draggable[0]).clone().editable());
-        $('.gray').remove();
-        // var content = '<form class="form-horizontal"><label for="urlLink">What web address should this button open?</label><input id="urlLink" type="url" class="form-control" placeholder="https://google.com"></form>';
-        // $('#teach-instructions #teach-button, #teach-instructions #teach-button').popover({ content: content, html: true, placement: 'top', trigger: 'click' });
-      
-        // $('form').bind("keyup", function(e) {
-        //   var code = e.keyCode || e.which; 
-        //   if (code  == 13) {               
-        //     e.preventDefault();
-        //     return false;
-        //   }
-        // });
-
-      }
-    });
-    
+    _checkIfLoggedIn();
+    _getCategories();
+    _getLessons();
+    $('#new-lesson-btn').click(_postNewLesson);
+    $('#new-step-btn').click(_postNewStep);
   }
 
-  function _getThirdPartyServices(response){
-    response = $.parseJSON(response);
-    // Build select list
-    for (i in response){
-      // console.log(response[i]);
-      $('#availableServices').append('<option>'+response[i].third_party_service+'</option>');
+  function _checkIfLoggedIn(){
+    if (!BfUser.bfAccessToken){
+      $('#lesson-form').hide();
+      $('.login-required').show();
     }
-    // Change options based on what service is selected
-    // _updateSelectList('#availableResources','#thirdPartyServiceList','third_party_service','resources','resource');
-    $('#thirdPartyServiceList').change(function() {
-      $('#availableResources').empty();
-      var selectedServiceName = $('#thirdPartyServiceList :selected').text()
-      var selectedService = $.grep(response, function(e){ return e.third_party_service == selectedServiceName });
-      var resources = selectedService[0].resources;
-      for (i in resources){
-        $('#availableResources').append('<option>'+resources[i].resource+'</option>');
-      }
-      // Change options based on what resource is selected
-      $('#resourcesList').change(function() {
-        $('#availableFields').empty();
-        var selectedResourceName = $('#resourcesList :selected').text();
-        var selectedResource = $.grep(resources, function(e){ return e.resource == selectedResourceName });
-        var fields = selectedResource[0].fields;
-        for (i in fields){
-          $('#availableFields').append('<option>'+fields[i].field+'</option>');
+  }
+
+  function _getCategories(){
+    $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
+      $.each(response.objects, function(i){
+        $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+      })
+    })
+  }
+
+  function _getLessons(){
+    $.get(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
+      $.each(response.objects, function(i){
+        $('#lesson-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+      })
+    })
+  }
+
+  function _postNewLesson(evt){
+    additional_resources = '<li>'+$('#additional-resources1').val()+'</li>';
+    if ($('#additional-resources2').val()){
+      additional_resources += '<li>'+$('#additional-resources2').val()+'</li>';
+    }
+    if ($('#additional-resources3').val()){
+      additional_resources += '<li>'+$('#additional-resources3').val()+'</li>';
+    }
+    tips = '<li>'+$('#tips1').val()+'</li>';
+    if ($('#tips2').val()){
+      tips += '<li>'+$('#tips2').val()+'</li>';
+    }
+    if ($('#tips3').val()){
+      tips += '<li>'+$('#tips3').val()+'</li>';
+    }
+    newLesson = {
+      category_id : parseInt($('#category-id').val()),
+      name : $('#name').val(),
+      short_description : $('#short-description').val(),
+      long_description : $('#long-description').val(),
+      time_estimate : $('#time-estimate').val(),
+      difficulty: $('#difficulty').val(),
+      additional_resources : additional_resources,
+      tips : tips
+    }
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: config.bfUrl+config.bfApiVersion+'/lessons',
+      data: JSON.stringify(newLesson),
+      dataType: "json",
+      success : function(response, textStatus, jqxhr){
+        if (jqxhr.status == 201){
+          $('#lesson-feedback h2').addClass('alert alert-success').html('Lesson Added. Now add steps.');
+          $('#lesson-id').empty();
+          _getLessons();
         }
-        // Choose step action based on what endpoint is chosen
-        $('#fieldsList').change(function() {
-          $('#availableActions').empty();
-          var selectedFieldName = $('#fieldsList :selected').text();
-          var selectedField = $.grep(fields, function(e){ return e.field == selectedFieldName });
-          var actionsAvailable = selectedField[0].actions_available;
-          for (i in actionsAvailable){
-            $('#availableActions').append('<option>'+actionsAvailable[i]+'</option>');
-          }
-        });
-      });
+      },
+      error : function(response, textStatus, jqxhr){
+        $('#lesson-feedback h2').addClass('alert alert-danger').html('Nope.');
+      }
     });
   }
 
-  // function _updateSelectList(idOflistToUpdate, idOfChoiceToWatch, attributeToMatch, listToUse, attributeToUse){
-  //   $(idOfChoiceToWatch).change(function() {
-  //     $(idOflistToUpdate).empty();
-  //     var selectedName = $(idOfChoiceToWatch+' :selected').text()
-  //     var selectedObject = $.grep(, function(e){ return e[attributeToMatch] == selectedServiceName });
-  //     var returnedList = selectedObject[0][listToUse];
-  //     for (i in returnedList){
-  //       $(idOflistToUpdate).append('<option>'+returnedList[i].attributeToUse+'</option>');
-  //     }
-  //   });
-  // }
-
-  // function _plusStepsClicked(evt){
-  //   numberOfSteps = numberOfSteps + 1;
-  //   $('#progress').prepend('<li id="teach'+numberOfSteps+'" class="finished"></li>');
-  //   $('#progress .active h2').html(numberOfSteps);
-  // }
-
-  // function _minusStepsClicked(evt){
-  //   if (numberOfSteps > 1){
-  //     numberOfSteps = numberOfSteps - 1;
-  //     $('#progress li')[0].remove();
-  //     $('#progress .active h2').html(numberOfSteps);
-  //   } 
-  // }
+  function _postNewStep(evt){
+    newStep = {
+      lesson_id : parseInt($('#lesson-id').val()),
+      name : $('#step-name').val(),
+      step_type : $('#step-type').val(),
+      step_number : parseInt($('#step-number').val()),
+      step_text : $('#step-text').val(),
+      trigger_endpoint: $('#trigger-endpoint').val(),
+      trigger_check: $('#trigger-check').val(),
+      trigger_value: $('#trigger-value').val(),
+      thing_to_remember: $('#thing-to-remember').val(),
+      feedback: $('#step-feedback').val(),
+      next_step_number: parseInt($('#next-step-number').val())
+    }
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: config.bfUrl+config.bfApiVersion+'/steps',
+      data: JSON.stringify(newStep),
+      dataType: "json",
+      success : function(response, textStatus, jqxhr){
+        if (jqxhr.status == 201){
+          $('#step-feedback h2').addClass('alert alert-success').html('Step Added. Add another step.');
+        }
+      },
+      error : function(response, textStatus, jqxhr){
+        $('#step-feedback h2').addClass('alert alert-danger').html('Nope.');
+      }
+    });
+  }
 
   // add public methods to the returned module and return it
   teach.init = init;

@@ -54,115 +54,130 @@
             <div id="alpha" class="alert alert-info">The Teach feature of BizFriend.ly is currently in a prototype stage. Eventually it will allow lessons to easily be added to the service. Give it a try and let us know what you think! </div>
         </div>
     </div>
-
-    <!-- <form id="lesson-name-form" class="row">
-        <div class="col-offset-3 col-lg-6">
-            <label for="lesson-name"><h3 class="orange">Lesson Name</h3></label>
-            <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
-        </div>
-    </form>
-
-    <div class="row">
-        <ul id="progress" class="list-unstyled list-inline col-6 col-offset-3">
-            <li class="active"><h2>1</h2></li>
-            <li class="unfinished"><a id="minusSteps" href="#">-</a></li>
-            <li class="unfinished"><a id="plusSteps" href="#">+</a></li>
-        </ul>
-    </div> -->
     
     <section id="main" class="row">
         <div class="col-lg-11 col-offset-1">
-            
-            <div class="teach-column">
-                <h3 class="blue">Lesson Options</h3>
-                <p>To build a BizFriend.ly lesson, choose the options below.</p>
-
-                <div id="teach-options">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="thirdPartyServiceList">Choose a web service to build a lesson about</label>
-                            <select id="thirdPartyServiceList" class="form-control input-lg">
-                                <option>Services</option>
-                                <optgroup id="availableServices" label="Available Services">
-                                </optgroup>
-                                <option>Choose your own</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="resourcesList">Resources Available</label>
-                            <select id="resourcesList" class="form-control input-lg">
-                                <option>Resources</option>
-                                <optgroup id="availableResources" label="Available Resources">
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="fieldsList">Fields Available</label>
-                            <select id="fieldsList" class="form-control input-lg">
-                                <option>Fields</option>
-                                <optgroup id="availableFields" label="Available Fields">
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="stepActionList">Choose what interactivity you want for this step</label>
-                            <select id="actionList" class="form-control input-lg">
-                                <option>Actions</option>
-                                <optgroup label="Always Available Actions">
-                                    <option value="login">Login to service</option>
-                                    <option value="open">Open a website</option>
-                                    <option value="congrats">Show the congratulations step</option>
-                                </optgroup>
-                                <optgroup id="availableActions" label="Available Actions">
-                                </optgroup>
-                            </select>
-                        </div>
-                    </form>
-                </div>
+            <div class="alert alert-info login-required">
+                You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
             </div>
-
-            <div class="teach-column">
-                <h3 class="blue">Elements</h3>
-                <p>Drag elements from below into the instruction window.</p>
-                <div id="teach-elements" class="teach-box-elements droppable">
-                    <div id="lesson-name" class="lesson-name draggable">
-                        Lesson Name
-                    </div>
-                    <h2 id="big-text" class="draggable">
-                        Big Text Main Instruction Big Text
-                        Big Text Main Instruction Big Text
-                    </h2>
-                    <p class="draggable">
-                        Small text small text
-                        small text small text
-                        small text small text
-                    </p>
-                    <a id="teach-button" type="button" class="btn btn-default draggable">Button</a>
-                    <br/>
-                    <img width="15%" class="draggable" src="img/celebration_flag.gif">
-                    <img width="15%"class="draggable" src="img/celebration_heart.gif">
-                    <img width="15%"class="draggable" src="img/celebration_like.gif">
-                    <img width="15%"class="draggable" src="img/celebration_star.gif">
-                    
-                </div>
+            <h3 class="blue" data-toggle="collapse" data-target="#lesson-form">Create a Lesson</h3>
+            <p>To build a BizFriend.ly lesson, choose the options below.</p>
+            <form id="lesson-form" role="form" class="form-inline collapse">
+            <div class="form-group">
+                <label for="category-id">Category</label>
+                <select id="category-id" class="form-control">
+                    <option>Select A Category</option>
+                </select>
             </div>
-            
-            <div class="teach-column">
-                <h3 class="blue">Instructions</h3>
-                <p>Drop elements below to build your step .Double click on text to edit.</p>
-                <div id="teach-instructions" class="teach-box droppable">
-                   <!--  <img class="instruction-header-img" src="img/instruction-header.png"> -->
-                    <p class="gray">Drag your text, buttons, and icons here.</p>
-                </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control"></input>
             </div>
-            <!-- <div id="teach-feedback" class="teach-column">
-                <h3 class="orange">Feedback</h3>
-                <div id="teach-feedback" class="teach-box droppable">
-                    <img class="instruction-header-img" src="img/instruction-header.png">
-                    <p class="gray">Drag elements here to create your step. Double click on text to edit it!</p>
-                </div>
-            </div> -->
+            <div class="form-group">
+                <label for="short-description">short-description</label>
+                <input type="text" id="short-description" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="long-description">long-description</label>
+                <input type="text" id="long-description" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="time-estimate">time-estimate</label>
+                <input type="text" id="time-estimate" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="difficulty">difficulty</label>
+                <input type="text" id="difficulty" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="additional-resources1">additional-resources1</label>
+                <input type="text" id="additional-resources1" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="additional-resources2">additional-resources2</label>
+                <input type="text" id="additional-resources2" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="additional-resources3">additional-resources3</label>
+                <input type="text" id="additional-resources3" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="tips1">tips1</label>
+                <input type="text" id="tips1" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="tips2">tips2</label>
+                <input type="text" id="tips2" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="tips3">tips3</label>
+                <input type="text" id="tips3" class="form-control"></input>
+            </div>
+            <button type="button" id="new-lesson-btn" class="btn btn-default btn-block">Create Lesson</button>
+            </form>
         </div>
+    </section>
+
+    <section id="lesson-feedback" class="row">
+        <h2 class="col-lg-11 col-offset-1"></h2>
+    </section>
+    <section class="row">
+        <div class="col-lg-11 col-offset-1">
+            <h3 class="blue" data-toggle="collapse" data-target="#step-form">Create a Step</h3>
+            <p>Add a step to a lesson with this form.</p>
+            <form id="step-form" role="form" class="form-inline collapse">
+            <div class="form-group">
+                <label for="lesson-id">Lesson Name</label>
+                <select id="lesson-id" class="form-control">
+                    <option>Select A Lesson</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="step-name">Step Name</label>
+                <input type="text" id="step-name" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="step-type">Step Type</label>
+                <input type="text" id="step-type" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="step-number">Step Number</label>
+                <input type="text" id="step-number" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="step-text">Step Text</label>
+                <input type="text" id="step-text" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="trigger-endpoint">Trigger Endpoint</label>
+                <input type="text" id="trigger-endpoint" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="trigger-check">Trigger Check</label>
+                <input type="text" id="trigger-check" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="trigger-value">Trigger Value</label>
+                <input type="text" id="trigger-value" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="thing-to-remember">Thing to Remember</label>
+                <input type="text" id="thing-to-remember" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="step-feedback">Feedback</label>
+                <input type="text" id="step-feedback" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="next-step-number">Next Step Number</label>
+                <input type="text" id="next-step-number" class="form-control"></input>
+            </div>
+            <button type="button" id="new-step-btn" class="btn btn-default btn-block">Add Step To Lesson</button>
+            </form>
+        </div>
+    </section>
+    <section id="step-feedback" class="row">
+        <h2 class="col-lg-11 col-offset-1"></h2>
     </section>
 
     <footer class="row">
