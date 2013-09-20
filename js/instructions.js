@@ -620,7 +620,7 @@ var instructions = (function (instructions) {
   function _getUserId(){
     var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
     $.ajax({
-      url: 'http://127.0.0.1:8000/api/v1/users',
+      url: config.bfUrl+config.bfApiVersion+'/users',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
