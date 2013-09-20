@@ -1,10 +1,5 @@
 var learn = (function (learn) {
-
   // private properties
-  var debug = true;
-  var htcUrl = 'http://howtocity.herokuapp.com'
-  // var htcUrl = 'http://127.0.0.1:8000'
-  var htcApiVer = '/api/v1'
   var categories = [];
   var featuredCategory = 'promote';
   var selectedCategory = 'featured';
@@ -12,64 +7,92 @@ var learn = (function (learn) {
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
-    // Call the API and get that lesson
-    $.getJSON(htcUrl+htcApiVer+'/categories', _main);
+    if (config.debug) console.log('init');
+    // Call the API and get that lesson, pass response to _main
+    _loading();
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/categories', _main);
   }
 
   // PRIVATE METHODS
+  function _loading(){
+    // console.log('Loading');
+    $('#main').toggle();
+  }
+
   function _main(response){
+    $('#loading').toggle();
+    $('#main').toggle();
     categories = response.objects;
     $(categories).each(function(i){
-      if (debug) console.log(categories[i]);
+      if (config.debug) console.log(categories[i]);
       // Fill up the sidemenu
       $('#sidemenu ul').append('<li id="'+categories[i].url+'">'+categories[i].name+'</li>');
       // Style selected category
       $('#'+selectedCategory).addClass('active');
     })
-    // Show Featured Lessons
-    _showLesson(selectedCategory);
-    $('#sidemenu li').click(_sidemenuClicked);
+    // Show Featured Lessons - 'promote'
+    _showLessonsFor(selectedCategory);
+    $('#sidemenu li').on('click', _sidemenuClicked);
   }
 
-  function _showLesson(selectedCategory){
-    if (selectedCategory == 'featured'){
+  function _showLessonsFor(selectedCategory){
+    if (selectedCategory == 'featured')
       selectedCategory = featuredCategory;
-    }
-    // console.log(categories);
-    $(categories).each(function(i){
-      if (selectedCategory == categories[i].url){
-        $('#mainmenu .category-name').html(categories[i].name);
-        $('#mainmenu .category-description').html(categories[i].description);
-        $('#mainmenu table tbody').html('');
-        $(categories[i].lessons).each(function(x){
-          $('#mainmenu table tbody').append('<tr>');
-          if (categories[i].lessons[x].url == 'facebook')
-          {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><img src="img/fb_lesson_icon.gif"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
-          }
-          else {
-            $('#mainmenu table tbody').append('<td><a href="lesson.html?'+categories[i].lessons[x].id+'"><h4>'+categories[i].lessons[x].name+'</h4></a>'+categories[i].lessons[x].description+'</td>');
-          }  
-          $('#mainmenu table tbody').append('<td>10 hours</td>');
-          $('#mainmenu table tbody').append('<td>Expert</td>');
-          $('#mainmenu table tbody').append('<td>5 stars</td>');
-          $('#mainmenu table tbody').append('</tr>');
-        });
+    
+    var categoryJSON = _findCategoryByUrl(selectedCategory, categories);
+
+    _updateTableForCategory(categoryJSON);
+  }
+
+  function _updateTableForCategory(category) {
+    var html, $tbody = $('#mainmenu table tbody');
+
+    $('#mainmenu .category-name').html(category.name);
+    $('#mainmenu .category-description').html(category.description);
+
+    $tbody.html('');
+    $(category.lessons).each(function(x){
+      var lesson = category.lessons[x];
+      html += '<tr>';
+      if (lesson.third_party_service == 'facebook'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+      else if (lesson.third_party_service == 'foursquare'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+      else if (lesson.third_party_service == 'trello'){
+        html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+      else {
+        html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+      }
+
+      html += '<td>'+lesson.time_estimate+'</td>'
+           +  '<td>'+lesson.difficulty+'</td>'
+           // +  '<td>5 stars</td>'
+           + '</tr>';
+    });
+    $tbody.html(html);
+  }
+
+  function _findCategoryByUrl(needle, haystack) {
+    var response;
+    $(haystack).each(function(i){
+      if (haystack[i].url == needle) {
+        response = haystack[i];
+        return;
       }
     });
+    return response;
   }
 
   function _sidemenuClicked(evt){
-    console.log(evt.target.id);
-    $( "#sidemenu li" ).each(function(i) {
-      if ($(this).hasClass('active')){
-        $(this).removeClass('active');
-      }
-    });
-    $('#'+evt.target.id).addClass('active');
+    $("#sidemenu li").removeClass('active');
+
     selectedCategory = evt.target.id;
-    _showLesson(selectedCategory);
+    $('#'+selectedCategory).addClass('active');
+    
+    _showLessonsFor(selectedCategory);
   }
 
   // add public methods to the returned module and return it

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BizFriendly | Teach</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!-- <link href="css/main.css" rel="stylesheet"> -->
+    <link href="css/main.css" rel="stylesheet">
+
+    <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
+    <script src="js/vendor/jquery-ui.js"></script>
+    <script src="js/vendor/jquery.editable.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body id="teach" class="container">
+
+    <div class="row">
+        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
+    </div>
+
+   <header class="navbar navbar-static-top row">
+    <div id="signinlinks" class="pull-right">
+            <a id="signInLink" href="signin.html">Sign In</a>
+            <a id="signUpLink" href="signup.html" >| Sign Up</a>
+            <a id="bfUserName" href="#"></a>
+            <a id="signOutLink" href="#">| Sign Out</a>
+        </div>
+        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
+        </ul>
+    </header>
+    <div id="subheader" class="row">
+        <div class="col-lg-1 col-offset-2">
+            <img width="50" height="50" src="img/teach_gray.gif">
+        </div>
+        <div class="col-lg-8">
+            <p>Build a lesson by creating steps with instructions. Drag elements into the instruction window and then double click to edit the text.</p>
+            <div id="alpha" class="alert alert-info">The Teach feature of BizFriend.ly is currently in a prototype stage. Eventually it will allow lessons to easily be added to the service. Give it a try and let us know what you think! </div>
+        </div>
+    </div>
+
+    <!-- <form id="lesson-name-form" class="row">
+        <div class="col-offset-3 col-lg-6">
+            <label for="lesson-name"><h3 class="orange">Lesson Name</h3></label>
+            <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
+        </div>
+    </form>
+
+    <div class="row">
+        <ul id="progress" class="list-unstyled list-inline col-6 col-offset-3">
+            <li class="active"><h2>1</h2></li>
+            <li class="unfinished"><a id="minusSteps" href="#">-</a></li>
+            <li class="unfinished"><a id="plusSteps" href="#">+</a></li>
+        </ul>
+    </div> -->
+    
+    <section id="main" class="row">
+        <div class="col-lg-11 col-offset-1">
+            
+            <div class="teach-column">
+                <h3 class="blue">Lesson Options</h3>
+                <p>To build a BizFriend.ly lesson, choose the options below.</p>
+
+                <div id="teach-options">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="thirdPartyServiceList">Choose a web service to build a lesson about</label>
+                            <select id="thirdPartyServiceList" class="form-control input-lg">
+                                <option>Services</option>
+                                <optgroup id="availableServices" label="Available Services">
+                                </optgroup>
+                                <option>Choose your own</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourcesList">Resources Available</label>
+                            <select id="resourcesList" class="form-control input-lg">
+                                <option>Resources</option>
+                                <optgroup id="availableResources" label="Available Resources">
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldsList">Fields Available</label>
+                            <select id="fieldsList" class="form-control input-lg">
+                                <option>Fields</option>
+                                <optgroup id="availableFields" label="Available Fields">
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stepActionList">Choose what interactivity you want for this step</label>
+                            <select id="actionList" class="form-control input-lg">
+                                <option>Actions</option>
+                                <optgroup label="Always Available Actions">
+                                    <option value="login">Login to service</option>
+                                    <option value="open">Open a website</option>
+                                    <option value="congrats">Show the congratulations step</option>
+                                </optgroup>
+                                <optgroup id="availableActions" label="Available Actions">
+                                </optgroup>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="teach-column">
+                <h3 class="blue">Elements</h3>
+                <p>Drag elements from below into the instruction window.</p>
+                <div id="teach-elements" class="teach-box-elements droppable">
+                    <div id="lesson-name" class="lesson-name draggable">
+                        Lesson Name
+                    </div>
+                    <h2 id="big-text" class="draggable">
+                        Big Text Main Instruction Big Text
+                        Big Text Main Instruction Big Text
+                    </h2>
+                    <p class="draggable">
+                        Small text small text
+                        small text small text
+                        small text small text
+                    </p>
+                    <a id="teach-button" type="button" class="btn btn-default draggable">Button</a>
+                    <br/>
+                    <img width="15%" class="draggable" src="img/celebration_flag.gif">
+                    <img width="15%"class="draggable" src="img/celebration_heart.gif">
+                    <img width="15%"class="draggable" src="img/celebration_like.gif">
+                    <img width="15%"class="draggable" src="img/celebration_star.gif">
+                    
+                </div>
+            </div>
+            
+            <div class="teach-column">
+                <h3 class="blue">Instructions</h3>
+                <p>Drop elements below to build your step .Double click on text to edit.</p>
+                <div id="teach-instructions" class="teach-box droppable">
+                   <!--  <img class="instruction-header-img" src="img/instruction-header.png"> -->
+                    <p class="gray">Drag your text, buttons, and icons here.</p>
+                </div>
+            </div>
+            <!-- <div id="teach-feedback" class="teach-column">
+                <h3 class="orange">Feedback</h3>
+                <div id="teach-feedback" class="teach-box droppable">
+                    <img class="instruction-header-img" src="img/instruction-header.png">
+                    <p class="gray">Drag elements here to create your step. Double click on text to edit it!</p>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
+            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
+    </footer>
+</body>
+    <script src="js/config.js"></script>
+    <script type="text/javascript" src="js/BfUser.js"></script>
+    <script type="text/javascript" src="js/teach.js"></script>
+</html>
