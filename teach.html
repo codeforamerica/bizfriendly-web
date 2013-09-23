@@ -9,7 +9,8 @@
     <meta charset="utf-8">
 
     <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-select.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <!-- <link href="css/main.css" rel="stylesheet"> -->
     <link href="css/main.css" rel="stylesheet">
@@ -18,14 +19,16 @@
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/jquery-ui.js"></script>
     <script src="js/vendor/jquery.editable.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/bootstrap.js"></script>
+    <script src="js/vendor/bootstrap-select.js"></script>
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body id="teach" class="container">
+<body id="teach">
+    <div class="container">
 
     <div class="row">
         <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
@@ -46,16 +49,51 @@
         </ul>
     </header>
     <div id="subheader" class="row">
-        <div class="col-lg-1 col-offset-2">
-            <img width="50" height="50" src="img/teach_gray.gif">
-        </div>
-        <div class="col-lg-8">
-            <p>Build a lesson by creating steps with instructions. Drag elements into the instruction window and then double click to edit the text.</p>
-            <div id="alpha" class="alert alert-info">The Teach feature of BizFriend.ly is currently in a prototype stage. Eventually it will allow lessons to easily be added to the service. Give it a try and let us know what you think! </div>
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a href="#" class="active">Content Creator</a></li>
+            <li><a href="#">Teaching Guide</a></li>
+            <li><a href="#">Content Requests</a></li>
+        </ul>
+    </div>
+    <div id="subsubheader" class="row">
+        <div class="col-offset-3">
+            <h2>Build your lesson by creating step instructions and feedback.</h2>
+            <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
         </div>
     </div>
+</div>
+
+
+    <div id="teach-main">
+        <section id="teach-content" class="container">
+            <form id="lesson-form" role="form" class="form-inline col-offset-3">
+                <select id="category-id" class="selectpicker" data-width="500px">
+                    <option>Select A Lesson Skill Category</option>
+                </select>
+                <select id="third-party-service" class="selectpicker" data-width="500px">
+                    <option>Select A Lesson Webservice</option>
+                </select>
+            </form>
+            <div class="row">
+
+                <ul id="teach-dots" class="col-offset-5">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <li><h2>1</h2></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- <div class="btn-group">
+                  <button type="button" class="btn btn-default">Select a lesson skill category</button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul id="category-id" class="dropdown-menu" role="menu">
+                  </ul>
+                </div> -->
     
-    <section id="main" class="row">
+    <!-- <section id="main" class="row">
         <div class="col-lg-11 col-offset-1">
             <div class="alert alert-info login-required">
                 You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
@@ -186,7 +224,7 @@
     </section>
     <section id="step-feedback" class="row">
         <h2 class="col-lg-11 col-offset-1"></h2>
-    </section>
+    </section> -->
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">

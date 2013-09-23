@@ -10,9 +10,11 @@ var teach = (function (teach) {
 
   // PRIVATE METHODS
   function _main(){
+    $('.selectpicker').selectpicker();
     _checkIfLoggedIn();
     _getCategories();
-    _getLessons();
+    _getThirdPartyServices();
+    // _getLessons();
     $('#new-lesson-btn').click(_postNewLesson);
     $('#new-step-btn').click(_postNewStep);
   }
@@ -30,7 +32,7 @@ var teach = (function (teach) {
   function _getUserId(){
     var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
     $.ajax({
-      url: 'http://127.0.0.1:8000/api/v1/users',
+      url: config.bfUrl+config.bfApiVersion+'/users',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
@@ -46,6 +48,17 @@ var teach = (function (teach) {
       $.each(response.objects, function(i){
         $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
+      $('.selectpicker').selectpicker('refresh');
+    })
+  }
+
+  function _getThirdPartyServices(){
+    $.get(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
+      $.each(response.objects, function(i){
+        $('#third-party-service').append('<option value='+response.objects[i].third_party_service+'>'+response.objects[i].third_party_service+'</option>');
+        console.log(response.objects[i].third_party_service);
+      })
+      $('.selectpicker').selectpicker('refresh');
     })
   }
 
@@ -54,6 +67,7 @@ var teach = (function (teach) {
       $.each(response.objects, function(i){
         $('#lesson-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
+      $('.selectpicker').selectpicker('refresh');
     })
   }
 

@@ -168,9 +168,18 @@ li {
   border-color: #C7E4EE;
 }
 
-#main {
+#main, #subsubheader {
 	position: relative;
 	top: -125px;
+}
+
+#subsubheader h2 {
+	color: #79C040;
+}
+
+#subsubheader a {
+	color: #ff4000;
+	font-weight: 700;
 }
 
 #sidemenu li{
@@ -278,6 +287,34 @@ table .lesson-name {
 #teach .alert-info {
 	background-color: #C7E4EE;
 	color: #0F6095;
+}
+#teach-main {
+	position: relative;
+	top: -125px;
+	background-color: #BCDCE9;
+}
+
+#teach-content {
+	padding: 25px;
+}
+
+#teach-dots li {
+	background-image: url('../img/active_dot.gif');
+	height: 50px;
+	width: 50px;
+	color: #FFF;
+	text-align: center;
+	list-style: none;
+}
+
+#teach-dots h2 {
+	position: relative;
+	top: 10px;
+	/*left: 15px;*/
+}
+
+.selectpicker a {
+	color: #ff4000;
 }
 
 #alpha {
@@ -407,6 +444,19 @@ header, #bottom {
 	position: relative;
 	top: -150px;
 	left: -12px;
+}
+
+#subheader a {
+	color: #FF4000;
+	font-weight: 700;
+}
+
+#subheader .active {
+	color: #74BBD4;
+}
+
+#subheader li {
+	padding-right: 110px;
 }
 
 .text-overlay{
@@ -650,4 +700,8 @@ section .btn{
 
 #rating-form .form-group {
 	padding-left : 15px;
+}
+
+.center {
+	text-align: center;
 }
