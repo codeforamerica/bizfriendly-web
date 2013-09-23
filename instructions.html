@@ -16,10 +16,11 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
   <script src="js/vendor/jquery.popupwindow.js"></script>
+  <script src="js/vendor/oauth.js"></script>
+  <script src="js/vendor/jquery.raty.min.js"></script>
   <script src="js/vendor/jquery.cookie.js"></script>
-
-  <script src="https://oauth.io/auth/download/latest/oauth.js"></script>
   <script src="js/vendor/bootstrap.js"></script>
+  
   <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,6 +62,22 @@
   <div id="controls">
       <button type="button" id="back" class="btn">Back</button>
       <button type="button" id="next" class="btn">Next</button>
+  </div>
+
+  <div id="rating">
+    <div id="rating-handle"><img src="img/star-on.png"></div>
+    <div id="rating-content">
+      How helpful was this step?
+    <div id="rating-stars"></div>
+    <form id="rating-form">
+        <div class="form-group">   
+          <label for="rating-feedback">Anything else?</label>
+          <textarea id="rating-feedback"></textarea>
+        </div>
+        <button type="button" class="btn btn-small" id="rating-btn">Give Feedback</button>
+    </form>
+    </div>
+
   </div>
 
   <footer></footer>

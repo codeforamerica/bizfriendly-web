@@ -266,6 +266,11 @@ var BfUser = (function (BfUser)  {
     _tokenPost(config.bfUrl + '/get_attributes', data, successFunc)
   };
 
+  // Get attributes
+  function postRating(data, successFunc) {
+    _tokenPost(config.bfUrl + '/post_rating', data, successFunc)
+  };
+
   // add public methods to the returned module and return it
   BfUser.init = init;
   BfUser.record_step = record_step;
@@ -275,6 +280,7 @@ var BfUser = (function (BfUser)  {
   BfUser.check_attribute_for_value = check_attribute_for_value;
   BfUser.check_attribute_for_update = check_attribute_for_update;
   BfUser.get_attributes = get_attributes;
+  BfUser.postRating = postRating;
 
   return BfUser;
 }(BfUser || {}));
