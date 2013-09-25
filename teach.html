@@ -67,20 +67,45 @@
     <div id="teach-main">
         <section id="teach-content" class="container">
             <form id="lesson-form" role="form" class="form-inline col-offset-3">
-                <select id="category-id" class="selectpicker" data-width="500px">
+                <select id="category-id" class="selectpicker" data-width="550px">
                     <option>Select A Lesson Skill Category</option>
                 </select>
-                <select id="third-party-service" class="selectpicker" data-width="500px">
+                <select id="third-party-service" class="selectpicker" data-width="550px">
                     <option>Select A Lesson Webservice</option>
                 </select>
             </form>
-            <div class="row">
-
-                <ul id="teach-dots" class="col-offset-5">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <li><h2>1</h2></li>
-                </ul>
+            <div id="teach-dots" class="row">
+                <div class="center">
+                    <a id="left" href="#"><img src="img/left.png"></a>
+                    <ul>
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <li><h2>1</h2></li>
+                    </ul>
+                    <a id="right" href="#"><img id="right" src="img/right.png"></a>
+                </div>
             </div>
+
+            <div class="row">
+                <div id="elements" class="col-offset-3 col-lg-1">
+                    <h3>Elements</h3>
+                    <hr/>
+                    <ul>
+                        <li>Text</li>
+                        <li>Text & Open Button</li>
+                        <li>Text & Log In Button</li>
+                        <li>Text Entry Field</li>
+                        <li>Image</li>
+                    </ul>
+                </div>
+                <div class="teach-column col-lg-4">
+                    <div id="teach-instructions" class="teach-box">
+                        <h2>Lesson Name</h2>
+                        <p>Created by <span class="author-name"></span>.</p>
+                        <p class="gray">Drag your text, buttons, and icons here.</p>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </div>
 

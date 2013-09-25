@@ -1,6 +1,7 @@
 var teach = (function (teach) {
 
   var user_id = false;
+  var newSteps = [];
 
   // PUBLIC METHODS
   function init(){
@@ -15,6 +16,7 @@ var teach = (function (teach) {
     _getCategories();
     _getThirdPartyServices();
     // _getLessons();
+    $('#right').click(_nextStep);
     $('#new-lesson-btn').click(_postNewLesson);
     $('#new-step-btn').click(_postNewStep);
   }
@@ -38,7 +40,6 @@ var teach = (function (teach) {
       contentType: "application/json",
       success: function(data) { 
         user_id = data.objects[0].id; 
-        console.log(data.objects[0].id);
       }
     });
   }
@@ -56,7 +57,6 @@ var teach = (function (teach) {
     $.get(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
       $.each(response.objects, function(i){
         $('#third-party-service').append('<option value='+response.objects[i].third_party_service+'>'+response.objects[i].third_party_service+'</option>');
-        console.log(response.objects[i].third_party_service);
       })
       $('.selectpicker').selectpicker('refresh');
     })
@@ -68,6 +68,15 @@ var teach = (function (teach) {
         $('#lesson-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
       $('.selectpicker').selectpicker('refresh');
+    })
+  }
+
+  function _nextStep(evt){
+    // Save the current step in an array
+    $.each(newSteps, function(i){
+      if (newSteps[i].step_number == newStep.step_number){
+        newSteps[i] = newStep;
+      }
     })
   }
 

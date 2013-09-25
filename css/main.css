@@ -38,7 +38,7 @@ a:hover {
 	text-decoration: none;
 }
 
-header ul, footer ul, #sidemenu ul{
+ul{
 	padding-left: 0px;
 	list-style: none;
 }
@@ -298,6 +298,14 @@ table .lesson-name {
 	padding: 25px;
 }
 
+#teach-dots img, ul {
+	display:inline-block;
+}
+
+#teach-dots ul {
+	padding: 0;
+}
+
 #teach-dots li {
 	background-image: url('../img/active_dot.gif');
 	height: 50px;
@@ -311,6 +319,16 @@ table .lesson-name {
 	position: relative;
 	top: 10px;
 	/*left: 15px;*/
+}
+
+#elements{
+	background: #999;
+	color: white;
+	border-radius: 15px;
+}
+
+#elements li {
+	border: 1px solid;
 }
 
 .selectpicker a {
