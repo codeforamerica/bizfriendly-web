@@ -2,6 +2,8 @@ var teach = (function (teach) {
 
   var user_id = false;
   var newSteps = [];
+  var newStep = {};
+  var currentStep = {};
 
   // PUBLIC METHODS
   function init(){
@@ -12,13 +14,30 @@ var teach = (function (teach) {
   // PRIVATE METHODS
   function _main(){
     $('.selectpicker').selectpicker();
+    $('.draggable').draggable();
+    $( ".droppable" ).droppable({
+      drop: function( event, ui ) {
+        $(ui.draggable[0]).attr('style','position:relative;');
+        $( this ).append($(ui.draggable[0]).clone().editable());
+      }
+    });
     _checkIfLoggedIn();
     _getCategories();
     _getThirdPartyServices();
+    _addNewStep();
+    console.log(newSteps);
     // _getLessons();
+    $("#left").click(_backStep);
     $('#right').click(_nextStep);
-    $('#new-lesson-btn').click(_postNewLesson);
-    $('#new-step-btn').click(_postNewStep);
+    $('#add-new-step').click(_addNewStep);
+    // $('#new-lesson-btn').click(_postNewLesson);
+    // $('#new-step-btn').click(_postNewStep);
+    $('.editable').editable(function(value, settings) { 
+      lessonName = value;
+      return (value);
+      }, { 
+         submit  : 'OK'
+    });
   }
 
   function _checkIfLoggedIn(){
@@ -27,6 +46,7 @@ var teach = (function (teach) {
       $('.login-required').show();
     } else {
       if (config.debug) console.log('Logged In');
+      $(".author-name").text(BfUser.name);
       _getUserId();
     }
   }
@@ -49,6 +69,7 @@ var teach = (function (teach) {
       $.each(response.objects, function(i){
         $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
+      // $('#category-id').append('<option value="newSkill"><a href="/" target="_blank">Add a New Skill</a></option>');
       $('.selectpicker').selectpicker('refresh');
     })
   }
@@ -59,6 +80,37 @@ var teach = (function (teach) {
         $('#third-party-service').append('<option value='+response.objects[i].third_party_service+'>'+response.objects[i].third_party_service+'</option>');
       })
       $('.selectpicker').selectpicker('refresh');
+    })
+  }
+
+  // Set the newSteps state
+  function _updateStepsStates(){
+    if (config.debug) console.log('updating newSteps states');
+    $(newSteps).each(function(i){
+      if (currentStep.step_number == newSteps[i].step_number){
+        newSteps[i].step_state = "active";
+      }
+      if (currentStep.step_number > newSteps[i].step_number){
+        newSteps[i].step_state = "finished";
+      }
+      if (currentStep.step_number < newSteps[i].step_number){
+        newSteps[i].step_state = "unfinished";
+      }
+    })
+    // Set current-dot
+    $("#current-dot").html("<h2>"+currentStep.step_number+"</h2>");
+  }
+
+  // Update the progress bar
+  function _updateProgressBar(){
+    if (config.debug) console.log('updating progress bar');
+    $(newSteps).each(function(i){
+      $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
+      if (newSteps[i].step_number == currentStep.step_number){
+        $('.step'+newSteps[i].step_number+'_progress').html('<h2>'+currentStep.step_number+'</h2>');
+      } else {
+        $('.step'+newSteps[i].step_number+'_progress').html('');
+      }
     })
   }
 
@@ -78,6 +130,50 @@ var teach = (function (teach) {
         newSteps[i] = newStep;
       }
     })
+    _updateStepsStates();
+  }
+
+  function _addNewStep(evt){
+    currentStep = {
+      step_number : newSteps.length + 1,
+      step_type : "",
+      step_action : "",
+      step_text : "",
+      feedback : "",
+      step_state : ""
+    }
+    // Save the current step in an array
+    var stepExists = false;
+    $.each(newSteps, function(i){
+      if (newSteps[i].step_number == currentStep.step_number){
+        stepExists == i;
+      }
+    });
+    if (stepExists){
+      newSteps[stepExists] = currentStep;
+    } else {
+      newSteps.push(currentStep);
+      $('.progress-dots').append('<li class="step'+currentStep.step_number+'_progress progress-button" data-target="'+currentStep.step_number+'"></li>');
+    }
+    _updateStepsStates();
+    _updateProgressBar();
+    console.log(newSteps);
+  }
+
+  function _backStep(evt){
+    if (currentStep.step_number > 1) {
+      currentStep = newSteps[currentStep.step_number - 2];
+    _updateStepsStates();
+    _updateProgressBar();
+    }
+  }
+
+  function _nextStep(evt){
+    if (currentStep.step_number < newSteps.length){
+      currentStep = newSteps[currentStep.step_number];
+      _updateStepsStates();
+      _updateProgressBar();
+    }
   }
 
   function _postNewLesson(evt){

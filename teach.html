@@ -18,7 +18,7 @@
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/jquery-ui.js"></script>
-    <script src="js/vendor/jquery.editable.min.js"></script>
+    <script src="js/vendor/jquery.jeditable.js"></script>
     <script src="js/vendor/bootstrap.js"></script>
     <script src="js/vendor/bootstrap-select.js"></script>
 
@@ -75,13 +75,11 @@
                 </select>
             </form>
             <div id="teach-dots" class="row">
-                <div class="center">
-                    <a id="left" href="#"><img src="img/left.png"></a>
-                    <ul>
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <li><h2>1</h2></li>
-                    </ul>
-                    <a id="right" href="#"><img id="right" src="img/right.png"></a>
+                <div class="col-offset-5 col-lg-3">
+                    <a id="left" class="inline-block"><img src="img/left.png"></a>
+                    <div id="current-dot" class="inline-block"></div>
+                    <a id="right" class="inline-block"><img id="right" src="img/right.png"></a>
+                    <a id="add-new-step" class="inline-block">Add new step</a>
                 </div>
             </div>
 
@@ -90,18 +88,21 @@
                     <h3>Elements</h3>
                     <hr/>
                     <ul>
-                        <li>Text</li>
-                        <li>Text & Open Button</li>
-                        <li>Text & Log In Button</li>
-                        <li>Text Entry Field</li>
-                        <li>Image</li>
+                        <li class="draggable">Text</li>
+                        <li class="draggable">Text & Open Button</li>
+                        <li class="draggable">Text & Log In Button</li>
+                        <li class="draggable">Text Entry Field</li>
+                        <li class="draggable">Image</li>
                     </ul>
                 </div>
                 <div class="teach-column col-lg-4">
                     <div id="teach-instructions" class="teach-box">
-                        <h2>Lesson Name</h2>
+                        <ul class="progress-dots list-unstyled list-inline center"></ul>
+                        <br />
+                        <h2 id="lesson-name" class="editable orange">Double click to edit the lesson name</h2>
                         <p>Created by <span class="author-name"></span>.</p>
-                        <p class="gray">Drag your text, buttons, and icons here.</p>
+                        <div class="droppable">
+                        </div>
                     </div>
                 </div>
             </div>

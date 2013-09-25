@@ -298,6 +298,7 @@ table .lesson-name {
 	padding: 25px;
 }
 
+
 #teach-dots img, ul {
 	display:inline-block;
 }
@@ -306,7 +307,11 @@ table .lesson-name {
 	padding: 0;
 }
 
-#teach-dots li {
+.inline-block {
+	display: inline-block;
+}
+
+#teach-dots li , #current-dot{
 	background-image: url('../img/active_dot.gif');
 	height: 50px;
 	width: 50px;
@@ -315,15 +320,14 @@ table .lesson-name {
 	list-style: none;
 }
 
-#teach-dots h2 {
+#teach-dots h2, #current-dot h2 {
 	position: relative;
-	top: 10px;
-	/*left: 15px;*/
+	top: 15px;
 }
 
 #elements{
 	background: #999;
-	color: white;
+	color: black;
 	border-radius: 15px;
 }
 
@@ -360,7 +364,7 @@ table .lesson-name {
 .teach-box {
 	border: solid 1px;
 	height: 775px;
-	text-align: center;
+	padding: 15px;
 }
 
 .instruction-header-img {
@@ -377,11 +381,16 @@ table .lesson-name {
 }
 
 .draggable {
-	margin: 30px;
 	cursor: -webkit-grab;
 	cursor: -moz-grab;
-
 }
+
+.droppable {
+	height: 200px;
+	width: 200px;
+	border: 1px solid;
+}
+
 .gray {
 	width: 300px;
 	padding-left: 35px;
@@ -568,36 +577,36 @@ button {
 	background-color: #585b5b;
 }
 
-#progress {
+.progress-dots {
 	text-align: center;
 }
 
-#progress .unfinished {
+.progress-dots .unfinished {
 	background-image: url('../img/unfinished_dot.gif');
 	height: 25px;
 	width: 25px;
 }
 
-#progress .active {
+.progress-dots .active {
 	background-image: url('../img/active_dot.gif');
 	height: 50px;
 	width: 50px;
 	color: #FFF;
 }
 
-#progress .active h2 {
+.progress-dots .active h2 {
 	position: relative;
 	top: 10px;
 	/*left: 15px;*/
 }
 
-#progress .finished {
+.progress-dots .finished {
 	background-image: url('../img/finished_dot.gif');
 	height: 25px;
 	width: 25px;
 }
 
-#progress li {
+.progress-dots li {
 	margin-right: 5px;
 	vertical-align: middle;
 }
