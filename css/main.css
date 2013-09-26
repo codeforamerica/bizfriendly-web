@@ -410,9 +410,26 @@ table .lesson-name {
 	margin-bottom: 15px;
 	min-height: 100px;
 	width: 280px;
+}
+
+.dashed {
 	border: 3px dashed #999;
 	border-radius: 15px;
-	/*border: 1px solid;*/
+}
+
+.solid {
+	border: 3px solid #999;
+	border-radius: 15px;
+}
+
+#text-element-edits {
+	display: none;
+	padding: 15px;
+}
+
+#open-element-edits {
+	display: none;
+	padding: 15px;
 }
 
 .temp-text {

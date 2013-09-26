@@ -66,58 +66,81 @@
 
     <div id="teach-main">
         <section id="teach-content" class="container">
-            <form id="lesson-form" role="form" class="form-inline col-offset-3">
-                <select id="category-id" class="selectpicker" data-width="550px">
-                    <option>Select A Lesson Skill Category</option>
-                </select>
-                <select id="services" class="selectpicker" data-width="550px">
-                    <option>Select A Lesson Webservice</option>
-                </select>
+            <form id="lesson-form" role="form" class="col-offset-3">
+                <div id="category" class="form-group">
+                    <label for="category-id">Select A Lesson Category</label>
+                    <br/>
+                    <select id="category-id" class="selectpicker" data-width="550px"></select>
+                </div>
+                <div id="service" class="form-group">
+                    <label for="services">Select A Lesson Webservice</label>
+                    <br/>
+                    <select id="service-id" class="selectpicker" data-width="550px"></select>
+                </div>
             </form>
-            <div id="teach-dots" class="row">
-                <div class="col-offset-5 col-lg-3">
-                    <a id="left" class="inline-block"><img src="img/left.png"></a>
-                    <div id="current-dot" class="inline-block"></div>
-                    <a id="right" class="inline-block"><img id="right" src="img/right.png"></a>
-                    <a id="add-new-step" class="inline-block">Add new step</a>
+            <div id="lesson-builder">
+                <div id="teach-dots" class="row">
+                    <div class="col-offset-5 col-lg-3">
+                        <a id="left" class="inline-block"><img src="img/left.png"></a>
+                        <div id="current-dot" class="inline-block"></div>
+                        <a id="right" class="inline-block"><img id="right" src="img/right.png"></a>
+                        <a id="add-new-step" class="inline-block">Add new step</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div id="elements" class="col-offset-3 col-lg-1">
-                    <h3>Elements</h3>
-                    <hr/>
-                    <ul>
-                        <li class="draggable">Text</li>
-                        <li class="draggable">Text & Open Button</li>
-                        <li class="draggable">Text & Log In Button</li>
-                        <li class="draggable">Text Entry Field</li>
-                        <li class="draggable">Image</li>
-                    </ul>
-                </div>
-                <div class="teach-column col-lg-4">
-                    <div id="teach-instructions" class="teach-box">
-                        <ul class="progress-dots list-unstyled list-inline center"></ul>
-                        <br />
-                        <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
-                        <p>Created by <span class="author-name"></span>.</p>
-                        <div class="blank-droppable">
-                            <button type="button" class="close" aria-hidden="true">&times;</button>
-                            <p class="temp-text">Drag elements here to create your step.</p>
+                <div class="row">
+                    <div id="elements" class="col-offset-3 col-lg-1">
+                        <h3>Elements</h3>
+                        <hr/>
+                        <ul>
+                            <li id="text-element" class="draggable">Text</li>
+                            <li id="open-element" class="draggable">Text & Open Button</li>
+                            <li class="draggable">Text & Log In Button</li>
+                            <li class="draggable">Text Entry Field</li>
+                            <li class="draggable">Image</li>
+                        </ul>
+                    </div>
+                    <div class="teach-column col-lg-4">
+                        <div id="teach-instructions" class="teach-box">
+                            <ul class="progress-dots list-unstyled list-inline center"></ul>
+                            <br />
+                            <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
+                            <p>Created by <span class="author-name"></span>.</p>
+                            <div id="step-text">
+                                <div class="blank-droppable dashed">
+                                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                                    <p class="temp-text">Drag elements here to create your step.</p>
+                                </div>
+                                <div class="blank-droppable dashed">
+                                     <button type="button" class="close" aria-hidden="true">&times;</button>
+                                    <p class="temp-text">Drag elements here to create your step.</p>
+                                </div>
+                                <div class="blank-droppable dashed">
+                                     <button type="button" class="close" aria-hidden="true">&times;</button>
+                                    <p class="temp-text">Drag elements here to create your step.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="blank-droppable">
-                             <button type="button" class="close" aria-hidden="true">&times;</button>
-                            <p class="temp-text">Drag elements here to create your step.</p>
-                        </div>
-                        <div class="blank-droppable">
-                             <button type="button" class="close" aria-hidden="true">&times;</button>
-                            <p class="temp-text">Drag elements here to create your step.</p>
-                        </div>
+                    </div>
+                    <div id="state-btns" class="col-lg-2">
+                        <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
+                        <button type="button" class="btn btn-default btn-block">Save Draft</button>
+                        <button type="button" class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </div>
             </div>
 
         </section>
+    </div>
+
+    <div id="text-element-edits">
+        <p class="bold">Double click to edit text.</p>
+        <p>Double click to edit text.</p>
+    </div>
+
+    <div id="open-element-edits">
+        <p class="bold">Double click to edit text.</p>
+        <button type="button" class="btn btn-default">Open</button>
     </div>
 
     <!-- <div class="btn-group">

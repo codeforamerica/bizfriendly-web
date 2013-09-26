@@ -4,6 +4,8 @@ var teach = (function (teach) {
   var newSteps = [];
   var newStep = {};
   var currentStep = {};
+  var categoryId;
+  var serviceId;
 
   // PUBLIC METHODS
   function init(){
@@ -14,10 +16,10 @@ var teach = (function (teach) {
   // PRIVATE METHODS
   function _main(){
     $('.selectpicker').selectpicker();
-    _dragAndDrop();
     _checkIfLoggedIn();
     _getCategories();
     _getServices();
+    _dragAndDrop();
     _addNewStep();
     console.log(newSteps);
     // _getLessons();
@@ -26,6 +28,7 @@ var teach = (function (teach) {
     $('#add-new-step').click(_addNewStep);
     _setLessonName();
     $(".close").click(_closeClicked);
+    $("#preview").click(_previewClicked);
     // $('#new-lesson-btn').click(_postNewLesson);
     // $('#new-step-btn').click(_postNewStep);
   }
@@ -35,11 +38,30 @@ var teach = (function (teach) {
     $( ".blank-droppable" ).droppable({
       drop: function( event, ui ) {
         $(this).children(":not(.close)").remove();
+        $( this ).removeClass("dashed").addClass("solid");
         $(ui.draggable[0]).attr('style','position:relative;');
-        $( this ).append($(ui.draggable[0]).clone().addClass("element-editable"));
-        $('.element-editable').editable(function(value, settings) { 
-          return (value);
-        });
+
+        // Add editable text
+        if ($(ui.draggable[0]).attr("id") == "text-element"){
+          $("#text-element-edits").appendTo(this);
+          $("#text-element-edits p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+          $("#text-element-edits").toggle();
+        }
+
+        // Add editable text and an open button
+        if ($(ui.draggable[0]).attr("id") == "open-element"){
+          $("#open-element-edits").appendTo(this);
+          $("#open-element-edits p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+          $("#open-element-edits").toggle();
+        }
       }
     });
   }
@@ -73,18 +95,41 @@ var teach = (function (teach) {
       $.each(response.objects, function(i){
         $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
-      // $('#category-id').append('<option value="newSkill"><a href="/" target="_blank">Add a New Skill</a></option>');
+      $('#category-id').append('<option value="add-new-category">Add new category</option>');
       $('.selectpicker').selectpicker('refresh');
+      _watchCategory();
     })
+  }
+
+  function _watchCategory(){
+    $("#lesson-form").on("change", "#category-id", function(){
+      if ($("#category-id").val() == "add-new-category"){
+        window.open("http://bizfriend.ly/add-new-category.html");
+      } else {
+        categoryId = $("#category-id").val();
+      }
+    });
   }
 
   function _getServices(){
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
       $.each(response.objects, function(i){
-        $('#services').append('<option value='+response.objects[i].name+'>'+response.objects[i].name+'</option>');
+        $('#service-id').append('<option value='+response.objects[i].name+'>'+response.objects[i].name+'</option>');
       })
+      $('#service-id').append('<option value="add-new-service">Add new service</option>');
       $('.selectpicker').selectpicker('refresh');
+      _watchServices();
     })
+  }
+
+  function _watchServices(){
+    $("#lesson-form").on("change", "#service-id", function(){
+      if ($("#service-id").val() == "add-new-service"){
+        window.open("http://bizfriend.ly/add-new-service.html");
+      } else {
+        serviceId = $("#service-id").val();
+      }
+    });
   }
 
   // Set the newSteps state
@@ -199,7 +244,7 @@ var teach = (function (teach) {
     }
 
   function _addDroppableClicked(evt){
-      var blankDroppable = '<div class="blank-droppable">';
+      var blankDroppable = '<div class="blank-droppable dashed">';
       blankDroppable += '<button type="button" class="close" aria-hidden="true">&times;</button>';
       blankDroppable += '<p class="temp-text">Drag elements here to create your step.</p>';
       blankDroppable += '</div>';
@@ -214,6 +259,14 @@ var teach = (function (teach) {
       }
       $(".close").click(_closeClicked);
     }
+
+  function _previewClicked(evt){
+    lessonName = $("#lesson-name").text();
+    console.log(lessonName);
+    newSteps[currentStep.step_number - 1].step_text = $("#step-text").html();
+    console.log(newSteps);
+
+  }
 
   function _postNewLesson(evt){
     additional_resources = '<li>'+$('#additional-resources1').val()+'</li>';
