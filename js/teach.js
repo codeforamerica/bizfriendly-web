@@ -14,29 +14,31 @@ var teach = (function (teach) {
   // PRIVATE METHODS
   function _main(){
     $('.selectpicker').selectpicker();
-    $('.draggable').draggable();
-    $( ".droppable" ).droppable({
-      drop: function( event, ui ) {
-        $(ui.draggable[0]).attr('style','position:relative;');
-        $( this ).append($(ui.draggable[0]).clone().editable());
-      }
-    });
+    _dragAndDrop();
     _checkIfLoggedIn();
     _getCategories();
-    _getThirdPartyServices();
+    _getServices();
     _addNewStep();
     console.log(newSteps);
     // _getLessons();
     $("#left").click(_backStep);
     $('#right').click(_nextStep);
     $('#add-new-step').click(_addNewStep);
+    _setLessonName();
     // $('#new-lesson-btn').click(_postNewLesson);
     // $('#new-step-btn').click(_postNewStep);
-    $('.editable').editable(function(value, settings) { 
-      lessonName = value;
-      return (value);
-      }, { 
-         submit  : 'OK'
+  }
+
+  function _dragAndDrop(){
+    $('.draggable').draggable({ revert: true });
+    $( ".droppable" ).droppable({
+      drop: function( event, ui ) {
+        $(ui.draggable[0]).attr('style','position:relative;');
+        $( this ).append($(ui.draggable[0]).clone().addClass("element-editable"));
+        $('.element-editable').editable(function(value, settings) { 
+          return (value);
+        });
+      }
     });
   }
 
@@ -74,10 +76,10 @@ var teach = (function (teach) {
     })
   }
 
-  function _getThirdPartyServices(){
-    $.get(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
+  function _getServices(){
+    $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
       $.each(response.objects, function(i){
-        $('#third-party-service').append('<option value='+response.objects[i].third_party_service+'>'+response.objects[i].third_party_service+'</option>');
+        $('#services').append('<option value='+response.objects[i].name+'>'+response.objects[i].name+'</option>');
       })
       $('.selectpicker').selectpicker('refresh');
     })
@@ -174,6 +176,15 @@ var teach = (function (teach) {
       _updateStepsStates();
       _updateProgressBar();
     }
+  }
+
+  function _setLessonName(){
+    $('.lesson-editable').editable(function(value, settings) { 
+      lessonName = value;
+      return (value);
+      }, { 
+         submit  : 'OK'
+    });
   }
 
   function _postNewLesson(evt){

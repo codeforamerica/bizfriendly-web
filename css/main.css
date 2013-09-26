@@ -332,7 +332,15 @@ table .lesson-name {
 }
 
 #elements li {
-	border: 1px solid;
+	background-color: #FFF;
+	border: 1px dashed;
+	border-radius: 15px;
+	height: 75px;
+	margin-bottom: 10px;
+	font-weight: 700;
+	text-align: center;
+	vertical-align: center;
+	z-index: 9999;
 }
 
 .selectpicker a {
@@ -386,9 +394,9 @@ table .lesson-name {
 }
 
 .droppable {
-	height: 200px;
-	width: 200px;
-	border: 1px solid;
+	height: 350px;
+	width: 280px;
+	/*border: 1px solid;*/
 }
 
 .gray {
