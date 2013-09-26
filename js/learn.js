@@ -30,12 +30,12 @@ var learn = (function (learn) {
       // Style selected category
       $('#'+selectedCategory).addClass('active');
     })
-    // Show Featured Lessons - 'promote'
-    _showLessonsFor(selectedCategory);
+    // Show Featured Services - 'promote'
+    _showServicesFor(selectedCategory);
     $('#sidemenu li').on('click', _sidemenuClicked);
   }
 
-  function _showLessonsFor(selectedCategory){
+  function _showServicesFor(selectedCategory){
     if (selectedCategory == 'featured')
       selectedCategory = featuredCategory;
     
@@ -51,27 +51,18 @@ var learn = (function (learn) {
     $('#mainmenu .category-description').html(category.description);
 
     $tbody.html('');
-    $(category.lessons).each(function(x){
-      var lesson = category.lessons[x];
-      // Only show published lessons in the main menu.
-      if (lesson.state == 'published'){
+    $(category.services).each(function(x){
+      var service = category.services[x];
+      // Only show published services in the main menu.
+      if (service.state == 'published'){
         html += '<tr>';
-        if (lesson.third_party_service == 'facebook'){
-          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/fb_lesson_icon.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-        }
-        else if (lesson.third_party_service == 'foursquare'){
-          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/foursquare.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
-        }
-        else if (lesson.third_party_service == 'trello'){
-          html += '<td><a href="lesson.html?'+lesson.id+'"><img src="img/trello.gif"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+        if (service.icon){
+          html += '<td><a href="service.html?'+service.id+'"><img src="img/'+service.icon+'"><p class="lesson-name">'+service.name+'</p></a>'+service.short_description+'</td>';
         }
         else {
-          html += '<td><a href="lesson.html?'+lesson.id+'"><p class="lesson-name">'+lesson.name+'</p></a>'+lesson.short_description+'</td>';
+          html += '<td><a href="service.html?'+service.id+'"><p class="lesson-name">'+service.name+'</p></a>'+service.short_description+'</td>';
         }
-        html += '<td>'+lesson.time_estimate+'</td>'
-             +  '<td>'+lesson.difficulty+'</td>'
-             // +  '<td>5 stars</td>'
-             + '</tr>';
+        html += '</tr>';
       }
     });
     $tbody.html(html);
@@ -94,7 +85,7 @@ var learn = (function (learn) {
     selectedCategory = evt.target.id;
     $('#'+selectedCategory).addClass('active');
     
-    _showLessonsFor(selectedCategory);
+    _showServicesFor(selectedCategory);
   }
 
   // add public methods to the returned module and return it

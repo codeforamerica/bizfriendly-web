@@ -5,6 +5,7 @@ var instructions = (function (instructions) {
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
+  var service = {};
   var steps = [];
   var step = {};
   var oauthToken = null;
@@ -123,12 +124,12 @@ var instructions = (function (instructions) {
   function _makeProgressBar(){
     if (config.debug) console.log('making progress bar');
     $(steps).each(function(i){
-        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
+        $('.progress-dots').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
     });
     // Todo: Need to account for 12 possible steps
     // var widthPercent = '';
     // widthPercent = 100/steps.length+'%';
-    // $('#progress li').attr('width',widthPercent);
+    // $('.progress-dots li').attr('width',widthPercent);
   }
 
   // Update the progress bar
@@ -209,19 +210,20 @@ var instructions = (function (instructions) {
 
   // login clicked
   function _loginClicked(evt){
-    if (config.debug) console.log('Logging into '+lesson.third_party_service);
+    service = lesson.service.name.toLowerCase();
+    if (config.debug) console.log('Logging into '+service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
     var options;
-    if (lesson.third_party_service == 'facebook'){
+    if (service == 'facebook'){
       options = {authorize:{display:"popup"}};
     }
-    if (lesson.third_party_service == 'foursquare'){
+    if (service == 'foursquare'){
       options = {authorize:{display:"touch"}};
     }
-    if (lesson.third_party_service == 'trello'){
+    if (service == 'trello'){
       options = {authorize:{name:"BizFriendly",expiration:"never"}};
     }
-    OAuth.popup(lesson.third_party_service, options, function(error, result) {
+    OAuth.popup(service, options, function(error, result) {
       //handle error with error
       if (error) console.log(error);
       if (config.debug) console.log(result);
@@ -234,7 +236,7 @@ var instructions = (function (instructions) {
       }
 
       // Add connection to server db
-      var data = {service: lesson.third_party_service, service_access: oauthToken}
+      var data = {service: service, service_access: oauthToken}
       BfUser.create_connection(data, _createdConnection);
 
       // Check first step
@@ -275,7 +277,7 @@ var instructions = (function (instructions) {
       rememberedAttribute : rememberedAttribute,
       lessonName : lesson.name,
       lessonId : lesson.id,
-      thirdPartyService : lesson.third_party_service,
+      thirdPartyService : service,
       originalCount : false,
       originalAttributeValues : false
     }
@@ -420,7 +422,7 @@ var instructions = (function (instructions) {
       $('#userInputSubmit').click(function(evt){
         var userInput = $('#userInput').val();
         // If Foursquare, get venue id from input URL.
-        if (lesson.third_party_service == 'foursquare'){
+        if (service == 'foursquare'){
           var userInputPath = userInput.split( '/' );
           rememberedAttribute = userInputPath.pop();
         }
@@ -559,10 +561,10 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      if (lesson.third_party_service == 'facebook'){
+      if (service == 'facebook'){
         $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
       }
-      if ( lesson.third_party_service == 'foursquare'){
+      if ( service == 'foursquare'){
         $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       }
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
