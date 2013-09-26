@@ -25,14 +25,16 @@ var teach = (function (teach) {
     $('#right').click(_nextStep);
     $('#add-new-step').click(_addNewStep);
     _setLessonName();
+    $(".close").click(_closeClicked);
     // $('#new-lesson-btn').click(_postNewLesson);
     // $('#new-step-btn').click(_postNewStep);
   }
 
   function _dragAndDrop(){
     $('.draggable').draggable({ revert: true });
-    $( ".droppable" ).droppable({
+    $( ".blank-droppable" ).droppable({
       drop: function( event, ui ) {
+        $(this).children(":not(.close)").remove();
         $(ui.draggable[0]).attr('style','position:relative;');
         $( this ).append($(ui.draggable[0]).clone().addClass("element-editable"));
         $('.element-editable').editable(function(value, settings) { 
@@ -186,6 +188,32 @@ var teach = (function (teach) {
          submit  : 'OK'
     });
   }
+
+  function _closeClicked(evt){
+    // Erase the thing that this button is within.
+    $(this).parent().remove();
+    if ($("#add-droppable").length == 0){
+      $('#teach-instructions').append('<a id="add-droppable">Add another element</a>');
+      $("#add-droppable").click(_addDroppableClicked);
+    }
+    }
+
+  function _addDroppableClicked(evt){
+      var blankDroppable = '<div class="blank-droppable">';
+      blankDroppable += '<button type="button" class="close" aria-hidden="true">&times;</button>';
+      blankDroppable += '<p class="temp-text">Drag elements here to create your step.</p>';
+      blankDroppable += '</div>';
+      if ($("#add-droppable").length == 0){
+        $('#teach-instructions').append(blankDroppable);
+      } else {
+        $(blankDroppable).insertBefore("#add-droppable");
+      }
+      _dragAndDrop();
+      if ($(".blank-droppable").length == 3){
+        $("#add-droppable").remove();
+      }
+      $(".close").click(_closeClicked);
+    }
 
   function _postNewLesson(evt){
     additional_resources = '<li>'+$('#additional-resources1').val()+'</li>';
