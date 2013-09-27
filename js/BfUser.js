@@ -87,9 +87,9 @@ var BfUser = (function (BfUser)  {
   function _signUpClicked(event){
     if (config.debug) console.log("Submitting signup info.")
       newUser = {
-        name : $('#signup-name').val(),
-        email : $('#signup-email').val(),
-        password : $('#signup-password').val()
+        name : $('#name').val(),
+        email : $('#email').val(),
+        password : $('#password').val()
     }
     if (config.debug) console.log(newUser);
     $.post(config.bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
@@ -98,8 +98,8 @@ var BfUser = (function (BfUser)  {
   // Send sign in info to server on signin click.
   function _signInClicked(event){
     returningUser = {
-      email : $('#signin-email').val(),
-      password : $('#signin-password').val()
+      email : $('#email').val(),
+      password : $('#password').val()
     };
     if (config.debug) console.log(returningUser);
     $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);

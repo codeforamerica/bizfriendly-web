@@ -343,6 +343,11 @@ table .lesson-name {
 	z-index: 9999;
 }
 
+#elements .disabled {
+	background-color: #666;
+	cursor: not-allowed;
+}
+
 .selectpicker a {
 	color: #ff4000;
 }
@@ -370,8 +375,8 @@ table .lesson-name {
 
 .close {
 	position:relative;
-	top: -15px;
-	left: 5px;
+	top: -30px;
+	left: 20px;
 	transform: scale(2,2);
 	-ms-transform: scale(2,2); /* IE 9 */
 	-webkit-transform: scale(2,2); /* Safari and Chrome */
@@ -406,36 +411,33 @@ table .lesson-name {
 	cursor: -moz-grab;
 }
 
-.blank-droppable {
+.step-text{
+	padding: 15px;
 	margin-bottom: 15px;
 	min-height: 100px;
 	width: 280px;
 }
 
-.dashed {
+.temp {
 	border: 3px dashed #999;
 	border-radius: 15px;
 }
 
-.solid {
+#step-texts .active {
 	border: 3px solid #999;
 	border-radius: 15px;
 }
 
-#text-element-edits {
-	display: none;
-	padding: 15px;
-}
 
-#open-element-edits {
+
+.hidden {
 	display: none;
-	padding: 15px;
 }
 
 .temp-text {
 	color: #999;
 	text-align: center;
-	padding-top: 35px;
+	padding-top: 20px;
 }
 
 .gray {

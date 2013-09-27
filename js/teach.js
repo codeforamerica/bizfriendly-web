@@ -2,10 +2,13 @@ var teach = (function (teach) {
 
   var user_id = false;
   var newSteps = [];
-  var newStep = {};
   var currentStep = {};
   var categoryId;
+  var categoryName;
   var serviceId;
+  var serviceName;
+  var stepType;
+  var stepText;
 
   // PUBLIC METHODS
   function init(){
@@ -15,16 +18,19 @@ var teach = (function (teach) {
 
   // PRIVATE METHODS
   function _main(){
-    $('.selectpicker').selectpicker();
+    // Make sure they are logged in
     _checkIfLoggedIn();
+    // Get all the existing categories
     _getCategories();
+    // Get all the existing services
     _getServices();
+    // Turn on the drag and drop functionailty
     _dragAndDrop();
+    // Add the first Step and show it
     _addNewStep();
-    console.log(newSteps);
-    // _getLessons();
     $("#left").click(_backStep);
     $('#right').click(_nextStep);
+    // Add a new step to the list
     $('#add-new-step').click(_addNewStep);
     _setLessonName();
     $(".close").click(_closeClicked);
@@ -33,42 +39,9 @@ var teach = (function (teach) {
     // $('#new-step-btn').click(_postNewStep);
   }
 
-  function _dragAndDrop(){
-    $('.draggable').draggable({ revert: true });
-    $( ".blank-droppable" ).droppable({
-      drop: function( event, ui ) {
-        $(this).children(":not(.close)").remove();
-        $( this ).removeClass("dashed").addClass("solid");
-        $(ui.draggable[0]).attr('style','position:relative;');
-
-        // Add editable text
-        if ($(ui.draggable[0]).attr("id") == "text-element"){
-          $("#text-element-edits").appendTo(this);
-          $("#text-element-edits p").addClass("element-editable");
-          $('.element-editable').editable(function(value, settings) {
-            type : "textarea" 
-            return (value);
-          });
-          $("#text-element-edits").toggle();
-        }
-
-        // Add editable text and an open button
-        if ($(ui.draggable[0]).attr("id") == "open-element"){
-          $("#open-element-edits").appendTo(this);
-          $("#open-element-edits p").addClass("element-editable");
-          $('.element-editable').editable(function(value, settings) {
-            type : "textarea" 
-            return (value);
-          });
-          $("#open-element-edits").toggle();
-        }
-      }
-    });
-  }
-
   function _checkIfLoggedIn(){
     if (!BfUser.bfAccessToken){
-      $('#lesson-form').hide();
+      $('#teach-main').hide();
       $('.login-required').show();
     } else {
       if (config.debug) console.log('Logged In');
@@ -76,6 +49,120 @@ var teach = (function (teach) {
       _getUserId();
     }
   }
+
+  function _dragAndDrop(){
+    $('.draggable').draggable({ revert: true });
+    $( ".droppable" ).droppable({
+      drop: function( event, ui ) {
+        $( this ).children(".temp-text").remove();
+        $( this ).removeClass("temp").addClass("active");
+        $( this ).removeClass("droppable ui-droppable");
+
+        // If text-element
+        if ($(ui.draggable[0]).attr("id") == "text-element-drag"){
+          var clone = $("#text-prototype").clone();
+          clone.attr("id","").removeClass("hidden");
+          clone.appendTo( this );
+          // _makeEditable(clone);
+          // Make editable
+          clone.children("p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+        }
+        // If open-element
+        if ($(ui.draggable[0]).attr("id") == "open-element-drag"){
+          $("#login-element-drag").addClass("disabled").draggable("disable");
+
+          var clone = $("#open-prototype").clone();
+          clone.attr("id","").removeClass("hidden");
+          clone.appendTo( this );
+          // Make editable
+          clone.children("p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+        }
+
+        // If login-element
+        if ($(ui.draggable[0]).attr("id") == "login-element-drag"){
+          $("#open-element-drag").addClass("disabled").draggable("disable");
+          var clone = $("#login-prototype").clone();
+          clone.attr("id","").removeClass("hidden");
+          clone.appendTo( this );
+          // Make editable
+          clone.children("p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+        }
+
+        // If text-entry-element
+        if ($(ui.draggable[0]).attr("id") == "text-entry-element-drag"){
+          var clone = $("#text-entry-prototype").clone();
+          clone.attr("id","").removeClass("hidden");
+          clone.appendTo( this );
+          // Make editable
+          clone.children("p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+        }
+
+        // If image-element
+        if ($(ui.draggable[0]).attr("id") == "image-element-drag"){
+          var clone = $("#image-prototype").clone();
+          clone.attr("id","").removeClass("hidden");
+          clone.appendTo( this );
+          // Make editable
+          clone.children("p").addClass("element-editable");
+          $('.element-editable').editable(function(value, settings) {
+            type : "textarea" 
+            return (value);
+          });
+        }
+      }
+    });
+  }
+
+  function _makeEditable(clone){
+    clone.add
+
+  }
+
+  function _addNewStep(evt){
+    currentStep = {
+      step_number : newSteps.length + 1,
+      step_type : "",
+      step_text : "",
+      feedback : ""
+    }
+    
+    // _cleanUpStepText();
+
+    // Save the current step in an array
+    var stepExists = false;
+    $.each(newSteps, function(i){
+      if (newSteps[i].step_number == currentStep.step_number){
+        stepExists == i;
+      }
+    });
+    if (stepExists){
+      newSteps[stepExists] = currentStep;
+    } else {
+      newSteps.push(currentStep);
+      $('.progress-dots').append('<li class="step'+currentStep.step_number+'_progress progress-button" data-target="'+currentStep.step_number+'"></li>');
+    }
+    _updateStepsStates();
+    _updateProgressBar();
+    if (config.debug) console.log(newSteps);
+  }
+
+  
 
   function _getUserId(){
     var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
@@ -107,17 +194,23 @@ var teach = (function (teach) {
         window.open("http://bizfriend.ly/add-new-category.html");
       } else {
         categoryId = $("#category-id").val();
+        categoryName = $("#category-id :selected").text();
       }
+      if (config.debug) console.log("Category ID: " + categoryId);
     });
   }
 
   function _getServices(){
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
+      $(".service-name").text(serviceName); // Init the service-name
       $.each(response.objects, function(i){
-        $('#service-id').append('<option value='+response.objects[i].name+'>'+response.objects[i].name+'</option>');
+        $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
       $('#service-id').append('<option value="add-new-service">Add new service</option>');
       $('.selectpicker').selectpicker('refresh');
+      // Init the service-name
+      serviceName = $('#service-id :selected').text();
+      $(".service-name").text(serviceName);
       _watchServices();
     })
   }
@@ -128,7 +221,10 @@ var teach = (function (teach) {
         window.open("http://bizfriend.ly/add-new-service.html");
       } else {
         serviceId = $("#service-id").val();
+        serviceName = $('#service-id :selected').text();
+        $(".service-name").text(serviceName);
       }
+      if (config.debug) console.log("Service ID: " + serviceId);
     });
   }
 
@@ -182,31 +278,8 @@ var teach = (function (teach) {
     _updateStepsStates();
   }
 
-  function _addNewStep(evt){
-    currentStep = {
-      step_number : newSteps.length + 1,
-      step_type : "",
-      step_action : "",
-      step_text : "",
-      feedback : "",
-      step_state : ""
-    }
-    // Save the current step in an array
-    var stepExists = false;
-    $.each(newSteps, function(i){
-      if (newSteps[i].step_number == currentStep.step_number){
-        stepExists == i;
-      }
-    });
-    if (stepExists){
-      newSteps[stepExists] = currentStep;
-    } else {
-      newSteps.push(currentStep);
-      $('.progress-dots').append('<li class="step'+currentStep.step_number+'_progress progress-button" data-target="'+currentStep.step_number+'"></li>');
-    }
-    _updateStepsStates();
-    _updateProgressBar();
-    console.log(newSteps);
+  function _cleanUpStepText(){
+    // Clean up step text
   }
 
   function _backStep(evt){
@@ -241,24 +314,26 @@ var teach = (function (teach) {
       $('#teach-instructions').append('<a id="add-droppable">Add another element</a>');
       $("#add-droppable").click(_addDroppableClicked);
     }
+    // Turn disabled elements back on
+    if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
+      $("#elements ul li").removeClass("disabled").draggable("enable");
+
     }
+  }
 
   function _addDroppableClicked(evt){
-      var blankDroppable = '<div class="blank-droppable dashed">';
-      blankDroppable += '<button type="button" class="close" aria-hidden="true">&times;</button>';
-      blankDroppable += '<p class="temp-text">Drag elements here to create your step.</p>';
-      blankDroppable += '</div>';
-      if ($("#add-droppable").length == 0){
-        $('#teach-instructions').append(blankDroppable);
-      } else {
-        $(blankDroppable).insertBefore("#add-droppable");
-      }
-      _dragAndDrop();
-      if ($(".blank-droppable").length == 3){
-        $("#add-droppable").remove();
-      }
-      $(".close").click(_closeClicked);
+    // Clone the prototype
+    var clone = $("#droppable-prototype").clone();
+    // Clean it up
+    clone.attr("id","").removeClass("hidden");
+    $("#step-texts").append(clone);
+    _dragAndDrop();
+    // If there are three (and the hidden prototype) then dont add more
+    if ($(".droppable").length == 4){
+      $("#add-droppable").remove();
     }
+    $(".close").click(_closeClicked);
+  }
 
   function _previewClicked(evt){
     lessonName = $("#lesson-name").text();
