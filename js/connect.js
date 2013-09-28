@@ -1,7 +1,7 @@
 var connect = (function (connect) {
 
   // private properties
-  var user_id = false;
+  var user_id = BfUser.id;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -55,8 +55,8 @@ var connect = (function (connect) {
     }
     $('#top-learners-content table tbody').html(html);
 
-    _getUserId();
-    
+    _showYourLessons();
+
   }
 
   function _updateTableForLessonsCompleted(user_lesson_count) {
@@ -66,29 +66,11 @@ var connect = (function (connect) {
     }
   }
 
-  function _getUserId(){
-    var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
-    $.ajax({
-      url: config.bfUrl+config.bfApiVersion+'/users',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
-      dataType: "json",
-      contentType: "application/json",
-      success: function(data) { 
-        user_id = data.objects[0].id; 
-        console.log(data.objects[0].id);
-        _showYourLessons();
-      }
-    });
-  }
-
   function _showYourLessons(){
     // Get the lessons owned by the user
     $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
-      console.log(response.objects);
-      console.log(user_id);
       $.each(response.objects, function(i){
         if (response.objects[i].creator_id == user_id){
-          console.log('Hello');
           $('#your-lessons').append('<li>'+response.objects[i].name+'</li>');
         }
       });

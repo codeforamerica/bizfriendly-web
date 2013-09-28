@@ -9,6 +9,7 @@ var BfUser = (function (BfUser)  {
     if (config.debug) console.log("Init BfUser.");
     var userData = _readUserCookie();
     if (userData){
+      BfUser.id = userData.id;
       BfUser.name = userData.name;
       BfUser.email = userData.email;
       BfUser.bfAccessToken = userData.access_token;
@@ -52,14 +53,14 @@ var BfUser = (function (BfUser)  {
     var cookieData = $.cookie('BfUser');
     // Cookie doesn't exist, create it
     if (cookieData == undefined) {
-      _setUserCookie("", "", false, "");
+      _setUserCookie("", "", "", false, "");
     }
     return cookieData;
   };
   // Set the user state cookie
-  function _setUserCookie(name, email, status, access_token){
+  function _setUserCookie(id, name, email, status, access_token){
     $.cookie.json = true;
-    var setData = {name: name, email: email, signedIn: status, 
+    var setData = {id: id, name: name, email: email, signedIn: status, 
       access_token: access_token};
     $.cookie('BfUser', setData, {expires:7, path: '/'});
     return true;
@@ -92,7 +93,7 @@ var BfUser = (function (BfUser)  {
         password : $('#password').val()
     }
     if (config.debug) console.log(newUser);
-    $.post(config.bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
+    $.post(config.bfUrl + '/signup', newUser, _signedUp).fail(_badPost);
   }
 
   // Send sign in info to server on signin click.
@@ -107,37 +108,14 @@ var BfUser = (function (BfUser)  {
 
   // Sign out clicked, clear user state/cookie
   function _signOutClicked(event){
+    BfUser.id = "";
     BfUser.email = "";
     BfUser.name = "";
     BfUser.signedIn = false;
     BfUser.access_token = "";
     $.removeCookie('BfUser');
-    // _setUserCookie("", "", false, "");
     _updatePage();
   }
-  // // Set User state based on sign up response
-  // function _signedUp(response) {
-  //   if (config.debug) console.log(response);
-  //   // Set User state based on login
-  //   if (response.status == 200) {
-  //     BfUser.email = response.email;
-  //     BfUser.bfAccessToken = response.access_token;
-  //     BfUser.signedIn = true;
-  //     BfUser.name = response.name;
-    
-  //     // Set a cookie!
-  //     $.removeCookie('BfUser');
-  //     _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-  //     if (config.debug) console.log($.cookie('BfUser'));
-
-      
-  //     window.location.replace('/')
-
-  //   }
-  //   else if (response.status == 403){
-  //     $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
-  //   }
-  // };
 
   // A password reset is requested
   function _requestPasswordResetClicked(response){
@@ -168,28 +146,42 @@ var BfUser = (function (BfUser)  {
     }).fail(_badPost);
   }
 
+  // SignedUp successful
+  function _signedUp(response){
+    if (config.debug) console.log(response);
+    BfUser.id = response.id;
+    BfUser.email = response.email
+    BfUser.bfAccessToken = response.access_token;
+    BfUser.signedIn = true;
+    BfUser.name = response.name;
+    
+    // Set a cookie!
+    $.removeCookie('BfUser');
+    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+    if (config.debug) console.log($.cookie('BfUser'));
+
+    $('#feedback h2').addClass('alert alert-success').html("Great. You're all signed up.");
+  };
+
   //Set User state based on sign in response
   function _signedIn(response){
     if (config.debug) console.log(response);
-    if (response.status == 200) {
-      BfUser.email = response.email.toLowerCase();
-      BfUser.bfAccessToken = response.access_token;
-      BfUser.signedIn = true;
-      BfUser.name = response.name;
+    BfUser.id = response.id;
+    BfUser.email = response.email
+    BfUser.bfAccessToken = response.access_token;
+    BfUser.signedIn = true;
+    BfUser.name = response.name;
 
-      // Set a cookie!
+    // Set a cookie!
       $.removeCookie('BfUser');
-      _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+      _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
       if (config.debug) console.log($.cookie('BfUser'));
 
-      // TODO: fix this flow
-      window.location.replace('/')
+      $('#feedback h2').addClass('alert alert-success').html("Great. You're signed in.");
 
-    }
-    else if (response.status == 403){
-      console.log(response);
-      $('#feedback h2').addClass('alert alert-danger').html(response.error);
-    }
+      setTimeout( function() {
+        window.location.replace('/')
+      }, 3000);
   };
 
   // Update page to reflect user state
@@ -217,19 +209,10 @@ var BfUser = (function (BfUser)  {
     var cookieData = $.cookie('BfUser');
     // Cookie doesn't exist, create it
     if (cookieData == undefined) {
-      _setUserCookie("", "", false, "");
+      _setUserCookie("", "", "", false, "");
     }
     return cookieData;
-  };
-
-  // Set the user state cookie
-  function _setUserCookie(name, email, status, access_token){
-    $.cookie.json = true;
-    var setData = {name: name, email: email, signedIn: status, 
-      access_token: access_token};
-    $.cookie('BfUser', setData, {expires:7, path: '/'});
-    return true;
-  };  
+  }; 
 
   // Remember the access token of a service connection
   function create_connection(data, successFunc) {

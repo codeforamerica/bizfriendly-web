@@ -11,7 +11,7 @@
     <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-select.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
     <!-- <link href="css/main.css" rel="stylesheet"> -->
     <link href="css/main.css" rel="stylesheet">
 
@@ -84,9 +84,9 @@
             <div id="lesson-builder">
                 <div id="teach-dots" class="row">
                     <div class="col-offset-5 col-lg-3">
-                        <a id="left" class="inline-block"><img src="img/left.png"></a>
+                        <a id="back" class="inline-block"><img src="img/left.png"></a>
                         <div id="current-dot" class="inline-block"></div>
-                        <a id="right" class="inline-block"><img id="right" src="img/right.png"></a>
+                        <a id="next" class="inline-block"><img src="img/right.png"></a>
                         <a id="add-new-step" class="inline-block">Add new step</a>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                             <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
                             <p>Created by <span class="author-name"></span>.</p>
                             <div id="step-texts">
-                                <div class="droppable temp step-text">
+                                <!-- <div class="droppable temp step-text">
                                     <button type="button" class="close" aria-hidden="true">&times;</button>
                                     <p class="temp-text">Drag elements here to create your step.</p>
                                 </div>
@@ -121,13 +121,14 @@
                                 <div class="droppable temp step-text">
                                      <button type="button" class="close" aria-hidden="true">&times;</button>
                                     <p class="temp-text">Drag elements here to create your step.</p>
-                                </div>
+                                </div> -->
                             </div>
+                            <!-- <button id="save-step" type="button">Save Step</button> -->
                         </div>
                     </div>
                     <div id="state-btns" class="col-lg-2">
                         <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
-                        <button type="button" class="btn btn-default btn-block">Save Draft</button>
+                        <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
                         <button type="button" class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </div>
@@ -167,6 +168,27 @@
         <p>Click to edit text.</p>
         <img>
     </div>
+
+    <div id="congrats-prototype" class="active hidden">
+        <h3>Celebrate your growing business!</h3>
+        <img class="congrats-img" src="img/celebration_like.gif">
+        <h3>Share Your Success</h3>
+        <ul class="list-inline">
+          <li><a id="fb-share" href="#" rel="nofollow"><img src="img/celebration_fb.gif"></a></li>
+          <li><a id="tw-share" href="#" rel="nofollow"><img src="img/celebration_twitter.gif"></a></li>
+          <li><a id="g-share" href="#" rel="nofollow"><img src="img/celebration_g+.gif"></a></li>
+          <li><a id="li-share" href="#" rel="nofollow"><img src="img/celebration_li.gif"></a></li>
+        </ul>
+        <button id="additional-resources" type="button" class="btn btn-default btn-block">Additional Resources</button>
+        <button id="more-lessons" type="button" href="#" class="btn btn-default btn-block">More Lessons</button>
+        <!-- <button type="button" class="btn btn-default btn-block">Invite A Friend</button> -->
+      </div>
+
+    <!-- Ghost Form -->
+    <form name="preview" target="instructions">
+        <input type=hidden name="lessonName" value="">
+        <input type=hidden name="steps" value="">
+    </form>
 
     <!-- <div class="btn-group">
                   <button type="button" class="btn btn-default">Select a lesson skill category</button>
@@ -309,6 +331,7 @@
     <section id="step-feedback" class="row">
         <h2 class="col-lg-11 col-offset-1"></h2>
     </section> -->
+
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
