@@ -92,7 +92,7 @@ var teach = (function (teach) {
       // Init the service-name
       serviceName = $('#service-id :selected').text();
       $(".service-name").text(serviceName);
-      serviceId = $("#service-id").val();
+      serviceId = parseInt($("#service-id").val());
       _watchServices();
     })
   }
@@ -186,11 +186,15 @@ var teach = (function (teach) {
     // Turn on drag and drop
     _dragAndDrop();
     $('.element-editable').editable(function(value, settings) {
-      type : "textarea" 
+      type : "textarea"
       return (value);
     });
     $('.lesson-editable').editable(function(value, settings) {
       type : "textarea"
+      // Add example popover clicker
+      lessonName = value;
+      _checkForLesson();
+
       return (value);
     });
     // Turn on click listener
@@ -222,6 +226,20 @@ var teach = (function (teach) {
         $( this ).children(".temp-text").remove();
         $( this ).removeClass("temp").addClass("active");
         $( this ).removeClass("droppable ui-droppable");
+
+        var content = $("#popover").html();
+        $(this).popover({ content: content, html: true, placement: 'right' });
+        $(this).popover("show");
+        // Add color controllers
+        $(".orange-square").click(function(evt){
+          $(this).parent().parent().prev().css("background-color","#ff4000");
+          $(".active").popover("hide");
+        })
+        $(".blue-square").click(function(evt){
+          $(this).parent().parent().prev().css("background-color","#74BBD4");
+          $(".active").popover("hide");
+        })
+
 
         // If text-element
         if ($(ui.draggable[0]).attr("id") == "text-element-drag"){
@@ -439,18 +457,76 @@ var teach = (function (teach) {
   // }
 
   function _saveDraft(){
+    // Check if lesson name exists already
+    // lessonName = $("#lesson-name").text();
+    _checkForLesson();
 
-    lessonName = $("#lesson-name").text();
-    // Post draft lesson
+
+    // lessonName = $("#lesson-name").text();
+    // // Post draft lesson
+    // newLesson = {
+    //   name : "WHATEVR"
+    // }
+
+    // console.log(newLesson);
+
+    // $.ajax({
+    //   type: "PUT",
+    //   contentType: "application/json",
+    //   url: config.bfUrl+config.bfApiVersion+'/lessons',
+    //   data: JSON.stringify(newLesson),
+    //   dataType: "json",
+    //   success : function(){
+    //     console.log("lesson posted")
+    //     // _getLessonId();
+    //   },
+    //   error : function(){
+    //     console.log("lesson already posted")
+    //     // TODO if lessonid exists then do a put instead of a post on publish and draft
+    //     // _getLessonId();
+    //   }
+    // });
+  }
+
+  function _checkForLesson(){
+    console.log(lessonName);
+    var filters = [{"name": "name", "op": "==", "val": lessonName}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+'/lessons',
+      data: {"q": JSON.stringify({"filters": filters})},
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data) { 
+        if (data.num_results) {
+          // lessonId = data.objects[0].id;
+          // _postDraftSteps();
+          // A lesson with that name already exists.
+          var content = "A lesson with that name already exists.";
+          $('#lesson-name').popover({ content: content, html: true, placement: 'right' });
+          $('#lesson-name').popover("show");
+          $('html').click(function() {
+            $('#lesson-name').popover("hide");
+          });
+        } else {
+          // A lesson with that name already exists.
+          var content = "A great choice.";
+          $('#lesson-name').popover({ content: content, html: true, placement: 'right' });
+          $('#lesson-name').popover("show");
+          $('html').click(function() {
+            $('#lesson-name').popover("hide");
+          });
+        }
+      }
+    });
+  }
+
+  function _postDraftLesson(){
     newLesson = {
-      service_id : parseInt(serviceId),
+      service_id : serviceId,
+      creator_id : BfUser.id,
       name : lessonName,
-      description : "",
-      ease : "",
-      state : "draft",
-      creator_id : user_id
+      state : "draft"
     }
-
     $.ajax({
       type: "POST",
       contentType: "application/json",
@@ -458,27 +534,10 @@ var teach = (function (teach) {
       data: JSON.stringify(newLesson),
       dataType: "json",
       success : function(){
-        console.log("lesson posted")
-        _getLessonId();
+        _checkForLesson();
       },
       error : function(){
-        console.log("lesson already posted")
-        // TODO if lessonid exists then do a put instead of a post on publish and draft
-        _getLessonId();
-      }
-    });
-  }
-
-  function _getLessonId(){
-    var filters = [{"name": "name", "op": "==", "val": lessonName}];
-    $.ajax({
-      url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
-      dataType: "json",
-      contentType: "application/json",
-      success: function(data) { 
-        lessonId = data.objects[0].id; 
-        _postDraftSteps();
+        console.log('Lesson not posted.')
       }
     });
   }
@@ -490,8 +549,8 @@ var teach = (function (teach) {
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;
-      delete newSteps[i].step_state;
-      console.log(newSteps[i]);
+      delete newSteps[i].step_state; // active or unfinished, not draft or published
+      console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -499,10 +558,12 @@ var teach = (function (teach) {
         data: JSON.stringify(newSteps[i]),
         dataType: "json",
         success : function(){
-          console.log("Step posted");
+          console.log("yes")
+          // window.location.replace("submission-complete.html");
         },
         error : function(){
-          console.log("Step not posted");
+          // alert("Something didn't work with your submission.");
+          alert("NO");
         }
       });
     });

@@ -393,6 +393,18 @@ table .lesson-name {
 	padding: 15px;
 }
 
+.orange-square {
+	width: 25px;
+	height: 25px;
+	background-color: #ff4000;
+}
+
+.blue-square {
+	width: 25px;
+	height: 25px;
+	background-color: #74BBD4;
+}
+
 .instruction-header-img {
 	margin-top: 10px;
 }

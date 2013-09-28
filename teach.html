@@ -22,6 +22,7 @@
     <script src="js/vendor/bootstrap.js"></script>
     <script src="js/vendor/bootstrap-select.js"></script>
 
+
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -98,8 +99,8 @@
                         <ul>
                             <li id="text-element-drag" class="draggable">Text</li>
                             <li id="open-element-drag" class="draggable">Text & Open Button</li>
-                            <li id="login-element-drag" class="draggable">Text & Log In Button</li>
-                            <li id="text-entry-element-drag" class="draggable">Text Entry Field</li>
+                            <!-- <li id="login-element-drag" class="draggable">Text & Log In Button</li> -->
+                            <!-- <li id="text-entry-element-drag" class="draggable">Text Entry Field</li> -->
                             <li id="image-element-drag" class="draggable">Image</li>
                         </ul>
                     </div>
@@ -137,6 +138,11 @@
         </section>
     </div>
 
+    <div id="popover" class="hidden">
+        <div class="orange-square"></div>
+        <div class="blue-square"></div>
+    </div>
+
     <div id="droppable-prototype" class="droppable temp step-text hidden">
         <button type="button" class="close" aria-hidden="true">&times;</button>
         <p class="temp-text">Drag elements here to create your step.</p>
@@ -169,7 +175,7 @@
         <img>
     </div>
 
-    <div id="congrats-prototype" class="active hidden">
+    <div id="congrats-prototype" class="active hidden center">
         <h3>Celebrate your growing business!</h3>
         <img class="congrats-img" src="img/celebration_like.gif">
         <h3>Share Your Success</h3>
