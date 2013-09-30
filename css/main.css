@@ -288,6 +288,7 @@ table .lesson-name {
 	background-color: #C7E4EE;
 	color: #0F6095;
 }
+
 #teach-main {
 	position: relative;
 	top: -125px;
@@ -340,7 +341,7 @@ table .lesson-name {
 	font-weight: 700;
 	text-align: center;
 	vertical-align: center;
-	z-index: 9999;
+	z-index: 1;
 }
 
 #elements .disabled {
@@ -404,6 +405,12 @@ table .lesson-name {
 	height: 25px;
 	background-color: #74BBD4;
 }
+.white-square {
+	width: 25px;
+	height: 25px;
+	background-color: #FFFFFF;
+	border: 1px solid #999999;
+}
 
 .instruction-header-img {
 	margin-top: 10px;
@@ -427,7 +434,7 @@ table .lesson-name {
 	padding: 15px;
 	margin-bottom: 15px;
 	min-height: 100px;
-	width: 280px;
+	width: 260px;
 }
 
 .temp {
@@ -598,6 +605,7 @@ footer a:hover {
 
 #instructions {
 	width: 340px;
+	overflow-x:hidden;
 }
 
 #instructions .col-6{

@@ -21,6 +21,10 @@
     <script src="js/vendor/jquery.jeditable.js"></script>
     <script src="js/vendor/bootstrap.js"></script>
     <script src="js/vendor/bootstrap-select.js"></script>
+    <script src="js/vendor/jquery.ui.widget.js"></script>
+    <script src="js/vendor/jquery.iframe-transport.js"></script>
+    <script src="js/vendor/jquery.fileupload.js"></script>
+
 
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
@@ -141,6 +145,7 @@
     <div id="popover" class="hidden">
         <div class="orange-square"></div>
         <div class="blue-square"></div>
+        <div class="white-square"></div>
     </div>
 
     <div id="droppable-prototype" class="droppable temp step-text hidden">
@@ -155,7 +160,7 @@
 
     <div id="open-prototype" class="open-element hidden">
         <p class="bold">Click to edit text.</p>
-        <button type="button" class="btn btn-default">Open</button>
+        <button id="open" type="button" class="btn btn-default">Open</button>
     </div>
 
     <div id="login-prototype" class="login-element hidden">
@@ -172,7 +177,17 @@
     <div id="image-prototype" class="image-element hidden">
         <p class="bold">Click to edit text.</p>
         <p>Click to edit text.</p>
-        <img>
+        <form id="img-upload-form" class="form-horizontal">
+            <label for="img-upload">Upload an image</label>
+            <input id="fileupload" type="file" name="files[]" data-url="http://127.0.0.1:8000/img_upload" multiple>
+            <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+            <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
+        </form>
     </div>
 
     <div id="congrats-prototype" class="active hidden center">

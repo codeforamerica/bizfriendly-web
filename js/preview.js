@@ -384,7 +384,7 @@ var preview = (function (preview) {
 
     // If step type is open
     if (currentStep.stepType == 'open'){
-      $(".open").click(_openClicked);
+      $("#open").click(_openClicked);
     }
 
     // If step type is check_for_new
@@ -495,7 +495,8 @@ var preview = (function (preview) {
   // .open is clicked
   function _openClicked(evt){
     // If url has replace_me in it, replace with rememberedAttribute
-    console.log(currentStep.triggerEndpoint);
+
+    console.log(currentStep);
     console.log(rememberedAttribute);
     if(currentStep.triggerEndpoint.indexOf('replace_me') != -1){
       currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replace_me',rememberedAttribute);

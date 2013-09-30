@@ -42,7 +42,9 @@ var service = (function (service) {
     $('#additional_resources ul').html(service.additional_resources);
     $('#tips ul').html(service.tips);
     $.each(lessons, function(i){
-      $("#main-text").append('<a id="'+lessons[i].id+'" class="btn btn-primary btn-lrg">'+lessons[i].name+'</a>"');
+      if (lessons[i].state == 'published'){
+        $("#main-text").append('<a id="'+lessons[i].id+'" class="btn btn-primary btn-lrg">'+lessons[i].name+'</a>"');
+      }
     });
     $('#main #main-text a').click(_instructionsLinkClicked);
   }

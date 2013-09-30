@@ -179,9 +179,9 @@ var BfUser = (function (BfUser)  {
 
       $('#feedback h2').addClass('alert alert-success').html("Great. You're signed in.");
 
-      setTimeout( function() {
-        window.location.replace('/')
-      }, 3000);
+      // setTimeout( function() {
+      //   window.location.replace('/')
+      // }, 3000);
   };
 
   // Update page to reflect user state
