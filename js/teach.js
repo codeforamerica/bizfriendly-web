@@ -521,7 +521,7 @@ var teach = (function (teach) {
       service_id : serviceId,
       creator_id : BfUser.id,
       name : lessonName,
-      state : "draft"
+      state : "published"
     }
     $.ajax({
       type: "POST",
