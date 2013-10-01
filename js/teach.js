@@ -22,6 +22,7 @@ var teach = (function (teach) {
 
   // PRIVATE METHODS
   function _main(){
+    $('.draggable').draggable({ revert: true });
     // Make sure they are logged in
     _checkIfLoggedIn();
     // Get all the existing categories
@@ -30,8 +31,10 @@ var teach = (function (teach) {
     _editLessonName();
     // Add the first Step
     _addFirstStep();
+    // Add the congrats step
+    _addCongratsStep();
     // Turn on Drag
-    $('.draggable').draggable({ revert: true });
+    // $('.draggable').draggable({ revert: true });
     // Controls
     $("#back").click(_backStep);
     $('#next').click(_nextStep);
@@ -139,29 +142,33 @@ var teach = (function (teach) {
   function _addFirstStep(){
     // Create a new step
     currentStep = {
-        step_number : newSteps.length + 1,
+        step_number : 1,
         step_type : "",
         step_text : "",
         creator_id : BfUser.id
       }
     // Save current step
     newSteps.push(currentStep);
-    // Show new step
-    _showCurrentStep();
+    _updateProgressBar();
   }
 
   function _addNewStep(){
-    // Save current step
-    _saveCurrentStep();
     // Create a new step
     currentStep = {
-        step_number : newSteps.length + 1,
-        step_type : "",
-        step_text : "",
-        creator_id : BfUser.id
-      }
-    // Add new blank step to list
-    newSteps.push(currentStep);
+      step_number : newSteps.length,
+      step_type : "",
+      step_text : "",
+      step_state : "active",
+      creator_id : BfUser.id
+    }
+    // Keep congrats at the last step
+    if (newSteps[newSteps.length-1].step_type == "congrats"){
+      newSteps[newSteps.length-1].step_number = newSteps.length + 1;
+      newSteps[newSteps.length-1].step_state = "unfinished";
+    }
+    // Add new blank step as second to last position
+    newSteps.splice(newSteps.length-1, 0, currentStep)
+
     // Show new step
     _showCurrentStep();
   }
@@ -169,16 +176,10 @@ var teach = (function (teach) {
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
-    var stepText = "";
-    // Clean up stepText
-    $("#step-texts .close").remove();
+    stepText = "";
     $.each($("#step-texts .active"), function(i){
       stepText += $("#step-texts .active")[i].outerHTML;
     })
-    // Clean up stepText
-    stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
-    stepText = stepText.replace(/\s+/g," ");
-    console.log(stepText);
     currentStep.step_text = stepText;
     // Then add it to newSteps
     $.each(newSteps, function(i){
@@ -186,9 +187,6 @@ var teach = (function (teach) {
         newSteps[i] = currentStep;
       }
     });
-
-    // Turn disabled elements back on
-    $("#elements ul li").removeClass("disabled").draggable("enable");
   }
 
   function _showCurrentStep(){
@@ -199,14 +197,33 @@ var teach = (function (teach) {
     _updateProgressBar();
     $("#step-texts").html(currentStep.step_text);
     // Show three new temp texts
-    while ($("#step-texts").children().length < 3){
-      var $clone = $("#droppable-prototype").clone();
-      // Clean it up
-      $clone.attr("id","").removeClass("hidden");
-      $("#step-texts").append($clone);
+    if (currentStep.step_type != "congrats"){
+      while ($("#step-texts").children().length < 3){
+        var $clone = $("#droppable-prototype").clone();
+        // Clean it up
+        $clone.attr("id","").removeClass("hidden");
+        $("#step-texts").append($clone);
+      }
+    } else {
+      // Add congrats-icon
+      var content = $("#congrats-popover").html();
+      $(".congrats-img").popover({ content: content, html: true, placement: 'right' });
+      $('.congrats-img').on('shown.bs.popover', function () {
+        // Turn on controllers
+        $(".star-icon").click(_iconClicked);
+        $(".flag-icon").click(_iconClicked);
+        $(".heart-icon").click(_iconClicked);
+        $(".thumbs-up-icon").click(_iconClicked);
+      }) 
+      $(".congrats-img").popover("show");
     }
     // Turn on drop
     _turnOnDrop();
+  }
+
+  function _iconClicked(evt){
+    $(".congrats-img").attr("src",$(this).attr("src"));
+    $(".congrats-img").popover("hide")
   }
 
   // Update the progress bar
@@ -214,7 +231,7 @@ var teach = (function (teach) {
     // if (config.debug) console.log('updating progress bar');
     // Check number of dots
     if ($(".progress-dots li").length < newSteps.length){
-      $('.progress-dots').append('<li class="step'+currentStep.step_number+'_progress progress-button" data-target="'+currentStep.step_number+'"></li>');
+      $('.progress-dots').append('<li class="step'+newSteps[newSteps.length-1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length-1].step_number+'"></li>');
     }
     $(newSteps).each(function(i){
       $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
@@ -248,12 +265,11 @@ var teach = (function (teach) {
         // Add colorPopover
         var content = $("#popover").html();
         $(this).popover({ content: content, html: true, placement: 'right' });
-        $(this).popover("show");
-        _colorControllers();
         // Have to repeat for inadvertant popups
         $(this).on('shown.bs.popover', function () {
           _colorControllers();
         })
+        $(this).popover("show");
         
         // If text-element
         if ($(ui.draggable[0]).attr("id") == "text-element-drag"){
@@ -307,6 +323,7 @@ var teach = (function (teach) {
           var $clone = $("#image-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
+          $("#fileupload").attr("data-url",config.bfUrl+"/image_upload");
           _makeEditable($clone);
           $('#fileupload').fileupload({
               dataType: 'json',
@@ -324,6 +341,11 @@ var teach = (function (teach) {
                     'width',
                     progress + '%'
                 );
+              },
+              error : function(response){
+                response = $.parseJSON(response.responseText);
+                $('#img-upload-form').append(response["message"]);
+                // console.log(response.responseText);
               }
           });
         }
@@ -334,15 +356,15 @@ var teach = (function (teach) {
   function _colorControllers(){
     $(".orange-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#ff4000");
-      $(this).parent().parent().prev().popover("destroy");
+      $(this).parent().parent().prev().popover("hide");
     })
     $(".blue-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#74BBD4");
-      $(this).parent().parent().prev().popover("destroy");
+      $(this).parent().parent().prev().popover("hide");
     })
     $(".white-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#FFFFFF");
-      $(this).parent().parent().prev().popover("destroy");
+      $(this).parent().parent().prev().popover("hide");
     })
   }
 
@@ -410,29 +432,47 @@ var teach = (function (teach) {
   }
 
   function _addCongratsStep(){
-    // Make sure congrats is at end
-    // Only one congrats step
-    var congratsCounter = 0;
-    $.each(newSteps, function(i){
-      if (newSteps[i].step_type == "congrats")
-        congratsCounter = congratsCounter + 1;
-    })
-    if (congratsCounter == 0) {
-      _addNewStep();
-      var $clone = $("#congrats-prototype").clone();
-      // Clean it up
-      $clone.removeAttr("id").removeClass("hidden");
-      $("#step-texts").empty();
-      $("#step-texts").append($clone);
-      currentStep.step_type = "congrats";
-      _saveCurrentStep();
+    // Create a new step
+    currentStep = {
+      step_number : 2,
+      step_type : "",
+      step_text : "",
+      creator_id : BfUser.id
     }
+    // Add it to the list
+    newSteps.push(currentStep);
+    // Add the congratulations step
+    var $clone = $("#congrats-prototype").clone();
+    // Clean it up
+    $clone.removeAttr("id").removeClass("hidden");
+    $("#step-texts").empty();
+    $("#step-texts").append($clone);
+    currentStep.step_type = "congrats";
+    _saveCurrentStep();
+
+    // Go back to first step
+    currentStep = newSteps[0];
+    _showCurrentStep();
+  }
+
+  function _cleanUpStepsHTML(){
+    stepText = "";
+    $.each(newSteps, function(i){
+      stepText = newSteps[i].step_text;
+      console.log(stepText);
+      stepText = stepText.replace('<button type="button" class="close" aria-hidden="true">×</button>', "");
+      stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
+      stepText = stepText.replace(/\s+/g," ");
+      newSteps[i].step_text = stepText;
+    })
   }
 
   function _previewClicked(evt){
-    _addCongratsStep();
+    _saveCurrentStep();
 
     document.preview.lessonName.value = $("#lesson-name").text();
+
+    _cleanUpStepsHTML();
     document.preview.steps.value =JSON.stringify(newSteps);
 
 
@@ -445,7 +485,8 @@ var teach = (function (teach) {
   }
 
   function _saveDraft(){
-    _addCongratsStep();
+    _saveCurrentStep();
+    _cleanUpStepsHTML()
     _checkForLesson();
   }
 
@@ -498,7 +539,6 @@ var teach = (function (teach) {
   }
 
   function _postDraftSteps(){
-
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;
@@ -511,12 +551,11 @@ var teach = (function (teach) {
         data: JSON.stringify(newSteps[i]),
         dataType: "json",
         success : function(){
-          console.log("yes")
-          // window.location.replace("submission-complete.html");
+          // console.log("yes")
+          window.location.replace("submission-complete.html");
         },
         error : function(){
-          // alert("Something didn't work with your submission.");
-          alert("NO");
+          console.log("Step not posted?");
         }
       });
     });

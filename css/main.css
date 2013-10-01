@@ -412,6 +412,15 @@ table .lesson-name {
 	border: 1px solid #999999;
 }
 
+.popover-content img {
+	width: 50px;
+	height: 50px;
+}
+
+.popover {
+	text-align: center;
+}
+
 .instruction-header-img {
 	margin-top: 10px;
 }

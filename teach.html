@@ -148,6 +148,13 @@
         <div class="white-square"></div>
     </div>
 
+    <div id="congrats-popover" class="hidden">
+        <img class="star-icon" src="img/star-icon.gif">
+        <img class="flag-icon" src="img/flag-icon.gif">
+        <img class="heart-icon" src="img/heart-icon.gif">
+        <img class="thumbs-up-icon" src="img/thumbs-up-icon.gif">
+    </div>
+
     <div id="droppable-prototype" class="droppable temp step-text hidden">
         <button type="button" class="close" aria-hidden="true">&times;</button>
         <p class="temp-text">Drag elements here to create your step.</p>
@@ -179,7 +186,7 @@
         <p>Click to edit text.</p>
         <form id="img-upload-form" class="form-horizontal">
             <label for="img-upload">Upload an image</label>
-            <input id="fileupload" type="file" name="files[]" data-url="http://127.0.0.1:8000/img_upload" multiple>
+            <input id="fileupload" type="file" name="files[]">
             <!-- The global progress bar -->
     <div id="progress" class="progress">
         <div class="progress-bar progress-bar-success"></div>
