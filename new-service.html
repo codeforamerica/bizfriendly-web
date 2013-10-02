@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BizFriendly | New Web Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-select.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script src="js/vendor/jquery.cookie.js"></script>
+    <script src="js/vendor/bootstrap.js"></script>
+    <script src="js/vendor/bootstrap-select.js"></script>
+    <script src="js/vendor/jquery.ui.widget.js"></script>
+    <script src="js/vendor/jquery.iframe-transport.js"></script>
+    <script src="js/vendor/jquery.fileupload.js"></script>
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body id="new-service" class="container">
+
+    <div class="row">
+        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
+    </div>
+    
+    <header class="navbar navbar-static-top row">
+        <div id="signinlinks" class="pull-right">
+            <a id="signInLink" href="signin.html">Sign In</a>
+            <a id="signUpLink" href="signup.html" >| Sign Up</a>
+            <a id="bfUserName" href="#"></a>
+            <a id="signOutLink" href="#">| Sign Out</a>
+        </div>
+        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
+        </ul>
+    </header>
+    <div id="subheader" class="row">
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a href="#" class="active">Content Creator</a></li>
+            <li><a href="#">Teaching Guide</a></li>
+            <li><a href="#">Content Requests</a></li>
+        </ul>
+    </div>
+    <div id="subsubheader" class="row">
+        <div class="col-offset-3">
+            <h2>Use the form below to add a new web service to BizFriend.ly</h2>
+            <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
+        </div>
+        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
+        </div>
+    </div>
+
+    <section id="main" class="row">
+        <form id="new-category-form" role="form" class="col-offset-3 col-lg-7">
+            <legend class="blue">Service Information</legend>
+            <p>To create a lesson about a web service that is new to BizFriend.ly, you'll have to provide some information that helps others know why they should learn about it.</p>
+            <div class="form-group">
+                <input type="text" class="form-control" id="new-service-name" placeholder="Name of website / web service">
+            </div>
+            <div class="form-group">
+                <input type="url" class="form-control" id="new-service-url" placeholder="Web address">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="new-service-short-description" placeholder="Short description for landing page">
+            </div>
+            <div class="form-group">
+                <textarea id="new-service-long-description" class="form-control" placeholder="Longer description for the service landing page that describes what the web service does and its of value to small business owners." rows="4"></textarea>
+            </div>
+
+            <legend class="blue">Tips to Keep in Mind</legend>
+            <p>Up to three brief points that learners should keep in mind.</p>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control" id="tips1" placeholder="Tips to keep in mind">
+                </div>
+                <div class="col-lg-1">
+                    <img id="add-tips" src="img/plus-step.png">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="tips2" placeholder="Tips to keep in mind">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="tips3" placeholder="Tips to keep in mind">
+                </div>
+            </div>
+
+            <legend class="blue">Additional Resources</legend>
+            <p>Add up to five links to additional resources related to how to use the web service.</p>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control" id="additional-resources-name1" placeholder="Additional resource Name">
+                </div>
+                <div class="col-lg-1">
+                    <img id="add-resources" src="img/plus-step.png">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control" id="additional-resources-url1" placeholder="Additional resource URL">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-name2" placeholder="Additional resource Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-url2" placeholder="Additional resource URL">
+                </div>
+            </div>
+            <div class="form-group">
+               <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-name3" placeholder="Additional resource Name">
+                </div>
+            </div>
+            <div class="form-group">
+               <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-url3" placeholder="Additional resource URL">
+                </div>
+            </div>
+            <div class="form-group">
+               <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-name4" placeholder="Additional resource Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-url4" placeholder="Additional resource URL">
+                </div>
+            </div>
+            <div class="form-group">
+               <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-name5" placeholder="Additional resource Name">
+                </div>
+            </div>
+            <div class="form-group">
+               <div class="col-lg-11">
+                    <input type="text" class="form-control hidden" id="additional-resources-url5" placeholder="Additional resource URL">
+                </div>
+            </div>
+
+            <legend class="blue">Service Icon</legend>
+            <p>Add an icon for the web service. <a href="#">See the icon guide.</a></p>
+            <div id="icon-upload-form">
+                <input id="icon-upload" type="file" name="files[]">
+                <!-- The global progress bar -->
+                <div id="icon-upload-progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
+                <!-- The container for the uploaded files -->
+                <div id="icon-upload-files" class="files"></div>
+            </div>
+            <div id="uploaded-icon"></div>
+
+            <legend class="blue">Service Video or Image</legend>
+            <p>Add an image or a video about the web service.</p>
+            <div id="image-upload-form">
+                <input id="image-upload" type="file" name="files[]">
+                <!-- The global progress bar -->
+                <div id="image-upload-progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
+                <!-- The container for the uploaded files -->
+                <div id="image-upload-files" class="files"></div>
+            </div>
+            <div id="uploaded-image"></div>
+
+            <div class="form-group">
+                <input type="url" class="form-control" id="service-video-link" placeholder="Copy and paste a Vimeo or Youtube link.">
+            </div>
+            <div class="form-group">
+                <label for="category-id">Select A Lesson Category</label>
+                <br/>
+                <select id="category-id" class="selectpicker" data-width="550px"></select>
+            </div>
+            <div id="service-form-buttons" class="row">
+                <button id="preview" type="button" class="btn btn-blue">Preview</button>
+                <button id="save-draft" type="button" class="btn btn-blue">Save Draft</button>
+                <button id="submit" type="button" class="btn btn-primary">Submit</button>
+                <div class="hidden alert alert-danger">A category with that name already exists</div>
+            </div>
+        </form>
+    </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
+            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
+    </footer>
+</body>
+    <script src="js/config.js"></script>
+    <script src="js/BfUser.js"></script>
+    <script src="js/new-service.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-43086540-1', 'bizfriend.ly');
+      ga('send', 'pageview');
+
+    </script>
+</html>

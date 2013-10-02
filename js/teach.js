@@ -16,7 +16,6 @@ var teach = (function (teach) {
 
   // PUBLIC METHODS
   function init(){
-    // if (config.debug) console.log('init');
     _main();
   }
 
@@ -33,8 +32,7 @@ var teach = (function (teach) {
     _addFirstStep();
     // Add the congrats step
     _addCongratsStep();
-    // Turn on Drag
-    // $('.draggable').draggable({ revert: true });
+
     // Controls
     $("#back").click(_backStep);
     $('#next').click(_nextStep);
@@ -42,9 +40,6 @@ var teach = (function (teach) {
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
     $(".close").click(_closeClicked);
-    // $('#new-lesson-btn').click(_postNewLesson);
-    // $('#new-step-btn').click(_postNewStep);
-
   }
 
   function _checkIfLoggedIn(){
@@ -62,7 +57,6 @@ var teach = (function (teach) {
 
   function _getCategories(){
     // Get the existing categories
-    // TODO: Only show published categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
       $.each(response.objects, function(i){
         if (response.objects[i].state == "published"){
@@ -73,7 +67,6 @@ var teach = (function (teach) {
       $('.selectpicker').selectpicker('refresh');
       _watchCategory();
       // Get all the existing services
-      // console.log($("#category-id").html());
       _getServices();
     })
   }
@@ -88,21 +81,21 @@ var teach = (function (teach) {
         categoryId = $("#category-id").val();
         categoryName = $("#category-id :selected").text();
       }
+      if (config.debug) console.log("Category Name: " + categoryName);
       _getServices();
-      // if (config.debug) console.log("Category ID: " + categoryId);
     });
   }
 
   function _getServices(){
     // Get existing services
-    // TODO : Only show published services.
     $("#service-id").empty();
     categoryId = $("#category-id").val();
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
-      // $(".service-name").text(serviceName); // Init the service-name
       $.each(response.objects, function(i){
         if (response.objects[i].category_id == categoryId){
-          $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+          if (response.objects[i].state == "published"){
+            $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+          }
         }
       })
       $('#service-id').append('<option value="add-new-service">Add new service</option>');
@@ -126,7 +119,7 @@ var teach = (function (teach) {
         serviceName = $('#service-id :selected').text();
         $(".service-name").text(serviceName);
       }
-      // if (config.debug) console.log("Service ID: " + serviceId);
+      if (config.debug) console.log("Service Name: " + serviceName);
     });
   }
 
@@ -153,6 +146,7 @@ var teach = (function (teach) {
   }
 
   function _addNewStep(){
+    _saveCurrentStep();
     // Create a new step
     currentStep = {
       step_number : newSteps.length,
@@ -168,7 +162,6 @@ var teach = (function (teach) {
     }
     // Add new blank step as second to last position
     newSteps.splice(newSteps.length-1, 0, currentStep)
-
     // Show new step
     _showCurrentStep();
   }
@@ -205,6 +198,14 @@ var teach = (function (teach) {
         $("#step-texts").append($clone);
       }
     } else {
+      // Make congrats editable
+      $('.element-editable').editable(function(value, settings) {
+          return (value);
+        },{
+          type: "textarea",
+          rows : 2,
+          submit : "OK"
+      });
       // Add congrats-icon
       var content = $("#congrats-popover").html();
       $(".congrats-img").popover({ content: content, html: true, placement: 'right' });
@@ -219,6 +220,7 @@ var teach = (function (teach) {
     }
     // Turn on drop
     _turnOnDrop();
+    $(".close").click(_closeClicked);
   }
 
   function _iconClicked(evt){
@@ -228,7 +230,6 @@ var teach = (function (teach) {
 
   // Update the progress bar
   function _updateProgressBar(){
-    // if (config.debug) console.log('updating progress bar');
     // Check number of dots
     if ($(".progress-dots li").length < newSteps.length){
       $('.progress-dots').append('<li class="step'+newSteps[newSteps.length-1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length-1].step_number+'"></li>');
@@ -262,6 +263,11 @@ var teach = (function (teach) {
         $( this ).removeClass("temp").addClass("active");
         $( this ).removeClass("droppable ui-droppable");
 
+        // Height of step-texts
+        if ($("#step-texts").height() >= 350){
+          $(".temp")[0].remove();
+        }
+
         // Add colorPopover
         var content = $("#popover").html();
         $(this).popover({ content: content, html: true, placement: 'right' });
@@ -290,6 +296,7 @@ var teach = (function (teach) {
 
           $("#open").click(function(){
             console.log("open clicked");
+
             var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
             $('#open').popover({ content: content, html: true, placement: 'right' });
             $('#open').popover("show");
@@ -356,15 +363,15 @@ var teach = (function (teach) {
   function _colorControllers(){
     $(".orange-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#ff4000");
-      $(this).parent().parent().prev().popover("hide");
+      $(this).parent().parent().prev().popover("destroy");
     })
     $(".blue-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#74BBD4");
-      $(this).parent().parent().prev().popover("hide");
+      $(this).parent().parent().prev().popover("destroy");
     })
     $(".white-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#FFFFFF");
-      $(this).parent().parent().prev().popover("hide");
+      $(this).parent().parent().prev().popover("destroy");
     })
   }
 
@@ -408,8 +415,10 @@ var teach = (function (teach) {
     $(".active").popover("hide");
     $(this).parent().remove();
     if ($("#add-droppable").length == 0){
-      $('#teach-instructions').append('<a id="add-droppable">Add another element</a>');
-      $("#add-droppable").click(_addDroppableClicked);
+      if ($("#step-texts").height() <= 300){
+        $('#teach-instructions').append('<a id="add-droppable">Add another element</a>');
+        $("#add-droppable").click(_addDroppableClicked);
+      }
     }
     // Turn disabled elements back on
     if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
@@ -422,7 +431,15 @@ var teach = (function (teach) {
     var $clone = $("#droppable-prototype").clone();
     // Clean it up
     $clone.attr("id","").removeClass("hidden");
-    $("#step-texts").append($clone);
+    console.log($("#step-texts").height());
+    if ($("#step-texts").height() <= 300){
+      $("#step-texts").append($clone);
+      if ($("#step-texts").height() >= 300){
+        $("#add-droppable").remove();
+      }
+    } else {
+      $("#add-droppable").remove();
+    }
     _turnOnDrop();
     // If there are three (and the hidden prototype) then dont add more
     if ($(".droppable").length == 4){
@@ -459,8 +476,7 @@ var teach = (function (teach) {
     stepText = "";
     $.each(newSteps, function(i){
       stepText = newSteps[i].step_text;
-      console.log(stepText);
-      stepText = stepText.replace('<button type="button" class="close" aria-hidden="true">×</button>', "");
+      stepText = stepText.replace(new RegExp('<button type="button" class="close" aria-hidden="true">x</button>', 'g'), "");
       stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
       stepText = stepText.replace(/\s+/g," ");
       newSteps[i].step_text = stepText;
@@ -469,14 +485,10 @@ var teach = (function (teach) {
 
   function _previewClicked(evt){
     _saveCurrentStep();
-
-    document.preview.lessonName.value = $("#lesson-name").text();
-
     _cleanUpStepsHTML();
+    document.preview.lessonName.value = $("#lesson-name").text();
     document.preview.steps.value =JSON.stringify(newSteps);
-
-
-    var url = 'preview.html';
+    var url = 'preview-instructions.html';
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
@@ -500,11 +512,15 @@ var teach = (function (teach) {
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
-        // Lesson already exists, just get the id
-        console.log(data);
+        // Lesson already exists, give user a warning
         if (data.num_results){
-          lessonId = data.objects[0].id; 
-          _postDraftSteps();
+          $("#lesson-name").popover({ content: "Lesson already exists.", html: true, placement: 'right' });
+          $("#lesson-name").popover("show");
+          $('#lesson-name').on('shown.bs.popover', function () {
+            $("html").click(function(){
+              $("#lesson-name").popover("destroy");
+            })
+          })
         } else {
           // Lesson doesn't exist, post it
           _postDraftLesson();
@@ -530,10 +546,30 @@ var teach = (function (teach) {
       data: JSON.stringify(newLesson),
       dataType: "json",
       success : function(){
-        _checkForLesson();
+        _getLessonId();
       },
-      error : function(){
-        console.log('Lesson not posted.')
+      error : function(error){
+        console.log(error)
+      }
+    });
+  }
+  function _getLessonId(){
+    // Post draft lesson
+    lessonName = $("#lesson-name").text();
+    var filters = [{"name": "name", "op": "==", "val": lessonName}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+'/lessons',
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data) {
+        if (data.num_results){
+          lessonId = data.objects[0].id
+          _postDraftSteps();
+        }
+      },
+      error : function(error){
+        console.log(error);
       }
     });
   }
@@ -542,7 +578,7 @@ var teach = (function (teach) {
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;
-      delete newSteps[i].step_state; // active or unfinished, not draft or published, not needed
+      delete newSteps[i].step_state; // Not needed
       console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "POST",
@@ -551,11 +587,10 @@ var teach = (function (teach) {
         data: JSON.stringify(newSteps[i]),
         dataType: "json",
         success : function(){
-          // console.log("yes")
           window.location.replace("submission-complete.html");
         },
-        error : function(){
-          console.log("Step not posted?");
+        error : function(error){
+          console.log(error);
         }
       });
     });
