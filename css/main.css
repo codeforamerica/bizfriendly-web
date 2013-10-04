@@ -820,3 +820,22 @@ section .btn{
 .center {
 	text-align: center;
 }
+
+#profile-info {
+	background-color: #C7E4EE;
+	color: #74BBD4;
+}
+
+#profile-activity {
+	margin-left: 25px;
+}
+
+#profile-activity h1 {
+	text-align: center;
+	background-color: #FF8C66;
+	color: #ff4000;
+}
+
+.accomplish {
+	background-color: #C7E4EE;
+}
