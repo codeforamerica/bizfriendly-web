@@ -96,17 +96,22 @@
                 </div>
 
                 <div class="row">
-                    <div id="elements" class="col-offset-3 col-lg-1">
+                    <div id="elements" class="col-offset-2 col-lg-2">
                         <h3>Elements</h3>
                         <hr/>
                         <ul>
                             <li id="text-element-drag" class="draggable">Text</li>
                             <li id="open-element-drag" class="draggable">Text & Open Button</li>
-                            <!-- <li id="login-element-drag" class="draggable">Text & Log In Button</li> -->
-                            <!-- <li id="text-entry-element-drag" class="draggable">Text Entry Field</li> -->
                             <li id="image-element-drag" class="draggable">Image</li>
                         </ul>
+                        <hr/>
+                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button>
+                        <ul id="step-options-list" class="hidden">
+                            <li id="login-element-drag" class="draggable">Text & Log In Button</li>
+                            <li id="text-entry-drag" class="draggable">Text Entry Field</li>
+                        </ul>
                     </div>
+
                     <div class="teach-column col-lg-4">
                         <div id="teach-instructions" class="teach-box">
                             <ul class="progress-dots list-unstyled list-inline center"></ul>
@@ -133,7 +138,7 @@
                     <div id="state-btns" class="col-lg-2">
                         <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
                         <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
-                        <button type="button" class="btn btn-primary btn-block">Submit</button>
+                        <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </div>
             </div>
@@ -217,147 +222,22 @@
         <input type=hidden name="steps" value="">
     </form>
 
-    <!-- <div class="btn-group">
-                  <button type="button" class="btn btn-default">Select a lesson skill category</button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                  </button>
-                  <ul id="category-id" class="dropdown-menu" role="menu">
-                  </ul>
-                </div> -->
-    
-    <!-- <section id="main" class="row">
-        <div class="col-lg-11 col-offset-1">
-            <div class="alert alert-info login-required">
-                You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
-            </div>
-            <h3 class="blue" data-toggle="collapse" data-target="#lesson-form">Create a Lesson</h3>
-            <p>To build a BizFriend.ly lesson, choose the options below.</p>
-            <form id="lesson-form" role="form" class="form-inline collapse">
-            <div class="form-group">
-                <label for="category-id">Category</label>
-                <select id="category-id" class="form-control">
-                    <option>Select A Category</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="short-description">short-description</label>
-                <input type="text" id="short-description" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="long-description">long-description</label>
-                <input type="text" id="long-description" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="time-estimate">time-estimate</label>
-                <input type="text" id="time-estimate" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="difficulty">difficulty</label>
-                <input type="text" id="difficulty" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="additional-resources1">additional-resources1</label>
-                <input type="text" id="additional-resources1" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="additional-resources2">additional-resources2</label>
-                <input type="text" id="additional-resources2" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="additional-resources3">additional-resources3</label>
-                <input type="text" id="additional-resources3" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="tips1">tips1</label>
-                <input type="text" id="tips1" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="tips2">tips2</label>
-                <input type="text" id="tips2" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="tips3">tips3</label>
-                <input type="text" id="tips3" class="form-control"></input>
-            </div>
-            <button type="button" id="new-lesson-btn" class="btn btn-default btn-block">Create Lesson</button>
-            </form>
+     <!-- Modal -->
+  <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nice Work!</h4>
         </div>
-    </section>
-
-    <section id="lesson-feedback" class="row">
-        <h2 class="col-lg-11 col-offset-1"></h2>
-    </section>
-    <section class="row">
-        <div class="col-lg-11 col-offset-1">
-            <h3 class="blue" data-toggle="collapse" data-target="#step-form">Create a Step</h3>
-            <p>Add a step to a lesson with this form.</p>
-            <form id="step-form" role="form" class="form-inline collapse">
-            <div class="form-group">
-                <label for="lesson-id">Lesson Name</label>
-                <select id="lesson-id" class="form-control">
-                    <option>Select A Lesson</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="step-name">Step Name</label>
-                <input type="text" id="step-name" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="step-type">Step Type</label>
-                <select id="step-type" class="form-control">
-                    <option>Choose a step type</option>
-                    <option value="open">Open a website</option>
-                    <option value="congrats">Congratulations</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="open-btn-text">Open Button Text</label>
-                <input type="text" id="open-btn-text" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="step-number">Step Number</label>
-                <input type="text" id="step-number" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="step-text">Step Text</label>
-                <input type="text" id="step-text" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="trigger-endpoint">Trigger Endpoint</label>
-                <input type="text" id="trigger-endpoint" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="trigger-check">Trigger Check</label>
-                <input type="text" id="trigger-check" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="trigger-value">Trigger Value</label>
-                <input type="text" id="trigger-value" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="thing-to-remember">Thing to Remember</label>
-                <input type="text" id="thing-to-remember" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="step-feedback">Feedback</label>
-                <input type="text" id="step-feedback" class="form-control"></input>
-            </div>
-            <div class="form-group">
-                <label for="next-step-number">Next Step Number</label>
-                <input type="text" id="next-step-number" class="form-control"></input>
-            </div>
-            <button type="button" id="new-step-btn" class="btn btn-default btn-block">Add Step To Lesson</button>
-            </form>
+        <div class="modal-body">
+            <b>You created a new service called <span class="lesson-name orange"></span></b>
+            <p>To ensure high quality content on BizFriend.ly, your lesson will be reviewed before it goes live.</p>
+            <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
+            <a type="button" class="btn btn-default">See What You've Created</a>
         </div>
-    </section>
-    <section id="step-feedback" class="row">
-        <h2 class="col-lg-11 col-offset-1"></h2>
-    </section> -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 
     <footer class="row">

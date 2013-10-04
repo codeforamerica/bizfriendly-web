@@ -31,32 +31,40 @@ var newCategory = (function (newCategory) {
   }
 
   function _saveDraftClicked(){
-    newCategory = {
-      name : $("#new-skill-name").val(),
-      description : $("#new-skill-description").val(),
-      state : "published",
-      creator_id : BfUser.id
-    }
+    _checkOnCategory("draft");
+  }
+
+  function _submitClicked(){
+    _checkOnCategory("published");
+  }
+
+  function _checkOnCategory(state){
+    var filters = [{"name": "name", "op": "==", "val": $("#new-skill-name").text()}];
     $.ajax({
-      type: "POST",
-      contentType: "application/json",
       url: config.bfUrl+config.bfApiVersion+'/categories',
-      data: JSON.stringify(newCategory),
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
-      success : function(){
-        window.location.replace("submission-complete.html");
+      contentType: "application/json",
+      success: function(data) {
+        // Service already exists, give user a warning
+        if (data.num_results){
+          $(".alert").removeClass("hidden");
+        } else {
+          // Lesson doesn't exist, post it
+          _postCategory(state);
+        }
       },
       error : function(error){
-        $(".alert").removeClass("hidden");
+        console.log(error);
       }
     });
   }
 
-  function _submitClicked(){
+  function _postCategory(state){
     newCategory = {
       name : $("#new-skill-name").val(),
       description : $("#new-skill-description").val(),
-      state : "published",
+      state : state,
       creator_id : BfUser.id
     }
     $.ajax({
@@ -66,7 +74,8 @@ var newCategory = (function (newCategory) {
       data: JSON.stringify(newCategory),
       dataType: "json",
       success : function(){
-        window.location.replace("submission-complete.html");
+        $(".skill-name").text($("#new-skill-name").val())
+        $('#submissionModal').modal()
       },
       error : function(error){
         $(".alert").removeClass("hidden");

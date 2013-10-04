@@ -34,6 +34,7 @@ var newService = (function (newService) {
   function _getCategories(){
     // Get the existing categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
+      console.log(response);
       $.each(response.objects, function(i){
         if (response.objects[i].state == "published"){
           $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
@@ -144,6 +145,38 @@ var newService = (function (newService) {
     }
   }
 
+  function _getAdditionalResources(){
+    var addResourcesHtml = '<ul>';
+    addResourcesHtml += '<li><a href="'+$("#additional-resources-url1").val()+'">'+$("#additional-resources-name1").val()+'</a></li>';
+    if ($("#additional-resources-name2").val()){
+      addResourcesHtml += '<li><a href="'+$("#additional-resources-url2").val()+'">'+$("#additional-resources-name2").val()+'</a></li>';
+    }
+    if ($("#additional-resources-name3").val()){
+      addResourcesHtml += '<li><a href="'+$("#additional-resources-url3").val()+'">'+$("#additional-resources-name3").val()+'</a></li>';
+    }
+    if ($("#additional-resources-name4").val()){
+  addResourcesHtml += '<li><a href="'+$("#additional-resources-url4").val()+'">'+$("#additional-resources-name4").val()+'</a></li>';
+    }
+    if ($("#additional-resources-name5").val()){
+      addResourcesHtml += '<li><a href="'+$("#additional-resources-url5").val()+'">'+$("#additional-resources-name5").val()+'</a></li>';
+    }
+    addResourcesHtml += "</ul>";
+    return (addResourcesHtml);
+  }
+
+  function _getTips(){
+    var tips = "<ul>";
+    tips += '<li>'+$("#tips1").val()+'</li>';
+    if ($("#tips2").val()){
+      tips += '<li>'+$("#tips2").val()+'</li>'; 
+    }
+    if ($("#tips3").val()){
+      tips += '<li>'+$("#tips3").val()+'</li>';
+    }
+    tips += "</ul>";
+    return (tips);
+  }
+
   function _previewClicked(){
     $(".modal-title").text($("#new-service-name").val());
     $(".modal-body").append("URL: "+$("#new-service-url").val()+"<br/>");
@@ -182,42 +215,62 @@ var newService = (function (newService) {
   }
 
   function _saveDraftClicked(){
-    newService = {
-      name : $("#new-skill-name").val(),
-      description : $("#new-skill-description").val(),
-      state : "published",
-      creator_id : BfUser.id
-    }
+    _checkForService("draft");
+  }
+
+  function _submitClicked(){
+    _checkForService("published");
+  }
+
+  function _checkForService(state){
+    // Post draft lesson
+    var filters = [{"name": "name", "op": "==", "val": $("#new-service-name").text()}];
     $.ajax({
-      type: "POST",
-      contentType: "application/json",
-      url: config.bfUrl+config.bfApiVersion+'/categories',
-      data: JSON.stringify(newService),
+      url: config.bfUrl+config.bfApiVersion+'/services',
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
-      success : function(){
-        window.location.replace("submission-complete.html");
+      contentType: "application/json",
+      success: function(data) {
+        // Service already exists, give user a warning
+        if (data.num_results){
+          $(".alert").removeClass("hidden");
+        } else {
+          // Lesson doesn't exist, post it
+          _postService(state);
+        }
       },
       error : function(error){
-        $(".alert").removeClass("hidden");
+        console.log(error);
       }
     });
   }
 
-  function _submitClicked(){
+  function _postService(state){
+    // var additional_resources = _getAdditionalResources();
+    // var tips = _getTips();
     newService = {
-      name : $("#new-skill-name").val(),
-      description : $("#new-skill-description").val(),
-      state : "published",
-      creator_id : BfUser.id
+      name : $("#new-service-name").val(),
+      url : $("#new-service-url").val(),
+      icon : $("#uploaded-icon").html(),
+      short_description : $("new-service-short-description").val(),
+      long_description : $("new-service-long-description").val(),
+      additional_resources : _getAdditionalResources(),
+      tips : _getTips(),
+      media : $("#uploaded-image").val(),
+      state : state,
+      creator_id : BfUser.id,
+      category_id : $("#category-id").val()
     }
+    console.log(newService);
     $.ajax({
       type: "POST",
       contentType: "application/json",
-      url: config.bfUrl+config.bfApiVersion+'/categories',
+      url: config.bfUrl+config.bfApiVersion+'/services',
       data: JSON.stringify(newService),
       dataType: "json",
       success : function(){
-        window.location.replace("submission-complete.html");
+        $(".service-name").text($("#new-service-name").val())
+        $('#submissionModal').modal()
       },
       error : function(error){
         $(".alert").removeClass("hidden");

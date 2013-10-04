@@ -81,7 +81,7 @@ li {
 }
 
 #alpha {
-	z-index:9999;
+	z-index:1;
 }
 
 #alpha a {
@@ -349,8 +349,9 @@ table .lesson-name {
 	margin-bottom: 10px;
 	font-weight: 700;
 	text-align: center;
-	vertical-align: center;
+	width: 160px;
 	z-index: 1;
+	padding-top: 20px;
 }
 
 #elements .disabled {
@@ -452,7 +453,7 @@ table .lesson-name {
 	padding: 15px;
 	margin-bottom: 15px;
 	min-height: 100px;
-	width: 260px;
+	width: 270px;
 }
 
 .temp {

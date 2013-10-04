@@ -195,7 +195,7 @@
                 <button id="preview" type="button" class="btn btn-blue">Preview</button>
                 <button id="save-draft" type="button" class="btn btn-blue">Save Draft</button>
                 <button id="submit" type="button" class="btn btn-primary">Submit</button>
-                <div class="hidden alert alert-danger">A category with that name already exists</div>
+                <div class="hidden alert alert-danger">A service with that name already exists</div>
             </div>
         </form>
     </section>
@@ -212,6 +212,23 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nice Work!</h4>
+        </div>
+        <div class="modal-body">
+            <b>You created a new service called <span class="service-name orange"></span></b>
+            <p>To ensure high quality content on BizFriend.ly, your service will be reviewed before it goes live.</p>
+            <a type="button" class="btn btn-default" href="/new-service.html">Create Another</a>
+            <a type="button" class="btn btn-default">See What You've Created</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

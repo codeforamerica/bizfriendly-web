@@ -39,7 +39,9 @@ var teach = (function (teach) {
     $('#add-new-step').click(_addNewStep);
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
+    $("#submit").click(_submitClicked);
     $(".close").click(_closeClicked);
+    $("#step-options-btn").click(_optionsClicked);
   }
 
   function _checkIfLoggedIn(){
@@ -188,7 +190,26 @@ var teach = (function (teach) {
     _updateStepsStates();
     // Update progress bar
     _updateProgressBar();
+
     $("#step-texts").html(currentStep.step_text);
+
+    // Turn on all step types again
+    $("#open-element-drag").removeClass("disabled").draggable("enable");
+    $("#login-element-drag").removeClass("disabled").draggable("enable");
+    $("#text-entry-drag").removeClass("disabled").draggable("enable");
+
+    if ($("#step-texts .open-element").length != 0){
+      $("#login-element-drag").addClass("disabled").draggable("disable");
+      $("#text-entry-drag").addClass("disabled").draggable("disable");
+    } else if ($("#step-texts .login-element").length != 0){
+      $("#open-element-drag").addClass("disabled").draggable("disable");
+      $("#text-entry-drag").addClass("disabled").draggable("disable");
+    } else if ($("#step-texts .text-entry-element").length != 0){
+      $("#open-element-drag").addClass("disabled").draggable("disable");
+      $("#login-element-drag").addClass("disabled").draggable("disable");
+    }
+    
+
     // Show three new temp texts
     if (currentStep.step_type != "congrats"){
       while ($("#step-texts").children().length < 3){
@@ -288,6 +309,7 @@ var teach = (function (teach) {
         if ($(ui.draggable[0]).attr("id") == "open-element-drag"){
           currentStep.step_type = "open";
           $("#login-element-drag").addClass("disabled").draggable("disable");
+          $("#text-entry-drag").addClass("disabled").draggable("disable");
 
           var $clone = $("#open-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
@@ -301,8 +323,8 @@ var teach = (function (teach) {
             $('#open').popover({ content: content, html: true, placement: 'right' });
             $('#open').popover("show");
             $("#open-url-submit").click(function(){
+              currentStep.step_type = "open";
               currentStep.trigger_endpoint = $("#open-url").val();
-              console.log(currentStep);
               $("#open").popover("hide");
             })
           })
@@ -311,6 +333,7 @@ var teach = (function (teach) {
         // If login-element
         if ($(ui.draggable[0]).attr("id") == "login-element-drag"){
           $("#open-element-drag").addClass("disabled").draggable("disable");
+          $("#text-entry-drag").addClass("disabled").draggable("disable");
           var $clone = $("#login-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -318,7 +341,9 @@ var teach = (function (teach) {
         }
 
         // If text-entry-element
-        if ($(ui.draggable[0]).attr("id") == "text-entry-element-drag"){
+        if ($(ui.draggable[0]).attr("id") == "text-entry-drag"){
+          $("#open-element-drag").addClass("disabled").draggable("disable");
+          $("#login-element-drag").addClass("disabled").draggable("disable");
           var $clone = $("#text-entry-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -448,6 +473,11 @@ var teach = (function (teach) {
     $(".close").click(_closeClicked);
   }
 
+  function _optionsClicked(){
+    console.log("WHAT");
+    $("#step-options-list").removeClass("hidden");
+  }
+
   function _addCongratsStep(){
     // Create a new step
     currentStep = {
@@ -499,10 +529,16 @@ var teach = (function (teach) {
   function _saveDraft(){
     _saveCurrentStep();
     _cleanUpStepsHTML()
-    _checkForLesson();
+    _checkForLesson("draft");
   }
 
-  function _checkForLesson(){
+  function _submitClicked(){
+    _saveCurrentStep();
+    _cleanUpStepsHTML()
+    _checkForLesson("published");
+  }
+
+  function _checkForLesson(state){
     // Post draft lesson
     lessonName = $("#lesson-name").text();
     var filters = [{"name": "name", "op": "==", "val": lessonName}];
@@ -523,7 +559,7 @@ var teach = (function (teach) {
           })
         } else {
           // Lesson doesn't exist, post it
-          _postDraftLesson();
+          _postLesson(state);
         }
       },
       error : function(error){
@@ -532,12 +568,12 @@ var teach = (function (teach) {
     });
   }
 
-  function _postDraftLesson(){
+  function _postLesson(state){
     newLesson = {
       service_id : serviceId,
       creator_id : BfUser.id,
       name : lessonName,
-      state : "published"
+      state : state
     }
     $.ajax({
       type: "POST",
@@ -553,6 +589,7 @@ var teach = (function (teach) {
       }
     });
   }
+
   function _getLessonId(){
     // Post draft lesson
     lessonName = $("#lesson-name").text();
@@ -565,7 +602,7 @@ var teach = (function (teach) {
       success: function(data) {
         if (data.num_results){
           lessonId = data.objects[0].id
-          _postDraftSteps();
+          _postSteps();
         }
       },
       error : function(error){
@@ -574,7 +611,7 @@ var teach = (function (teach) {
     });
   }
 
-  function _postDraftSteps(){
+  function _postSteps(){
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;
@@ -587,13 +624,15 @@ var teach = (function (teach) {
         data: JSON.stringify(newSteps[i]),
         dataType: "json",
         success : function(){
-          window.location.replace("submission-complete.html");
+          console.log("Step posted.")
         },
         error : function(error){
           console.log(error);
         }
       });
     });
+    $(".lesson-name").text($("#lesson-name").text());;
+    $('#submissionModal').modal();
   }
 
   // add public methods to the returned module and return it

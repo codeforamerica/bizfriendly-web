@@ -1,8 +1,8 @@
 var learn = (function (learn) {
   // private properties
   var categories = [];
-  var featuredCategory = 'promote';
-  var selectedCategory = 'featured';
+  // var featuredCategory;
+  var selectedCategory = 1;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -26,7 +26,7 @@ var learn = (function (learn) {
     $(categories).each(function(i){
       if (config.debug) console.log(categories[i]);
       // Fill up the sidemenu
-      $('#sidemenu ul').append('<li id="'+categories[i].url+'">'+categories[i].name+'</li>');
+      $('#sidemenu ul').append('<li id="'+categories[i].id+'">'+categories[i].name+'</li>');
       // Style selected category
       $('#'+selectedCategory).addClass('active');
     })
@@ -36,17 +36,15 @@ var learn = (function (learn) {
   }
 
   function _showServicesFor(selectedCategory){
-    if (selectedCategory == 'featured')
+    if (selectedCategory == 'featured'){
       selectedCategory = featuredCategory;
-    
-    var categoryJSON = _findCategoryByUrl(selectedCategory, categories);
-
+    }
+    var categoryJSON = _findCategoryById(selectedCategory, categories);
     _updateTableForCategory(categoryJSON);
   }
 
   function _updateTableForCategory(category) {
     var html, $tbody = $('#mainmenu table tbody');
-
     $('#mainmenu .category-name').html(category.name);
     $('#mainmenu .category-description').html(category.description);
 
@@ -68,10 +66,11 @@ var learn = (function (learn) {
     $tbody.html(html);
   }
 
-  function _findCategoryByUrl(needle, haystack) {
+  function _findCategoryById(needle, haystack) {
+    console.log(needle, haystack);
     var response;
     $(haystack).each(function(i){
-      if (haystack[i].url == needle) {
+      if (haystack[i].id == needle) {
         response = haystack[i];
         return;
       }
