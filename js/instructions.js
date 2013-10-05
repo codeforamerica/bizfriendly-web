@@ -150,7 +150,6 @@ var instructions = (function (instructions) {
     _stepTransition();
     if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    // $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
     // Set step_text back to visible and hide others
@@ -269,7 +268,6 @@ var instructions = (function (instructions) {
 
   // Check steps
   function _checkStep(){
-    if (config.debug) console.log(currentStep.name);
 
     // Create postData
     postData = {

@@ -12,6 +12,10 @@ body {
 	font-weight: 700;
 }
 
+.right {
+	float: right;
+}
+
 h1 {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 24px;
@@ -228,7 +232,7 @@ table .lesson-name {
 	font-weight: 700;
 }
 
-.lesson-name {
+/*.lesson-name {
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 700;
@@ -237,6 +241,10 @@ table .lesson-name {
 
 .lesson-name:hover {
   color: #ff4000;
+}*/
+
+.lesson-name {
+	color: #ff4000;
 }
 
 #mainmenu table tbody td img{
@@ -828,14 +836,35 @@ section .btn{
 
 #profile-activity {
 	margin-left: 25px;
+	color: #004E84;
+	font-weight: 700;
 }
 
 #profile-activity h1 {
 	text-align: center;
 	background-color: #FF8C66;
 	color: #ff4000;
+	line-height: 48px;
 }
 
-.accomplish {
-	background-color: #C7E4EE;
+.activity{
+	/*height : 150px;*/
+}
+
+#accomplishments {
+	text-align: center;
+}
+
+.activity-number {
+	font-size: 48px;
+	color: #79C040;
+}
+
+#services-learned {
+	/*text-align: left;*/
+}
+
+.service-learned a{
+	color: #004E84;
+	text-decoration: underline;
 }

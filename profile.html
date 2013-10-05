@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>BizFriendly | Connect</title>
+    <title>BizFriendly | Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -17,6 +17,7 @@
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/moment.js"></script>
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
@@ -68,19 +69,57 @@
             <button type="button" class="btn btn-default">Edit Your Profile</button>
         </div>
         <div id="profile-activity" class="col-lg-6">
-            <div id="accomplishments">
+            <div id="accomplishments" class="activity">
                 <h1>Your Accomplishments</h1>
                 <div class="row">
-                    <div id="lessons-complete" class="accomplish col-lg-2">
+                    <div id="lessons-complete" class="col-lg-3">
+                    </br>
+                    lessons complete
+                    </div>
+                    <div id="requests" class="col-lg-3">
+                    </br>
+                    requests
+                    </div>
+                    <div id="lessons-created" class="col-lg-3">
+                    </br>
+                    lessons created
+                    </div>
+                    <div id="lessons-taught" class="col-lg-3">
+                    </br>
+                    lessons taught
+                    </div>
+                </div>
+            </div>
+            <div id="learning" class="activity">
+                <h1>Learning</h1>
+                <div id="services-learned">
+                </div>
+            </div>
+            <div id="teaching" class="activity">
+                <h1>Teaching</h1>
+                <div id="services-created">
+                    <div id="drafts">
+                        <h3>Drafts</h3>
+                    </div>
+                    <div id="waiting">
+                    </div>
+                    <div id="published">
+                    </div>
+                </div>
+            </div>
+            <div id="requesting" class="activity">
+                <h1>Requesting</h1>
+                <div class="row">
+                    <div id="lessons-complete" class="col-lg-3">
                         lessons-complete
                     </div>
-                    <div id="requests" class="accomplish col-lg-2">
+                    <div id="requests" class="col-lg-3">
                         requests
                     </div>
-                    <div id="content-created" class="accomplish col-lg-2">
+                    <div id="content-created" class="col-lg-3">
                         content-created
                     </div>
-                    <div id="lessons-taught" class="accomplish col-lg-2">
+                    <div id="lessons-taught" class="col-lg-3">
                         lessons-taught
                     </div>
                 </div>
