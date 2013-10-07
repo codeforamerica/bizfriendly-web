@@ -506,7 +506,7 @@ table .lesson-name {
 }
 
 #teach-instructions {
-	background-image: url('../img/fake-instructions.gif');
+	background-image: url('../img/fake-instructions.png');
 	padding-top: 150px;
 }
 
@@ -783,6 +783,13 @@ section .btn{
 #controls {
 	width: 145px;
 	margin: 0 auto;
+}
+
+#teach-controls {
+	width: 145px;
+	position: absolute;
+	bottom: 60px;
+	left: 105px;
 }
 
 #instructions footer {

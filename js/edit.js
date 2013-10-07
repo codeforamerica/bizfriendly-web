@@ -26,17 +26,10 @@ var edit = (function (edit) {
     _checkIfLoggedIn();
     // Get info about lesson
     _getLessonInfo();
-    // Get all the existing categories
-    // _getCategories();
-
-    // // Add the first Step
-    // _addFirstStep();
-    // // Add the congrats step
-    // _addCongratsStep();
 
     // Controls
-    $("#back").click(_backStep);
-    $('#next').click(_nextStep);
+    $(".back").click(_backStep);
+    $('.next').click(_nextStep);
     $('#add-new-step').click(_addNewStep);
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
@@ -75,7 +68,7 @@ var edit = (function (edit) {
       });
 
       // Show first lesson
-      _orderSteps()
+      _orderSteps();
       // _addCloseButtonsBack();
       currentStep = newSteps[0];
       _makeProgressBar();
@@ -147,7 +140,7 @@ var edit = (function (edit) {
     console.log(currentStep);
     // Update all step states
     _updateStepsStates();
-    // console.log(newSteps);
+
     // Update progress bar
     _updateProgressBar();
 
@@ -175,12 +168,22 @@ var edit = (function (edit) {
       }
 
       // Add droppables in
-      while ($("#step-texts").children().length < 3){
+      while ($("#step-texts").children().length < 2){
         var $clone = $("#droppable-prototype").clone();
         // Clean it up
         $clone.attr("id","").removeClass("hidden");
         $("#step-texts").append($clone);
       }
+
+      // Turn editable back on
+      $('.element-editable').editable(function(value, settings) {
+        return (value);
+      },{
+        type : "textarea",
+        rows : 3,
+        onblur : "submit",
+        submit : "OK"
+      });
 
     } else {
       // Can't add any more elements on congrats step
@@ -192,6 +195,7 @@ var edit = (function (edit) {
         },{
           type: "textarea",
           rows : 2,
+          onblur : "submit",
           submit : "OK"
       });
       // Add congrats-icon
@@ -240,6 +244,7 @@ var edit = (function (edit) {
     },{
       type : "textarea",
       rows : 3,
+      onblur : "submit",
       submit : "OK"
     });
   }
@@ -476,6 +481,7 @@ var edit = (function (edit) {
       stepText = stepText.replace(new RegExp('<button type="button" class="close" aria-hidden="true">x</button>', 'g'), "");
       stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
       stepText = stepText.replace(/\s+/g," ");
+      stepText = stepText.replace(new RegExp('Click to edit text', 'g'),"");
       newSteps[i].step_text = stepText;
     })
   }

@@ -160,6 +160,7 @@ var BfUser = (function (BfUser)  {
     _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
     if (config.debug) console.log($.cookie('BfUser'));
 
+    _updatePage();
     $('#feedback h2').addClass('alert alert-success').html("Great. You're all signed up.");
   };
 
@@ -177,11 +178,8 @@ var BfUser = (function (BfUser)  {
       _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
       if (config.debug) console.log($.cookie('BfUser'));
 
+      _updatePage();
       $('#feedback h2').addClass('alert alert-success').html("Great. You're signed in.");
-
-      // setTimeout( function() {
-      //   window.location.replace('/')
-      // }, 3000);
   };
 
   // Update page to reflect user state

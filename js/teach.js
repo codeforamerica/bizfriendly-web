@@ -34,8 +34,8 @@ var teach = (function (teach) {
     _addCongratsStep();
 
     // Controls
-    $("#back").click(_backStep);
-    $('#next').click(_nextStep);
+    $(".back").click(_backStep);
+    $('.next').click(_nextStep);
     $('#add-new-step').click(_addNewStep);
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
@@ -126,6 +126,7 @@ var teach = (function (teach) {
     $('.lesson-editable').editable(function(value, settings) {
       return(value)
       }, { 
+        onblur : "submit",
         submit  : 'OK'
     });
   }
@@ -221,6 +222,7 @@ var teach = (function (teach) {
         },{
           type: "textarea",
           rows : 2,
+          onblur : "submit",
           submit : "OK"
       });
       // Add congrats-icon
@@ -269,6 +271,7 @@ var teach = (function (teach) {
     },{
       type : "textarea",
       rows : 3,
+      onblur : "submit",
       submit : "OK"
     });
   }
@@ -472,8 +475,11 @@ var teach = (function (teach) {
   }
 
   function _optionsClicked(){
-    console.log("WHAT");
-    $("#step-options-list").removeClass("hidden");
+    if ($("#step-options-list").hasClass("hidden")){
+      $("#step-options-list").removeClass("hidden");
+    } else {
+      $("#step-options-list").addClass("hidden");
+    }
   }
 
   function _addCongratsStep(){
@@ -507,6 +513,7 @@ var teach = (function (teach) {
       stepText = stepText.replace(new RegExp('<button type="button" class="close" aria-hidden="true">x</button>', 'g'), "");
       stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
       stepText = stepText.replace(/\s+/g," ");
+      stepText = stepText.replace(new RegExp('Click to edit text', 'g'),"");
       newSteps[i].step_text = stepText;
     })
   }

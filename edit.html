@@ -88,9 +88,9 @@
             <div id="lesson-builder">
                 <div id="teach-dots" class="row">
                     <div class="col-offset-5 col-lg-3">
-                        <a id="back" class="inline-block"><img src="img/left.png"></a>
+                        <a class="inline-block back"><img src="img/left.png"></a>
                         <div id="current-dot" class="inline-block"></div>
-                        <a id="next" class="inline-block"><img src="img/right.png"></a>
+                        <a class="inline-block next"><img src="img/right.png"></a>
                         <a id="add-new-step" class="inline-block">Add new step</a>
                     </div>
                 </div>
@@ -119,20 +119,11 @@
                             <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
                             <p>Created by <span class="author-name"></span>.</p>
                             <div id="step-texts">
-                                <!-- <div class="droppable temp step-text">
-                                    <button type="button" class="close" aria-hidden="true">x</button>
-                                    <p class="temp-text">Drag elements here to create your step.</p>
-                                </div>
-                                <div class="droppable temp step-text">
-                                     <button type="button" class="close" aria-hidden="true">x</button>
-                                    <p class="temp-text">Drag elements here to create your step.</p>
-                                </div>
-                                <div class="droppable temp step-text">
-                                     <button type="button" class="close" aria-hidden="true">x</button>
-                                    <p class="temp-text">Drag elements here to create your step.</p>
-                                </div> -->
                             </div>
-                            <!-- <button id="save-step" type="button">Save Step</button> -->
+                              <div id="teach-controls">
+                                  <button type="button" id="back" class="btn back">Back</button>
+                                  <button type="button" id="next" class="btn next">Next</button>
+                              </div>
                         </div>
                     </div>
                     <div id="state-btns" class="col-lg-2">
