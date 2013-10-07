@@ -54,9 +54,6 @@ var connect = (function (connect) {
            + '</tr>';
     }
     $('#top-learners-content table tbody').html(html);
-
-    _showYourLessons();
-
   }
 
   function _updateTableForLessonsCompleted(user_lesson_count) {
@@ -64,17 +61,6 @@ var connect = (function (connect) {
     for (name in user_lesson_count){
       console.log(name);
     }
-  }
-
-  function _showYourLessons(){
-    // Get the lessons owned by the user
-    $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
-      $.each(response.objects, function(i){
-        if (response.objects[i].creator_id == user_id){
-          $('#your-lessons').append('<li>'+response.objects[i].name+'</li>');
-        }
-      });
-    });
   }
 
 

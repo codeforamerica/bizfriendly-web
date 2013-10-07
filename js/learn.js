@@ -51,8 +51,6 @@ var learn = (function (learn) {
     $tbody.html('');
     $(category.services).each(function(x){
       var service = category.services[x];
-      // Only show published services in the main menu.
-      if (service.state == 'published'){
         html += '<tr>';
         if (service.icon){
           html += '<td><a href="service.html?'+service.id+'"><img src="img/'+service.icon+'"><p class="lesson-name">'+service.name+'</p></a>'+service.short_description+'</td>';
@@ -61,7 +59,6 @@ var learn = (function (learn) {
           html += '<td><a href="service.html?'+service.id+'"><p class="lesson-name">'+service.name+'</p></a>'+service.short_description+'</td>';
         }
         html += '</tr>';
-      }
     });
     $tbody.html(html);
   }
