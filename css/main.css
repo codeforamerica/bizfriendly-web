@@ -190,7 +190,7 @@ li {
 	height: 250px;
 }
 
-#main, #subsubheader, #bottom, footer  {
+#main, #subsubheader, #bottom  {
 	position: relative;
 	top: -145px;
 }
