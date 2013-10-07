@@ -21,7 +21,7 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body class="container">
+<body id="learn" class="container">
 
     <div class="row">
         <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
@@ -42,48 +42,26 @@
         </ul>
     </header>
     <div id="subheader" class="row">
-        <div class="col-lg-1 col-offset-3">
-            <img src="img/learn_gray.gif">
-        </div>
-        <div class="col-lg-8">
-            <p>Get started by picking a skill you'd like to learn.</p>
+        <div class="col-offset-1 col-lg-11">
+            <p class="green">We've collected the top digital skills for your business.<br/> To get started, select the one you're most interested in.</p>
+            <p>Under each skill, you'll find web services that will help you learn how to do that skill for your business.</p>
         </div>
     </div>
 
     <div id="loading" class="row">
-        <img class="image-responsive col-offset-5 col-lig-2" src="img/loading.gif">
+        <img class="image-responsive col-offset-5 col-lg-2" src="img/loading.gif">
     </div>
 
     <section id="main" class="row">
-        <div id="sidemenu" class="col-lg-3 col-offset-1">
-            <div class="bold">Skills</div>
-            <ul>
-                <!-- <li id='featured'>Featured Skills</li> -->
-                <!-- <li id='recent-skills'>Recently Added</li> -->
-                <!-- <hr/> -->
-            </ul>
+        <hr class="col-offset-1 col-lg-10">
+        <div id="category-menu" class="col-offset-1 col-lg-6">
+            <div class="row">
+                <div id="category-left" class="col-lg-6"></div>
+                <div id="category-right" class="col-offset-1 col-lg-5"></div>
+            </div>
         </div>
-        <div id="mainmenu" class="col-lg-7">
-            <h2 class="category-name"></h2>
-            <p class="category-description"></p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Services</th>
-                  <!-- <th>Rating</th> -->
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-            <!-- <div id="lessons">
-                <div id="lessons-headers" class="row">
-                    <div class="name">Lesson</div>
-                    <div class="time">Time</div>
-                    <div class="difficulty">Difficulty</div>
-                    <div class="rating">Rating</div>
-                </div>
-            </div> -->
+        <hr class="col-offset-1 col-lg-10">
+        <div id="categories" class="row">
         </div>
     </section>
 

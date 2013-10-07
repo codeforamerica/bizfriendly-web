@@ -16,6 +16,10 @@ body {
 	float: right;
 }
 
+.left {
+	float:left;
+}
+
 h1 {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 24px;
@@ -79,7 +83,7 @@ li {
 	display: none;
 }
 
-#subheader {
+#index #subheader {
 	position: relative;
 	top: -75px;
 }
@@ -190,9 +194,32 @@ li {
 	height: 250px;
 }
 
-#main, #subsubheader, #bottom  {
+#index #main, #subsubheader, #bottom  {
 	position: relative;
 	top: -145px;
+}
+
+#learn #subheader, #learn #main {
+	position: relative;
+	top: -100px;
+}
+
+#learn #subheader p {
+		font-size: 18px;
+}
+
+#learn #category-menu{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#learn #category-menu a {
+	color: #0F5F94;
+	text-decoration: underline;
+}
+
+.category {
+	margin-bottom: 25px;
 }
 
 #subsubheader h2 {
@@ -554,36 +581,6 @@ table .lesson-name {
 	padding-bottom: 10px;
 }
 
-.bottom_links {
-	height: 150px;
-	width: 30%;
-	padding: 20px;
-	float: left;
-	background-color: #74bbd4;
-	border-radius: 15px;
-}
-
-.bottom_links_spacer {
-	margin-right: 5%;
-}
-
-.bottom_links img {
-	float:left;
-	margin-right: 15px;
-}
-
-.bottom_links p {
-	margin-left: 100px;
-}
-
-#index .bottom_links:hover {
-	background-color: #C7E4EE;
-}
-
-#index .bottom_links:hover a {
-	color: #0F6095;
-}
-
 header {
 	position:relative;
 	top: -75px;
@@ -597,7 +594,7 @@ header {
 	color: #FF4000;
 }
 
-#subheader {
+#index #subheader {
 	position: relative;
 	top: -150px;
 	left: -12px;
@@ -796,6 +793,10 @@ section .btn{
 
 .blue {
 	color: #74BBD4;
+}
+
+.green {
+	color: #79c040;
 }
 
 #congrats {

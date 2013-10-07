@@ -24,15 +24,47 @@ var learn = (function (learn) {
     $('#main').toggle();
     categories = response.objects;
     $(categories).each(function(i){
-      if (config.debug) console.log(categories[i]);
+      if (config.debug) console.log(categories[i].name);
+      if (i % 2 == 0){
+        $("#category-left").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
+      } else {
+        $("#category-right").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
+      }
+
+      var html = '<div class="category col-offset-1 col-lg-7">';
+      html += '<a name="'+categories[i].id+'"></a>';
+      html += '<h2 class="orange">'+categories[i].name+'</h2>';
+      html += '<p>'+categories[i].description+'</p>';
+      var services = categories[i].services
+      html += '<div class="row">';
+      $.each(services, function(x){
+        if (x % 4 == 0) {
+          html += '<br/>'
+        }
+          html += '<div class="col-lg-3">';
+        // } else if {
+          // html += '<div class="col-offset-1 col-lg-2">';
+        // }
+        html += '<img src="img/'+services[x].icon+'" class="left">';
+        html += '<p class="orange bold">'+services[x].name+'</p><br/>';
+        html += services[x].short_description;
+        html += '</div>';
+        
+      })
+      html += '</div>';
+      
+      html += '</div>';
+
+      $("#categories").append(html);
+      
       // Fill up the sidemenu
-      $('#sidemenu ul').append('<li id="'+categories[i].id+'">'+categories[i].name+'</li>');
+      // $('#sidemenu ul').append('<li id="'+categories[i].id+'">'+categories[i].name+'</li>');
       // Style selected category
-      $('#'+selectedCategory).addClass('active');
+      // $('#'+selectedCategory).addClass('active');
     })
     // Show Featured Services - 'promote'
-    _showServicesFor(selectedCategory);
-    $('#sidemenu li').on('click', _sidemenuClicked);
+    // _showServicesFor(selectedCategory);
+    // $('#sidemenu li').on('click', _sidemenuClicked);
   }
 
   function _showServicesFor(selectedCategory){
