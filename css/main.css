@@ -301,6 +301,10 @@ table .lesson-name {
 	color: #FF4000;
 }
 
+#teach .titles {
+	text-align: center;
+}
+
 #teach .alert-info {
 	background-color: #C7E4EE;
 	color: #0F6095;
@@ -461,7 +465,7 @@ table .lesson-name {
 	padding: 15px;
 	margin-bottom: 15px;
 	min-height: 100px;
-	width: 270px;
+	width: 260px;
 }
 
 .temp {

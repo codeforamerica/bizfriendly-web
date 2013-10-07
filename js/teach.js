@@ -61,9 +61,7 @@ var teach = (function (teach) {
     // Get the existing categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
       $.each(response.objects, function(i){
-        if (response.objects[i].state == "published"){
-          $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
-        }
+        $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
       $('#category-id').append('<option value="add-new-category">Add new category</option>');
       $('.selectpicker').selectpicker('refresh');
@@ -95,9 +93,7 @@ var teach = (function (teach) {
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
       $.each(response.objects, function(i){
         if (response.objects[i].category_id == categoryId){
-          if (response.objects[i].state == "published"){
-            $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
-          }
+          $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
         }
       })
       $('#service-id').append('<option value="add-new-service">Add new service</option>');
@@ -332,6 +328,7 @@ var teach = (function (teach) {
 
         // If login-element
         if ($(ui.draggable[0]).attr("id") == "login-element-drag"){
+          currentStep.step_type = "login";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
           var $clone = $("#login-prototype").clone();
@@ -342,6 +339,7 @@ var teach = (function (teach) {
 
         // If text-entry-element
         if ($(ui.draggable[0]).attr("id") == "text-entry-drag"){
+          currentStep.step_type = "input";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#login-element-drag").addClass("disabled").draggable("disable");
           var $clone = $("#text-entry-prototype").clone();
@@ -535,7 +533,7 @@ var teach = (function (teach) {
   function _submitClicked(){
     _saveCurrentStep();
     _cleanUpStepsHTML()
-    _checkForLesson("published");
+    _checkForLesson("submitted");
   }
 
   function _checkForLesson(state){

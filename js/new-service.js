@@ -36,9 +36,7 @@ var newService = (function (newService) {
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
       console.log(response);
       $.each(response.objects, function(i){
-        if (response.objects[i].state == "published"){
-          $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
-        }
+        $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
       $('#category-id').append('<option value="add-new-category">Add new category</option>');
     }).done(function(){
@@ -219,7 +217,7 @@ var newService = (function (newService) {
   }
 
   function _submitClicked(){
-    _checkForService("published");
+    _checkForService("submitted");
   }
 
   function _checkForService(state){

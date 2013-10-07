@@ -35,7 +35,7 @@ var newCategory = (function (newCategory) {
   }
 
   function _submitClicked(){
-    _checkOnCategory("published");
+    _checkOnCategory("submitted");
   }
 
   function _checkOnCategory(state){

@@ -128,17 +128,19 @@ var profile = (function (profile) {
     } else {
       $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
         $.each(response.objects, function(i){
-          if (response.objects[i].state == "published"){
-            var html = "";
-            html += '<span class="lesson-name">'+response.objects[i].name+'</span>';
-            html += '<button type="button" href="edit.html?'+response.objects[i].id+'" class="btn btn-default right">Edit</button>';
-            html += '<span class="content-type right">Lesson</span>';
-            html += '<br/>'
-            $("#drafts").append(html);
-          }
+            _displayLesson(response.objects[i]);
         });
       });
     }
+  }
+
+  function _displayLesson(lesson){
+    var html = '<div class="row">';
+    html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
+    html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
+    html += '<div class="col-lg-2 col-offset-1"><a type="button" href="edit.html?'+lesson.id+'" class="btn btn-default">Edit</a></div>';
+    html += '</div>'
+    $("#"+lesson.state).append(html);
   }
 
 

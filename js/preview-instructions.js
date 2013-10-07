@@ -89,7 +89,6 @@ var preview = (function (preview) {
     $(steps).each(function(i){
       step = {
         id : steps[i].id,
-        name : steps[i].name,
         stepType : steps[i].step_type,
         stepNumber : steps[i].step_number,
         stepText : steps[i].step_text,
@@ -152,7 +151,6 @@ var preview = (function (preview) {
     _stepTransition();
     if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    // $('section h2').html(currentStep.name);
     $('.step_text').html(currentStep.stepText);
     $('.feedback').html(currentStep.feedback);
     // Set step_text back to visible and hide others
@@ -262,8 +260,6 @@ var preview = (function (preview) {
 
   // Check steps
   function _checkStep(){
-    if (config.debug) console.log(currentStep.name);
-
     // Create postData
     postData = {
       currentStep : currentStep,
