@@ -127,6 +127,12 @@ li {
 	padding-bottom: 15px;
 }
 
+#main-video {
+	position: relative;
+	top: 30px;
+	left: 133px;
+}
+
 .btn-primary {
 	background-color: #FF4000;
 	border-color: #FF4000;
@@ -172,9 +178,17 @@ li {
   border-color: #C7E4EE;
 }
 
+#index #main {
+	background-image: url('../img/laptop.png');
+	background-repeat: no-repeat;
+	background-position: left 170px top 0px;
+	background-size: 445px 240px;
+	height: 400px;
+}
+
 #main, #subsubheader {
 	position: relative;
-	top: -125px;
+	top: -145px;
 }
 
 #subsubheader h2 {
