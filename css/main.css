@@ -118,19 +118,23 @@ li {
 	font-weight: 700;
 }
 
-#index #main .btn {
-	margin-left: 50px;
-	margin-top: 20px;
+
+#main-text {
+	margin-top: 50px;
+	/*font-family: "museo-slab",serif;
+	font-style: normal;
+	font-weight: 700;*/
 }
 
 #main-text .lesson-name {
 	padding-bottom: 15px;
 }
 
+
 #main-video {
 	position: relative;
 	top: 30px;
-	left: 133px;
+	left: 130px;
 }
 
 .btn-primary {
@@ -183,10 +187,10 @@ li {
 	background-repeat: no-repeat;
 	background-position: left 170px top 0px;
 	background-size: 445px 240px;
-	height: 400px;
+	height: 250px;
 }
 
-#main, #subsubheader {
+#main, #subsubheader, #bottom, footer  {
 	position: relative;
 	top: -145px;
 }
@@ -534,7 +538,20 @@ table .lesson-name {
 
 #bottom {
 	padding-top: 25px;
-	color: #FFF;
+	font-size: 18px;
+	line-height: 20px;
+}
+
+#main-text h1, #bottom a {
+	color: #0F5F94;
+}
+
+#bottom a:hover {
+	color: #ff4000;
+}
+
+#bottom img {
+	padding-bottom: 10px;
 }
 
 .bottom_links {
@@ -567,7 +584,7 @@ table .lesson-name {
 	color: #0F6095;
 }
 
-header, #bottom {
+header {
 	position:relative;
 	top: -75px;
 }
