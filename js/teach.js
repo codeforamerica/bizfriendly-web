@@ -76,7 +76,7 @@ var teach = (function (teach) {
     // If they choose to add a new category, open that page.
     $("#lesson-form").on("change", "#category-id", function(){
       if ($("#category-id").val() == "add-new-category"){
-        window.open("new-category.html");
+        window.open("new-category.html","_self");
       } else {
         categoryId = $("#category-id").val();
         categoryName = $("#category-id :selected").text();
@@ -111,7 +111,7 @@ var teach = (function (teach) {
     // If they choose to add a new one, open that page
     $("#lesson-form").on("change", "#service-id", function(){
       if ($("#service-id").val() == "add-new-service"){
-        window.open("new-service.html");
+        window.open("new-service.html","_self");
       } else {
         serviceId = $("#service-id").val();
         serviceName = $('#service-id :selected').text();

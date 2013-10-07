@@ -115,6 +115,7 @@ var BfUser = (function (BfUser)  {
     BfUser.access_token = "";
     $.removeCookie('BfUser');
     _updatePage();
+    window.open("signin.html", "_self");
   }
 
   // A password reset is requested
