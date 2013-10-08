@@ -37,6 +37,7 @@ var teach = (function (teach) {
     $(".back").click(_backStep);
     $('.next').click(_nextStep);
     $('#add-new-step').click(_addNewStep);
+    $("#step-close-btn").click(_removeStep);
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
     $("#submit").click(_submitClicked);
@@ -172,6 +173,24 @@ var teach = (function (teach) {
     _showCurrentStep();
   }
 
+  function _removeStep(){
+    if (newSteps.length > 2){
+      newSteps.splice(currentStep.step_number-1, 1);
+      console.log(newSteps);
+      currentStep = newSteps[currentStep.step_number - 2];
+      _updateStepNumbers();
+      _showCurrentStep();
+      // _backStep();
+    }
+  }
+
+  function _updateStepNumbers(){
+    console.log(newSteps);
+    $.each(newSteps, function(i){
+      newSteps[i].step_number = i+1;
+    })
+  }
+
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
@@ -217,6 +236,7 @@ var teach = (function (teach) {
 
     // Show three new temp texts
     if (currentStep.step_type != "congrats"){
+      $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
         // Clean it up
@@ -224,6 +244,7 @@ var teach = (function (teach) {
         $("#step-texts").append($clone);
       }
     } else {
+      $("#step-close-btn").hide();
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
           return (value);
@@ -245,13 +266,16 @@ var teach = (function (teach) {
       }) 
       $(".congrats-img").popover("show");
     }
+    if (newSteps.length <= 2){
+      $("#step-close-btn").hide();
+    }
     // Turn on drop
     _turnOnDrop();
     $(".temp-close-btn").click(_closeClicked);
 
     // Only allow 12 steps
-    if (newSteps.length == 12){
-      $("#add-new-step").toggle();
+    if (newSteps.length >= 12){
+      $("#add-new-step").hide();
     }
   }
 
@@ -262,13 +286,18 @@ var teach = (function (teach) {
 
   // Update the progress bar
   function _updateProgressBar(){
+    console.log(newSteps.length);
     // Update teach-dots-number
     if ($("#teach-dots-amount li").length < newSteps.length){
       $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
+    } else if ($("#teach-dots-amount li").length > newSteps.length){
+      $('#teach-dots-amount li').last().remove();
     }
     // Check number of dots
     if ($(".progress-dots li").length < newSteps.length){
       $('.progress-dots').append('<li class="step'+newSteps[newSteps.length-1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length-1].step_number+'"></li>');
+    } else if ($(".progress-dots li").length > newSteps.length){
+      $('.progress-dots li').last().remove();
     }
     $(newSteps).each(function(i){
       $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
