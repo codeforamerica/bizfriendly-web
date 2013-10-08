@@ -249,7 +249,7 @@ var newService = (function (newService) {
     newService = {
       name : $("#new-service-name").val(),
       url : $("#new-service-url").val(),
-      icon : $("#uploaded-icon").html(),
+      icon : $("#uploaded-icon").attr("src"),
       short_description : $("new-service-short-description").val(),
       long_description : $("new-service-long-description").val(),
       additional_resources : _getAdditionalResources(),

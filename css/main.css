@@ -35,7 +35,7 @@ h2 {
 	line-height: 20px;
 	margin: 0px;
 }
-
+/*
 a {
 	color: #FFF;
 	text-decoration: none;
@@ -44,14 +44,14 @@ a {
 a:hover {
 	color: #FFF;
 	text-decoration: none;
-}
+}*/
 
 ul{
 	padding-left: 0px;
 	list-style: none;
 }
 
-li {
+.navbar li, footer li  {
 	padding-top: 5px;
 }
 
@@ -231,84 +231,6 @@ li {
 	font-weight: 700;
 }
 
-#sidemenu li{
-	padding: 10px;
-	color: #BFBFBF;
-	font-weight: 700;
-	cursor: pointer;
-}
-
-#sidemenu li:hover {
-	color: #0F6095;
-	background-color: #C7E4EE;
-}
-
-#sidemenu .active {
-	color: #FFF;
-	background-color: #74BBD4;
-}
-
-#mainmenu p {
-	font-weight: 400;
-}
-
-#mainmenu table {
-	font-weight: 400;
-}
-
-table img {
-	margin-right: 10px;
-}
-
-table .lesson-name {
-	margin-top: 5px;
-}
-
-#mainmenu th {
-	padding-left: 0px;
-	font-size: 12px;
-	line-height: 14px;
-	font-weight: 700;
-}
-
-#mainmenu .lesson-name {
-	font-size: 14px;
-	line-height: 16px;
-	font-weight: 700;
-}
-
-/*.lesson-name {
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 700;
-	color: #585B5B;
-}
-
-.lesson-name:hover {
-  color: #ff4000;
-}*/
-
-.lesson-name {
-	color: #ff4000;
-}
-
-#mainmenu table tbody td img{
-	float:left;
-	width:25px;
-}
-
-#mainmenu a {
-	color: #BFBFBF;
-	text-decoration: none;
-}
-
-#mainmenu a:hover {
-	color: #C7E4EE;
-	background-color: #0F6095;
-	text-decoration: none;
-/* 	text-shadow: 1px 1px #ff4000; */
-}
-
 .category-name {
 	font-size: 18px;
 	line-height: 20px;
@@ -344,6 +266,26 @@ table .lesson-name {
 
 #new-service #main form a{
 	color: #FF4000;
+}
+
+#service #main {
+	position:relative;
+	top: -100px;
+}
+
+#tips {
+	list-style: disc;
+}
+
+#teach-callout {
+	background-color: #74BBD4;
+	border-radius: 15px;
+	height: 75px;
+	padding: 10px;
+}
+
+#teach-callout img {
+	padding-right: 10px;
 }
 
 #teach .titles {

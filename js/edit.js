@@ -69,7 +69,6 @@ var edit = (function (edit) {
 
       // Show first lesson
       _orderSteps();
-      // _addCloseButtonsBack();
       currentStep = newSteps[0];
       _makeProgressBar();
       _showCurrentStep()
@@ -84,8 +83,6 @@ var edit = (function (edit) {
       return 0;
     })
   }
-
-
 
   // Make progress bar
   function _makeProgressBar(){

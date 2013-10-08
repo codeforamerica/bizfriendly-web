@@ -60,8 +60,12 @@ var teach = (function (teach) {
   function _getCategories(){
     // Get the existing categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
-      $.each(response.objects, function(i){
-        $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+      var categories = response.objects;
+      $.each(categories, function(i){
+        // Show if catgory is published OR user created it.
+        if (categories[i].state == "published" || categories[i].creator_id == BfUser.id){
+          $('#category-id').append('<option value='+categories[i].id+'>'+categories[i].name+'</option>');
+        }
       })
       $('#category-id').append('<option value="add-new-category">Add new category</option>');
       $('.selectpicker').selectpicker('refresh');
@@ -91,9 +95,12 @@ var teach = (function (teach) {
     $("#service-id").empty();
     categoryId = $("#category-id").val();
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
-      $.each(response.objects, function(i){
-        if (response.objects[i].category_id == categoryId){
-          $('#service-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
+      var services = response.objects;
+      $.each(services, function(i){
+        if (services[i].category_id == categoryId){
+          if (services[i].state == "published" || services[i].creator_id == BfUser.id){
+            $('#service-id').append('<option value='+services[i].id+'>'+services[i].name+'</option>');
+          }
         }
       })
       $('#service-id').append('<option value="add-new-service">Add new service</option>');

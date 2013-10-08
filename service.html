@@ -14,6 +14,7 @@
     <link href="css/main.css" rel="stylesheet">
 
     <script src="js/vendor/jquery-1.9.1.min.js"></script> 
+    <script src="js/vendor/bootstrap.js"></script>
     <script src="js/vendor/jquery.popupwindow.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
@@ -47,38 +48,57 @@
     </div>
 
     <section id="main" class="row">
-        <div id="main-video" class="col-lg-7 col-sm-7 col-offset-1">
-          <img src="img/loading.gif">
+      <div id="left-column" class="col-offset-1 col-lg-4">
+        <img id="service-icon" class="left">
+        <h1 id="service-name" class="orange"></h1>
+        <br/>
+        <div id="service-description">
         </div>
-        <div id="main-text" class="col-lg-3">
-          <div class="service-name"></div>
-          <div class="service-description"></div>
-          <div class="alert alert-info login-required">
-            You'll need to create a BizFriend.ly account before you can start the service. Sign up then come back to this service.
-          </div>
+        <br/>
+        <p class="bold">Keep in Mind</p>
+        <ul id="tips">
+        </ul>
+        <p class="bold">Additional Resources</p>
+        <ul id="additional-resources">
+        </ul>
+        <div id="share-service">
         </div>
+      </div>
+      <div id="right-column" class="col-lg-6">
+        <iframe id="service-media" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Lessons</th>
+              <th>Learners</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+          </tbody>
+        </table>
+        <div id="teach-callout" class="col-lg-6 right">
+            <img src="img/teach_gray.gif" class="left">
+            <p>Already using <span class="service-name"></span> for your business? <a href="teach.html">Help teach other business owners!</a></p>
+        </div>
+      </div>
+
     </section>
 
-    <section id="bottom" class="row">
-        <div class="col-lg-10 col-offset-1">
-          <div id="additional_resources" class="bottom_links bottom_links_spacer">
-            <h2>Additional Resources</h2>
-            <ul>
-              <li>Point1</li>
-              <li>Point2</li>
-              <li>Point3</li>
-            </ul>
-          </div>
-          <div id="tips" class="bottom_links bottom_links_spacer">
-            <h2>Keep in Mind</h2>
-            <ul>
-              <li>Point1</li>
-              <li>Point2</li>
-              <li>Point3</li>
-            </ul>
-          </div>
+    <!-- Modal -->
+    <div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Time to start learning!</h4>
         </div>
-    </section>
+        <div class="modal-body">
+            <p>Follow along with the lesson steps in the helper window to the right.</p>
+            <img src="img/look-right.gif">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">

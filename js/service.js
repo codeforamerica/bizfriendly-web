@@ -1,6 +1,8 @@
 var service = (function (service) {
 
   var service = {};
+  var lessons = [];
+
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -23,28 +25,9 @@ var service = (function (service) {
     $('#main').toggle();
     service = response;
     lessons = service.lessons;
-    _makeSummary();
+    // _makeSummary();
     _checkIfLoggedIn();
-  }
-
-  function _makeSummary(){
-    if (service.third_party_service == 'facebook'){
-      $('#main-video').html('<iframe src="http://player.vimeo.com/video/72059276" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
-    }
-    if (service.third_party_service == 'foursquare'){
-      $('#main-video').html('<iframe src="http://player.vimeo.com/video/72066312" width="610" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
-    }
-    else {
-      $('#main-video').html('<img width="610" height="340" src="img/promo_vid.png">');
-    }
-    $('#main #main-text .service-name').html(service.name);
-    $('#main #main-text .service-description').html(service.long_description);
-    $('#additional_resources ul').html(service.additional_resources);
-    $('#tips ul').html(service.tips);
-    $.each(lessons, function(i){
-        $("#main-text").append('<a id="'+lessons[i].id+'" class="btn btn-primary btn-lrg">'+lessons[i].name+'</a>"');
-    });
-    $('#main #main-text a').click(_instructionsLinkClicked);
+    _showService();
   }
 
   function _checkIfLoggedIn(){
@@ -54,14 +37,58 @@ var service = (function (service) {
     }
   }
 
+  function _showService(){
+    console.log(service);
+    $("#service-icon").attr("src",service.icon);
+    $("#service-name").text(service.name);
+    $("#service-description").html(service.long_description);
+    $("#tips").html(service.tips)
+    $("#additional-resources").html(service.additional_resources);
+    $("#tips").html(service.tips)
+    $("#service-media").attr("src",service.media);
+    _lessonTable();
+    $("#teach-callout .service-name").text(service.name);
+  }
+
+  function _lessonTable(){
+    // Fill up table tbody
+    $.each(lessons, function(i){
+      var html = '';
+      var numberOfLearners;
+      // Get number of learners
+      var filters = [{"name": "lesson_id", "op": "==", "val": lessons[i].id}];
+      $.ajax({
+        url: config.bfUrl+config.bfApiVersion+'/userlessons',
+        data: {"q": JSON.stringify({"filters": filters})},
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data) {
+          numberOfLearners = data.num_results;
+        },
+        error : function(error){
+          console.log(error);
+        }
+      }).done(function(){
+        html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a><br/></td>';
+        html += '<td>'+numberOfLearners+'</td></tr>';
+        $("#tbody").append(html);
+        $(".instructions-link").click(_instructionsLinkClicked)
+      })
+    })
+  }
+
+
   function _instructionsLinkClicked(evt){
-    var url = 'instructions.html?'+this.id;
+    lessonId = $(this).attr("id");
+    var url = 'instructions.html?'+lessonId;
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
     var instructionOptions = "height="+height+",width="+width+",left="+left;
     window.open(url,"instructions",instructionOptions);
+    $('#instructionsModal').modal()
   }
+
   // add public methods to the returned module and return it
   service.init = init;
   return service;
