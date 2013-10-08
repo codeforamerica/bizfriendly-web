@@ -42,6 +42,8 @@ var instructions = (function (instructions) {
     lesson = response;
     // Set the name of the lesson
     $('#instructions-title').html(lesson.name);
+    // Set author name
+    $('#author-name').text(lesson.creator.name);
     // Make sure steps are in order of id
     _orderSteps();
     // Convert python names to javascript names
@@ -617,58 +619,58 @@ var instructions = (function (instructions) {
     $('#congrats').css('display','block');
   }
 
-  function _getUserId(){
-    var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
-    $.ajax({
-      url: config.bfUrl+config.bfApiVersion+'/users',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
-      dataType: "json",
-      contentType: "application/json",
-      success: function(data) { 
-        user_id = data.objects[0].id; 
-        console.log(data.objects[0].id);
-      }
-    });
-  }
+  // function _getUserId(){
+  //   var filters = [{"name": "name", "op": "==", "val": BfUser.name}];
+  //   $.ajax({
+  //     url: config.bfUrl+config.bfApiVersion+'/users',
+  //     data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+  //     dataType: "json",
+  //     contentType: "application/json",
+  //     success: function(data) { 
+  //       user_id = data.objects[0].id; 
+  //       console.log(data.objects[0].id);
+  //     }
+  //   });
+  // }
 
-  $(function () {
-    $("#rating-handle").click(function () {
-      if ($(this).parent().hasClass("popped")) {
-        $(this).parent().animate({right:'-310px'}, {queue: false, duration: 500}).removeClass("popped");
-    } else {
-      $(this).parent().animate({right: "-100px" }, {queue: false, duration: 500}).addClass("popped");}
-    });
-  });
+  // $(function () {
+  //   $("#rating-handle").click(function () {
+  //     if ($(this).parent().hasClass("popped")) {
+  //       $(this).parent().animate({right:'-310px'}, {queue: false, duration: 500}).removeClass("popped");
+  //   } else {
+  //     $(this).parent().animate({right: "-100px" }, {queue: false, duration: 500}).addClass("popped");}
+  //   });
+  // });
 
-  $("#rating-stars").raty();
-  _getUserId();
+  // $("#rating-stars").raty();
+  // _getUserId();
 
-  $("#rating-btn").click(function(evt){
-    var rating = $("#rating-stars").raty('score');
-    if (rating == null){
-      rating = null;
-    }
-    newRating = {
-      rating : rating,
-      lesson_or_step : "step",
-      lesson_or_step_id : currentStep.id,
-      user_id : user_id,
-      feedback : $('#rating-feedback').val()
-    }
+  // $("#rating-btn").click(function(evt){
+  //   var rating = $("#rating-stars").raty('score');
+  //   if (rating == null){
+  //     rating = null;
+  //   }
+  //   newRating = {
+  //     rating : rating,
+  //     lesson_or_step : "step",
+  //     lesson_or_step_id : currentStep.id,
+  //     user_id : user_id,
+  //     feedback : $('#rating-feedback').val()
+  //   }
 
-    if (config.debug) console.log(BfUser.name, user_id);
+  //   if (config.debug) console.log(BfUser.name, user_id);
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: config.bfUrl+config.bfApiVersion+'/ratings',
-        data: JSON.stringify(newRating),
-        dataType: "json",
-        success : function(response, textStatus, jqxhr){
-          if (config.debug) console.log(jqxhr.status);
-        }
-      });
-  });
+  //   $.ajax({
+  //       type: "POST",
+  //       contentType: "application/json",
+  //       url: config.bfUrl+config.bfApiVersion+'/ratings',
+  //       data: JSON.stringify(newRating),
+  //       dataType: "json",
+  //       success : function(response, textStatus, jqxhr){
+  //         if (config.debug) console.log(jqxhr.status);
+  //       }
+  //     });
+  // });
 
   
 

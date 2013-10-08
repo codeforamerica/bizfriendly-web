@@ -40,7 +40,7 @@ var teach = (function (teach) {
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
     $("#submit").click(_submitClicked);
-    $(".close").click(_closeClicked);
+    $(".temp-close-btn").click(_closeClicked);
     $("#step-options-btn").click(_optionsClicked);
   }
 
@@ -190,6 +190,7 @@ var teach = (function (teach) {
 
   function _showCurrentStep(){
     console.log(newSteps);
+
     // Update all step states
     _updateStepsStates();
     // Update progress bar
@@ -246,7 +247,12 @@ var teach = (function (teach) {
     }
     // Turn on drop
     _turnOnDrop();
-    $(".close").click(_closeClicked);
+    $(".temp-close-btn").click(_closeClicked);
+
+    // Only allow 12 steps
+    if (newSteps.length == 12){
+      $("#add-new-step").toggle();
+    }
   }
 
   function _iconClicked(evt){
@@ -256,6 +262,10 @@ var teach = (function (teach) {
 
   // Update the progress bar
   function _updateProgressBar(){
+    // Update teach-dots-number
+    if ($("#teach-dots-amount li").length < newSteps.length){
+      $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
+    }
     // Check number of dots
     if ($(".progress-dots li").length < newSteps.length){
       $('.progress-dots').append('<li class="step'+newSteps[newSteps.length-1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length-1].step_number+'"></li>');
@@ -423,7 +433,7 @@ var teach = (function (teach) {
       }
     })
     // Set current-dot
-    $("#current-dot").html("<h2>"+currentStep.step_number+"</h2>");
+    $("#current-dot").html("<h1>"+currentStep.step_number+"</h1>");
   }
 
   function _backStep(evt){
@@ -478,7 +488,7 @@ var teach = (function (teach) {
     if ($(".droppable").length == 4){
       $("#add-droppable").remove();
     }
-    $(".close").click(_closeClicked);
+    $(".temp-close-btn").click(_closeClicked);
   }
 
   function _optionsClicked(){
@@ -517,10 +527,10 @@ var teach = (function (teach) {
     stepText = "";
     $.each(newSteps, function(i){
       stepText = newSteps[i].step_text;
-      stepText = stepText.replace(new RegExp('<button type="button" class="close" aria-hidden="true">x</button>', 'g'), "");
+      stepText = stepText.replace(new RegExp('<img class="temp-close-btn right" src="img/close-btn.png">', 'g'), "");
       stepText = stepText.replace(/(\r\n|\n|\r)/gm,"");
       stepText = stepText.replace(/\s+/g," ");
-      stepText = stepText.replace(new RegExp('Click to edit text', 'g'),"");
+      stepText = stepText.replace(new RegExp('Click to edit text.', 'g'),"");
       newSteps[i].step_text = stepText;
     })
   }
@@ -529,6 +539,7 @@ var teach = (function (teach) {
     _saveCurrentStep();
     _cleanUpStepsHTML();
     document.preview.lessonName.value = $("#lesson-name").text();
+    document.preview.authorName.value = BfUser.name;
     document.preview.steps.value =JSON.stringify(newSteps);
     var url = 'preview-instructions.html';
     var width = 340;
