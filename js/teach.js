@@ -12,6 +12,7 @@ var teach = (function (teach) {
   var lessonNames = [];
   var stepType;
   var stepText;
+  var feedback;
   var openUrl;
 
   // PUBLIC METHODS
@@ -80,6 +81,7 @@ var teach = (function (teach) {
     // Add a listener to the category menu.
     // If they choose to add a new category, open that page.
     $("#lesson-form").on("change", "#category-id", function(){
+      $("#alert").addClass("hidden");
       if ($("#category-id").val() == "add-new-category"){
         window.open("new-category.html","_self");
       } else {
@@ -132,6 +134,7 @@ var teach = (function (teach) {
   // Make lesson name editable
   function _editLessonName(){
     $('.lesson-editable').editable(function(value, settings) {
+      $("#alert").addClass("hidden");
       return(value)
       }, { 
         onblur : "submit",
@@ -145,6 +148,7 @@ var teach = (function (teach) {
         step_number : 1,
         step_type : "",
         step_text : "",
+        feedback : "",
         creator_id : BfUser.id
       }
     // Save current step
@@ -159,6 +163,7 @@ var teach = (function (teach) {
       step_number : newSteps.length,
       step_type : "",
       step_text : "",
+      feedback : "",
       step_state : "active",
       creator_id : BfUser.id
     }
@@ -199,6 +204,8 @@ var teach = (function (teach) {
       stepText += $("#step-texts .active")[i].outerHTML;
     })
     currentStep.step_text = stepText;
+    // Save feedback
+    currentStep.feedback = $("#feedback-content").html();
     // Then add it to newSteps
     $.each(newSteps, function(i){
       if (newSteps[i].step_number == currentStep.step_number){
@@ -216,6 +223,17 @@ var teach = (function (teach) {
     _updateProgressBar();
 
     $("#step-texts").html(currentStep.step_text);
+    $("#feedback-content").html(currentStep.feedback);
+    $('.element-editable').editable(function(value, settings) {
+          return (value);
+        },{
+          type: "textarea",
+          rows : 2,
+          onblur : "submit",
+          submit : "OK"
+      });
+    $(".popover").remove();
+    
 
     // Turn on all step types again
     $("#open-element-drag").removeClass("disabled").draggable("enable");
@@ -236,6 +254,7 @@ var teach = (function (teach) {
 
     // Show three new temp texts
     if (currentStep.step_type != "congrats"){
+      $("#feedback-content").show();
       $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
@@ -243,7 +262,12 @@ var teach = (function (teach) {
         $clone.attr("id","").removeClass("hidden");
         $("#step-texts").append($clone);
       }
+      if ($("#feedback-content").children().length == 0){
+        // $clone.addClass("active");
+        $("#feedback-content").append($clone);
+      }
     } else {
+      $("#feedback-content").hide();
       $("#step-close-btn").hide();
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
@@ -373,6 +397,7 @@ var teach = (function (teach) {
               $("#open").popover("hide");
             })
           })
+          $(".temp-close-btn").click(_closeClicked);
         }
 
         // If login-element
@@ -496,6 +521,13 @@ var teach = (function (teach) {
     if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
       $("#elements ul li").removeClass("disabled").draggable("enable");
     }
+    if ($("#feedback-content .step-text").length == 0){
+      var $clone = $("#droppable-prototype").clone();
+      $clone.attr("id","").removeClass("hidden");
+      $("#feedback-content").append($clone);
+      _turnOnDrop();
+
+    }
   }
 
   function _addDroppableClicked(evt){
@@ -579,15 +611,24 @@ var teach = (function (teach) {
   }
 
   function _saveDraft(){
-    _saveCurrentStep();
-    _cleanUpStepsHTML()
-    _checkForLesson("draft");
+    if (serviceId) {
+      _saveCurrentStep();
+      _cleanUpStepsHTML()
+      _checkForLesson("draft");
+    } else {
+      $("#alert").removeClass("hidden").text("Choose a category and service.")
+    }
+    
   }
 
   function _submitClicked(){
-    _saveCurrentStep();
-    _cleanUpStepsHTML()
-    _checkForLesson("submitted");
+    if (serviceId) {
+      _saveCurrentStep();
+      _cleanUpStepsHTML()
+      _checkForLesson("draft");
+    } else {
+      $("#alert").removeClass("hidden").text("Choose a category and service.")
+    }
   }
 
   function _checkForLesson(state){
@@ -602,13 +643,14 @@ var teach = (function (teach) {
       success: function(data) {
         // Lesson already exists, give user a warning
         if (data.num_results){
-          $("#lesson-name").popover({ content: "Lesson already exists.", html: true, placement: 'right' });
-          $("#lesson-name").popover("show");
-          $('#lesson-name').on('shown.bs.popover', function () {
-            $("html").click(function(){
-              $("#lesson-name").popover("destroy");
-            })
-          })
+          $("#alert").removeClass("hidden").text("A lesson with that name already exists.")
+          // $("#lesson-name").popover({ content: "Lesson already exists.", html: true, placement: 'right' });
+          // $("#lesson-name").popover("show");
+          // $('#lesson-name').on('shown.bs.popover', function () {
+          //   $("html").click(function(){
+          //     $("#lesson-name").popover("destroy");
+          //   })
+          // })
         } else {
           // Lesson doesn't exist, post it
           _postLesson(state);

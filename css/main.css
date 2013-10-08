@@ -417,6 +417,7 @@ ul{
 
 .teach-box {
 	border: solid 1px;
+	box-shadow: 10px 10px 5px #888888;
 	height: 775px;
 	padding: 15px;
 }
@@ -446,6 +447,30 @@ ul{
 
 .popover {
 	text-align: center;
+}
+
+#feedback-window {
+	height: 300px;
+	background-color: #FFF;
+	border: 1px solid;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+#feedback-window h2 {
+	margin-top: 10px;
+}
+
+#feedback-content {
+	padding-top: 15px;
+	color: #ACACAC;
+}
+
+#feedback-content .bold {
+	color: #79c040;
+}
+
+#state-btns {
+	margin-top : 100px;
 }
 
 .instruction-header-img {
@@ -478,7 +503,7 @@ ul{
 	border-radius: 15px;
 }
 
-#step-texts .active {
+#step-texts .active, #feedback-content .active {
 	border: 3px solid #999;
 	border-radius: 15px;
 }

@@ -77,12 +77,16 @@
                 <div id="category" class="form-group">
                     <label for="category-id">Select A Lesson Category</label>
                     <br/>
-                    <select id="category-id" class="selectpicker" data-width="550px"></select>
+                    <select id="category-id" class="selectpicker" data-width="550px">
+                        <option val="none">Choose a category</option>
+                    </select>
                 </div>
                 <div id="service" class="form-group">
                     <label for="services">Select A Lesson Webservice</label>
                     <br/>
-                    <select id="service-id" class="selectpicker" data-width="550px"></select>
+                    <select id="service-id" class="selectpicker" data-width="550px">
+                         <option val="none">Choose a service</option>
+                    </select>
                 </div>
             </form>
             <div id="lesson-builder">
@@ -130,10 +134,17 @@
                               </div>
                         </div>
                     </div>
+                    <div id="feedback-window" class="col-lg-3">
+                        <h2>Step Feedback</h2>
+                        <div id="feedback-content">
+                        </div>
+                    </div>
+                    <br/>
                     <div id="state-btns" class="col-lg-2">
                         <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
                         <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
                         <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
+                        <div id="alert" class="alert alert-danger hidden">WHAT</div>
                     </div>
                 </div>
             </div>
