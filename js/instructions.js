@@ -43,6 +43,7 @@ var instructions = (function (instructions) {
     // Set the name of the lesson
     $('#instructions-title').html(lesson.name);
     // Set author name
+    console.log(lesson);
     $('#author-name').text(lesson.creator.name);
     // Make sure steps are in order of id
     _orderSteps();
