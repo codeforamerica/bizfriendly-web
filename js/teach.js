@@ -436,7 +436,7 @@ var teach = (function (teach) {
                       // console.log(index);
                       // console.log(file);
                       $("#img-upload-form").remove();
-                      $(".image-element").append('<img src="'+file.url+'">');
+                      $(".image-element").append('<img class="uploaded-image" src="'+file.url+'">');
                   });
               },
               progressall: function (e, data) {
@@ -459,12 +459,14 @@ var teach = (function (teach) {
 
   function _colorControllers(){
     $(".orange-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#ff4000");
+      $(this).parent().parent().prev().css("background-color","#FFC9AE");
       $(this).parent().parent().prev().popover("destroy");
+      $(this).parent().parent().prev().find(".btn-teach").css("color","#ff4000");
     })
     $(".blue-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#74BBD4");
+      $(this).parent().parent().prev().css("background-color","#C7E4EE");
       $(this).parent().parent().prev().popover("destroy");
+      $(this).parent().parent().prev().find(".btn-teach").css("color","#0F6095");
     })
     $(".white-square").click(function(evt){
       $(this).parent().parent().prev().css("background-color","#FFFFFF");

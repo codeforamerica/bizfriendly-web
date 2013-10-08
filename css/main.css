@@ -426,19 +426,28 @@ ul{
 .orange-square {
 	width: 25px;
 	height: 25px;
-	background-color: #ff4000;
+	background-color: #FFC9AE;
+	border: 1px solid #999999;
 }
 
 .blue-square {
 	width: 25px;
 	height: 25px;
-	background-color: #74BBD4;
+	background-color: #C7E4EE;
+	border: 1px solid #999999;
 }
 .white-square {
 	width: 25px;
 	height: 25px;
 	background-color: #FFFFFF;
 	border: 1px solid #999999;
+}
+
+.btn-teach, .btn-teach:hover {
+	color: #585b5b;
+	background-color: transparent;
+	border: 1px solid;
+	font-weight: 700;
 }
 
 .popover-content img {
@@ -472,6 +481,11 @@ ul{
 
 #state-btns {
 	margin-top : 100px;
+}
+
+.uploaded-image {
+	border: 1px solid;
+	background-color: #FFF;
 }
 
 .instruction-header-img {
@@ -509,7 +523,9 @@ ul{
 	border-radius: 15px;
 }
 
-
+.step-text {
+	border-radius: 15px;
+}
 
 .hidden {
 	display: none;
@@ -657,31 +673,21 @@ footer a:hover {
 	padding-left: 0px;
 }
 
-button {
-	color: #FFF;
-	background-color: #BFBFBF;
-}
-
 #share {
 	margin-top: 20px;
 }
 
-#back, #back:hover {
-	font-weight: 700;
-}
 
 #next {
-	background-color: #ff4000;
-	background-border: #ff4000;
-	font-weight: 700;
+	margin-left: 15px;
 	-webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
-}
-
-#next:hover {
-	background-color: #FF8C66;
-	background-border: #FF8C66;
-	font-weight: 700;
+    -moz-animation-duration: 1.5s;
+    -moz-animation-iteration-count: infinite;
+    -ms-animation-duration: 1.5s;
+    -ms-animation-iteration-count: infinite;
+    -o-animation-duration: 1.5s;
+    -o-animation-iteration-count: infinite;
 }
 
 #bf_ribbon {

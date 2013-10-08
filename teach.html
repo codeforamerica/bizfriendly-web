@@ -123,15 +123,16 @@
                         <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
                         <div id="teach-instructions" class="teach-box">
                             <ul class="progress-dots list-unstyled list-inline center"></ul>
-                            <br />
                             <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
                             <p>Created by <span class="author-name"></span>.</p>
                             <div id="step-texts">
                             </div>
                             <div id="teach-controls">
-                                  <button type="button" id="back" class="btn back">Back</button>
-                                  <button type="button" id="next" class="btn next">Next</button>
-                              </div>
+                              <button type="button" id="back" class="btn btn-primary">Back</button>
+                              <button type="button" id="next" class="btn btn-primary">Next</button>
+                              <br/>
+                              <button type="button" id="close-lesson" class="btn btn-default" disabled="disabled">Close the lesson</button>
+                          </div>
                         </div>
                     </div>
                     <div id="feedback-window" class="col-lg-3">
@@ -177,12 +178,12 @@
 
     <div id="open-prototype" class="open-element hidden">
         <p class="bold">Click to edit text.</p>
-        <button id="open" type="button" class="btn btn-default">Open</button>
+        <button id="open" type="button" class="btn btn-teach btn-small">Open</button>
     </div>
 
     <div id="login-prototype" class="login-element hidden">
         <p class="bold">Click to edit text.</p>
-        <button type="button" class="btn btn-default">Log In To <span class="service-name"></span></button>
+        <button type="button" class="btn btn-teach btn-small">Log In To <span class="service-name"></span></button>
     </div>
 
     <div id="text-entry-prototype" class="text-entry-element hidden">
