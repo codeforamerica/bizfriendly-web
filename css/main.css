@@ -36,17 +36,6 @@ h2 {
 	margin: 0px;
 }
 
-/*
-a {
-	color: #FFF;
-	text-decoration: none;
-}
-
-a:hover {
-	color: #FFF;
-	text-decoration: none;
-}*/
-
 ul{
 	padding-left: 0px;
 	list-style: none;
@@ -195,7 +184,7 @@ ul{
 	height: 250px;
 }
 
-#index #main, #subsubheader, #bottom  {
+#index #main, #signup #main, #signin #main, #subheader, #subsubheader, #bottom  {
 	position: relative;
 	top: -145px;
 }
@@ -649,6 +638,10 @@ footer {
 	color: #FFF;
 }
 
+footer a {
+	color: #FFF;
+}
+
 #credits {
 	font-size: 12px;
 	font-weight: 400;
@@ -733,7 +726,7 @@ footer a:hover {
 
 #instructions section{
 	width: 300px;
-	height: 450px;
+	height: 390px;
 	margin: 0 auto;
 }
 
