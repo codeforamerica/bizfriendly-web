@@ -535,7 +535,7 @@ var instructions = (function (instructions) {
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
-      // $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
       // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $("#feedback").modal("show");
@@ -553,7 +553,7 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( response.attribute_exists ){
-      // $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
       // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       // $('.next').addClass('animated pulse');
@@ -568,7 +568,7 @@ var instructions = (function (instructions) {
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
       // if (service == 'facebook'){
-      //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
+        $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
       // }
       // if ( service == 'foursquare'){
       //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
@@ -597,7 +597,7 @@ var instructions = (function (instructions) {
     if ( response.attribute_value_updated ){
       // Remember the attribute!
       // rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       // $('.next').addClass('animated pulse');
