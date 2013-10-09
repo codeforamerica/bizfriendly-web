@@ -554,6 +554,7 @@ var instructions = (function (instructions) {
     if (response.timeout) _checkStep();
     if ( response.attribute_exists ){
       $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
+      $("#feedback").modal("show");
       // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
       // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       // $('.next').addClass('animated pulse');
@@ -567,9 +568,8 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      // if (service == 'facebook'){
-        $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
-      // }
+      $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
+      $("#feedback").modal("show");
       // if ( service == 'foursquare'){
       //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       // }
