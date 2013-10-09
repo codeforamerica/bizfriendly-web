@@ -55,7 +55,7 @@ var teach = (function (teach) {
       $('.login-required').show();
     } else {
       // if (config.debug) console.log('Logged In');
-      $(".author-name").text(BfUser.name);
+      $("#author-name").text(BfUser.name);
     }
   }
 
@@ -82,6 +82,9 @@ var teach = (function (teach) {
     // If they choose to add a new category, open that page.
     $("#lesson-form").on("change", "#category-id", function(){
       $("#alert").addClass("hidden");
+      // if ($("#category-id").val() == "none") {
+      //   $('#service-id').append('<option value="none">Select a web service for your lesson.</option>');
+      // }
       if ($("#category-id").val() == "add-new-category"){
         window.open("new-category.html","_self");
       } else {
@@ -106,6 +109,7 @@ var teach = (function (teach) {
           }
         }
       })
+
       $('#service-id').append('<option value="add-new-service">Add new service</option>');
       $('.selectpicker').selectpicker('refresh');
       // Init the service-name
@@ -148,9 +152,9 @@ var teach = (function (teach) {
         step_number : 1,
         step_type : "",
         step_text : "",
-        feedback : "",
         creator_id : BfUser.id
       }
+
     // Save current step
     newSteps.push(currentStep);
     _updateProgressBar();
@@ -163,7 +167,6 @@ var teach = (function (teach) {
       step_number : newSteps.length,
       step_type : "",
       step_text : "",
-      feedback : "",
       step_state : "active",
       creator_id : BfUser.id
     }
@@ -223,6 +226,12 @@ var teach = (function (teach) {
     _updateProgressBar();
 
     $("#step-texts").html(currentStep.step_text);
+    if (!currentStep.feedback) {
+      var $clone = $("#feedback-prototype").clone();
+      // Clean it up
+      $clone.removeAttr("id").removeClass("hidden");
+      $("#feedback-content").html($clone);
+    }
     $("#feedback-content").html(currentStep.feedback);
     $('.element-editable').editable(function(value, settings) {
           return (value);
@@ -254,7 +263,7 @@ var teach = (function (teach) {
 
     // Show three new temp texts
     if (currentStep.step_type != "congrats"){
-      $("#feedback-content").show();
+      $("#feedback-window").show();
       $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
@@ -262,12 +271,12 @@ var teach = (function (teach) {
         $clone.attr("id","").removeClass("hidden");
         $("#step-texts").append($clone);
       }
-      if ($("#feedback-content").children().length == 0){
-        // $clone.addClass("active");
-        $("#feedback-content").append($clone);
-      }
+      // if ($("#feedback-content").children().length == 0){
+      //   // $clone.addClass("active");
+      //   $("#feedback-content").append($clone);
+      // }
     } else {
-      $("#feedback-content").hide();
+      $("#feedback-window").hide();
       $("#step-close-btn").hide();
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
@@ -515,7 +524,7 @@ var teach = (function (teach) {
     $(this).parent().remove();
     if ($("#add-droppable").length == 0){
       if ($("#step-texts").height() <= 300){
-        $('#teach-instructions').append('<a id="add-droppable">Add another element</a>');
+        $('#teach-instructions').append('<a id="add-droppable"><img src="img/add-btn.png" height="25px">Add another element</a>');
         $("#add-droppable").click(_addDroppableClicked);
       }
     }
@@ -523,13 +532,13 @@ var teach = (function (teach) {
     if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
       $("#elements ul li").removeClass("disabled").draggable("enable");
     }
-    if ($("#feedback-content .step-text").length == 0){
-      var $clone = $("#droppable-prototype").clone();
-      $clone.attr("id","").removeClass("hidden");
-      $("#feedback-content").append($clone);
-      _turnOnDrop();
+    // if ($("#feedback-content .step-text").length == 0){
+    //   var $clone = $("#droppable-prototype").clone();
+    //   $clone.attr("id","").removeClass("hidden");
+    //   $("#feedback-content").append($clone);
+    //   _turnOnDrop();
 
-    }
+    // }
   }
 
   function _addDroppableClicked(evt){
@@ -555,10 +564,10 @@ var teach = (function (teach) {
   }
 
   function _optionsClicked(){
-    if ($("#step-options-list").hasClass("hidden")){
-      $("#step-options-list").removeClass("hidden");
+    if ($("#elements .options").hasClass("hidden")){
+      $("#elements .options").removeClass("hidden");
     } else {
-      $("#step-options-list").addClass("hidden");
+      $("#elements .options").addClass("hidden");
     }
   }
 
@@ -588,6 +597,7 @@ var teach = (function (teach) {
 
   function _cleanUpStepsHTML(){
     stepText = "";
+    feedback = "";
     $.each(newSteps, function(i){
       stepText = newSteps[i].step_text;
       stepText = stepText.replace(new RegExp('<img class="temp-close-btn right" src="img/close-btn.png">', 'g'), "");
@@ -595,7 +605,12 @@ var teach = (function (teach) {
       stepText = stepText.replace(/\s+/g," ");
       stepText = stepText.replace(new RegExp('Click to edit text.', 'g'),"");
       newSteps[i].step_text = stepText;
+
+      // Clean up feedback
+      // feedback = newSteps[i].feedback;
+      newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
     })
+
   }
 
   function _previewClicked(evt){

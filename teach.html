@@ -34,10 +34,6 @@
 <body id="teach">
     <div class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
    <header class="navbar navbar-static-top row">
     <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
@@ -52,16 +48,16 @@
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
     </header>
-    <div id="subheader" class="row">
+    <div id="subnav" class="row">
         <ul class="list-inline col-offset-3 col-lg-8">
             <li><a href="#" class="active">Content Creator</a></li>
             <li><a href="#">Teaching Guide</a></li>
             <li><a href="#">Content Requests</a></li>
         </ul>
     </div>
-    <div id="subsubheader" class="row">
-        <div class="col-offset-3 col-lg-8">
-            <h2>Build your lesson by creating step instructions and feedback.</h2>
+    <div id="subheader" class="row">
+        <div class="col-offset-1">
+            <h1>Build your lesson by creating step instructions and feedback.</h1>
             <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
         </div>
         <div class="alert alert-info login-required col-offset-2 col-lg-8">
@@ -73,21 +69,13 @@
 
     <div id="teach-main">
         <section id="teach-content" class="container">
-            <form id="lesson-form" role="form" class="col-offset-3">
-                <div id="category" class="form-group">
-                    <label for="category-id">Select A Lesson Category</label>
-                    <br/>
-                    <select id="category-id" class="selectpicker" data-width="550px">
-                        <option val="none">Choose a category</option>
-                    </select>
-                </div>
-                <div id="service" class="form-group">
-                    <label for="services">Select A Lesson Webservice</label>
-                    <br/>
-                    <select id="service-id" class="selectpicker" data-width="550px">
-                         <option val="none">Choose a service</option>
-                    </select>
-                </div>
+            <form id="lesson-form" role="form" class="">
+                <select id="category-id" class="selectpicker" data-width="300px">
+                    <option val="none">Select a skill for your lesson</option>
+                </select>
+                <br/>
+                <select id="service-id" class="selectpicker" data-width="300px">
+                </select>
             </form>
             <div id="lesson-builder">
                 <div id="teach-dots" class="row">
@@ -97,26 +85,21 @@
                         <a class="inline-block next"><img src="img/right.png"></a>
                         <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
                     </div>
-                    <br/>
                     <ul id="teach-dots-amount" class="list-inline">
                     </ul>
                 </div>
 
                 <div id="step-builder" class="row">
-                    <div id="elements" class="col-offset-2 col-lg-2">
+                    <div id="elements" class="col-offset-2 col-lg-1">
                         <h3>Elements</h3>
                         <hr/>
-                        <ul>
-                            <li id="text-element-drag" class="draggable">Text</li>
-                            <li id="open-element-drag" class="draggable">Text & Open Button</li>
-                            <li id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</li>
-                        </ul>
-                        <hr/>
+                        <div id="text-element-drag" class="draggable"><p>Text</p></div>
+                        <div id="open-element-drag" class="draggable">Text & Open Button</div>
+                        <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
+                        <!-- <hr/>
                         <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button>
-                        <ul id="step-options-list" class="hidden">
-                            <li id="login-element-drag" class="draggable">Text & Log In Button</li>
-                            <li id="text-entry-drag" class="draggable">Text Entry Field</li>
-                        </ul>
+                        <div id="login-element-drag" class="draggable options hidden">Text & Log In Button</div>
+                        <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
                     </div>
 
                     <div class="teach-column col-lg-4">
@@ -124,28 +107,30 @@
                         <div id="teach-instructions" class="teach-box">
                             <ul class="progress-dots list-unstyled list-inline center"></ul>
                             <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
-                            <p>Created by <span class="author-name"></span>.</p>
+                            <p class="author-name">Created by <span id="author-name"></span>.</p>
                             <div id="step-texts">
                             </div>
                             <div id="teach-controls">
                               <button type="button" id="back" class="btn btn-primary">Back</button>
                               <button type="button" id="next" class="btn btn-primary">Next</button>
                               <br/>
-                              <button type="button" id="close-lesson" class="btn btn-default" disabled="disabled">Close the lesson</button>
+                              <div id="close-lesson-wrapper">
+                                  <button type="button" id="close-lesson" class="btn btn-default btn-block" disabled="disabled">Close Lesson</button>
+                              </div>
                           </div>
                         </div>
                     </div>
-                    <div id="feedback-window" class="col-lg-3">
-                        <h2>Step Feedback</h2>
-                        <div id="feedback-content">
+                    <div id="right-column" class="col-lg-3">
+                        <div id="feedback-window">
+                            <div id="feedback-content">
+                            </div>
                         </div>
-                    </div>
-                    <br/>
-                    <div id="state-btns" class="col-lg-2">
-                        <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
-                        <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
-                        <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
-                        <div id="alert" class="alert alert-danger hidden">WHAT</div>
+                        <div id="state-btns">
+                            <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
+                            <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
+                            <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
+                            <div id="alert" class="alert alert-danger hidden">WHAT</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -173,11 +158,12 @@
 
     <div id="text-prototype" class="text-element hidden">
         <p class="bold">Click to edit text.</p>
-        <p>Click to edit text.</p>
+        <p class="plain">Click to edit text.</p>
     </div>
 
     <div id="open-prototype" class="open-element hidden">
         <p class="bold">Click to edit text.</p>
+        <p class="plain">Click to edit text.</p>
         <button id="open" type="button" class="btn btn-teach btn-small">Open</button>
     </div>
 
@@ -194,7 +180,7 @@
 
     <div id="image-prototype" class="image-element hidden">
         <p class="bold">Click to edit text.</p>
-        <p>Click to edit text.</p>
+        <p class="plain">Click to edit text.</p>
         <form id="img-upload-form" class="form-horizontal">
             <label for="img-upload">Upload an image</label>
             <input id="fileupload" type="file" name="files[]">
@@ -206,6 +192,21 @@
     <div id="files" class="files"></div>
             <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
         </form>
+    </div>
+
+    <div id="feedback-prototype" class="hidden">
+        <div class="modal-header">
+            <h2 class="element-editable">Click to edit feedback.</h2>
+        </div>
+        <div class="modal-body">
+            <p class="bold element-editable">Click to edit.</p>
+            <p class="plain element-editable">Click to edit.</p>
+        </div>
+        <div class="modal-footer">
+            <div id="feedback-control">
+                <button type="button" class="next btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
+            </div>
+        </div>
     </div>
 
     <div id="congrats-prototype" class="active hidden center">

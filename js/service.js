@@ -69,7 +69,8 @@ var service = (function (service) {
           console.log(error);
         }
       }).done(function(){
-        html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a><br/></td>';
+        html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
+        html += '<br/><p class="author-name">Created by '+BfUser.name+'</p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
         $("#tbody").append(html);
         $(".instructions-link").click(_instructionsLinkClicked)

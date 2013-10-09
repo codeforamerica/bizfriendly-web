@@ -39,6 +39,7 @@ var learn = (function (learn) {
         var services = categories[i].services
         html += '<div class="row">';
         $.each(services, function(x){
+          // TODO: WHEN MORE THAN 4, ADD A NEW ROW
           if (x % 4 == 0) {
             html += '<br/>'
           }
@@ -46,15 +47,18 @@ var learn = (function (learn) {
           // } else if {
             // html += '<div class="col-offset-1 col-lg-2">';
           // }
+          html += '<div class="service-header">'
           html += '<img src="'+services[x].icon+'" class="left">';
-          html += '<a class="orange bold" href="service.html?'+services[x].id+'">'+services[x].name+'</a><br/>';
-          html += services[x].short_description;
+          html += '<a class="service-link" href="service.html?'+services[x].id+'">'+services[x].name+'</a><br/>';
           html += '</div>';
-          
+          html += '<br/>';
+          html += '<p class="service-description">'+services[x].short_description+'</p>';
+          html += '</div>';
         })
         html += '</div>';
         
         html += '</div>';
+        html += '<hr class="col-offset-1 col-lg-10">';
       }
 
       $("#categories").append(html);

@@ -1,17 +1,317 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+/* Fonts */
+
+@font-face {
+    font-family: 'MuseoSlab'; /*a name to be used later*/
+    src: url('../fonts/Museo_Slab_500_2.otf'); /*URL to font*/
+}
+
 body {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 400;
+	font-family: 'MuseoSlab';
 	color: #585b5b;
 	overflow-x: hidden;
 }
 
-.bold {
+.navbar, footer{
+	font-family: 'Open Sans';
+}
+
+#signinlinks a{
+	color: #585b5b;
 	font-weight: 700;
 }
 
+#main-message {
+	font-family: "MuseoSlab";
+	color: #0F6095;
+}
+
+.btn {
+	font-family: 'Open Sans';
+	font-weight: 700;
+}
+
+#bottom a {
+	color: #0F6095;
+	font-size: 18px;
+	line-height: 20px;
+}
+
+#bottom a:hover {
+	color: #ff4000;
+}
+
+.bold {
+	font-family: 'Open Sans';
+	font-weight: 700;
+}
+
+#subheader h1 {
+	color: #79C040;
+	font-family: 'Open Sans';
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 700;
+	
+}
+
+#subheader p {
+	color: #585b5b;
+	font-family: 'Open Sans';
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.service-link {
+	font-family: 'Open Sans';
+	color: #FF4000;
+	font-weight: 700;
+}
+
+.service-description {
+	font-size: 12px;
+}
+
+#service-name {
+	color:#79C040;
+}
+
+#tips {
+	list-style: disc;
+}
+
+#additional-resources a {
+	color: #0F6095;
+	text-decoration: underline;
+}
+
+th {
+	font-family: 'Open Sans';
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.author-name {
+	font-size: 12px;
+}
+
+.modal-title {
+	color: #79C040;
+	font-weight: 700;
+}
+
+#instructions-title {
+	font-size: 18px;
+	line-height: 20px;
+	color: #FF4000;
+}
+
+#subnav a {
+	color: #FF4000;
+	font-weight: 700;
+	font-family: 'Open Sans';
+}
+
+#subnav .active {
+	color: #0F6095;
+}
+
+#subheader a {
+	color: #FF4000;
+}
+
+#elements h3 {
+	color: #FFF;
+}
+
+#elements .draggable {
+	font-family: 'Open Sans';
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.temp-text{
+	font-family: 'Open Sans';
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 14px;
+	width: 150px;
+}
+
+.plain {
+	font-size: 12px;
+	line-height: 14px;
+	position: relative;
+	top: -5px;
+}
+
+#add-droppable {
+	font-family: 'Open Sans';
+	color: #0F6095;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+#img-upload-form label {
+	font-family: 'Open Sans';
+	color: #0F6095;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+/*END FONTS*/
+
+
+/*POSITION */
+.navbar {
+	margin-bottom: 0;
+}
+
+#index #main, #index #bottom, #index footer {
+	position: relative;
+	top: -50px;
+}
+
+#main-text a {
+	margin-top: 25px;
+}
+
+#bottom {
+	margin-top: 25px;
+}
+
+#bottom img {
+	padding-bottom: 10px;
+}
+
+footer {
+	margin-bottom: 100px;
+}
+
+#subnav {
+	position : relative;
+	top: -60px;
+}
+
+#subnav li {
+	padding-right: 110px;
+}
+
+#subheader h1 {
+	margin-bottom: 5px;
+}
+
+hr {
+	margin:0;
+}
+
+.service-header a {
+	padding-left: 10px;
+}
+
+#service-name {
+	padding-left: 15px;
+	display: inline;
+}
+
+#tips li {
+	margin-bottom: 10px; 
+}
+
+#service-description li, #tips li {
+	position: relative;
+	left: 15px;
+}
+
+.modal-body {
+	text-align: center;
+}
+
+#teach #subheader, #teach #teach-main, #teach footer {
+	position: relative;
+	top: -31px;
+}
+
+#lesson-form {
+	text-align: center;
+}
+
+#step-builder {
+	position: relative;
+	top: -25px;
+	left: 25px;
+}
+
+#teach-dots {
+	text-align: center;
+	position: relative;
+	top: -30px;
+	left:30px;
+}
+
+#teach-dots-amount {
+	position: relative;
+	left:-30px;
+}
+
+#elements .draggable {
+	position:relative;
+	background-color: #FFF;
+	border: 3px dashed #999;
+	border-radius: 15px;
+	height: 70px;
+	margin-bottom: 10px;
+	font-weight: 700;
+	text-align: center;
+	z-index: 1;
+	padding-top: 13px;
+}
+
+#elements p{
+	padding-top: 10px;
+}
+
+#elements hr {
+	padding: 5px;
+}
+
+.temp-text {
+	text-align: center;
+	position: relative;
+	left: 35px;
+}
+
+#add-droppable img {
+	margin-right: 5px;
+}
+ /*END POSITION*/
+
+
+/*COLORS*/
+
+#teach-main {
+	background-color: #BCDCE9;
+}
+
+.close {
+	opacity: 1;
+}
+
+#elements {
+	background-color: #BFBFBF;
+}
+
+/*END COLORS*/
+
+/* CURSOR*/
+a {
+	cursor: pointer;
+}
+/*END CURSOR*/
 .right {
 	float: right;
 }
@@ -73,28 +373,9 @@ ul{
 	display: none;
 }
 
-#index #subheader {
-	position: relative;
-	top: -75px;
-}
-
-#alpha {
-	z-index:1;
-}
-
-#alpha a {
-	color: #0F6095;
-	font-weight: 700;
-}
 
 #subheader img {
 	float: right;
-}
-
-#subheader p {
-	position: relative;
-	top: 15px;
-	font-weight: 700;
 }
 
 .login-required {
@@ -107,17 +388,8 @@ ul{
 	left: -20px;
 }
 
-#signinlinks a{
-	color: black;
-	font-weight: 700;
-}
-
-
 #main-text {
 	margin-top: 50px;
-	/*font-family: "museo-slab",serif;
-	font-style: normal;
-	font-weight: 700;*/
 }
 
 #main-text .lesson-name {
@@ -144,14 +416,14 @@ ul{
 }
 
 .btn-default {
-	background-color: #74BBD4;
-	border-color: #74BBD4;
+	background-color: #0F6095;
+	border-color: #0F6095;
 	font-weight: 700;
 }
 
 .btn-default:hover {
-	background-color: #C7E4EE;
-	border-color: #C7E4EE;
+	background-color: #74BBD4;
+	border-color: #74BBD4;
 	color: #0F6095;
 	font-weight: 700;
 }
@@ -184,23 +456,9 @@ ul{
 	height: 250px;
 }
 
-#index #main, #signup #main, #signin #main, #subheader, #subsubheader, #bottom  {
-	position: relative;
-	top: -145px;
-}
-
-#learn #subheader, #learn #main {
-	position: relative;
-	top: -100px;
-}
-
-#learn #subheader p {
-		font-size: 18px;
-}
-
-#learn #category-menu{
+#category-menu{
 	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 #learn #category-menu a {
@@ -209,6 +467,7 @@ ul{
 }
 
 .category {
+	margin-top: 15px;
 	margin-bottom: 25px;
 }
 
@@ -258,24 +517,19 @@ ul{
 	color: #FF4000;
 }
 
-#service #main {
-	position:relative;
-	top: -100px;
-}
-
-#tips {
-	list-style: disc;
-}
 
 #teach-callout {
-	background-color: #74BBD4;
+	background-color: #C7E4EE;
 	border-radius: 15px;
-	height: 75px;
 	padding: 10px;
 }
 
 #teach-callout img {
 	padding-right: 10px;
+}
+
+#teach-callout p{
+	display: inline;
 }
 
 #teach .titles {
@@ -287,27 +541,14 @@ ul{
 	color: #0F6095;
 }
 
-#teach-main {
-	position: relative;
-	top: -125px;
-	background-color: #BCDCE9;
-}
 
 #teach-content {
 	padding: 25px;
 }
 
-#teach-dots {
-	text-align: center;
-	position: relative;
-	top: -30px;
-}
 
 
-#teach-dots-amount {
-	position: relative;
-	left:-30px;
-}
+
 
 
 .inline-block {
@@ -334,29 +575,8 @@ ul{
 	padding-top: 35px;
 }
 
-#step-builder {
-	position: relative;
-	top: -25px;
-}
 
-#elements{
-	background: #999;
-	color: black;
-	border-radius: 15px;
-}
 
-#elements li {
-	background-color: #FFF;
-	border: 3px dashed #999;
-	border-radius: 15px;
-	height: 75px;
-	margin-bottom: 10px;
-	font-weight: 700;
-	text-align: center;
-	width: 160px;
-	z-index: 1;
-	padding-top: 20px;
-}
 
 #elements .disabled {
 	background-color: #666;
@@ -388,10 +608,6 @@ ul{
 	/*height: 780px;*/
 	margin-right: 15px;
 	float: left;
-}
-
-#teach-instructions a {
-	color: #74BBD4;
 }
 
 .temp-close-btn {
@@ -449,9 +665,10 @@ ul{
 }
 
 #feedback-window {
-	height: 300px;
+	height: 250px;
 	background-color: #FFF;
 	border: 1px solid;
+	border-radius: 15px;
 	box-shadow: 10px 10px 5px #888888;
 }
 
@@ -460,16 +677,24 @@ ul{
 }
 
 #feedback-content {
-	padding-top: 15px;
 	color: #ACACAC;
 }
 
-#feedback-content .bold {
+#feedback-content h2 {
 	color: #79c040;
 }
 
+#feedback-content hr {
+	margin: 25px 0;
+}
+
+#feedback-control {
+	text-align: center;
+/*	position:absolute;*/
+}
+
 #state-btns {
-	margin-top : 100px;
+	margin-top : 25px;
 }
 
 .uploaded-image {
@@ -554,28 +779,8 @@ ul{
 	margin-right: 3%;
 }
 
-#bottom {
-	padding-top: 25px;
-	font-size: 18px;
-	line-height: 20px;
-}
 
-#main-text h1, #bottom a {
-	color: #0F5F94;
-}
 
-#bottom a:hover {
-	color: #ff4000;
-}
-
-#bottom img {
-	padding-bottom: 10px;
-}
-
-header {
-	position:relative;
-	top: -75px;
-}
 
 #loading {
 	height: 390px;
@@ -591,18 +796,6 @@ header {
 	left: -12px;
 }
 
-#subheader a {
-	color: #FF4000;
-	font-weight: 700;
-}
-
-#subheader .active {
-	color: #74BBD4;
-}
-
-#subheader li {
-	padding-right: 110px;
-}
 
 .text-overlay{
 	color: #FFF;
@@ -670,9 +863,7 @@ footer a:hover {
 	margin-top: 20px;
 }
 
-
 #next {
-	margin-left: 15px;
 	-webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     -moz-animation-duration: 1.5s;
@@ -695,13 +886,13 @@ footer a:hover {
 }
 
 .progress-dots .unfinished {
-	background-image: url('../img/unfinished_dot.gif');
+	background-image: url('../img/unfinished_dot.png');
 	height: 15px;
 	width: 15px;
 }
 
 .progress-dots .active {
-	background-image: url('../img/active_dot.gif');
+	background-image: url('../img/active_dot.png');
 	height: 30px;
 	width: 30px;
 	color: #FFF;
@@ -714,7 +905,7 @@ footer a:hover {
 }
 
 .progress-dots .finished {
-	background-image: url('../img/finished_dot.gif');
+	background-image: url('../img/finished_dot.png');
 	height: 15px;
 	width: 15px;
 }
@@ -798,15 +989,19 @@ section .btn{
 }
 
 #controls {
-	width: 145px;
+	width: 125px;
 	margin: 0 auto;
 }
 
 #teach-controls {
-	width: 145px;
+	width: 125px;
 	position: absolute;
 	bottom: 60px;
 	left: 105px;
+}
+
+#close-lesson-wrapper {
+		/*width: 145px;*/
 }
 
 #instructions footer {
@@ -823,7 +1018,7 @@ section .btn{
 
 #feedback {
 	position: relative;
-	top: -75px;
+	top: -200px;
 }
 
 #rating {

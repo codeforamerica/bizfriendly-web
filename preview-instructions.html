@@ -43,7 +43,16 @@
 
   <section class="row">
       <div class="step_text"></div>
-      <div class="feedback"></div>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div id="feedback-content"></div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      
       <div id="congrats">
         <h3>Celebrate your growing business!</h3>
         <img class="congrats-img" src="img/celebration_like.gif">
@@ -62,9 +71,11 @@
 
   <div id="controls">
       <button type="button" id="back" class="btn btn-primary">Back</button>
-      <button type="button" id="next" class="btn btn-primary">Next</button>
+      <button type="button" class="next btn btn-primary">Next</button>
       <br/>
-      <button type="button" id="close-lesson" class="btn btn-default">Close the lesson</button>
+      <div id="close-lesson-wrapper">
+          <button type="button" id="close-lesson" class="btn btn-default btn-block" >Close Lesson</button>
+      </div>
   </div>
 
   <!-- <div id="rating">

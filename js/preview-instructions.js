@@ -63,7 +63,7 @@ var preview = (function (preview) {
     _checkStep();
     // Adds button event handlers
     $('#back').click(_backClicked);
-    $('#next').click(_nextClicked);
+    $('.next').click(_nextClicked);
     $('li.progress-button').click(_progressClicked);
   }
 
@@ -130,10 +130,6 @@ var preview = (function (preview) {
     $(steps).each(function(i){
         $('.progress-dots').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
     });
-    // Todo: Need to account for 12 possible steps
-    // var widthPercent = '';
-    // widthPercent = 100/steps.length+'%';
-    // $('.progress-dots li').attr('width',widthPercent);
   }
 
   // Update the progress bar
@@ -155,14 +151,14 @@ var preview = (function (preview) {
     if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
     $('.step_text').html(currentStep.stepText);
-    $('.feedback').html(currentStep.feedback);
+    $('#feedback-content').html(currentStep.feedback);
     // Set step_text back to visible and hide others
     if ($('.step_text').css('display') == 'none'){
       $('.step_text').toggle();
     }
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
+    // if ($('.feedback').css('display') == 'block'){
+    //   $('.feedback').toggle();
+    // }
     if ($('#next').hasClass('animated pulse')){
       $('#next').removeClass('animated pulse');
     }
@@ -181,6 +177,7 @@ var preview = (function (preview) {
   function _nextClicked(evt){
     console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
+      $("#feedback").modal('hide');
       _goToNextStep();
     }
   }
@@ -239,8 +236,8 @@ var preview = (function (preview) {
       }
 
       // Add connection to server db
-      var data = {service: service, service_access: oauthToken}
-      BfUser.create_connection(data, _createdConnection);
+      // var data = {service: service, service_access: oauthToken}
+      // BfUser.create_connection(data, _createdConnection);
 
       // Check first step
       _checkStep();  
@@ -249,9 +246,9 @@ var preview = (function (preview) {
 
   function _goToNextStep(){
     currentStep = steps[currentStep.stepNumber];
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
+    // if ($('.feedback').css('display') == 'block'){
+    //   $('.feedback').toggle();
+    // }
     if ($('.step_text').css('display') == 'none'){
       $('.step_text').toggle();
     }
@@ -274,101 +271,101 @@ var preview = (function (preview) {
       originalAttributeValues : false
     }
 
-    if (currentStep.stepType == 'meta_intro'){
-      // Get the users name
-      $("#userInputSubmit").click(function(evt){
-        userName = $('#userInput').val();
-        $('.responseDisplay').text(userName);
-        $('.feedback').toggle();
-        $('.step_text').toggle();
-      });
-    }
+    // if (currentStep.stepType == 'meta_intro'){
+    //   // Get the users name
+    //   $("#userInputSubmit").click(function(evt){
+    //     userName = $('#userInput').val();
+    //     $('.responseDisplay').text(userName);
+    //     // $('.feedback').toggle();
+    //     $('.step_text').toggle();
+    //   });
+    // }
 
-    if (currentStep.stepType == 'meta_location'){
-      // Get the users name
-      $.getJSON('http://ip-api.com/json', function(response){
-        city = response.city;
-        state = response.regionName;
-        $('.cityName').text(city);
-        $('.stateName').text(state);
-        rememberedAttribute = 'find_loc='+city+',+'+state
-        rememberedAttribute = rememberedAttribute.replace(' ','+');
-      });
+    // if (currentStep.stepType == 'meta_location'){
+    //   // Get the users name
+    //   $.getJSON('http://ip-api.com/json', function(response){
+    //     city = response.city;
+    //     state = response.regionName;
+    //     $('.cityName').text(city);
+    //     $('.stateName').text(state);
+    //     rememberedAttribute = 'find_loc='+city+',+'+state
+    //     rememberedAttribute = rememberedAttribute.replace(' ','+');
+    //   });
 
-      // Check with them if location was correct
-      $('#yes').click(function(evt){
-        _goToNextStep();
-      });
-      // If no, then take in the new address
-      $('#no').click(function(evt){
-        $('.feedback').toggle();
-        $('#feedbackYes').hide();
-        $('.step_text').toggle();
-        // Get new city, state and go to the next step.
-        $('#userInputSubmit').click(function(evt){
-          city = $('#userInputCity').val();
-          state = $('#userInputState').val();
-          rememberedAttribute = 'find_loc='+city+',+'+state
-          rememberedAttribute = rememberedAttribute.replace(' ','+');
-          _goToNextStep();
-        });
-      });
-    }
+    //   // Check with them if location was correct
+    //   $('#yes').click(function(evt){
+    //     _goToNextStep();
+    //   });
+    //   // If no, then take in the new address
+    //   $('#no').click(function(evt){
+    //     // $('.feedback').toggle();
+    //     $('#feedbackYes').hide();
+    //     $('.step_text').toggle();
+    //     // Get new city, state and go to the next step.
+    //     $('#userInputSubmit').click(function(evt){
+    //       city = $('#userInputCity').val();
+    //       state = $('#userInputState').val();
+    //       rememberedAttribute = 'find_loc='+city+',+'+state
+    //       rememberedAttribute = rememberedAttribute.replace(' ','+');
+    //       _goToNextStep();
+    //     });
+    //   });
+    // }
 
-    if (currentStep.stepType == 'meta_search'){
-      // Did they find their biz?
-      $('.yes').click(function(evt){
-        $('.feedback').show();
-        $('.feedbackYes').show();
-        $('.feedbackYes3').hide();
-        $('.feedbackNo').hide();
-        $('.feedbackNo2').hide();
-        $('.feedbackNo3').hide()
-        $('.step_text').hide();
-      });
-      // If no, then search again
-      $('.no').click(function(evt){
-        $('.feedback').show();
-        $('.feedbackYes').hide();
-        $('.feedbackYes3').hide();
-        $('.feedbackNo').show();
-        $('.feedbackNo2').hide();
-        $('.feedbackNo3').hide()
-        $('.step_text').hide();
-      });
-      $('.no2').click(function(evt){
-        $('.feedback').show();
-        $('.feedbackYes').hide();
-        $('.feedbackYes3').hide();
-        $('.feedbackNo').hide();
-        $('.feedbackNo2').show();
-        $('.feedbackNo3').hide()
-        $('.step_text').hide();
-      });
-      $('.yes3').click(function(evt){
-        $('.feedback').show();
-        $('.feedbackYes').hide();
-        $('.feedbackYes3').show();
-        $('.feedbackNo').hide();
-        $('.feedbackNo2').hide();
-        $('.feedbackNo3').hide()
-        $('.step_text').hide();
-      });
-      $('.no3').click(function(evt){
-        $('.feedback').show();
-        $('.feedbackYes').hide();
-        $('.feedbackYes3').hide();
-        $('.feedbackNo').hide();
-        $('.feedbackNo2').hide();
-        $('.feedbackNo3').show()
-        $('.step_text').hide();
-      });
-    }
+    // if (currentStep.stepType == 'meta_search'){
+    //   // Did they find their biz?
+    //   $('.yes').click(function(evt){
+    //     $('.feedback').show();
+    //     $('.feedbackYes').show();
+    //     $('.feedbackYes3').hide();
+    //     $('.feedbackNo').hide();
+    //     $('.feedbackNo2').hide();
+    //     $('.feedbackNo3').hide()
+    //     $('.step_text').hide();
+    //   });
+    //   // If no, then search again
+    //   $('.no').click(function(evt){
+    //     $('.feedback').show();
+    //     $('.feedbackYes').hide();
+    //     $('.feedbackYes3').hide();
+    //     $('.feedbackNo').show();
+    //     $('.feedbackNo2').hide();
+    //     $('.feedbackNo3').hide()
+    //     $('.step_text').hide();
+    //   });
+    //   $('.no2').click(function(evt){
+    //     $('.feedback').show();
+    //     $('.feedbackYes').hide();
+    //     $('.feedbackYes3').hide();
+    //     $('.feedbackNo').hide();
+    //     $('.feedbackNo2').show();
+    //     $('.feedbackNo3').hide()
+    //     $('.step_text').hide();
+    //   });
+    //   $('.yes3').click(function(evt){
+    //     $('.feedback').show();
+    //     $('.feedbackYes').hide();
+    //     $('.feedbackYes3').show();
+    //     $('.feedbackNo').hide();
+    //     $('.feedbackNo2').hide();
+    //     $('.feedbackNo3').hide()
+    //     $('.step_text').hide();
+    //   });
+    //   $('.no3').click(function(evt){
+    //     $('.feedback').show();
+    //     $('.feedbackYes').hide();
+    //     $('.feedbackYes3').hide();
+    //     $('.feedbackNo').hide();
+    //     $('.feedbackNo2').hide();
+    //     $('.feedbackNo3').show()
+    //     $('.step_text').hide();
+    //   });
+    // }
 
-    if (currentStep.stepType == 'meta_signup'){
-      console.log('meta_signup');
-      $('#signup-name').val(userName);
-    }
+    // if (currentStep.stepType == 'meta_signup'){
+    //   console.log('meta_signup');
+    //   $('#signup-name').val(userName);
+    // }
 
     // If step type is login
     if (currentStep.stepType == 'login'){
@@ -386,59 +383,59 @@ var preview = (function (preview) {
       $("#open").click(_openClicked);
     }
 
-    // If step type is check_for_new
-    if (currentStep.stepType == 'check_for_new' && oauthToken){
-      console.log(originalCount);
-      // This step fires at least twice. First time it just gets the originalCount
-      // Every following time it compares the number of objects to the originalCount
-      if ( originalCount !== false ){
-        if (config.debug) console.log("originalCount: " + originalCount);
-        postData["originalCount"] = originalCount;
-      }
-      BfUser.check_for_new(postData, _checkForNew);
-    }
-    // check_if_attribute_exists
-    if (currentStep.stepType == 'check_if_attribute_exists' && oauthToken){
-      if (config.debug) console.log(currentStep);
-      BfUser.check_if_attribute_exists(postData, _checkIfAttributeExists);
-    }
+    // // If step type is check_for_new
+    // if (currentStep.stepType == 'check_for_new' && oauthToken){
+    //   console.log(originalCount);
+    //   // This step fires at least twice. First time it just gets the originalCount
+    //   // Every following time it compares the number of objects to the originalCount
+    //   if ( originalCount !== false ){
+    //     if (config.debug) console.log("originalCount: " + originalCount);
+    //     postData["originalCount"] = originalCount;
+    //   }
+    //   BfUser.check_for_new(postData, _checkForNew);
+    // }
+    // // check_if_attribute_exists
+    // if (currentStep.stepType == 'check_if_attribute_exists' && oauthToken){
+    //   if (config.debug) console.log(currentStep);
+    //   BfUser.check_if_attribute_exists(postData, _checkIfAttributeExists);
+    // }
 
-    // check_attribute_for_value
-    if (currentStep.stepType == 'check_attribute_for_value' && oauthToken){
-      BfUser.check_attribute_for_value(postData, _checkAttributeForValue);
-    }
+    // // check_attribute_for_value
+    // if (currentStep.stepType == 'check_attribute_for_value' && oauthToken){
+    //   BfUser.check_attribute_for_value(postData, _checkAttributeForValue);
+    // }
 
-    // Is step type get_attributes_from_input
-    if (currentStep.stepType == 'get_attributes_from_input'){
-      // First get the id from the input
-      $('#userInputSubmit').click(function(evt){
-        var userInput = $('#userInput').val();
-        // If Foursquare, get venue id from input URL.
-        if (service == 'foursquare'){
-          var userInputPath = userInput.split( '/' );
-          rememberedAttribute = userInputPath.pop();
-        }
-        challengeWindow.close();
-        _openChallengeWindow(userInput);
+    // // Is step type get_attributes_from_input
+    // if (currentStep.stepType == 'get_attributes_from_input'){
+    //   // First get the id from the input
+    //   $('#userInputSubmit').click(function(evt){
+    //     var userInput = $('#userInput').val();
+    //     // If Foursquare, get venue id from input URL.
+    //     if (service == 'foursquare'){
+    //       var userInputPath = userInput.split( '/' );
+    //       rememberedAttribute = userInputPath.pop();
+    //     }
+    //     challengeWindow.close();
+    //     _openChallengeWindow(userInput);
 
-        postData["rememberedAttribute"] = rememberedAttribute;
-        // Then call get_attributes
-        BfUser.get_attributes(postData, _getAttributes);
-      });
-    }
+    //     postData["rememberedAttribute"] = rememberedAttribute;
+    //     // Then call get_attributes
+    //     BfUser.get_attributes(postData, _getAttributes);
+    //   });
+    // }
 
-    // check_attribute_for_update
-    if (currentStep.stepType == 'check_attribute_for_update' && oauthToken){
-      console.log(originalAttributeValues);
-      // This step fires at least twice. First time it just gets the originalAttributeValues
-      // Every following time it compares the value of the attribute to the originalAttributeValues
-      if ( originalAttributeValues ){
-        if (config.debug) console.log("originalAttributeValues: " + originalAttributeValues);
-        postData["originalAttributeValues"] = originalAttributeValues.toString();
-      }
-      console.log(postData);
-      BfUser.check_attribute_for_update(postData, _checkAttributeForUpdate);
-    }
+    // // check_attribute_for_update
+    // if (currentStep.stepType == 'check_attribute_for_update' && oauthToken){
+    //   console.log(originalAttributeValues);
+    //   // This step fires at least twice. First time it just gets the originalAttributeValues
+    //   // Every following time it compares the value of the attribute to the originalAttributeValues
+    //   if ( originalAttributeValues ){
+    //     if (config.debug) console.log("originalAttributeValues: " + originalAttributeValues);
+    //     postData["originalAttributeValues"] = originalAttributeValues.toString();
+    //   }
+    //   console.log(postData);
+    //   BfUser.check_attribute_for_update(postData, _checkAttributeForUpdate);
+    // }
 
     // congrats
     if (currentStep.stepType == 'congrats'){
@@ -465,7 +462,7 @@ var preview = (function (preview) {
   // They are loggedIn
   function _loggedIn(){
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
   }
 
@@ -503,7 +500,8 @@ var preview = (function (preview) {
     _openChallengeWindow(currentStep.triggerEndpoint);
     
     // Advance to next step
-    _goToNextStep();
+    // _goToNextStep();
+    $("#feedback").modal("show");
   }
 
   // A new object is added at a url endpoint
@@ -524,9 +522,10 @@ var preview = (function (preview) {
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      // $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      
       $('#next').addClass('animated pulse');
       // Cancel out originalCount!!!
       originalCount = false;
@@ -540,9 +539,9 @@ var preview = (function (preview) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( response.attribute_exists ){
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      // $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
     }
   }
@@ -554,14 +553,14 @@ var preview = (function (preview) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      if (service == 'facebook'){
-        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
-      }
-      if ( service == 'foursquare'){
-        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      }
+      // if (service == 'facebook'){
+      //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
+      // }
+      // if ( service == 'foursquare'){
+      //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
+      // }
       $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
     }
   }
@@ -585,8 +584,8 @@ var preview = (function (preview) {
       // Remember the attribute!
       // rememberedAttribute = response.attribute_to_remember;
       $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
+      // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
+      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
       $('#next').addClass('animated pulse');
       // Cancel out original attributes!!!
       originalAttributeValues = false;
@@ -597,8 +596,8 @@ var preview = (function (preview) {
   function _getAttributes(response){
     if (config.debug) console.log(response);
     response = $.parseJSON(response);
-    $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
-    $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
+    // $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
+    // $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
     $('#step'+currentStep.stepNumber+' .feedback #attribute-3').html(response.attribute_3);
     $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
     $('#step'+currentStep.stepNumber+' .feedback').css('display','block');

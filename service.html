@@ -24,10 +24,6 @@
 </head>
 <body id="service" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
     <header class="navbar navbar-static-top row">
       <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
@@ -49,18 +45,23 @@
 
     <section id="main" class="row">
       <div id="left-column" class="col-offset-1 col-lg-4">
-        <img id="service-icon" class="left">
-        <h1 id="service-name" class="orange"></h1>
+        <div class="service-header">
+            <img id="service-icon" >
+            <h1 id="service-name"></h1>
+        </div>
         <br/>
         <div id="service-description">
         </div>
         <br/>
+        
         <p class="bold">Keep in Mind</p>
         <ul id="tips">
         </ul>
+        <br/>
         <p class="bold">Additional Resources</p>
         <ul id="additional-resources">
         </ul>
+        <br/>
         <div id="share-service">
         </div>
       </div>
@@ -76,8 +77,8 @@
           <tbody id="tbody">
           </tbody>
         </table>
-        <div id="teach-callout" class="col-lg-6 right">
-            <img src="img/teach_gray.gif" class="left">
+        <div id="teach-callout" class="col-lg-7 right">
+            <img src="img/teach_gray.png" class="left">
             <p>Already using <span class="service-name"></span> for your business? <a href="teach.html">Help teach other business owners!</a></p>
         </div>
       </div>
@@ -89,7 +90,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <img src="img/close-btn.png" class="close" data-dismiss="modal">
           <h4 class="modal-title">Time to start learning!</h4>
         </div>
         <div class="modal-body">
