@@ -4,6 +4,8 @@ var preview = (function (preview) {
   var height = window.screen.height;
   var lessonName = window.opener.document.preview.lessonName.value;
   var authorName = window.opener.document.preview.authorName.value;
+  var serviceName = window.opener.document.preview.serviceName.value;
+  var serviceId = window.opener.document.preview.serviceId.value;
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
@@ -64,6 +66,7 @@ var preview = (function (preview) {
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('.next').click(_nextClicked);
+    $("#close-lesson").click(function(evt){window.close();});
     $('li.progress-button').click(_progressClicked);
   }
 
@@ -150,22 +153,11 @@ var preview = (function (preview) {
     _stepTransition();
     if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    $('.step_text').html(currentStep.stepText);
+    $('#step-text-content').html(currentStep.stepText);
     $('#feedback-content').html(currentStep.feedback);
     // Set step_text back to visible and hide others
     if ($('.step_text').css('display') == 'none'){
       $('.step_text').toggle();
-    }
-    // if ($('.feedback').css('display') == 'block'){
-    //   $('.feedback').toggle();
-    // }
-    if ($('#next').hasClass('animated pulse')){
-      $('#next').removeClass('animated pulse');
-    }
-    if ($('#congrats').css('display') == 'block'){
-      // $('#additional-resource').attr('href=http://bizfriend.ly/lesson.html?'+lessonId);
-      // $('#additional-resource').attr('target','_parent');
-      $('#congrats').toggle();
     }
   }
 
@@ -177,7 +169,6 @@ var preview = (function (preview) {
   function _nextClicked(evt){
     console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
-      $("#feedback").modal('hide');
       _goToNextStep();
     }
   }
@@ -197,10 +188,6 @@ var preview = (function (preview) {
   function _progressClicked(evt) {
     console.log("Clicked Step: " + $(this).attr('data-target'));
     
-    if (currentStep.stepNumber == steps.length) {
-      // toggle congrats off if already on last step
-      _showCongrats();
-    }
     currentStep = steps[$(this).attr('data-target') - 1];
     _updateStepsStates();
     _updateProgressBar();
@@ -210,7 +197,7 @@ var preview = (function (preview) {
 
   // login clicked
   function _loginClicked(evt){
-    service = lesson.service.name.toLowerCase();
+    service = serviceName;
     if (config.debug) console.log('Logging into '+service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
     var options;
@@ -245,13 +232,8 @@ var preview = (function (preview) {
   }
 
   function _goToNextStep(){
+    $("#feedback").modal("hide");
     currentStep = steps[currentStep.stepNumber];
-    // if ($('.feedback').css('display') == 'block'){
-    //   $('.feedback').toggle();
-    // }
-    if ($('.step_text').css('display') == 'none'){
-      $('.step_text').toggle();
-    }
     _updateStepsStates();
     _updateProgressBar();
     _showStep();
@@ -443,14 +425,16 @@ var preview = (function (preview) {
       $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I just finished '+lesson.name+' with help from BizFriendly!');
       $('#g-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/google_plusone_share/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#li-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/linkedin/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
-      $('#additional-resources').click(function(evt){
+      $(".next").hide();
+      $("#back").hide();
+      $("#additional-resources").click(function(evt){
+        window.opener.location.href = "service.html?"+serviceId;
         window.close();
       });
-      $('#more-lessons').click(function(evt){
-        window.opener.location.href='learn.html';
+      $("#more-lessons").click(function(evt){
+        window.opener.location.href = "learn.html";
         window.close();
       });
-      _showCongrats();
     }
 
     // Add example popover clicker
@@ -461,9 +445,8 @@ var preview = (function (preview) {
 
   // They are loggedIn
   function _loggedIn(){
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
   }
 
   // Saved a connection in the db
@@ -498,10 +481,8 @@ var preview = (function (preview) {
       currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replace_me',rememberedAttribute);
     }
     _openChallengeWindow(currentStep.triggerEndpoint);
-    
-    // Advance to next step
-    // _goToNextStep();
     $("#feedback").modal("show");
+    $("#feedback-next").click(_goToNextStep);
   }
 
   // A new object is added at a url endpoint
@@ -522,11 +503,8 @@ var preview = (function (preview) {
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
-      // $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      
-      $('#next').addClass('animated pulse');
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
       // Cancel out originalCount!!!
       originalCount = false;
     }
@@ -553,15 +531,8 @@ var preview = (function (preview) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      // if (service == 'facebook'){
-      //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
-      // }
-      // if ( service == 'foursquare'){
-      //   $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      // }
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
     }
   }
 
@@ -582,11 +553,9 @@ var preview = (function (preview) {
     }
     if ( response.attribute_value_updated ){
       // Remember the attribute!
-      // rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      // $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      // $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      rememberedAttribute = response.attribute_to_remember;
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
       // Cancel out original attributes!!!
       originalAttributeValues = false;
     }
@@ -596,19 +565,11 @@ var preview = (function (preview) {
   function _getAttributes(response){
     if (config.debug) console.log(response);
     response = $.parseJSON(response);
-    // $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
-    // $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
+    $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
+    $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
     $('#step'+currentStep.stepNumber+' .feedback #attribute-3').html(response.attribute_3);
-    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-    $('#next').addClass('animated pulse');
-  }
-
-  function _showCongrats(){
-    $('section h2').toggle();
-    $('.step_text').toggle();
-    $('#controls').toggle();
-    $('#congrats').css('display','block');
+    $("#feedback").modal("show");
+    $("#feedback-next").click(_goToNextStep);
   }
 
   // function _getUserId(){

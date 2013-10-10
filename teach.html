@@ -97,19 +97,21 @@
                         <div id="open-element-drag" class="draggable">Text & Open Button</div>
                         <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
                         <!-- <hr/>
-                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button>
-                        <div id="login-element-drag" class="draggable options hidden">Text & Log In Button</div>
-                        <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
+                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button> -->
+                        <div id="login-element-drag" class="draggable options">Text & Log In Button</div>
+                       <!--  <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
                     </div>
 
                     <div class="teach-column col-lg-4">
                         <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
                         <div id="teach-instructions" class="teach-box">
-                            <ul class="progress-dots list-unstyled list-inline center"></ul>
                             <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
                             <p class="author-name">Created by <span id="author-name"></span>.</p>
-                            <div id="step-texts">
-                            </div>
+                            <ul class="progress-dots list-unstyled list-inline center"></ul>
+                            <section>
+                                <div id="step-texts">
+                                </div>
+                            </section>
                             <div id="teach-controls">
                               <button type="button" id="back" class="btn btn-primary">Back</button>
                               <button type="button" id="next" class="btn btn-primary">Next</button>
@@ -145,10 +147,10 @@
     </div>
 
     <div id="congrats-popover" class="hidden">
-        <img class="star-icon" src="img/star-icon.gif">
-        <img class="flag-icon" src="img/flag-icon.gif">
-        <img class="heart-icon" src="img/heart-icon.gif">
-        <img class="thumbs-up-icon" src="img/thumbs-up-icon.gif">
+        <img class="star-icon" src="img/icon-star.png">
+        <img class="flag-icon" src="img/icon-flag.png">
+        <img class="heart-icon" src="img/icon-heart.png">
+        <img class="thumbs-up-icon" src="img/icon-like.png">
     </div>
 
     <div id="droppable-prototype" class="droppable temp step-text hidden">
@@ -169,7 +171,7 @@
 
     <div id="login-prototype" class="login-element hidden">
         <p class="bold">Click to edit text.</p>
-        <button type="button" class="btn btn-teach btn-small">Log In To <span class="service-name"></span></button>
+        <button id="login" type="button" class="btn btn-teach btn-small">Log In To <span class="service-name"></span></button>
     </div>
 
     <div id="text-entry-prototype" class="text-entry-element hidden">
@@ -199,29 +201,37 @@
             <h2 class="element-editable">Click to edit feedback.</h2>
         </div>
         <div class="modal-body">
-            <p class="bold element-editable">Click to edit.</p>
-            <p class="plain element-editable">Click to edit.</p>
+            <p class="bold element-editable">Click to edit text.</p>
+            <p class="plain element-editable">Click to edit text.</p>
         </div>
         <div class="modal-footer">
             <div id="feedback-control">
-                <button type="button" class="next btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
+                <button type="button" id="feedback-next" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
             </div>
         </div>
     </div>
 
-    <div id="congrats-prototype" class="active hidden center">
-        <h3 class="element-editable">Celebrate your growing business!</h3>
-        <img class="congrats-img" src="img/celebration_like.gif">
-        <h3>Share Your Success</h3>
-        <ul class="list-inline">
-          <li><a id="fb-share" href="#" rel="nofollow"><img src="img/celebration_fb.gif"></a></li>
-          <li><a id="tw-share" href="#" rel="nofollow"><img src="img/celebration_twitter.gif"></a></li>
-          <li><a id="g-share" href="#" rel="nofollow"><img src="img/celebration_g+.gif"></a></li>
-          <li><a id="li-share" href="#" rel="nofollow"><img src="img/celebration_li.gif"></a></li>
-        </ul>
-        <button id="additional-resources" type="button" class="btn btn-default btn-block">Additional Resources</button>
-        <button id="more-lessons" type="button" href="#" class="btn btn-default btn-block">More Lessons</button>
-        <!-- <button type="button" class="btn btn-default btn-block">Invite A Friend</button> -->
+    <div id="congrats-prototype" class="hidden center">
+        <div id="congrats-icons" class="step-text active center">
+            <img class="congrats-img" src="img/icon-like.png">
+            <p class="bold element-editable">Click to edit text.</p>
+            <p class="plain element-editable">Click to edit text.</p>
+        </div>
+        <div id="congrats-share" class="step-text active center">
+            <p class="bold">Share Your Success</p>
+            <ul class="list-inline">
+              <li><a id="fb-share" rel="nofollow"><img src="img/socialshare_fb_o.png"></a></li>
+              <li><a id="tw-share" rel="nofollow"><img src="img/socialshare_twitter_o.png"></a></li>
+              <li><a id="g-share" rel="nofollow"><img src="img/socialshare_google_o.png"></a></li>
+              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_linkedin_o.png"></a></li>
+              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_email_o.png"></a></li>
+            </ul>
+        </div>
+        <div id="congrats-links" class="step-text active center">
+            <p class="bold">Find Out More</p>
+            <a id="additional-resources" type="button" class="btn btn-teach btn-small btn-block orange">Additional Resources</a>
+            <a id="more-lessons" type="button" class="btn btn-teach btn-small btn-block orange">More Lessons</a>
+        </div>
       </div>
 
     <!-- Ghost Form -->
@@ -229,6 +239,8 @@
         <input type=hidden name="lessonName" value="">
         <input type=hidden name="steps" value="">
         <input type=hidden name="authorName" value="">
+        <input type=hidden name="serviceName" value="">
+        <input type=hidden name="serviceId" value="">
     </form>
 
      <!-- Modal -->

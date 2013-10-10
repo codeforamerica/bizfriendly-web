@@ -47,6 +47,7 @@ body {
 .bold {
 	font-family: 'Open Sans';
 	font-weight: 700;
+	line-height: 14px;
 }
 
 #subheader h1 {
@@ -144,9 +145,10 @@ th {
 
 .plain {
 	font-size: 12px;
-	line-height: 14px;
+	line-height: 12px;
 	position: relative;
-	top: -5px;
+	top: -7px;
+	display: inline;
 }
 
 #add-droppable {
@@ -258,6 +260,12 @@ hr {
 	left:-30px;
 }
 
+#instructions section{
+	position: relative;
+	top: -10px;
+	height: 350px;
+}
+
 #elements .draggable {
 	position:relative;
 	background-color: #FFF;
@@ -279,14 +287,13 @@ hr {
 	padding: 5px;
 }
 
-.temp-text {
-	text-align: center;
-	position: relative;
-	left: 35px;
-}
-
 #add-droppable img {
 	margin-right: 5px;
+}
+
+#step-text-content {
+	margin: 15px auto;
+	width: 310px;
 }
  /*END POSITION*/
 
@@ -303,6 +310,14 @@ hr {
 
 #elements {
 	background-color: #BFBFBF;
+}
+
+#congrats-icons {
+	background-color: #C7E4EE;
+}
+
+#congrats-share, #congrats-links {
+	background-color: #FFC9AE
 }
 
 /*END COLORS*/
@@ -612,8 +627,8 @@ ul{
 
 .temp-close-btn {
 	position:relative;
-	top: -30px;
-	left: 25px;
+	top: -20px;
+	left: 19px;
 }
 
 .teach-box-elements {
@@ -655,11 +670,6 @@ ul{
 	font-weight: 700;
 }
 
-.popover-content img {
-	width: 50px;
-	height: 50px;
-}
-
 .popover {
 	text-align: center;
 }
@@ -677,7 +687,7 @@ ul{
 }
 
 #feedback-content {
-	color: #ACACAC;
+	color: #585b5b;
 }
 
 #feedback-content h2 {
@@ -721,10 +731,10 @@ ul{
 }
 
 .step-text{
-	padding: 15px;
+	padding: 10px;
 	margin-bottom: 15px;
-	min-height: 100px;
-	width: 260px;
+	border-radius: 15px;
+	/*width: 260px;*/
 }
 
 .temp {
@@ -737,10 +747,6 @@ ul{
 	border-radius: 15px;
 }
 
-.step-text {
-	border-radius: 15px;
-}
-
 .hidden {
 	display: none;
 }
@@ -749,6 +755,8 @@ ul{
 	color: #999;
 	text-align: center;
 	padding-top: 20px;
+	margin: 0 auto;
+	min-height: 75px;
 }
 
 .gray {
@@ -915,11 +923,6 @@ footer a:hover {
 	vertical-align: middle;
 }
 
-#instructions section{
-	width: 300px;
-	height: 390px;
-	margin: 0 auto;
-}
 
 section .btn{
 	margin-bottom: 10px;
@@ -929,11 +932,7 @@ section .btn{
 	background-color: #FFF;
 }
 
-.step_text {
-	margin: 15px auto;
-	width: 260px;
-	overflow: auto;
-}
+
 
 .step_text #popover {
 	color: #ff4000;

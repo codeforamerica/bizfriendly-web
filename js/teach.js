@@ -237,7 +237,8 @@ var teach = (function (teach) {
           return (value);
         },{
           type: "textarea",
-          rows : 2,
+          rows : 3,
+          cols : 35,
           onblur : "submit",
           submit : "OK"
       });
@@ -283,7 +284,8 @@ var teach = (function (teach) {
           return (value);
         },{
           type: "textarea",
-          rows : 2,
+          rows : 3,
+          cols : 35,
           onblur : "submit",
           submit : "OK"
       });
@@ -297,7 +299,6 @@ var teach = (function (teach) {
         $(".heart-icon").click(_iconClicked);
         $(".thumbs-up-icon").click(_iconClicked);
       }) 
-      $(".congrats-img").popover("show");
     }
     if (newSteps.length <= 2){
       $("#step-close-btn").hide();
@@ -350,6 +351,7 @@ var teach = (function (teach) {
     },{
       type : "textarea",
       rows : 3,
+      cols : 35,
       onblur : "submit",
       submit : "OK"
     });
@@ -597,7 +599,6 @@ var teach = (function (teach) {
 
   function _cleanUpStepsHTML(){
     stepText = "";
-    feedback = "";
     $.each(newSteps, function(i){
       stepText = newSteps[i].step_text;
       stepText = stepText.replace(new RegExp('<img class="temp-close-btn right" src="img/close-btn.png">', 'g'), "");
@@ -609,6 +610,8 @@ var teach = (function (teach) {
       // Clean up feedback
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
+      newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
+      console.log(newSteps[i].feedback);
     })
 
   }
@@ -619,6 +622,9 @@ var teach = (function (teach) {
     document.preview.lessonName.value = $("#lesson-name").text();
     document.preview.authorName.value = BfUser.name;
     document.preview.steps.value =JSON.stringify(newSteps);
+    document.preview.serviceName.value = serviceName.toLowerCase();
+    document.preview.serviceId.value = serviceId;
+
     var url = 'preview-instructions.html';
     var width = 340;
     var height = window.screen.height;
@@ -642,7 +648,7 @@ var teach = (function (teach) {
     if (serviceId) {
       _saveCurrentStep();
       _cleanUpStepsHTML()
-      _checkForLesson("draft");
+      _checkForLesson("submitted");
     } else {
       $("#alert").removeClass("hidden").text("Choose a category and service.")
     }
