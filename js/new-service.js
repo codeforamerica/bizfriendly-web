@@ -34,7 +34,6 @@ var newService = (function (newService) {
   function _getCategories(){
     // Get the existing categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
-      console.log(response);
       $.each(response.objects, function(i){
         $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
@@ -230,6 +229,7 @@ var newService = (function (newService) {
       contentType: "application/json",
       success: function(data) {
         // Service already exists, give user a warning
+        console.log(data);
         if (data.num_results){
           $(".alert").removeClass("hidden");
         } else {
@@ -244,17 +244,19 @@ var newService = (function (newService) {
   }
 
   function _postService(state){
-    // var additional_resources = _getAdditionalResources();
-    // var tips = _getTips();
+    var media = $("#service-video-link").val();
+    if (!media) {
+      media = $("#uploaded-image img").attr("src");
+    }
     newService = {
       name : $("#new-service-name").val(),
       url : $("#new-service-url").val(),
-      icon : $("#uploaded-icon").attr("src"),
-      short_description : $("new-service-short-description").val(),
-      long_description : $("new-service-long-description").val(),
+      icon : $("#uploaded-icon img").attr("src"),
+      short_description : $("#new-service-short-description").val(),
+      long_description : $("#new-service-long-description").val(),
       additional_resources : _getAdditionalResources(),
       tips : _getTips(),
-      media : $("#uploaded-image").val(),
+      media : media,
       state : state,
       creator_id : BfUser.id,
       category_id : $("#category-id").val()
@@ -267,6 +269,7 @@ var newService = (function (newService) {
       data: JSON.stringify(newService),
       dataType: "json",
       success : function(){
+        console.log(newService);
         $(".service-name").text($("#new-service-name").val())
         $('#submissionModal').modal()
       },
