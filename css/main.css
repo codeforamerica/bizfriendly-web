@@ -320,6 +320,11 @@ hr {
 	background-color: #FFC9AE
 }
 
+hr {
+	height: 1px;
+	background-color: #BFBFBF;
+}
+
 /*END COLORS*/
 
 /* CURSOR*/
