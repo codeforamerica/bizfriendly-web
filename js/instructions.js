@@ -91,7 +91,6 @@ var instructions = (function (instructions) {
     $(steps).each(function(i){
       step = {
         id : steps[i].id,
-        name : steps[i].name,
         stepType : steps[i].step_type,
         stepNumber : steps[i].step_number,
         stepText : steps[i].step_text,
@@ -244,6 +243,7 @@ var instructions = (function (instructions) {
   // Check steps
   function _checkStep(){
 
+    if (config.debug) console.log(currentStep);
     // Create postData
     postData = {
       currentStep : currentStep,
@@ -364,12 +364,12 @@ var instructions = (function (instructions) {
 
     // If step type is open
     if (currentStep.stepType == 'open'){
-      $(".open").click(_openClicked);
+      $("#open").click(_openClicked);
     }
 
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && oauthToken){
-      console.log(originalCount);
+      console.log("ORIGINAL COUNT: "+originalCount);
       // This step fires at least twice. First time it just gets the originalCount
       // Every following time it compares the number of objects to the originalCount
       if ( originalCount !== false ){
