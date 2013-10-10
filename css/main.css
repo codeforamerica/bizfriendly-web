@@ -304,6 +304,10 @@ hr {
 #close-lesson {
 	display:none;
 }
+
+#open {
+	margin: 0 auto;
+}
  /*END POSITION*/
 
 
