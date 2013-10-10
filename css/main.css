@@ -148,12 +148,12 @@ th {
 	line-height: 12px;
 	position: relative;
 	top: -7px;
-	display: inline;
 	list-style:disc;
 }
 
 .plain li {
 	margin-left:15px;
+	margin-bottom: 5px;
 }
 
 #add-droppable {
