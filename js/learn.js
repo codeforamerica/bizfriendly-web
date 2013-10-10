@@ -58,9 +58,12 @@ var learn = (function (learn) {
             html += '</div>';
           }
         })
+        html += '<div id="teach-callout" class="col-lg-4 right">';
+        html += '<img src="img/teach_gray.png" class="left">';
+        html += '<p>Already '+categories[i].name+'?</p><br/>'; 
+        html += '<p><a href="teach.html">Help teach other business owners!</a></p>';
         html += '</div>';
-        
-        html += '</div>';
+        html += '</div></div>';
         html += '<hr class="col-offset-1 col-lg-10">';
       }
 

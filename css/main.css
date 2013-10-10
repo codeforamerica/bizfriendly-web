@@ -304,11 +304,7 @@ hr {
 #close-lesson {
 	display:none;
 }
-
-#open {
-	margin: 0 auto;
-}
- /*END POSITION*/
+/*END POSITION*/
 
 
 /*COLORS*/
@@ -559,6 +555,7 @@ ul{
 
 #teach-callout img {
 	padding-right: 10px;
+	margin-bottom: 20px;
 }
 
 #teach-callout p{
