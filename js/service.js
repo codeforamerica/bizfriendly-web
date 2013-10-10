@@ -45,7 +45,7 @@ var service = (function (service) {
     $("#tips").html(service.tips)
     $("#additional-resources").html(service.additional_resources);
     $("#tips").html(service.tips)
-    $("#service-media").attr("src",service.media);
+    $("#service-media").html(service.media);
     _lessonTable();
     $("#teach-callout .service-name").text(service.name);
   }
@@ -69,13 +69,18 @@ var service = (function (service) {
           console.log(error);
         }
       }).done(function(){
+        console.log(lessons);
         html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
-        html += '<br/><p class="author-name">Created by '+BfUser.name+'</p></td>';
+        html += '<br/><p class="author-name">Created by '+_getCreatorName(lessons[i])+'</p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
         $("#tbody").append(html);
         $(".instructions-link").click(_instructionsLinkClicked)
       })
     })
+  }
+
+  function _getCreatorName(){
+    // 
   }
 
 
