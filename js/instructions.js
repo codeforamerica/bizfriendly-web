@@ -429,6 +429,7 @@ var instructions = (function (instructions) {
       $('#li-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/linkedin/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $("#next").hide();
       $("#back").hide();
+      $("#close-lesson").show();
       $("#additional-resources").click(function(evt){
         window.opener.location.href = "service.html?"+serviceId;
         window.close();
@@ -437,6 +438,11 @@ var instructions = (function (instructions) {
         window.opener.location.href = "learn.html";
         window.close();
       });
+    } else {
+      // Show controls
+      $("#next").show();
+      $("#back").show();
+      $("#close-lesson").hide();
     }
 
     // Add example popover clicker

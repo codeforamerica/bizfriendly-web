@@ -268,7 +268,7 @@ hr {
 #instructions section{
 	position: relative;
 	top: -10px;
-	height: 350px;
+	height: 400px;
 }
 
 #elements .draggable {
@@ -299,6 +299,10 @@ hr {
 #step-text-content {
 	margin: 15px auto;
 	width: 310px;
+}
+
+#close-lesson {
+	display:none;
 }
  /*END POSITION*/
 
