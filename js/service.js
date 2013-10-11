@@ -71,16 +71,19 @@ var service = (function (service) {
       }).done(function(){
         console.log(lessons);
         html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
-        html += '<br/><p class="author-name">Created by '+_getCreatorName(lessons[i])+'</p></td>';
+        html += '<br/><p class="author-name">Created by <span class="author-name'+lessons[i].creator_id+'"></span></p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
         $("#tbody").append(html);
         $(".instructions-link").click(_instructionsLinkClicked)
+        _getCreatorName(lessons[i].id);
       })
     })
   }
 
-  function _getCreatorName(){
-    // 
+  function _getCreatorName(lessonId){
+    $.getJSON(config.bfUrl+config.bfApiVersion+"/lessons/"+lessonId, function(response){
+      $('.author-name'+response.creator_id).text(response.creator.name);
+    })
   }
 
 
