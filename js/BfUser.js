@@ -81,7 +81,7 @@ var BfUser = (function (BfUser)  {
   function _badPost(response){
     response = $.parseJSON(response.responseText);
     console.log(response.error);
-    $('#feedback h2').addClass('alert alert-danger').html(response.error);
+    $('#alert h2').addClass('alert alert-danger').html(response.error);
   }
 
   // Send sign up info to server on signup click.
@@ -126,7 +126,7 @@ var BfUser = (function (BfUser)  {
       response = $.parseJSON(response);
       console.log(response.message);
       if (response.message == "Queued. Thank you."){
-        $('#feedback h2').removeClass('alert-danger').addClass('alert alert-success').text("Check your email.");
+        $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').text("Check your email.");
       }
     }).fail(_badPost);
   }
@@ -142,7 +142,7 @@ var BfUser = (function (BfUser)  {
       console.log(response);
       console.log(response.status);
       if (response.status == 200){
-        $('#feedback h2').removeClass('alert-danger').addClass('alert alert-success').text("Password reset.");
+        $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').text("Password reset.");
       }
     }).fail(_badPost);
   }
@@ -162,7 +162,7 @@ var BfUser = (function (BfUser)  {
     if (config.debug) console.log($.cookie('BfUser'));
 
     _updatePage();
-    $('#feedback h2').addClass('alert alert-success').html("Great. You're all signed up.");
+    $('#alert h2').addClass('alert alert-success').html("Great. You're all signed up.");
   };
 
   //Set User state based on sign in response
@@ -180,7 +180,7 @@ var BfUser = (function (BfUser)  {
       if (config.debug) console.log($.cookie('BfUser'));
 
       _updatePage();
-      $('#feedback h2').addClass('alert alert-success').html("Great. You're signed in.");
+      $('#alert h2').addClass('alert alert-success').html("Great. You're signed in.");
   };
 
   // Update page to reflect user state
