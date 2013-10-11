@@ -15,6 +15,11 @@ body {
 	overflow-x: hidden;
 }
 
+a {
+	color : #0F6095;
+	cursor: pointer;
+}
+
 .navbar, footer{
 	font-family: 'Open Sans';
 }
@@ -336,11 +341,6 @@ hr {
 
 /*END COLORS*/
 
-/* CURSOR*/
-a {
-	cursor: pointer;
-}
-/*END CURSOR*/
 .right {
 	float: right;
 }
