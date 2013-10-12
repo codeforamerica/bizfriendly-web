@@ -23,37 +23,50 @@
 </head>
 <body id="index" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
 	<header class="navbar navbar-static-top row">
         <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
             <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
+            <a id="bfUserName" href="profile.html"></a>
             <a id="signOutLink" href="#">| Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
-        <ul class="nav navbar-nav col-lg-10 col-sm-7">
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
+        <ul class="nav navbar-nav col-lg-10">
+            <li class="col-lg-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-lg-2  col-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
 	</header>
 
 	<section id="main" class="row">
-        <div id="main-video" class="col-lg-7 col-sm-7 col-offset-1">
-            <iframe src="http://player.vimeo.com/video/72077227" width="605" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        <div id="main-video" class="col-lg-4 col-offset-1">
+            <iframe src="//player.vimeo.com/video/72077227?byline=0&amp;portrait=0&amp;color=74bbd4" width="300" height="169" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
-		<div id="main-text" class="col-lg-3">
-			<h1>BizFriendly makes it easy to use the web for your business.</h1>
-            <a type="button" href="learn.html" class="btn btn-primary btn-large">Get Started</a>
-		</div>
+		<div id="main-text" class="col-offset-1 col-lg-4">
+			<h1 id="main-message">BizFriendly puts the web to work for your business.</h1>
+            <div class="center">
+                <a type="button" href="learn.html" class="btn btn-primary">Start Learning</a>
+		      </div>
+        </div>
     </section>
 
 	<section id="bottom" class="row">
-        <div class="col-lg-10 col-offset-1">
+        <div class="col-offset-1 col-lg-2 center">
+            <a href="learn.html">
+                <img src="img/learn-bulb.png">Find the latest web tools & learn the basics.
+            </a>
+        </div>
+        <div class="col-offset-1 col-lg-2 center">
+            <a href="teach.html">
+                <img src="img/teach-people.png">Teach others how you use the web.
+            </a>
+        </div>
+        <div class="col-offset-1 col-lg-2 center">
+            <a href="connect.html">
+                <img src="img/connect-people.png">Connect & compare to fellow learners & teachers.
+            </a>
+        </div>
+       <!--  <div class="col-lg-10 col-offset-1">
     		<div class="bottom_links bottom_links_spacer">
                 <a href="learn.html" onMouseOver="document.learn.src='img/learn-blue.png';" onMouseOut="document.learn.src='img/learn.png';">
                     <img src="img/learn.png" name="learn">
@@ -75,7 +88,7 @@
                     <p>to a community of learners and teachers.</p>
                 </a>
             </div>
-        </div>
+        </div> -->
 	</section>
 
 	<footer class="row">

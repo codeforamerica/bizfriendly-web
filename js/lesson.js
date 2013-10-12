@@ -1,6 +1,5 @@
 var lesson = (function (lesson) {
 
-  // Construction
   var lesson = {};
 
   // PUBLIC METHODS

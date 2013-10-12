@@ -1,6 +1,7 @@
 var connect = (function (connect) {
 
   // private properties
+  var user_id = BfUser.id;
 
   // PUBLIC METHODS
   // initialize variables and load JSON

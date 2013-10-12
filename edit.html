@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BizFriendly | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-select.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet">
+
+    <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
+    <script src="js/vendor/jquery-ui.js"></script>
+    <script src="js/vendor/jquery.jeditable.js"></script>
+    <script src="js/vendor/bootstrap.js"></script>
+    <script src="js/vendor/bootstrap-select.js"></script>
+    <script src="js/vendor/jquery.ui.widget.js"></script>
+    <script src="js/vendor/jquery.iframe-transport.js"></script>
+    <script src="js/vendor/jquery.fileupload.js"></script>
+
+
+
+    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body id="teach">
+    <div class="container">
+
+    <div class="row">
+        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
+    </div>
+
+   <header class="navbar navbar-static-top row">
+    <div id="signinlinks" class="pull-right">
+            <a id="signInLink" href="signin.html">Sign In</a>
+            <a id="signUpLink" href="signup.html" >| Sign Up</a>
+            <a id="bfUserName" href="profile.html"></a>
+            <a id="signOutLink" href="#">| Sign Out</a>
+        </div>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
+        <ul class="nav navbar-nav col-lg-10 col-sm-7">
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
+        </ul>
+    </header>
+    <div id="subheader" class="row">
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a href="#" class="active">Content Creator</a></li>
+            <li><a href="#">Teaching Guide</a></li>
+            <li><a href="#">Content Requests</a></li>
+        </ul>
+    </div>
+    <div id="subsubheader" class="row">
+        <div class="col-offset-3 col-lg-8">
+            <h2>Build your lesson by creating step instructions and feedback.</h2>
+            <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
+        </div>
+        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
+        </div>
+    </div>
+
+</div>
+
+    <div id="teach-main">
+        <section id="teach-content" class="container">
+            <form id="lesson-form" role="form" class="col-offset-3">
+                <div id="category" class="form-group">
+                    <label>Category</label>
+                    <br/>
+                    <button id="category-name" class="btn btn-default"></button>
+                </div>
+                <div id="service" class="form-group">
+                    <label>Webservice</label>
+                    <br/>
+                    <button id="service-name" class="btn btn-default"></button>
+                </div>
+            </form>
+            <div id="lesson-builder">
+                <div id="teach-dots" class="row">
+                    <div class="col-offset-5 col-lg-3">
+                        <a class="inline-block back"><img src="img/left.png"></a>
+                        <div id="current-dot" class="inline-block"></div>
+                        <a class="inline-block next"><img src="img/right.png"></a>
+                        <a id="add-new-step" class="inline-block">Add new step</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="elements" class="col-offset-2 col-lg-2">
+                        <h3>Elements</h3>
+                        <hr/>
+                        <ul>
+                            <li id="text-element-drag" class="draggable">Text</li>
+                            <li id="open-element-drag" class="draggable">Text & Open Button</li>
+                            <li id="image-element-drag" class="draggable">Image</li>
+                        </ul>
+                        <hr/>
+                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button>
+                        <ul id="step-options-list" class="hidden">
+                            <li id="login-element-drag" class="draggable">Text & Log In Button</li>
+                            <li id="text-entry-drag" class="draggable">Text Entry Field</li>
+                        </ul>
+                    </div>
+
+                    <div class="teach-column col-lg-4">
+                        <div id="teach-instructions" class="teach-box">
+                            <ul class="progress-dots list-unstyled list-inline center"></ul>
+                            <br />
+                            <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
+                            <p>Created by <span class="author-name"></span>.</p>
+                            <div id="step-texts">
+                            </div>
+                              <div id="teach-controls">
+                                  <button type="button" id="back" class="btn back">Back</button>
+                                  <button type="button" id="next" class="btn next">Next</button>
+                              </div>
+                        </div>
+                    </div>
+                    <div id="state-btns" class="col-lg-2">
+                        <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
+                        <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
+                        <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <div id="popover" class="hidden">
+        <div class="orange-square"></div>
+        <div class="blue-square"></div>
+        <div class="white-square"></div>
+    </div>
+
+    <div id="congrats-popover" class="hidden">
+        <img class="star-icon" src="img/star-icon.gif">
+        <img class="flag-icon" src="img/flag-icon.gif">
+        <img class="heart-icon" src="img/heart-icon.gif">
+        <img class="thumbs-up-icon" src="img/thumbs-up-icon.gif">
+    </div>
+
+    <div id="droppable-prototype" class="droppable temp step-text hidden">
+        <button type="button" class="close" aria-hidden="true">x</button>
+        <p class="temp-text">Drag elements here to create your step.</p>
+    </div>
+
+    <div id="text-prototype" class="text-element hidden">
+        <p class="bold">Click to edit text.</p>
+        <p>Click to edit text.</p>
+    </div>
+
+    <div id="open-prototype" class="open-element hidden">
+        <p class="bold">Click to edit text.</p>
+        <button id="open" type="button" class="btn btn-default">Open</button>
+    </div>
+
+    <div id="login-prototype" class="login-element hidden">
+        <p class="bold">Click to edit text.</p>
+        <button type="button" class="btn btn-default">Log In To <span class="service-name"></span></button>
+    </div>
+
+    <div id="text-entry-prototype" class="text-entry-element hidden">
+        <p class="bold">Click to edit text.</p>
+        <p>Click to edit text.</p>
+        <input type="text"></input>
+    </div>
+
+    <div id="image-prototype" class="image-element hidden">
+        <p class="bold">Click to edit text.</p>
+        <p>Click to edit text.</p>
+        <form id="img-upload-form" class="form-horizontal">
+            <label for="img-upload">Upload an image</label>
+            <input id="fileupload" type="file" name="files[]">
+            <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+            <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
+        </form>
+    </div>
+
+    <div id="congrats-prototype" class="active hidden center">
+        <h3 class="element-editable">Celebrate your growing business!</h3>
+        <img class="congrats-img" src="img/celebration_like.gif">
+        <h3>Share Your Success</h3>
+        <ul class="list-inline">
+          <li><a id="fb-share" href="#" rel="nofollow"><img src="img/celebration_fb.gif"></a></li>
+          <li><a id="tw-share" href="#" rel="nofollow"><img src="img/celebration_twitter.gif"></a></li>
+          <li><a id="g-share" href="#" rel="nofollow"><img src="img/celebration_g+.gif"></a></li>
+          <li><a id="li-share" href="#" rel="nofollow"><img src="img/celebration_li.gif"></a></li>
+        </ul>
+        <button id="additional-resources" type="button" class="btn btn-default btn-block">Additional Resources</button>
+        <button id="more-lessons" type="button" href="#" class="btn btn-default btn-block">More Lessons</button>
+        <!-- <button type="button" class="btn btn-default btn-block">Invite A Friend</button> -->
+      </div>
+
+    <!-- Ghost Form -->
+    <form name="preview" target="instructions">
+        <input type=hidden name="lessonName" value="">
+        <input type=hidden name="steps" value="">
+    </form>
+
+     <!-- Modal -->
+  <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Nice Work!</h4>
+        </div>
+        <div class="modal-body">
+            <b>You created a new service called <span class="lesson-name orange"></span></b>
+            <p>To ensure high quality content on BizFriend.ly, your lesson will be reviewed before it goes live.</p>
+            <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
+            <a type="button" class="btn btn-default">See What You've Created</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+    <footer class="row">
+        <ul class="list-unstyled list-inline col-lg-12">
+            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
+            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
+            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        </ul>
+    </footer>
+</body>
+    <script src="js/config.js"></script>
+    <script type="text/javascript" src="js/BfUser.js"></script>
+    <script type="text/javascript" src="js/edit.js"></script>
+</html>

@@ -4,12 +4,12 @@ var BfUser = (function (BfUser)  {
   var email = "";
   var bfAccessToken = "";
   var signedIn = false;
-
   ///// PUBLIC METHODS /////
   function init(){
     if (config.debug) console.log("Init BfUser.");
     var userData = _readUserCookie();
     if (userData){
+      BfUser.id = userData.id;
       BfUser.name = userData.name;
       BfUser.email = userData.email;
       BfUser.bfAccessToken = userData.access_token;
@@ -27,7 +27,11 @@ var BfUser = (function (BfUser)  {
     $('#bfSignIn').click(_signInClicked);
     // SignOut clicked, clear state cookie
     $('#signOutLink').click(_signOutClicked);
-    // Setup page based on signin state
+    // A password reset is requested
+    $('#request-password-reset-btn').click(_requestPasswordResetClicked);
+    // The password is reset
+    $('#password-reset-btn').click(_passwordResetClicked);
+  // Setup page based on signin state
     _updatePage();
   };
   // Make a post to server with API access token appended
@@ -49,14 +53,14 @@ var BfUser = (function (BfUser)  {
     var cookieData = $.cookie('BfUser');
     // Cookie doesn't exist, create it
     if (cookieData == undefined) {
-      _setUserCookie("", "", false, "");
+      _setUserCookie("", "", "", false, "");
     }
     return cookieData;
   };
   // Set the user state cookie
-  function _setUserCookie(name, email, status, access_token){
+  function _setUserCookie(id, name, email, status, access_token){
     $.cookie.json = true;
-    var setData = {name: name, email: email, signedIn: status, 
+    var setData = {id: id, name: name, email: email, signedIn: status, 
       access_token: access_token};
     $.cookie('BfUser', setData, {expires:7, path: '/'});
     return true;
@@ -77,26 +81,26 @@ var BfUser = (function (BfUser)  {
   function _badPost(response){
     response = $.parseJSON(response.responseText);
     console.log(response.error);
-    $('#feedback h2').addClass('alert alert-danger').html(response.error);
+    $('#alert h2').addClass('alert alert-danger').html(response.error);
   }
 
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
     if (config.debug) console.log("Submitting signup info.")
       newUser = {
-        name : $('#signup-name').val(),
-        email : $('#signup-email').val(),
-        password : $('#signup-password').val()
+        name : $('#name').val(),
+        email : $('#email').val(),
+        password : $('#password').val()
     }
     if (config.debug) console.log(newUser);
-    $.post(config.bfUrl + '/signup', newUser, _signedIn).fail(_badPost);
+    $.post(config.bfUrl + '/signup', newUser, _signedUp).fail(_badPost);
   }
 
   // Send sign in info to server on signin click.
   function _signInClicked(event){
     returningUser = {
-      email : $('#signin-email').val(),
-      password : $('#signin-password').val()
+      email : $('#email').val(),
+      password : $('#password').val()
     };
     if (config.debug) console.log(returningUser);
     $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
@@ -104,60 +108,79 @@ var BfUser = (function (BfUser)  {
 
   // Sign out clicked, clear user state/cookie
   function _signOutClicked(event){
+    BfUser.id = "";
     BfUser.email = "";
     BfUser.name = "";
     BfUser.signedIn = false;
     BfUser.access_token = "";
     $.removeCookie('BfUser');
-    // _setUserCookie("", "", false, "");
     _updatePage();
+    window.open("signin.html", "_self");
   }
-  // // Set User state based on sign up response
-  // function _signedUp(response) {
-  //   if (config.debug) console.log(response);
-  //   // Set User state based on login
-  //   if (response.status == 200) {
-  //     BfUser.email = response.email;
-  //     BfUser.bfAccessToken = response.access_token;
-  //     BfUser.signedIn = true;
-  //     BfUser.name = response.name;
+
+  // A password reset is requested
+  function _requestPasswordResetClicked(response){
+    var email = {"email" : $('#reset-email').val()}
+    $.post(config.bfUrl+'/request_password_reset',email, function(response){
+      if (config.debug) console.log(response);
+      response = $.parseJSON(response);
+      console.log(response.message);
+      if (response.message == "Queued. Thank you."){
+        $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').text("Check your email.");
+      }
+    }).fail(_badPost);
+  }
+
+  // THe new password is sent in
+  function _passwordResetClicked(response){
+    var postData = {
+      "email" : $('#reset-email').val(),
+      "password" : $('#reset-password-field').val(),
+      "resetToken" : window.location.search.split('?')[1]
+    }
+    $.post(config.bfUrl+'/password_reset', postData, function(response){
+      console.log(response);
+      console.log(response.status);
+      if (response.status == 200){
+        $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').text("Password reset.");
+      }
+    }).fail(_badPost);
+  }
+
+  // SignedUp successful
+  function _signedUp(response){
+    if (config.debug) console.log(response);
+    BfUser.id = response.id;
+    BfUser.email = response.email
+    BfUser.bfAccessToken = response.access_token;
+    BfUser.signedIn = true;
+    BfUser.name = response.name;
     
-  //     // Set a cookie!
-  //     $.removeCookie('BfUser');
-  //     _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-  //     if (config.debug) console.log($.cookie('BfUser'));
+    // Set a cookie!
+    $.removeCookie('BfUser');
+    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+    if (config.debug) console.log($.cookie('BfUser'));
 
-      
-  //     window.location.replace('/')
-
-  //   }
-  //   else if (response.status == 403){
-  //     $('#feedback h2').addClass('alert alert-danger').html('Email already registered.');
-  //   }
-  // };
+    _updatePage();
+    $('#alert h2').addClass('alert alert-success').html("Great. You're all signed up.");
+  };
 
   //Set User state based on sign in response
   function _signedIn(response){
     if (config.debug) console.log(response);
-    if (response.status == 200) {
-      BfUser.email = response.email.toLowerCase();
-      BfUser.bfAccessToken = response.access_token;
-      BfUser.signedIn = true;
-      BfUser.name = response.name;
+    BfUser.id = response.id;
+    BfUser.email = response.email
+    BfUser.bfAccessToken = response.access_token;
+    BfUser.signedIn = true;
+    BfUser.name = response.name;
 
-      // Set a cookie!
+    // Set a cookie!
       $.removeCookie('BfUser');
-      _setUserCookie(BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+      _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
       if (config.debug) console.log($.cookie('BfUser'));
 
-      // TODO: fix this flow
-      window.location.replace('/')
-
-    }
-    else if (response.status == 403){
-      console.log(response);
-      $('#feedback h2').addClass('alert alert-danger').html(response.error);
-    }
+      _updatePage();
+      $('#alert h2').addClass('alert alert-success').html("Great. You're signed in.");
   };
 
   // Update page to reflect user state
@@ -185,19 +208,10 @@ var BfUser = (function (BfUser)  {
     var cookieData = $.cookie('BfUser');
     // Cookie doesn't exist, create it
     if (cookieData == undefined) {
-      _setUserCookie("", "", false, "");
+      _setUserCookie("", "", "", false, "");
     }
     return cookieData;
-  };
-
-  // Set the user state cookie
-  function _setUserCookie(name, email, status, access_token){
-    $.cookie.json = true;
-    var setData = {name: name, email: email, signedIn: status, 
-      access_token: access_token};
-    $.cookie('BfUser', setData, {expires:7, path: '/'});
-    return true;
-  };  
+  }; 
 
   // Remember the access token of a service connection
   function create_connection(data, successFunc) {
@@ -234,6 +248,11 @@ var BfUser = (function (BfUser)  {
     _tokenPost(config.bfUrl + '/get_attributes', data, successFunc)
   };
 
+  // Get attributes
+  function postRating(data, successFunc) {
+    _tokenPost(config.bfUrl + '/post_rating', data, successFunc)
+  };
+
   // add public methods to the returned module and return it
   BfUser.init = init;
   BfUser.record_step = record_step;
@@ -243,6 +262,7 @@ var BfUser = (function (BfUser)  {
   BfUser.check_attribute_for_value = check_attribute_for_value;
   BfUser.check_attribute_for_update = check_attribute_for_update;
   BfUser.get_attributes = get_attributes;
+  BfUser.postRating = postRating;
 
   return BfUser;
 }(BfUser || {}));

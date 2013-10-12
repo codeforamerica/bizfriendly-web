@@ -5,6 +5,7 @@ var instructions = (function (instructions) {
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
   var lesson = {};
+  var service = {};
   var steps = [];
   var step = {};
   var oauthToken = null;
@@ -14,6 +15,13 @@ var instructions = (function (instructions) {
   var originalCount = false;
   var originalAttributeValues = false;
   var challengeWindow;
+  var user_id;
+  var feedback;
+
+  // variables for meta lesson
+  var userName;
+  var city;
+  var state;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -34,6 +42,9 @@ var instructions = (function (instructions) {
     lesson = response;
     // Set the name of the lesson
     $('#instructions-title').html(lesson.name);
+    // Set author name
+    console.log(lesson);
+    $('#author-name').text(lesson.creator.name);
     // Make sure steps are in order of id
     _orderSteps();
     // Convert python names to javascript names
@@ -52,6 +63,7 @@ var instructions = (function (instructions) {
     // Adds button event handlers
     $('#back').click(_backClicked);
     $('#next').click(_nextClicked);
+    $("#close-lesson").click(function(evt){window.close();});
     $('li.progress-button').click(_progressClicked);
   }
 
@@ -79,7 +91,6 @@ var instructions = (function (instructions) {
     $(steps).each(function(i){
       step = {
         id : steps[i].id,
-        name : steps[i].name,
         stepType : steps[i].step_type,
         stepNumber : steps[i].step_number,
         stepText : steps[i].step_text,
@@ -116,12 +127,8 @@ var instructions = (function (instructions) {
   function _makeProgressBar(){
     if (config.debug) console.log('making progress bar');
     $(steps).each(function(i){
-        $('#progress').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
+        $('.progress-dots').append('<li id="step'+steps[i].stepNumber+'_progress" class="progress-button" data-target="'+steps[i].stepNumber+'"></li>');
     });
-    // Todo: Need to account for 12 possible steps
-    // var widthPercent = '';
-    // widthPercent = 100/steps.length+'%';
-    // $('#progress li').attr('width',widthPercent);
   }
 
   // Update the progress bar
@@ -142,24 +149,8 @@ var instructions = (function (instructions) {
     _stepTransition();
     if (config.debug) console.log('showing step');
     $('section').attr('id','step'+currentStep.stepNumber);
-    // $('section h2').html(currentStep.name);
-    $('.step_text').html(currentStep.stepText);
-    $('.feedback').html(currentStep.feedback);
-    // Set step_text back to visible and hide others
-    if ($('.step_text').css('display') == 'none'){
-      $('.step_text').toggle();
-    }
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
-    if ($('#next').hasClass('animated pulse')){
-      $('#next').removeClass('animated pulse');
-    }
-    if ($('#congrats').css('display') == 'block'){
-      // $('#additional-resource').attr('href=http://bizfriend.ly/lesson.html?'+lessonId);
-      // $('#additional-resource').attr('target','_parent');
-      $('#congrats').toggle();
-    }
+    $('#step-text-content').html(currentStep.stepText);
+    $('#feedback-content').html(currentStep.feedback);
   }
 
   function _stepTransition(){
@@ -168,20 +159,8 @@ var instructions = (function (instructions) {
 
   // next button is clicked
   function _nextClicked(evt){
-    if (config.debug) console.log("CURRENT EVENT IS: " + currentStep.stepNumber);
     if (currentStep.stepNumber < steps.length){
-      currentStep = steps[currentStep.stepNumber];
-      _updateStepsStates();
-      _updateProgressBar();
-      // Record most recent opened step 
-      postData = {
-        currentStep : currentStep,
-        lessonName : lesson.name,
-        lessonId : lesson.id,
-      }
-      BfUser.record_step(postData, _recordedStep);
-      _showStep();
-      _checkStep();
+      _goToNextStep();
     }
   }
 
@@ -199,11 +178,6 @@ var instructions = (function (instructions) {
   // progress circle li element is clicked
   function _progressClicked(evt) {
     console.log("Clicked Step: " + $(this).attr('data-target'));
-    
-    if (currentStep.stepNumber == steps.length) {
-      // toggle congrats off if already on last step
-      _showCongrats();
-    }
     currentStep = steps[$(this).attr('data-target') - 1];
     _updateStepsStates();
     _updateProgressBar();
@@ -213,19 +187,20 @@ var instructions = (function (instructions) {
 
   // login clicked
   function _loginClicked(evt){
-    if (config.debug) console.log('Logging into '+lesson.third_party_service);
+    service = lesson.service.name.toLowerCase();
+    if (config.debug) console.log('Logging into '+service);
     OAuth.initialize('uZPlfdN3A_QxVTWR2s9-A8NEyZs');
     var options;
-    if (lesson.third_party_service == 'facebook'){
+    if (service == 'facebook'){
       options = {authorize:{display:"popup"}};
     }
-    if (lesson.third_party_service == 'foursquare'){
+    if (service == 'foursquare'){
       options = {authorize:{display:"touch"}};
     }
-    if (lesson.third_party_service == 'trello'){
+    if (service == 'trello'){
       options = {authorize:{name:"BizFriendly",expiration:"never"}};
     }
-    OAuth.popup(lesson.third_party_service, options, function(error, result) {
+    OAuth.popup(service, options, function(error, result) {
       //handle error with error
       if (error) console.log(error);
       if (config.debug) console.log(result);
@@ -238,7 +213,7 @@ var instructions = (function (instructions) {
       }
 
       // Add connection to server db
-      var data = {service: lesson.third_party_service, service_access: oauthToken}
+      var data = {service: service, service_access: oauthToken}
       BfUser.create_connection(data, _createdConnection);
 
       // Check first step
@@ -246,19 +221,133 @@ var instructions = (function (instructions) {
     }); 
   }
 
+  function _goToNextStep(){
+    $("#feedback").modal("hide");
+    currentStep = steps[currentStep.stepNumber];
+    _updateStepsStates();
+    _updateProgressBar();
+    // Record most recent opened step
+    postData = {
+        currentStep : currentStep,
+        lessonName : lesson.name,
+        lessonId : lesson.id,
+      }
+    if (lesson.name != 'Welcome to BizFriendly'){
+      BfUser.record_step(postData, _recordedStep);
+    }
+    _showStep();
+    _checkStep();
+  }
+
   // Check steps
   function _checkStep(){
-    if (config.debug) console.log(currentStep.name);
 
+    if (config.debug) console.log(currentStep);
     // Create postData
     postData = {
       currentStep : currentStep,
       rememberedAttribute : rememberedAttribute,
       lessonName : lesson.name,
       lessonId : lesson.id,
-      thirdPartyService : lesson.third_party_service,
+      thirdPartyService : service,
       originalCount : false,
       originalAttributeValues : false
+    }
+
+    if (currentStep.stepType == 'meta_intro'){
+      // Get the users name
+      $("#userInputSubmit").click(function(evt){
+        userName = $('#userInput').val();
+        $('.responseDisplay').text(userName);
+        $('.feedback').toggle();
+        $('.step_text').toggle();
+      });
+    }
+
+    if (currentStep.stepType == 'meta_location'){
+      // Get the users name
+      $.getJSON('http://ip-api.com/json', function(response){
+        city = response.city;
+        state = response.regionName;
+        $('.cityName').text(city);
+        $('.stateName').text(state);
+        rememberedAttribute = 'find_loc='+city+',+'+state
+        rememberedAttribute = rememberedAttribute.replace(' ','+');
+      });
+
+      // Check with them if location was correct
+      $('#yes').click(function(evt){
+        _goToNextStep();
+      });
+      // If no, then take in the new address
+      $('#no').click(function(evt){
+        $('.feedback').toggle();
+        $('#feedbackYes').hide();
+        $('.step_text').toggle();
+        // Get new city, state and go to the next step.
+        $('#userInputSubmit').click(function(evt){
+          city = $('#userInputCity').val();
+          state = $('#userInputState').val();
+          rememberedAttribute = 'find_loc='+city+',+'+state
+          rememberedAttribute = rememberedAttribute.replace(' ','+');
+          _goToNextStep();
+        });
+      });
+    }
+
+    if (currentStep.stepType == 'meta_search'){
+      // Did they find their biz?
+      $('.yes').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').show();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      // If no, then search again
+      $('.no').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').show();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      $('.no2').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').show();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      $('.yes3').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').show();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').hide()
+        $('.step_text').hide();
+      });
+      $('.no3').click(function(evt){
+        $('.feedback').show();
+        $('.feedbackYes').hide();
+        $('.feedbackYes3').hide();
+        $('.feedbackNo').hide();
+        $('.feedbackNo2').hide();
+        $('.feedbackNo3').show()
+        $('.step_text').hide();
+      });
+    }
+
+    if (currentStep.stepType == 'meta_signup'){
+      console.log('meta_signup');
+      $('#signup-name').val(userName);
     }
 
     // If step type is login
@@ -274,12 +363,12 @@ var instructions = (function (instructions) {
 
     // If step type is open
     if (currentStep.stepType == 'open'){
-      $(".open").click(_openClicked);
+      $("#open").click(_openClicked);
     }
 
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && oauthToken){
-      console.log(originalCount);
+      console.log("ORIGINAL COUNT: "+originalCount);
       // This step fires at least twice. First time it just gets the originalCount
       // Every following time it compares the number of objects to the originalCount
       if ( originalCount !== false ){
@@ -305,7 +394,7 @@ var instructions = (function (instructions) {
       $('#userInputSubmit').click(function(evt){
         var userInput = $('#userInput').val();
         // If Foursquare, get venue id from input URL.
-        if (lesson.third_party_service == 'foursquare'){
+        if (service == 'foursquare'){
           var userInputPath = userInput.split( '/' );
           rememberedAttribute = userInputPath.pop();
         }
@@ -337,14 +426,22 @@ var instructions = (function (instructions) {
       $('#tw-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/twitter/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId+'&text=I just finished '+lesson.name+' with help from BizFriendly!');
       $('#g-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/google_plusone_share/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
       $('#li-share').attr('href', 'http://api.addthis.com/oexchange/0.8/forward/linkedin/offer?pubId=ra-52043c6b31185dab&url=http://bizfriend.ly/lesson.html?'+lessonId);
-      $('#additional-resources').click(function(evt){
+      $("#next").hide();
+      $("#back").hide();
+      $("#close-lesson").show();
+      $("#additional-resources").click(function(evt){
+        window.opener.location.href = "service.html?"+serviceId;
         window.close();
       });
-      $('#more-lessons').click(function(evt){
-        window.opener.location.href='learn.html';
+      $("#more-lessons").click(function(evt){
+        window.opener.location.href = "learn.html";
         window.close();
       });
-      _showCongrats();
+    } else {
+      // Show controls
+      $("#next").show();
+      $("#back").show();
+      $("#close-lesson").hide();
     }
 
     // Add example popover clicker
@@ -355,9 +452,8 @@ var instructions = (function (instructions) {
 
   // They are loggedIn
   function _loggedIn(){
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
   }
 
   // Saved a connection in the db
@@ -384,27 +480,17 @@ var instructions = (function (instructions) {
 
   // .open is clicked
   function _openClicked(evt){
+    // If url has replace_me in it, replace with rememberedAttribute
+    console.log(currentStep.triggerEndpoint);
+    console.log(rememberedAttribute);
+    if(currentStep.triggerEndpoint.indexOf('replace_me') != -1){
+      currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replace_me',rememberedAttribute);
+    }
     _openChallengeWindow(currentStep.triggerEndpoint);
     
     // Advance to next step
-    currentStep = steps[currentStep.stepNumber];
-    if ($('.feedback').css('display') == 'block'){
-      $('.feedback').toggle();
-    }
-    if ($('.step_text').css('display') == 'none'){
-      $('.step_text').toggle();
-    }
-    _updateStepsStates();
-    _updateProgressBar();
-    // Record most recent opened step
-    postData = {
-        currentStep : currentStep,
-        lessonName : lesson.name,
-        lessonId : lesson.id,
-      }
-    BfUser.record_step(postData, _recordedStep);
-    _showStep();
-    _checkStep();
+    $("#feedback").modal("show");
+    $("#feedback-next").click(_goToNextStep);
   }
 
   // A new object is added at a url endpoint
@@ -425,10 +511,9 @@ var instructions = (function (instructions) {
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
       // Cancel out originalCount!!!
       originalCount = false;
     }
@@ -441,10 +526,9 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if ( response.attribute_exists ){
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
     }
   }
 
@@ -455,15 +539,9 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      if (lesson.third_party_service == 'facebook'){
-        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').attr('src',response.attribute_to_display);
-      }
-      if ( lesson.third_party_service == 'foursquare'){
-        $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      }
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
     }
   }
 
@@ -485,10 +563,9 @@ var instructions = (function (instructions) {
     if ( response.attribute_value_updated ){
       // Remember the attribute!
       // rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .feedback .responseDisplay').html(response.attribute_to_display);
-      $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-      $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-      $('#next').addClass('animated pulse');
+      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
+      $("#feedback").modal("show");
+      $("#feedback-next").click(_goToNextStep);
       // Cancel out original attributes!!!
       originalAttributeValues = false;
     }
@@ -501,17 +578,50 @@ var instructions = (function (instructions) {
     $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
     $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
     $('#step'+currentStep.stepNumber+' .feedback #attribute-3').html(response.attribute_3);
-    $('#step'+currentStep.stepNumber+' .step_text').css('display','none');
-    $('#step'+currentStep.stepNumber+' .feedback').css('display','block');
-    $('#next').addClass('animated pulse');
+    $("#feedback").modal("show");
+    $("#feedback-next").click(_goToNextStep);
   }
 
-  function _showCongrats(){
-    $('section h2').toggle();
-    $('.step_text').toggle();
-    $('#controls').toggle();
-    $('#congrats').css('display','block');
-  }
+  // $(function () {
+  //   $("#rating-handle").click(function () {
+  //     if ($(this).parent().hasClass("popped")) {
+  //       $(this).parent().animate({right:'-310px'}, {queue: false, duration: 500}).removeClass("popped");
+  //   } else {
+  //     $(this).parent().animate({right: "-100px" }, {queue: false, duration: 500}).addClass("popped");}
+  //   });
+  // });
+
+  // $("#rating-stars").raty();
+  // _getUserId();
+
+  // $("#rating-btn").click(function(evt){
+  //   var rating = $("#rating-stars").raty('score');
+  //   if (rating == null){
+  //     rating = null;
+  //   }
+  //   newRating = {
+  //     rating : rating,
+  //     lesson_or_step : "step",
+  //     lesson_or_step_id : currentStep.id,
+  //     user_id : user_id,
+  //     feedback : $('#rating-feedback').val()
+  //   }
+
+  //   if (config.debug) console.log(BfUser.name, user_id);
+
+  //   $.ajax({
+  //       type: "POST",
+  //       contentType: "application/json",
+  //       url: config.bfUrl+config.bfApiVersion+'/ratings',
+  //       data: JSON.stringify(newRating),
+  //       dataType: "json",
+  //       success : function(response, textStatus, jqxhr){
+  //         if (config.debug) console.log(jqxhr.status);
+  //       }
+  //     });
+  // });
+
+  
 
   // add public methods to the returned module and return it
   instructions.init = init;

@@ -23,18 +23,14 @@
 
 <body id="signin" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
     <header class="navbar navbar-static-top row">
         <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
             <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
+            <a id="bfUserName" href="profile.html"></a>
             <a id="signOutLink" href="#">| Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
@@ -46,18 +42,20 @@
         <h1 class="col-offset-3">Returning to BizFriendly?</h1>
         <form id="signin-form" class="col-lg-6 col-offset-3">
             <div class="form-group">   
-              <input type="email" id="signin-email" class="form-control" placeholder="jane.doe@email.com">
-              <label for="signin-email">Email</label>
+              <input type="email" id="email" class="form-control" placeholder="jane.doe@email.com">
+              <label for="email">Email</label>
             </div>
             <div class="form-group">
-              <input type="password" id="signin-password" class="form-control" >
-              <label for="signin-password">Password</label>
+              <input type="password" id="password" class="form-control" >
+              <label for="password">Password</label>
             </div>
             <button type="button" class="btn btn-primary" id="bfSignIn">Sign In</button>
+            <a class="blue" href="request-password-reset.html">Reset Password</a>
         </form>
+        
     </section>
 
-    <section id="feedback" class="row">
+    <section id="alert" class="row">
         <h2 class="col-lg-6 col-offset-3"></h2>
     </section>
 
