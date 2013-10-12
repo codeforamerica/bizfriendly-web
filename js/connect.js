@@ -21,48 +21,33 @@ var connect = (function (connect) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
-    if (config.debug) console.log(response);
-    var most_recent;
-    var user_lesson_count = {};
-    var html;
-    // Last object with a completed date
+    // if (config.debug) console.log(response);
+    _checkIfLoggedIn();
+
     $.each(response.objects, function(i){
-      // Get the most recent completed lesson
+      // console.log(response.objects[i]);
       if (response.objects[i].end_dt){
-        most_recent = response.objects[i];
-      }
-      // Count how many completed by each user
-      if (response.objects[i].user.name in user_lesson_count){
-        user_lesson_count[response.objects[i].user.name] = user_lesson_count[response.objects[i].user.name] + 1
-      } else {
-        user_lesson_count[response.objects[i].user.name] = 1
+        console.log(response.objects[i]);
+        var html = response.objects[i].user.name;
+        html += " recently finished ";
+        html += '<a href="service.html?'+response.objects[i].lesson.service_id+'">'+response.objects[i].lesson.name+'</a>';
+        $("#recent-activity").append(html);
       }
     })
-    // Display most recent lesson
-    var recentHtml = most_recent["user"]["name"]
-         + ' recently finished <a href="http://staging.bizfriend.ly/lesson.html?'
-         + most_recent["lesson"]["id"]
-         + '">' + most_recent["lesson"]["name"] + '</a>'
-    $("#recent-content").html(recentHtml);
-    
-    // Display top learners
-    if (config.debug) console.log(user_lesson_count);
-    for (name in user_lesson_count){
-      html += '<tr>'
-           + '<td>'+name+'</td>'
-           +  '<td>'+user_lesson_count[name]+'</td>'
-           + '</tr>';
-    }
-    $('#top-learners-content table tbody').html(html);
   }
 
-  function _updateTableForLessonsCompleted(user_lesson_count) {
-    // $('#top-learners-content table tbody')
-    for (name in user_lesson_count){
-      if (config.debug) console.log(name);
+  function _checkIfLoggedIn(){
+    // Check if user is logged in
+    // If not, dont let them build a lesson
+    // If so, show their name as the author
+    if (!BfUser.bfAccessToken){
+      $('#main').hide();
+      $('.login-required').show();
+    } else {
+      // if (config.debug) console.log('Logged In');
+      $(".user-name").text(BfUser.name);
     }
   }
-
 
   // add public methods to the returned module and return it
   connect.init = init;

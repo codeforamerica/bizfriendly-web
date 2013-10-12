@@ -1072,6 +1072,19 @@ section .btn{
 	line-height: 48px;
 }
 
+#recent-activity {
+	margin-left: 25px;
+	color: #004E84;
+	font-weight: 700;
+}
+
+#recent-activity h1 {
+	text-align: center;
+	background-color: #FF8C66;
+	color: #ff4000;
+	line-height: 48px;
+}
+
 .activity{
 	/*height : 150px;*/
 }

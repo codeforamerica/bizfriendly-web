@@ -17,6 +17,7 @@
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/moment.js"></script>
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
@@ -39,36 +40,46 @@
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
     </header>
-    <div id="subnav" class="row">
-        <div class="col-lg-1 col-offset-3">
-            <img src="img/connect-gray.gif">
+     <div id="subnav" class="row">
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a href="profile.html" class="active">Your Profile</a></li>
+            <li><a>Invite A Friend</a></li>
+        </ul>
+    </div>
+    <div id="subheader" class="row">
+        <div class="col-offset-3 col-lg-8">
+            <h2>Nice work! Here's where you can see everything you've done on BizFriend.ly</h2>
         </div>
-        <div class="col-lg-8">
-            <p>See what other business owners are learning on BizFriend.ly</p>
+        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
         </div>
     </div>
 
-    <section id="recent" class="row">
-        <h2 class="blue col-offset-3 col-lg-6">Recent Activity</h2>
-        <div id="recent-content" class="col-offset-3 col-lg-6">
+    <section id="main" class="row">
+        <div id="profile-info" class="col-offset-2 col-lg-3">
+            <h1>Hi, <span class="user-name">Jane Doe</span></h1>
+            <p class="location">Location: </p>
+            <p class="biz-name">Business Name: </p>
+            <div>
+                <a id="profile-li"><img src="img/profile-li-icon.png"></a>
+                <a id="profile-g+"><img src="img/profile-g+-icon.png"></a>
+                <a id="profile-fb"><img src="img/profile-fb-icon.png"></a>
+                <a id="profile-twitter"><img src="img/profile-twitter-icon.png"></a>
+                <a id="profile-site"><img src="img/profile-site-icon.png"></a>
+            </div>
+            <p class="profile-description">Brief intro to the community.</p>
+            <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
+        </div>
+        <div id="recent-activity" class="col-lg-6">
+            <div id="site-activity" class="activity">
+                <h1>Latest Activity</h1>
+                <div class="row">
+                    <div id="recent-activity"></div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="top-learners" class="row">
-        <h2 class="blue col-offset-3 col-lg-6">Top Learners</h2>
-        <div id="top-learners-content" class="col-offset-3 col-lg-6">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Number of Lessons</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-        </div>
-    </section>
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
