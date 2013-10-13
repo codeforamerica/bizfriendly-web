@@ -181,12 +181,16 @@ var BfUser = (function (BfUser)  {
     BfUser.name = response.name;
 
     // Set a cookie!
-      $.removeCookie('BfUser');
-      _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-      if (config.debug) console.log($.cookie('BfUser'));
+    $.removeCookie('BfUser');
+    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+    if (config.debug) console.log($.cookie('BfUser'));
 
-      _updatePage();
-      $('#alert h2').addClass('alert alert-success').html("Great. You're signed in.");
+    // disable input fields and button when successfully signed up
+    $('#signin-form input').attr("disabled", "disabled");
+    $('#bfSignIn').attr("disabled", "disabled");
+
+    _updatePage();
+    $('#alert h2').addClass('alert alert-success').html("Great. You're signed in.");
   };
 
   // Update page to reflect user state
