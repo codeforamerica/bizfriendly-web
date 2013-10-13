@@ -6,14 +6,24 @@ var BfUser = (function (BfUser)  {
   var signedIn = false;
   ///// PUBLIC METHODS /////
   function init(){
+
     if (config.debug) console.log("Init BfUser.");
-    var userData = _readUserCookie();
-    if (userData){
-      BfUser.id = userData.id;
-      BfUser.name = userData.name;
-      BfUser.email = userData.email;
-      BfUser.bfAccessToken = userData.access_token;
-      BfUser.signedIn = userData.signedIn;
+
+    // if "signout=true" is present in the URL, clear the cookie
+    if (_getURLParameter('signout') == 'true')
+    {
+      _clearUserCookie();
+    }
+    else
+    {
+      var userData = _readUserCookie();
+      if (userData){
+        BfUser.id = userData.id;
+        BfUser.name = userData.name;
+        BfUser.email = userData.email;
+        BfUser.bfAccessToken = userData.access_token;
+        BfUser.signedIn = userData.signedIn;
+      }
     }
 
     _main();
@@ -65,6 +75,19 @@ var BfUser = (function (BfUser)  {
     $.cookie('BfUser', setData, {expires:7, path: '/'});
     return true;
   };
+  // Clears the user state cookie
+  function _clearUserCookie()
+  {
+    BfUser.id = "";
+    BfUser.email = "";
+    BfUser.name = "";
+    BfUser.signedIn = false;
+    BfUser.access_token = "";
+    // set cleared cookie values in case cookie isn't removed
+    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
+    $.removeCookie('BfUser');
+  }
+
   // Update page to reflect user state
   function _updatePage(){
     if (BfUser.signedIn) {
@@ -108,14 +131,7 @@ var BfUser = (function (BfUser)  {
 
   // Sign out clicked, clear user state/cookie
   function _signOutClicked(event){
-    BfUser.id = "";
-    BfUser.email = "";
-    BfUser.name = "";
-    BfUser.signedIn = false;
-    BfUser.access_token = "";
-    // set cleared cookie values in case cookie isn't removed
-    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-    $.removeCookie('BfUser');
+    _clearUserCookie();
     _updatePage();
     window.open("signin.html", "_self");
   }
@@ -190,7 +206,7 @@ var BfUser = (function (BfUser)  {
     $('#bfSignIn').attr("disabled", "disabled");
 
     _updatePage();
-    $('#alert h2').addClass('alert alert-success').html("Great. You're signed in.");
+    $('#alert h2').addClass('alert alert-success').html("Great. You're signed in. <a href='signin.html?signout=true'>Sign in under a different account?</a>");
   };
 
   // Update page to reflect user state
@@ -262,6 +278,14 @@ var BfUser = (function (BfUser)  {
   function postRating(data, successFunc) {
     _tokenPost(config.bfUrl + '/post_rating', data, successFunc)
   };
+
+  // Retrieve a URL parameter
+  // @param name [String] The parameter name to retrieve.
+  function _getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+  }
 
   // add public methods to the returned module and return it
   BfUser.init = init;

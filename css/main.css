@@ -1115,3 +1115,8 @@ section .btn{
 	color: #004E84;
 	text-decoration: underline;
 }
+
+/* bootstrap additions */
+.alert-success a{
+	color: #FF4000;
+}
