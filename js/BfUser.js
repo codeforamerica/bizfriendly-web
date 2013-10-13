@@ -23,6 +23,8 @@ var BfUser = (function (BfUser)  {
         BfUser.email = userData.email;
         BfUser.bfAccessToken = userData.access_token;
         BfUser.signedIn = userData.signedIn;
+
+        $("#signup-form").addClass('alert alert-success').html("You're already signed up! <a href='signup.html?signout=true'>Need to create another account?</a>");
       }
     }
 
