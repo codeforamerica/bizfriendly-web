@@ -60,7 +60,7 @@ var BfUser = (function (BfUser)  {
   // Set the user state cookie
   function _setUserCookie(id, name, email, status, access_token){
     $.cookie.json = true;
-    var setData = {id: id, name: name, email: email, signedIn: status, 
+    var setData = {id: id, name: name, email: email, signedIn: status,
       access_token: access_token};
     $.cookie('BfUser', setData, {expires:7, path: '/'});
     return true;
@@ -155,11 +155,15 @@ var BfUser = (function (BfUser)  {
     BfUser.bfAccessToken = response.access_token;
     BfUser.signedIn = true;
     BfUser.name = response.name;
-    
+
     // Set a cookie!
     $.removeCookie('BfUser');
     _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
     if (config.debug) console.log($.cookie('BfUser'));
+
+    // disable input fields and button when successfully signed up
+    $('#signup-form input').attr("disabled", "disabled");
+    $('#bfSignUp').attr("disabled", "disabled");
 
     _updatePage();
     $('#alert h2').addClass('alert alert-success').html("Great. You're all signed up.");
@@ -211,7 +215,7 @@ var BfUser = (function (BfUser)  {
       _setUserCookie("", "", "", false, "");
     }
     return cookieData;
-  }; 
+  };
 
   // Remember the access token of a service connection
   function create_connection(data, successFunc) {
