@@ -113,6 +113,8 @@ var BfUser = (function (BfUser)  {
     BfUser.name = "";
     BfUser.signedIn = false;
     BfUser.access_token = "";
+    // set cleared cookie values in case cookie isn't removed
+    _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
     $.removeCookie('BfUser');
     _updatePage();
     window.open("signin.html", "_self");
