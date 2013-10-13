@@ -1,6 +1,6 @@
 var newCategory = (function (newCategory) {
   // private properties
-  
+
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -25,9 +25,9 @@ var newCategory = (function (newCategory) {
   }
 
   function _previewClicked(){
-    $(".modal-title").text($("#new-skill-name").val())
-    $(".modal-body").text($("#new-skill-description").val())
-    $('#previewModal').modal()
+    $("#previewModal .modal-title").text($("#new-skill-name").val());
+    $("#previewModal .modal-body").text($("#new-skill-description").val());
+    $('#previewModal').modal();
   }
 
   function _saveDraftClicked(){
@@ -74,8 +74,8 @@ var newCategory = (function (newCategory) {
       data: JSON.stringify(newCategory),
       dataType: "json",
       success : function(){
-        $(".skill-name").text($("#new-skill-name").val())
-        $('#submissionModal').modal()
+        $("#submissionModal .skill-name").text($("#new-skill-name").val());
+        $('#submissionModal').modal();
       },
       error : function(error){
         $(".alert").removeClass("hidden");
