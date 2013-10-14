@@ -539,7 +539,13 @@ var instructions = (function (instructions) {
     response = $.parseJSON(response);
     if (response.timeout) _checkStep();
     if (response.attribute_value_matches) {
-      $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
+      // If the repsonse is an url of an image, attach it to the source.
+      // ToDo: Make sure this is an actual image, in the future we might want urls
+      if (response.attribute_to_display.indexOf("http") != -1){
+        $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
+      } else {
+        $('#step'+currentStep.stepNumber+' .responseDisplay').text(response.attribute_to_display);
+      }
       $("#feedback").modal("show");
       $("#feedback-next").click(_goToNextStep);
     }
@@ -575,9 +581,9 @@ var instructions = (function (instructions) {
   function _getAttributes(response){
     if (config.debug) console.log(response);
     response = $.parseJSON(response);
-    $('#step'+currentStep.stepNumber+' .feedback #attribute').html(response.attribute);
-    $('#step'+currentStep.stepNumber+' .feedback #attribute-2').html(response.attribute_2);
-    $('#step'+currentStep.stepNumber+' .feedback #attribute-3').html(response.attribute_3);
+    $('#step'+currentStep.stepNumber+' #feedback #attribute').html(response.attribute);
+    $('#step'+currentStep.stepNumber+' #feedback #attribute-2').html(response.attribute_2);
+    $('#step'+currentStep.stepNumber+' #feedback #attribute-3').html(response.attribute_3);
     $("#feedback").modal("show");
     $("#feedback-next").click(_goToNextStep);
   }
