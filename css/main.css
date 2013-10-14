@@ -27,6 +27,15 @@ a {
 #signinlinks a{
 	color: #585b5b;
 	font-weight: 700;
+	border-left:2px solid #585b5b;
+	padding-left: 5px;
+}
+
+#signinlinks a:first-child,
+#signinlinks #bfUserName
+{
+	border-left:none;
+	padding-left: 0px;
 }
 
 #main-message {
@@ -61,7 +70,7 @@ a {
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 700;
-	
+
 }
 
 #subheader p {
@@ -231,7 +240,7 @@ hr {
 }
 
 #tips li {
-	margin-bottom: 10px; 
+	margin-bottom: 10px;
 }
 
 #service-description li, #tips li {
@@ -469,7 +478,7 @@ ul{
 
 .btn-blue {
  background-color: #74BBD4;
- border-color: #74BBD4;  
+ border-color: #74BBD4;
 }
 
 .btn-blue:hover {
@@ -1033,11 +1042,11 @@ section .btn{
     padding-left: 35px;
     border-radius: 25px;
 }
-    
+
 #rating-handle {
     position: absolute;
     top: 10px; left: 10px;
-    border-radius: 25px; 
+    border-radius: 25px;
 }
 
 #rating-content {
@@ -1105,4 +1114,9 @@ section .btn{
 .service-learned a{
 	color: #004E84;
 	text-decoration: underline;
+}
+
+/* bootstrap additions */
+.alert-success a{
+	color: #FF4000;
 }

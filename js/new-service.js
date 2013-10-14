@@ -175,38 +175,38 @@ var newService = (function (newService) {
   }
 
   function _previewClicked(){
-    $(".modal-title").text($("#new-service-name").val());
-    $(".modal-body").append("URL: "+$("#new-service-url").val()+"<br/>");
-    $(".modal-body").append("Short Description: "+$("#new-service-short-description").val()+"<br/>");
-    $(".modal-body").append("Long Description: "+$("#new-service-long-description").val()+"<br/>");
-    $(".modal-body").append("Tips 1: "+$("#tips1").val()+"<br/>");
+    $("#previewModal .modal-title").text($("#new-service-name").val());
+    $("#previewModal .modal-body").append("URL: "+$("#new-service-url").val()+"<br/>");
+    $("#previewModal .modal-body").append("Short Description: "+$("#new-service-short-description").val()+"<br/>");
+    $("#previewModal .modal-body").append("Long Description: "+$("#new-service-long-description").val()+"<br/>");
+    $("#previewModal .modal-body").append("Tips 1: "+$("#tips1").val()+"<br/>");
     if ($("#tips2").val()){
-      $(".modal-body").append("Tips 2: "+$("#tips2").val()+"<br/>");
+      $("#previewModal .modal-body").append("Tips 2: "+$("#tips2").val()+"<br/>");
     }
     if ($("#tips3").val()){
-      $(".modal-body").append("Tips 3: "+$("#tips3").val()+"<br/>");
+      $("#previewModal .modal-body").append("Tips 3: "+$("#tips3").val()+"<br/>");
     }
-    $(".modal-body").append("Additional Resources 1: "+$("#additional-resources-name1").val()+"<br/>");
-    $(".modal-body").append("Additional Resources URL 1: "+$("#additional-resources-url1").val()+"<br/>");
+    $("#previewModal .modal-body").append("Additional Resources 1: "+$("#additional-resources-name1").val()+"<br/>");
+    $("#previewModal .modal-body").append("Additional Resources URL 1: "+$("#additional-resources-url1").val()+"<br/>");
     if ($("#additional-resources-name2").val()){
-      $(".modal-body").append("Additional Resources 2: "+$("#additional-resources-name2").val()+"<br/>");
-      $(".modal-body").append("Additional Resources URL 2: "+$("#additional-resources-url2").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources 2: "+$("#additional-resources-name2").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources URL 2: "+$("#additional-resources-url2").val()+"<br/>");
     }
     if ($("#additional-resources-name3").val()){
-      $(".modal-body").append("Additional Resources 3: "+$("#additional-resources-name3").val()+"<br/>");
-      $(".modal-body").append("Additional Resources URL 3: "+$("#additional-resources-url3").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources 3: "+$("#additional-resources-name3").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources URL 3: "+$("#additional-resources-url3").val()+"<br/>");
     }
     if ($("#additional-resources-name4").val()){
-      $(".modal-body").append("Additional Resources 4: "+$("#additional-resources-name4").val()+"<br/>");
-      $(".modal-body").append("Additional Resources URL 4: "+$("#additional-resources-url4").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources 4: "+$("#additional-resources-name4").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources URL 4: "+$("#additional-resources-url4").val()+"<br/>");
     }
     if ($("#additional-resources-name5").val()){
-      $(".modal-body").append("Additional Resources 5: "+$("#additional-resources-name5").val()+"<br/>");
-      $(".modal-body").append("Additional Resources URL 5: "+$("#additional-resources-url5").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources 5: "+$("#additional-resources-name5").val()+"<br/>");
+      $("#previewModal .modal-body").append("Additional Resources URL 5: "+$("#additional-resources-url5").val()+"<br/>");
     }
-    $(".modal-body").append("Uploaded Icon: "+$("#uploaded-icon").html()+"<br/>");
-    $(".modal-body").append("Uploaded Image: "+$("#uploaded-image").html()+"<br/>");
-    $(".modal-body").append("YouTube Link: "+$("#service-video-link").val()+"<br/>");
+    $("#previewModal .modal-body").append("Uploaded Icon: "+$("#uploaded-icon").html()+"<br/>");
+    $("#previewModal .modal-body").append("Uploaded Image: "+$("#uploaded-image").html()+"<br/>");
+    $("#previewModal .modal-body").append("YouTube Link: "+$("#service-video-link").val()+"<br/>");
     
     $('#previewModal').modal()
   }
