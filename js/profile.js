@@ -46,9 +46,11 @@ var profile = (function (profile) {
   function _getActivity(){
     // Get # of lessons completed
     $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', function(response){
+      console.log(response.objects);
       $.each(response.objects, function(i){
         if (response.objects[i].user.id == BfUser.id){
           if (response.objects[i].end_dt){
+            console.log("My completed lessons: "+response.objects[i])
             lessonsCompleted.push(response.objects[i]);
           }
         }
@@ -138,8 +140,10 @@ var profile = (function (profile) {
     var html = '<div class="row">';
     html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
     html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
-    html += '<div class="col-lg-2 col-offset-1"><a type="button" href="edit.html?'+lesson.id+'" class="btn btn-default">Edit</a></div>';
-    html += '</div>'
+    html += '<div class="col-lg-2 col-offset-1">';
+    html += '<!--<a type="button" href="edit.html?'+lesson.id+'" class="btn btn-default">Edit</a>-->';
+    html += '</div>';
+    html += '</div>';
     $("#"+lesson.state).append(html);
   }
 

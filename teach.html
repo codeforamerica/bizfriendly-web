@@ -31,8 +31,7 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body id="teach">
-    <div class="container">
+<body id="teach-landing" class="container">
 
    <header class="navbar navbar-static-top row">
     <div id="signinlinks" class="pull-right">
@@ -57,7 +56,7 @@
     </div>
     <div id="subheader" class="row">
         <div class="col-offset-1">
-            <h1>Build your lesson by creating step instructions and feedback.</h1>
+            <h1>What would you like to teach? BizFriend.ly makes it easy to add and request new content.</h1>
             <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin.</p>
         </div>
         <div class="alert alert-info login-required col-offset-2 col-lg-8">
@@ -65,201 +64,78 @@
         </div>
     </div>
 
-</div>
-
-    <div id="teach-main">
-        <section id="teach-content" class="container">
-            <form id="lesson-form" role="form" class="">
-                <select id="category-id" class="selectpicker" data-width="300px">
-                    <option val="none">Select a skill for your lesson</option>
-                </select>
-                <br/>
-                <select id="service-id" class="selectpicker" data-width="300px">
-                </select>
-            </form>
-            <div id="lesson-builder">
-                <div id="teach-dots" class="row">
-                    <div>
-                        <a class="inline-block back"><img src="img/left.png"></a>
-                        <div id="current-dot" class="inline-block"></div>
-                        <a class="inline-block next"><img src="img/right.png"></a>
-                        <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
-                    </div>
-                    <ul id="teach-dots-amount" class="list-inline">
-                    </ul>
+    <section id="main" class="row">
+        <div class="row">
+            <div id="lesson" class="teach-top col-offset-1 col-lg-3">
+                <h2>Lesson</h2>
+                <hr/>
+                <div class="description">
+                    Lessons are what most people create on BizFriend.ly. It’s the content you see in the right hand helper window. 
                 </div>
-                <div id="step-builder" class="row">
-                    <div id="elements" class="col-offset-2 col-lg-1">
-                        <h3>Elements</h3>
-                        <hr/>
-                        <div id="text-element-drag" class="draggable"><p>Text</p></div>
-                        <div id="open-element-drag" class="draggable">Text & Open Button</div>
-                        <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
-                        <!-- <hr/>
-                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button> -->
-                        <div id="login-element-drag" class="draggable options">Text & Log In Button</div>
-                       <!--  <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
-                    </div>
-
-                    <div class="teach-column col-lg-4">
-                        <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
-                        <div id="teach-instructions" class="teach-box">
-                            <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
-                            <p class="author-name">Created by <span id="author-name"></span>.</p>
-                            <ul class="progress-dots list-unstyled list-inline center"></ul>
-                            <section>
-                                <div id="step-texts">
-                                </div>
-                            </section>
-                            <div id="teach-controls">
-                              <button type="button" id="back" class="btn btn-primary">Back</button>
-                              <button type="button" id="next" class="btn btn-primary">Next</button>
-                              <br/>
-                              <div id="close-lesson-wrapper">
-                                  <button type="button" id="close-lesson" class="btn btn-default btn-block" disabled="disabled">Close Lesson</button>
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div id="right-column" class="col-lg-3">
-                        <div id="feedback-window">
-                            <div id="feedback-content">
-                            </div>
-                        </div>
-                        <div id="state-btns">
-                            <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
-                            <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
-                            <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
-                            <div id="alert" class="alert alert-danger hidden">WHAT</div>
-                        </div>
-                    </div>
+                <hr/>
+                <p class="bold">To create a lesson you’ll need:</p>
+                <ul>
+                    <li>An idea for a lesson that doesn’t exist yet on BizFriend.ly</li>
+                    <li>A lesson name</li>
+                    <li>Time to write and iterate on your lesson</li>
+                </ul>
+                <div class="center">
+                    <a href="lesson-builder.html" type="button" class="btn btn-primary">Create Lesson</a>
                 </div>
             </div>
-
-        </section>
-    </div>
-
-    <div id="popover" class="hidden">
-        <div class="orange-square"></div>
-        <div class="blue-square"></div>
-        <div class="white-square"></div>
-    </div>
-
-    <div id="congrats-popover" class="hidden">
-        <img class="star-icon" src="img/icon-star.png">
-        <img class="flag-icon" src="img/icon-flag.png">
-        <img class="heart-icon" src="img/icon-heart.png">
-        <img class="thumbs-up-icon" src="img/icon-like.png">
-    </div>
-
-    <div id="droppable-prototype" class="droppable temp step-text hidden">
-        <img class="temp-close-btn right" src="img/close-btn.png">
-        <p class="temp-text">Drag elements here to create your step.</p>
-    </div>
-
-    <div id="text-prototype" class="text-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-    </div>
-
-    <div id="open-prototype" class="open-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-        <button id="open" type="button" class="btn btn-teach btn-small">Open</button>
-    </div>
-
-    <div id="login-prototype" class="login-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <button id="login" type="button" class="btn btn-teach btn-small">Log In To <span class="service-name"></span></button>
-    </div>
-
-    <div id="text-entry-prototype" class="text-entry-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p>Click to edit text.</p>
-        <input type="text"></input>
-    </div>
-
-    <div id="image-prototype" class="image-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-        <form id="img-upload-form" class="form-horizontal">
-            <label for="img-upload">Upload an image</label>
-            <input id="fileupload" type="file" name="files[]">
-            <!-- The global progress bar -->
-    <div id="progress" class="progress">
-        <div class="progress-bar progress-bar-success"></div>
-    </div>
-    <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
-            <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
-        </form>
-    </div>
-
-    <div id="feedback-prototype" class="hidden">
-        <div class="modal-header">
-            <h2 class="element-editable">Click to edit feedback.</h2>
-        </div>
-        <div class="modal-body">
-            <p class="bold element-editable">Click to edit text.</p>
-            <p class="plain element-editable">Click to edit text.</p>
-        </div>
-        <div class="modal-footer">
-            <div id="feedback-control">
-                <button type="button" id="feedback-next" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
+            <div id="service" class="teach-top col-lg-3">
+                <h2>Web Service</h2>
+                <hr/>
+                <div class="description">
+                    Web services are what lessons are about, such as Facebook or Trello. You can add any website or service for lessons. 
+                </div>
+                <hr/>
+                <p class="bold">To add a service you’ll need:</p>
+                <ul>
+                    <li>Web service name & URL</li>
+                    <li>A brief description of the service and why it’s valuable to business owners</li>
+                    <li>Up to 3 key points to keep in mind</li>
+                    <li>Up to 5 additional resource links</li>
+                    <li>Icon for the service</li>
+                    <li>Screenshot of the service or a testimonial video</li>
+                </ul>
+                <div class="center">
+                    <a href="new-service.html" type="button" class="btn btn-primary">Add Service</a>
+                </div>
+            </div>
+            <div id="category" class="teach-top col-lg-3">
+                <h2>Skill</h2>
+                <hr/>
+                <div class="description">
+                    Skills are what appear at the top of the Learn section. Web services and lessons live within them.
+                </div>
+                <hr/>
+                <p class="bold">To create a skill you’ll need:</p>
+                <ul>
+                    <li>An idea for a skill that doesn’t exist yet on BizFriend.ly</li>
+                    <li>A skill name</li>
+                    <li>A brief description of the skill and why it’s valuable to business owners</li>
+                </ul>
+                <div class="center">
+                    <a href="new-category.html" type="button" class="btn btn-primary">New Skill</a>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div id="congrats-prototype" class="hidden center">
-        <div id="congrats-icons" class="step-text active center">
-            <img class="congrats-img" src="img/icon-like.png">
-            <p class="bold element-editable">Click to edit text.</p>
-            <p class="plain element-editable">Click to edit text.</p>
-        </div>
-        <div id="congrats-share" class="step-text active center">
-            <p class="bold">Share Your Success</p>
-            <ul class="list-inline">
-              <li><a id="fb-share" rel="nofollow"><img src="img/socialshare_fb_o.png"></a></li>
-              <li><a id="tw-share" rel="nofollow"><img src="img/socialshare_twitter_o.png"></a></li>
-              <li><a id="g-share" rel="nofollow"><img src="img/socialshare_google_o.png"></a></li>
-              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_linkedin_o.png"></a></li>
-              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_email_o.png"></a></li>
-            </ul>
-        </div>
-        <div id="congrats-links" class="step-text active center">
-            <p class="bold">Find Out More</p>
-            <a id="additional-resources" type="button" class="btn btn-teach btn-small btn-block orange">Additional Resources</a>
-            <a id="more-lessons" type="button" class="btn btn-teach btn-small btn-block orange">More Lessons</a>
-        </div>
-      </div>
-
-    <!-- Ghost Form -->
-    <form name="preview" target="instructions">
-        <input type=hidden name="lessonName" value="">
-        <input type=hidden name="steps" value="">
-        <input type=hidden name="authorName" value="">
-        <input type=hidden name="serviceName" value="">
-        <input type=hidden name="serviceId" value="">
-    </form>
-
-     <!-- Modal -->
-  <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Nice Work!</h4>
-        </div>
-        <div class="modal-body">
-            <b>You created a new lesson called <span class="lesson-name orange"></span></b>
-            <p>To ensure high quality content on BizFriend.ly, your lesson will be reviewed before it goes live.</p>
-            <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
-            <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
+        <!-- <div class="row">
+            <div id="teaching-guide" class="teach-bottom col-offset-1 col-lg-3">
+                <h2>Teaching Guide</h2>
+                <hr/>
+            </div>
+            <div id="top-requests" class="teach-bottom col-lg-3">
+                <h2>Top Requests</h2>
+                <hr/>
+            </div>
+            <div id="request-content" class="teach-bottom col-lg-3">
+                <h2>Request Content</h2>
+                <hr/>
+            </div>
+        </div> -->
+    </section>
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
@@ -271,5 +147,4 @@
 </body>
     <script src="js/config.js"></script>
     <script type="text/javascript" src="js/BfUser.js"></script>
-    <script type="text/javascript" src="js/teach.js"></script>
 </html>

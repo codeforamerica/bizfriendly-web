@@ -28,9 +28,10 @@ var connect = (function (connect) {
       // console.log(response.objects[i]);
       if (response.objects[i].end_dt){
         console.log(response.objects[i]);
-        var html = response.objects[i].user.name;
+        var html = '<p><a>'+response.objects[i].user.name+'</a>';
         html += " recently finished ";
-        html += '<a href="service.html?'+response.objects[i].lesson.service_id+'">'+response.objects[i].lesson.name+'</a>';
+        html += '<a href="service.html?'+response.objects[i].lesson.service_id+'">'+response.objects[i].lesson.name+'</a></p>';
+        html += '<hr/>';
         $("#recent-activity").append(html);
       }
     })

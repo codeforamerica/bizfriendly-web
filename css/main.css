@@ -779,8 +779,15 @@ ul{
 	color: #BFBFBF;
 }
 
-#teach .lesson-name {
+.lesson-name {
 	color: #FF4000;
+	font-weight: 700;
+	font-family: 'Open Sans';
+}
+
+.service-name {
+	font-weight: 700;
+	font-family: 'Open Sans';
 }
 
 #teach #main .btn{
@@ -815,6 +822,11 @@ ul{
 	position: relative;
 	top: -150px;
 	left: -12px;
+}
+
+#connect #subheader {
+	position: relative;
+	top: -40px;
 }
 
 .text-overlay{
@@ -1065,41 +1077,63 @@ section .btn{
 
 #profile-info {
 	background-color: #C7E4EE;
-	color: #74BBD4;
+	color: #0F6095;
+	border-radius: 15px;
+	padding: 10px;
 }
 
-#profile-activity {
-	margin-left: 25px;
-	color: #004E84;
+#profile-info .location, #profile-info .biz-name {
+	font-size : 14px;
+	font-family: 'Open Sans';
 	font-weight: 700;
 }
 
-#profile-activity h1 {
+#profile-info .biz-name, #profile-social-links, #profile-info .profile-description {
+	position: relative;
+	top: -15px;
+}
+
+#profile-social-links {
+	margin-bottom: 15px;
+}
+
+#profile-info #profile-social-links a {
+	margin-right : 15px;
+}
+
+
+#profile-activity {
+	margin-left: 25px;
+}
+
+#profile-activity h1, #recent-activity h1 {
 	text-align: center;
-	background-color: #FF8C66;
+	background-color: #FFC9AE;
 	color: #ff4000;
 	line-height: 48px;
+	border-radius: 15px;
 }
 
 #recent-activity {
 	margin-left: 25px;
-	color: #004E84;
 	font-weight: 700;
 }
 
-#recent-activity h1 {
-	text-align: center;
-	background-color: #FF8C66;
-	color: #ff4000;
-	line-height: 48px;
+#recent-activity hr {
+	margin-bottom: 10px;
 }
 
 .activity{
 	/*height : 150px;*/
+	padding-bottom: 15px;
 }
 
 #accomplishments {
 	text-align: center;
+	font-weight: 700;
+	font-size: 14px;
+	font-family: 'Open Sans';
+	color: #004E84;
 }
 
 .activity-number {
@@ -1111,9 +1145,58 @@ section .btn{
 	/*text-align: left;*/
 }
 
+#services-created h3 {
+	font-family: 'Open Sans';
+	font-size: 14px;
+	font-weight: 700;
+}
+
 .service-learned a{
 	color: #004E84;
 	text-decoration: underline;
+}
+
+#teach-landing #main h2 {
+	color: #FF4000;
+	text-align: center;
+}
+
+#teach-landing #main hr {
+	margin: 10px;
+}
+
+#teach-landing #main ul {
+	list-style: disc;
+}
+
+#teach-landing #main li {
+	margin-left: 15px;
+}
+
+#teach-landing #main .description {
+	color: #FF4000;
+	font-weight: 700;
+	font-family: 'Open Sans';
+}
+
+.teach-top a {
+	margin: 0 auto;
+}
+
+.teach-top {
+	background-color: #FFC9AE;
+	border-radius: 15px;
+	padding: 15px;
+	height: 400px;
+}
+
+.teach-bottom {
+	background-color: #C7E4EE;
+	height: 200px;
+}
+
+.teach-top, .teach-bottom {
+	margin-right: 25px;
 }
 
 /* bootstrap additions */
