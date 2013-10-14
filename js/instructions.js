@@ -43,7 +43,7 @@ var instructions = (function (instructions) {
     // Set the name of the lesson
     $('#instructions-title').html(lesson.name);
     // Set author name
-    console.log(lesson);
+    if (config.debug) console.log(lesson);
     $('#author-name').text(lesson.creator.name);
     // Make sure steps are in order of id
     _orderSteps();
@@ -368,7 +368,7 @@ var instructions = (function (instructions) {
 
     // If step type is check_for_new
     if (currentStep.stepType == 'check_for_new' && oauthToken){
-      console.log("ORIGINAL COUNT: "+originalCount);
+      if (config.debug) console.log("ORIGINAL COUNT: "+originalCount);
       // This step fires at least twice. First time it just gets the originalCount
       // Every following time it compares the number of objects to the originalCount
       if ( originalCount !== false ){
@@ -481,8 +481,8 @@ var instructions = (function (instructions) {
   // .open is clicked
   function _openClicked(evt){
     // If url has replace_me in it, replace with rememberedAttribute
-    console.log(currentStep.triggerEndpoint);
-    console.log(rememberedAttribute);
+    if (config.debug) console.log(currentStep.triggerEndpoint);
+    if (config.debug) console.log(rememberedAttribute);
     if(currentStep.triggerEndpoint.indexOf('replace_me') != -1){
       currentStep.triggerEndpoint = currentStep.triggerEndpoint.replace('replace_me',rememberedAttribute);
     }

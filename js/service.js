@@ -38,7 +38,7 @@ var service = (function (service) {
   }
 
   function _showService(){
-    console.log(service);
+    if (config.debug) console.log(service);
     $("#service-icon").attr("src",service.icon);
     $("#service-name").text(service.name);
     $("#service-description").html(service.long_description);
@@ -69,7 +69,7 @@ var service = (function (service) {
           console.log(error);
         }
       }).done(function(){
-        console.log(lessons);
+        if (config.debug) console.log(lessons);
         html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
         html += '<br/><p class="author-name">Created by <span class="author-name'+lessons[i].creator_id+'"></span></p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
