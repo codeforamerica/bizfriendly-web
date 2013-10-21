@@ -196,9 +196,13 @@ th {
 	margin-bottom: 0;
 }
 
-#index #main, #index #bottom, #index footer {
+#subheader, #main, #bottom, footer {
 	position: relative;
 	top: -50px;
+}
+
+#main {
+	padding-top: 25px;
 }
 
 #main-text a {
@@ -491,21 +495,11 @@ ul{
 	height: 240px;
 }
 
-#index #main-video iframe {
+#main-video iframe {
 	position:absolute;
 	top: 25px;
 	left: 75px;
 }
-
-/*#index #main {
-	background-image: url('../img/laptop.png');
-	background-repeat: no-repeat;
-	background-position: left 170px top 0px;
-	background-size: 445px 240px;
-	height: 250px;
-}*/
-
-
 
 #category-menu{
 	margin-top: 15px;
@@ -831,24 +825,16 @@ ul{
 	color: #FF4000;
 }
 
-#index #subheader {
-	position: relative;
-	top: -150px;
-	left: -12px;
-}
-
 #connect #subheader {
 	position: relative;
 	top: -40px;
 }
 
 .text-overlay{
-	color: #FFF;
+	color: #FFF !important;
 	font-weight: 700;
-	position: relative;
-	top: -110px;
-	left: 50px;
-	width: 400px;
+	position: absolute;
+	top: 200px;
 }
 
 #about section {
