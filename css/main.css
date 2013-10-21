@@ -438,7 +438,7 @@ ul{
 #main-video {
 	position: relative;
 	top: 30px;
-	left: 130px;
+	/*left: 130px;*/
 }
 
 .btn-primary {
