@@ -15,6 +15,7 @@
 
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
 
 	<!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
@@ -31,18 +32,19 @@
             <a id="signOutLink" href="#">Sign Out</a>
         </div>
         <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
-        <ul class="nav navbar-nav col-lg-10">
-            <li class="col-lg-2 col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-lg-2 col-offset-1"><a href="teach.html">Teach</a></li>
-            <li class="col-lg-2  col-offset-1"><a href="connect.html">Connect</a></li>
+        <ul class="nav navbar-nav col-xs-8 col-sm-8 col-md-9 col-lg-9">
+            <li class="col-xs-3 col-sm-2 col-md-2 col-lg-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"><a href="learn.html">Learn</a></li>
+            <li class="col-xs-3 col-sm-2 col-md-2 col-lg-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"><a href="teach.html">Teach</a></li>
+            <li class="col-xs-3 col-sm-2 col-md-2 col-lg-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
 	</header>
 
 	<section id="main" class="row">
-        <div id="main-video" class="col-lg-4 col-offset-1">
-            <iframe src="//player.vimeo.com/video/72077227?byline=0&amp;portrait=0&amp;color=74bbd4" width="300" height="169" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div id="main-video" class="col-md-4 col-lg-4">
+            <img id="laptop" src="img/laptop.png">
+            <iframe src="//player.vimeo.com/video/72077227?byline=0&amp;portrait=0&amp;color=74bbd4" width="325" height="169" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
-		<div id="main-text" class="col-offset-1 col-lg-4">
+		<div id="main-text" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-sm-offset-3 col-md-offset-3 col-lg-offset-2">
 			<h1 id="main-message">BizFriendly puts the web to work for your business.</h1>
             <div class="center">
                 <a type="button" href="learn.html" class="btn btn-primary">Start Learning</a>
@@ -51,51 +53,28 @@
     </section>
 
 	<section id="bottom" class="row">
-        <div class="col-offset-1 col-lg-2 center">
+        <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2col-md-offset-1 col-lg-offset-1 center">
             <a href="learn.html">
                 <img src="img/learn-bulb.png">Find the latest web tools & learn the basics.
             </a>
         </div>
-        <div class="col-offset-1 col-lg-2 center">
+        <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 center">
             <a href="teach.html">
                 <img src="img/teach-people.png">Teach others how you use the web.
             </a>
         </div>
-        <div class="col-offset-1 col-lg-2 center">
+        <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 center">
             <a href="connect.html">
                 <img src="img/connect-people.png">Connect & compare to fellow learners & teachers.
             </a>
         </div>
-       <!--  <div class="col-lg-10 col-offset-1">
-    		<div class="bottom_links bottom_links_spacer">
-                <a href="learn.html" onMouseOver="document.learn.src='img/learn-blue.png';" onMouseOut="document.learn.src='img/learn.png';">
-                    <img src="img/learn.png" name="learn">
-                    <h2>Learn</h2>
-                    <p>how to use the web for your business.</p>
-                </a>
-            </div>
-    		<div class="bottom_links bottom_links_spacer">
-                <a href="teach.html" onMouseOver="document.teach.src='img/teach-blue.png';" onMouseOut="document.teach.src='img/teach.png';">
-                    <img src="img/teach.png" name="teach">
-                    <h2>Teach</h2>
-                    <p>other how you use the web for your business.</p>
-                </a>
-            </div>
-    		<div class="bottom_links">
-                <a href="connect.html" onMouseOver="document.connect.src='img/connect-blue.png';" onMouseOut="document.connect.src='img/connect.png';">
-                    <img src="img/connect.png" name="connect">
-                    <h2>Connect</h2>
-                    <p>to a community of learners and teachers.</p>
-                </a>
-            </div>
-        </div> -->
 	</section>
 
 	<footer class="row">
-        <ul class="list-unstyled list-inline col-lg-12">
-            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
-            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
-            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+        <ul class="list-unstyled list-inline col-md-12 col-lg-12">
+            <li class="col-sm-1 col-md-1 col-lg-1 col-md-offset-1 col-lg-offset-1"><a href="about.html">About</a></li>
+            <li class="col-sm-1 col-md-1 col-lg-1 col-md-offset-1 col-lg-offset-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
+            <li id="credits" class="col-sm-8 col-md-6 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
         </ul>
     </footer>
 </body>
