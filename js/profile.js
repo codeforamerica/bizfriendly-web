@@ -140,7 +140,7 @@ var profile = (function (profile) {
     var html = '<div class="row">';
     html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
     html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
-    html += '<div class="col-lg-2 col-offset-1">';
+    html += '<div class="col-lg-2 col-lg-offset-1">';
     html += '<!--<a type="button" href="edit.html?'+lesson.id+'" class="btn btn-default">Edit</a>-->';
     html += '</div>';
     html += '</div>';

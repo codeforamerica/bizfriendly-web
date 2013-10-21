@@ -32,7 +32,7 @@ var learn = (function (learn) {
           $("#category-right").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
         }
 
-        var html = '<div class="category col-offset-1 col-lg-7">';
+        var html = '<div class="category col-lg-offset-1 col-lg-7">';
         html += '<a name="'+categories[i].id+'"></a>';
         html += '<h2 class="orange">'+categories[i].name+'</h2>';
         html += '<p>'+categories[i].description+'</p>';
@@ -47,7 +47,7 @@ var learn = (function (learn) {
             }
               html += '<div class="col-lg-3">';
             // } else if {
-              // html += '<div class="col-offset-1 col-lg-2">';
+              // html += '<div class="col-lg-offset-1 col-lg-2">';
             // }
             html += '<div class="service-header">'
             html += '<img src="'+services[x].icon+'" class="left">';
@@ -70,7 +70,7 @@ var learn = (function (learn) {
         html += '</div>';
         html += '</div>';
         html += '</div></div>';
-        html += '<hr class="col-offset-1 col-lg-10">';
+        html += '<hr class="col-lg-offset-1 col-lg-10">';
       }
 
       $("#categories").append(html);
