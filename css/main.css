@@ -491,14 +491,14 @@ ul{
 }
 
 #laptop {
-	width: 445px;
+	/*width: 445px;*/
 	height: 240px;
 }
 
 #main-video iframe {
 	position:absolute;
 	top: 25px;
-	left: 75px;
+	left: 65px;
 }
 
 #category-menu{
