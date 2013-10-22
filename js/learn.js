@@ -31,46 +31,58 @@ var learn = (function (learn) {
         } else {
           $("#category-right").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
         }
+      // $("#category-clone h2").text(categories[i].name);
+      // $("#category-clone .category-description").text(categories[i].description);
+      
+      // var services = categories[i].services;
+      // $.each(services, function(x){
+      //   if (services[x].state == "published"){
+      //     $("#service-clone .service-header img").attr("src",services[x].icon);
+      //     var $serviceClone = $("#service-clone").clone().removeAttr("id");
+      //     $("#services").append($serviceClone);
+      //   }
+      // })
+      // var $clone = $("#category-clone").clone().removeAttr("id");
+      // $("#categories").append($clone);
 
-        var html = '<div class="category col-lg-offset-1 col-lg-7">';
-        html += '<a name="'+categories[i].id+'"></a>';
-        html += '<h2 class="orange">'+categories[i].name+'</h2>';
-        html += '<p>'+categories[i].description+'</p>';
-        var services = categories[i].services
-        html += '<div class="row">';
+        var html = '<div class="category col-md-offset-1 col-lg-offset-1 col-lg-10"> \
+        <a name="'+categories[i].id+'"></a> \
+        <h2 class="orange">'+categories[i].name+'</h2> \
+        <p>'+categories[i].description+'</p> \
+        <div class="row">';
+
+        var services = categories[i].services;
         $.each(services, function(x){
           if (services[x].state == "published"){
             console.log("SERVICE STATE: "+services[x].state);
             // TODO: WHEN MORE THAN 4, ADD A NEW ROW
             if (x % 4 == 0) {
-              html += '<br/>'
+              html += '</div><div class="row">';
             }
-              html += '<div class="col-lg-3">';
-            // } else if {
-              // html += '<div class="col-lg-offset-1 col-lg-2">';
-            // }
-            html += '<div class="service-header">'
-            html += '<img src="'+services[x].icon+'" class="left">';
-            html += '<a class="service-link" href="service.html?'+services[x].id+'">'+services[x].name+'</a><br/>';
-            html += '</div>';
-            html += '<br/>';
-            html += '<p class="service-description">'+services[x].short_description+'</p>';
-            html += '</div>';
+              html += '<div class="col-lg-3"> \
+                        <div class="service-header"> \
+                          <img src="'+services[x].icon+'" class="left"> \
+                          <a class="service-link" href="service.html?'+services[x].id+'">'+services[x].name+'</a><br/> \
+                        </div> \
+                        <br/> \
+                        <p class="service-description">'+services[x].short_description+'</p> \
+                      </div>';
           }
         })
-        html += '<div id="teach-callout" class="col-lg-4 right">';
-        html += '<div class="row">';
-        html += '<div class="col-lg-3">';
-        html += '<img src="img/teach_gray.png">';
-        html += '</div>';
-        html += '<div class="col-lg-9">';
-        html += '<p>Already '+categories[i].name+'?</p><br/>'; 
-        html += '<p><a href="teach.html">Help teach other business owners!</a></p>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div></div>';
-        html += '<hr class="col-lg-offset-1 col-lg-10">';
+        html += '<div id="teach-callout" class="col-lg-3"> \
+                  <div class="row"> \
+                    <div class="col-lg-3"> \
+                      <img src="img/teach_gray.png"> \
+                    </div> \
+                    <div class="col-lg-9"> \
+                      <p>Already '+categories[i].name+'?</p><br/> \
+                      <p><a href="teach.html">Help teach other business owners!</a></p> \
+                    </div> \
+                  </div> \
+                </div> \
+              </div> \
+            </div> \
+            <hr class="col-lg-offset-1 col-lg-10">';
       }
 
       $("#categories").append(html);

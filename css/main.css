@@ -196,14 +196,10 @@ th {
 	margin-bottom: 0;
 }
 
-#subheader, #main, #bottom, footer {
+/*#bottom, footer, #about-subheader {
 	position: relative;
 	top: -50px;
-}
-
-#main {
-	padding-top: 25px;
-}
+}*/
 
 #main-text a {
 	margin-top: 25px;
@@ -427,7 +423,7 @@ ul{
 #signinlinks {
 	position: relative;
 	top: 50px;
-	left: -20px;
+	left: -50px;
 }
 
 #main-text {
@@ -436,13 +432,6 @@ ul{
 
 #main-text .lesson-name {
 	padding-bottom: 15px;
-}
-
-
-#main-video {
-	position: relative;
-	top: 30px;
-	/*left: 130px;*/
 }
 
 .btn-primary {
@@ -491,14 +480,20 @@ ul{
 }
 
 #laptop {
-	/*width: 445px;*/
+	width: 445px;
 	height: 240px;
 }
 
 #main-video iframe {
 	position:absolute;
 	top: 25px;
-	left: 65px;
+	left: 75px;
+}
+
+#about-subheader, #about-main {
+	position: relative;
+	top: -75px;
+	padding-bottom: 25px;
 }
 
 #category-menu{
