@@ -31,19 +31,6 @@ var learn = (function (learn) {
         } else {
           $("#category-right").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
         }
-      // $("#category-clone h2").text(categories[i].name);
-      // $("#category-clone .category-description").text(categories[i].description);
-      
-      // var services = categories[i].services;
-      // $.each(services, function(x){
-      //   if (services[x].state == "published"){
-      //     $("#service-clone .service-header img").attr("src",services[x].icon);
-      //     var $serviceClone = $("#service-clone").clone().removeAttr("id");
-      //     $("#services").append($serviceClone);
-      //   }
-      // })
-      // var $clone = $("#category-clone").clone().removeAttr("id");
-      // $("#categories").append($clone);
 
         var html = '<div class="category col-md-offset-1 col-lg-offset-1 col-lg-10"> \
         <a name="'+categories[i].id+'"></a> \
@@ -56,10 +43,10 @@ var learn = (function (learn) {
           if (services[x].state == "published"){
             console.log("SERVICE STATE: "+services[x].state);
             // TODO: WHEN MORE THAN 4, ADD A NEW ROW
-            if (x % 4 == 0) {
-              html += '</div><div class="row">';
-            }
-              html += '<div class="col-lg-3"> \
+            // if (x % 4 == 0) {
+            //   html += '</div><div class="row">';
+            // }
+              html += '<div class="col-sm-3 col-md-3 col-lg-3"> \
                         <div class="service-header"> \
                           <img src="'+services[x].icon+'" class="left"> \
                           <a class="service-link" href="service.html?'+services[x].id+'">'+services[x].name+'</a><br/> \
@@ -69,12 +56,12 @@ var learn = (function (learn) {
                       </div>';
           }
         })
-        html += '<div id="teach-callout" class="col-lg-3"> \
+        html += '<div id="teach-callout" class="col-xs-10 col-sm-3 col-md-3 col-lg-3"> \
                   <div class="row"> \
-                    <div class="col-lg-3"> \
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> \
                       <img src="img/teach_gray.png"> \
                     </div> \
-                    <div class="col-lg-9"> \
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"> \
                       <p>Already '+categories[i].name+'?</p><br/> \
                       <p><a href="teach.html">Help teach other business owners!</a></p> \
                     </div> \
