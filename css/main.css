@@ -50,6 +50,7 @@ a {
 .btn {
 	font-family: 'Open Sans';
 	font-weight: 700;
+	color: #FFF;
 }
 
 #bottom a {
@@ -441,7 +442,7 @@ ul{
 #signinlinks {
 	position: relative;
 	top: 50px;
-	left: -50px;
+	/*left: -50px;*/
 }
 
 #main-text {
@@ -1049,11 +1050,6 @@ section .btn{
 
 #signin a:hover {
 	color: #74BBD4;
-}
-
-#feedback {
-	position: relative;
-	top: -200px;
 }
 
 #rating {

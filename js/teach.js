@@ -470,17 +470,17 @@ var teach = (function (teach) {
 
   function _colorControllers(){
     $(".orange-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#FFC9AE");
+      $(this).parent().parent().prev().attr("style","background-color: #FFC9AE;");
       $(this).parent().parent().prev().popover("destroy");
-      $(this).parent().parent().prev().find(".btn-teach").css("color","#ff4000");
+      $(this).parent().parent().prev().find(".btn-teach").attr("style","color: #ff4000;");
     })
     $(".blue-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#C7E4EE");
+      $(this).parent().parent().prev().attr("style","background-color: #C7E4EE;");
       $(this).parent().parent().prev().popover("destroy");
-      $(this).parent().parent().prev().find(".btn-teach").css("color","#0F6095");
+      $(this).parent().parent().prev().find(".btn-teach").attr("style","color: #0F6095;");
     })
     $(".white-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#FFFFFF");
+      $(this).parent().parent().prev().attr("style","background-color: #FFFFFF;");
       $(this).parent().parent().prev().popover("destroy");
     })
   }

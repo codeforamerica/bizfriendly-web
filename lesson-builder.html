@@ -3,7 +3,7 @@ layout: teach-layout
 title: lesson builder
 js: teach
 ---
-<div id="subnav" class="row">
+<div id="subnav" class="row hidden-xs">
     <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
         <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
         <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
@@ -22,13 +22,14 @@ js: teach
 
 <div id="teach-main">
     <section id="teach-content" class="container">
-        <form id="lesson-form" role="form" class="">
-            <select id="category-id" class="selectpicker">
-                <option val="none">Select a skill for your lesson</option>
-            </select>
-            <br/>
-            <select id="service-id" class="selectpicker">
-            </select>
+        <form id="lesson-form" role="form" class="row">
+            <div class="col-sm-4 col-md-4 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                <select id="category-id" class="selectpicker" data-width="100%">
+                    <option val="none">Select a skill for your lesson</option>
+                </select>
+                <br/>
+                <select id="service-id" class="selectpicker" data-width="100%"></select>
+            </div>
         </form>
         <div id="lesson-builder">
             <div id="teach-dots" class="row">
