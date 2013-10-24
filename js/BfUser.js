@@ -144,7 +144,7 @@ var BfUser = (function (BfUser)  {
   function _requestPasswordResetClicked(response){
     var email = {"email" : $('#reset-email').val()}
     $.post(config.bfUrl+'/request_password_reset',email, function(response){
-      if (config.debug) console.log(response);
+      console.log(response);
       response = $.parseJSON(response);
       console.log(response.message);
       if (response.message == "Queued. Thank you."){
