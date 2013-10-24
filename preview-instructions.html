@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>BizFriend.ly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta charset="utf-8">
+
+  <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="css/animate.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+  <script src="js/vendor/jquery.popupwindow.js"></script>
+  <script src="js/vendor/oauth.js"></script>
+  <script src="js/vendor/jquery.raty.min.js"></script>
+  <script src="js/vendor/jquery.cookie.js"></script>
+  <script src="js/vendor/bootstrap.js"></script>
+  
+  <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body id="instructions" class="container">
+
+  <header class="row">
+    <img id="instruction-logo" class="col-6" src="img/bf_logo_small.gif">
+    <div id="bf_ribbon"></div>
+  </header>
+
+  <div class="row">
+    <h1 id="instructions-title" class="orange col-lg-12"></h1>
+    <p class="col-lg-12">Created by <a id="author-name"></a></p>
+    <ul class="progress-dots list-unstyled list-inline col-12"></ul>
+  </div>
+  
+  <section class="row">
+      <div id="step-text-content"></div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div id="feedback-content"></div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+  </section>
+
+  <div id="controls">
+      <button type="button" id="back" class="btn btn-primary">Back</button>
+      <button type="button" class="next btn btn-primary">Next</button>
+      <br/>
+      <div id="close-lesson-wrapper">
+          <button type="button" id="close-lesson" class="btn btn-default btn-block" >Close Lesson</button>
+      </div>
+  </div>
+
+  <!-- <div id="rating">
+    <div id="rating-handle"><img src="img/star-on.png"></div>
+    <div id="rating-content">
+      How helpful was this step?
+    <div id="rating-stars"></div>
+    <form id="rating-form">
+        <div class="form-group">   
+          <label for="rating-feedback">Anything else?</label>
+          <textarea id="rating-feedback"></textarea>
+        </div>
+        <button type="button" class="btn btn-small" id="rating-btn">Give Feedback</button>
+    </form>
+    </div>
+
+  </div> -->
+
+  <footer></footer>
+
+</body>
+    <script src="js/config.js"></script>
+    <script type="text/javascript" src="js/BfUser.js"></script>
+    <script type="text/javascript" src="js/preview-instructions.js"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43086540-1', 'bizfriend.ly');
+    ga('send', 'pageview');
+
+  </script>
+</html>

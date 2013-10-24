@@ -13,7 +13,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/main.css" rel="stylesheet">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/bootstrap.js"></script>
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
@@ -21,20 +21,16 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body class="container">
+<body id="learn" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-    
     <header class="navbar navbar-static-top row">
         <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
-            <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
-            <a id="signOutLink" href="#">| Sign Out</a>
+            <a id="signUpLink" href="signup.html" >Sign Up</a>
+            <a id="bfUserName" href="profile.html"></a>
+            <a id="signOutLink" href="#">Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
@@ -42,50 +38,26 @@
         </ul>
     </header>
     <div id="subheader" class="row">
-        <div class="col-lg-1 col-offset-3">
-            <img src="img/learn_gray.gif">
-        </div>
-        <div class="col-lg-8">
-            <p>Get started by picking a skill you'd like to learn.</p>
+        <div class="col-offset-1 col-lg-11">
+            <h1>We've collected the top digital skills for your business.<br/> To get started, select the one you're most interested in.</h1>
+            <p>Under each skill, you'll find web services that will help you learn how to do that skill for your business.</p>
         </div>
     </div>
 
     <div id="loading" class="row">
-        <img class="image-responsive col-offset-5 col-lig-2" src="img/loading.gif">
+        <img class="image-responsive col-offset-5" src="img/loading.gif">
     </div>
 
     <section id="main" class="row">
-        <div id="sidemenu" class="col-lg-3 col-offset-1">
-            <div class="bold">Skills</div>
-            <ul>
-                <li id='featured'>Featured Skills</li>
-                <li id='recent-skills'>Recently Added</li>
-                <hr/>
-            </ul>
+        <hr class="col-offset-1 col-lg-10">
+        <div id="category-menu" class="col-offset-1 col-lg-6">
+            <div class="row">
+                <div id="category-left" class="col-lg-6"></div>
+                <div id="category-right" class="col-offset-1 col-lg-5"></div>
+            </div>
         </div>
-        <div id="mainmenu" class="col-lg-7">
-            <h2 class="category-name"></h2>
-            <p class="category-description"></p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Lessons</th>
-                  <th>Time</th>
-                  <th>Difficulty</th>
-                  <!-- <th>Rating</th> -->
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-            <!-- <div id="lessons">
-                <div id="lessons-headers" class="row">
-                    <div class="name">Lesson</div>
-                    <div class="time">Time</div>
-                    <div class="difficulty">Difficulty</div>
-                    <div class="rating">Rating</div>
-                </div>
-            </div> -->
+        <hr class="col-offset-1 col-lg-10">
+        <div id="categories" class="row">
         </div>
     </section>
 
@@ -97,6 +69,7 @@
         </ul>
     </footer>
 </body>
+    <script src="js/config.js"></script>
     <script src="js/BfUser.js"></script>
     <script src="js/learn.js"></script>
     <script>

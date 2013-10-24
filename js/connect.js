@@ -1,22 +1,15 @@
 var connect = (function (connect) {
 
   // private properties
-  // var debug = true;
-  var debug = false;
-  // var bfUrl = 'https://app.bizfriend.ly';
-  // var bfUrl = 'https://app-staging.bizfriend.ly';
-  var bfUrl = 'https://howtocity-staging.herokuapp.com'
-  // var bfUrl = 'http://127.0.0.1:8000';
-  // var bfUrl = 'http://0.0.0.0:5000'
-  var bfApiVersion = '/api/v1'
+  var user_id = BfUser.id;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
-    if (debug) console.log('init');
+    if (config.debug) console.log('init');
     // Call the API and get that lesson, pass response to _main
     _loading();
-    $.getJSON(bfUrl+bfApiVersion+'/userlessons', _main);
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', _main);
   }
 
   // PRIVATE METHODS
@@ -28,48 +21,34 @@ var connect = (function (connect) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
-    console.log(response);
-    var most_recent;
-    var user_lesson_count = {};
-    var html;
-    // Last object with a completed date
+    // if (config.debug) console.log(response);
+    _checkIfLoggedIn();
+
     $.each(response.objects, function(i){
-      // Get the most recent completed lesson
+      // console.log(response.objects[i]);
       if (response.objects[i].end_dt){
-        most_recent = response.objects[i];
-      }
-      // Count how many completed by each user
-      if (response.objects[i].user.name in user_lesson_count){
-        user_lesson_count[response.objects[i].user.name] = user_lesson_count[response.objects[i].user.name] + 1
-      } else {
-        user_lesson_count[response.objects[i].user.name] = 1
+        console.log(response.objects[i]);
+        var html = '<p><a>'+response.objects[i].user.name+'</a>';
+        html += " recently finished ";
+        html += '<a href="service.html?'+response.objects[i].lesson.service_id+'">'+response.objects[i].lesson.name+'</a></p>';
+        html += '<hr/>';
+        $("#recent-activity").append(html);
       }
     })
-    // Display most recent lesson
-    var recentHtml = most_recent["user"]["name"]
-         + ' recently finished <a href="http://staging.bizfriend.ly/lesson.html?'
-         + most_recent["lesson"]["id"]
-         + '">' + most_recent["lesson"]["name"] + '</a>'
-    $("#recent-content").html(recentHtml);
-    
-    // Display top learners
-    if (debug) console.log(user_lesson_count);
-    for (name in user_lesson_count){
-      html += '<tr>'
-           + '<td>'+name+'</td>'
-           +  '<td>'+user_lesson_count[name]+'</td>'
-           + '</tr>';
-    }
-    $('#top-learners-content table tbody').html(html);
   }
 
-  function _updateTableForLessonsCompleted(user_lesson_count) {
-    // $('#top-learners-content table tbody')
-    for (name in user_lesson_count){
-      console.log(name);
+  function _checkIfLoggedIn(){
+    // Check if user is logged in
+    // If not, dont let them build a lesson
+    // If so, show their name as the author
+    if (!BfUser.bfAccessToken){
+      $('#main').hide();
+      $('.login-required').show();
+    } else {
+      // if (config.debug) console.log('Logged In');
+      $(".user-name").text(BfUser.name);
     }
   }
-
 
   // add public methods to the returned module and return it
   connect.init = init;

@@ -17,6 +17,7 @@
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/moment.js"></script>
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
@@ -25,54 +26,60 @@
 </head>
 <body id="connect" class="container">
 
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
-
    <header class="navbar navbar-static-top row">
     <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
-            <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
-            <a id="signOutLink" href="#">| Sign Out</a>
+            <a id="signUpLink" href="signup.html" >Sign Up</a>
+            <a id="bfUserName" href="profile.html"></a>
+            <a id="signOutLink" href="#">Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
     </header>
+     <div id="subnav" class="row">
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a href="profile.html" class="active">Your Profile</a></li>
+            <li><a href="invite.html">Invite A Friend</a></li>
+        </ul>
+    </div>
     <div id="subheader" class="row">
-        <div class="col-lg-1 col-offset-3">
-            <img src="img/connect-gray.gif">
+        <div class="col-offset-1 col-lg-11">
+            <h1>Nice work! Here's where you can see everything you've done on BizFriend.ly</h1>
         </div>
-        <div class="col-lg-8">
-            <p>See what other business owners are learning on BizFriend.ly</p>
+        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
         </div>
     </div>
 
-    <section id="recent" class="row">
-        <h2 class="blue col-offset-3 col-lg-6">Recent Activity</h2>
-        <div id="recent-content" class="col-offset-3 col-lg-6">
+    <section id="main" class="row">
+        <div id="profile-info" class="col-offset-1 col-lg-3">
+            <h1>Hi, <span class="user-name">Jane Doe</span></h1>
+            <p class="location">Location: </p>
+            <p class="biz-name">Business Name: </p>
+            <div id="profile-social-links">
+                <a id="profile-li"><img src="img/profile-li-icon.png"></a>
+                <a id="profile-g+"><img src="img/profile-g+-icon.png"></a>
+                <a id="profile-fb"><img src="img/profile-fb-icon.png"></a>
+                <a id="profile-twitter"><img src="img/profile-twitter-icon.png"></a>
+                <a id="profile-site"><img src="img/profile-site-icon.png"></a>
+            </div>
+            <p class="profile-description">Brief intro to the community.</p>
+            <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
+        </div>
+        <div id="recent-activity" class="col-lg-6">
+            <div id="site-activity" class="activity">
+                <h1>Latest Activity</h1>
+                <div class="row">
+                    <div id="recent-activity"></div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="top-learners" class="row">
-        <h2 class="blue col-offset-3 col-lg-6">Top Learners</h2>
-        <div id="top-learners-content" class="col-offset-3 col-lg-6">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Number of Lessons</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-        </div>
-    </section>
 
     <footer class="row">
         <ul class="list-unstyled list-inline col-lg-12">
@@ -82,6 +89,7 @@
         </ul>
     </footer>
 </body>
+    <script src="js/config.js"></script>
     <script type="text/javascript" src="js/BfUser.js"></script>
     <script type="text/javascript" src="js/connect.js"></script>
 </html>

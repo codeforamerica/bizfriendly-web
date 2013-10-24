@@ -9,112 +9,132 @@
     <meta charset="utf-8">
 
     <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-select.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <!-- <link href="css/main.css" rel="stylesheet"> -->
     <link href="css/main.css" rel="stylesheet">
 
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
     <script src="js/vendor/jquery.cookie.js"></script>
     <script src="js/vendor/jquery-ui.js"></script>
-    <script src="js/vendor/jquery.editable.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/jquery.jeditable.js"></script>
+    <script src="js/vendor/bootstrap.js"></script>
+    <script src="js/vendor/bootstrap-select.js"></script>
+    <script src="js/vendor/jquery.ui.widget.js"></script>
+    <script src="js/vendor/jquery.iframe-transport.js"></script>
+    <script src="js/vendor/jquery.fileupload.js"></script>
+
+
 
     <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-<body id="teach" class="container">
-
-    <div class="row">
-        <div id="alpha" class="alert alert-info col-offset-3 col-lg-6">BizFriend.ly is currently in an alpha stage. Try it out and <a href="https://docs.google.com/a/codeforamerica.org/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform">share your feedback</a>! Thanks for sharing your thoughts to help us make BizFriend.ly better.</div>
-    </div>
+<body id="teach-landing" class="container">
 
    <header class="navbar navbar-static-top row">
     <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
-            <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
-            <a id="signOutLink" href="#">| Sign Out</a>
+            <a id="signUpLink" href="signup.html" >Sign Up</a>
+            <a id="bfUserName" href="profile.html"></a>
+            <a id="signOutLink" href="#">Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
         </ul>
     </header>
+    <div id="subnav" class="row">
+        <ul class="list-inline col-offset-3 col-lg-8">
+            <li><a class="active">Content Creator</a></li>
+            <li><a href="teaching-guide.html">Teaching Guide</a></li>
+            <li><a href="request-content.html">Content Requests</a></li>
+        </ul>
+    </div>
     <div id="subheader" class="row">
-        <div class="col-lg-1 col-offset-2">
-            <img width="50" height="50" src="img/teach_gray.gif">
+        <div class="col-offset-1">
+            <h1>What would you like to teach? BizFriend.ly makes it easy to add and request new content.</h1>
+            <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin.</p>
         </div>
-        <div class="col-lg-8">
-            <p>Build a lesson by creating steps with instructions. Drag elements into the instruction window and then double click to edit the text.</p>
-            <div id="alpha" class="alert alert-info">The Teach feature of BizFriend.ly is currently in a prototype stage. Eventually it will allow lessons to easily be added to the service. Give it a try and let us know what you think! </div>
+        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
         </div>
     </div>
 
-    <!-- <form id="lesson-name-form" class="row">
-        <div class="col-offset-3 col-lg-6">
-            <label for="lesson-name"><h3 class="orange">Lesson Name</h3></label>
-            <input id="lesson-name" type="text" class="form-control" placeholder="Create a short, catchy name for your lesson.">
-        </div>
-    </form>
-
-    <div class="row">
-        <ul id="progress" class="list-unstyled list-inline col-6 col-offset-3">
-            <li class="active"><h2>1</h2></li>
-            <li class="unfinished"><a id="minusSteps" href="#">-</a></li>
-            <li class="unfinished"><a id="plusSteps" href="#">+</a></li>
-        </ul>
-    </div> -->
-    
     <section id="main" class="row">
-        <div class="col-lg-9 col-offset-3">
-            
-            <div class="teach-column">
-                <h3 class="blue">Elements</h3>
-                <p>Drag elements from below into the instruction window.</p>
-                <div id="teach-elements" class="teach-box-elements droppable">
-                    <div id="lesson-name" class="lesson-name draggable">
-                        Lesson Name
-                    </div>
-                    <h2 id="big-text" class="draggable">
-                        Big Text Main Instruction Big Text
-                        Big Text Main Instruction Big Text
-                    </h2>
-                    <p class="draggable">
-                        Small text small text
-                        small text small text
-                        small text small text
-                    </p>
-                    <a id="teach-button" type="button" class="btn btn-default draggable">Button</a>
-                    <br/>
-                    <img width="15%" class="draggable" src="img/celebration_flag.gif">
-                    <img width="15%"class="draggable" src="img/celebration_heart.gif">
-                    <img width="15%"class="draggable" src="img/celebration_like.gif">
-                    <img width="15%"class="draggable" src="img/celebration_star.gif">
-                    
+        <div class="row">
+            <div id="lesson" class="teach-top col-offset-1 col-lg-3">
+                <h2>Lesson</h2>
+                <hr/>
+                <div class="description">
+                    Lessons are what most people create on BizFriend.ly. It’s the content you see in the right hand helper window. 
+                </div>
+                <hr/>
+                <p class="bold">To create a lesson you’ll need:</p>
+                <ul>
+                    <li>An idea for a lesson that doesn’t exist yet on BizFriend.ly</li>
+                    <li>A lesson name</li>
+                    <li>Time to write and iterate on your lesson</li>
+                </ul>
+                <div class="center">
+                    <a href="lesson-builder.html" type="button" class="btn btn-primary">Create Lesson</a>
                 </div>
             </div>
-            
-            <div class="teach-column">
-                <h3 class="blue">Instructions</h3>
-                <p>Drop elements below to build your step .Double click on text to edit.</p>
-                <div id="teach-instructions" class="teach-box droppable">
-                   <!--  <img class="instruction-header-img" src="img/instruction-header.png"> -->
-                    <p class="gray">Drag your text, buttons, and icons here.</p>
+            <div id="service" class="teach-top col-lg-3">
+                <h2>Web Service</h2>
+                <hr/>
+                <div class="description">
+                    Web services are what lessons are about, such as Facebook or Trello. You can add any website or service for lessons. 
+                </div>
+                <hr/>
+                <p class="bold">To add a service you’ll need:</p>
+                <ul>
+                    <li>Web service name & URL</li>
+                    <li>A brief description of the service and why it’s valuable to business owners</li>
+                    <li>Up to 3 key points to keep in mind</li>
+                    <li>Up to 5 additional resource links</li>
+                    <li>Icon for the service</li>
+                    <li>Screenshot of the service or a testimonial video</li>
+                </ul>
+                <div class="center">
+                    <a href="new-service.html" type="button" class="btn btn-primary">Add Service</a>
                 </div>
             </div>
-            <!-- <div id="teach-feedback" class="teach-column">
-                <h3 class="orange">Feedback</h3>
-                <div id="teach-feedback" class="teach-box droppable">
-                    <img class="instruction-header-img" src="img/instruction-header.png">
-                    <p class="gray">Drag elements here to create your step. Double click on text to edit it!</p>
+            <div id="category" class="teach-top col-lg-3">
+                <h2>Skill</h2>
+                <hr/>
+                <div class="description">
+                    Skills are what appear at the top of the Learn section. Web services and lessons live within them.
                 </div>
-            </div> -->
+                <hr/>
+                <p class="bold">To create a skill you’ll need:</p>
+                <ul>
+                    <li>An idea for a skill that doesn’t exist yet on BizFriend.ly</li>
+                    <li>A skill name</li>
+                    <li>A brief description of the skill and why it’s valuable to business owners</li>
+                </ul>
+                <div class="center">
+                    <a href="new-category.html" type="button" class="btn btn-primary">New Skill</a>
+                </div>
+            </div>
         </div>
+        <!-- <div class="row">
+            <div id="teaching-guide" class="teach-bottom col-offset-1 col-lg-3">
+                <h2>Teaching Guide</h2>
+                <hr/>
+            </div>
+            <div id="top-requests" class="teach-bottom col-lg-3">
+                <h2>Top Requests</h2>
+                <hr/>
+            </div>
+            <div id="request-content" class="teach-bottom col-lg-3">
+                <h2>Request Content</h2>
+                <hr/>
+            </div>
+        </div> -->
     </section>
 
     <footer class="row">
@@ -125,6 +145,6 @@
         </ul>
     </footer>
 </body>
+    <script src="js/config.js"></script>
     <script type="text/javascript" src="js/BfUser.js"></script>
-    <script type="text/javascript" src="js/teach.js"></script>
 </html>

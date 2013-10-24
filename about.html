@@ -13,20 +13,24 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="css/main.css" rel="stylesheet">
 
+    <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/vendor/jquery.cookie.js"></script>
+
 	<!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
 <body id="about" class="container">
+
 	<header class="navbar navbar-static-top row">
         <div id="signinlinks" class="pull-right">
             <a id="signInLink" href="signin.html">Sign In</a>
-            <a id="signUpLink" href="signup.html" >| Sign Up</a>
-            <a id="bfUserName" href="#"></a>
-            <a id="signOutLink" href="#">| Sign Out</a>
+            <a id="signUpLink" href="signup.html" >Sign Up</a>
+            <a id="bfUserName" href="profile.html"></a>
+            <a id="signOutLink" href="#">Sign Out</a>
         </div>
-        <a class="navbar-brand" href="http://bizfriend.ly"><img src="img/bizfriendly_weblogo_alpha.png"></a>
+        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
         <ul class="nav navbar-nav col-lg-10 col-sm-7">
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
             <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
@@ -35,7 +39,7 @@
     </header>
     <div id="subheader" class="row">
         <div class="col-lg-12">
-            <img width="1170" src="img/about.gif">
+            <img src="img/about.png">
         </div>
     </div>
     <p class="text-overlay">BizFriendly is a project created in collaboration with Kansas City, Missouri, the Unified Government of Wyandotte County and Kansas City, Kansas and the 2013 Code for America Fellows.</p>
@@ -60,10 +64,10 @@
         <p>You’ll quickly learn through lessons that guide you step-by-step, track your progress, and provide feedback along the way. Try one out!</p>
 
         <p class="blue bold">Connect & compare to others</p>
-        <p>Soon you’ll be able to join a community of learners to connect and see how you compare.</p>
+        <p>Join a community of learners to connect and see how you compare.</p>
 
         <p class="bold">How is the content created?</p>
-        <p>To keep the content fresh, teachers and web services can easily create new lessons through an integrated lesson builder. <a href="http://www.google.com/url?q=http%3A%2F%2Fbizfriend.ly%2Fteach.html&sa=D&sntz=1&usg=AFQjCNFoV4VbEqFdH6EaTriIrZnV4xCkAQ">Check out the lesson builder prototype</a>.</p>
+        <p>To keep the content fresh, anyone can easily create new lessons through an integrated lesson builder. <a href="http://www.google.com/url?q=http%3A%2F%2Fbizfriend.ly%2Fteach.html&sa=D&sntz=1&usg=AFQjCNFoV4VbEqFdH6EaTriIrZnV4xCkAQ">Check out the lesson builder prototype</a>.</p>
 
         <p class="bold">Why are we building it?</p>
         <p>Charged with the topic of economic development, the Code for America fellows conducted <a href="http://cfakc.tumblr.com/process">a research and ideation process</a> and discovered a need for improving digital literacy in Kansas City as means to economic development.</p>
@@ -81,8 +85,11 @@
         <p><span class="bold">Mayor Sly James' Office:</span> John McGurk, David Rowe, and Ashley Hand </p>
         <p><span class="bold">Mayor Mark Holland's Office:</span> Maureen Mahoney, Jason Banks, Brett Deichler, and Chris Cooley</p>
         <p><span class="bold">Local Kansas City Funders:</span> The Ewing Marion Kauffman Foundation, Google Fiber, Cerner, Sprint, Hall Family Foundation, Hallmark Corporate, and H&R Block Foundation</p>
-
-        <p class="bold">Thank you to everyone who has helped make this possible!</p>
+       <p><span class="bold">With contributions from:</span> <a href="https://github.com/SheilaLDugan">Sheila Dugan</a> and <a href="https://github.com/ty10r">Tylor Louis</a>
+                </p>
+                <p class="bold">Thank you to everyone who has helped make this possible!</p>
+            </div>
+        </div>
 
     </section>
 
@@ -94,6 +101,9 @@
         </ul>
     </footer>
 </body>
+
+    <script src="js/config.js"></script>
+    <script type="text/javascript" src="js/BfUser.js"></script>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
