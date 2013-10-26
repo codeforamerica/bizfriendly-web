@@ -275,9 +275,14 @@ hr {
 	text-align: center;
 }
 
-#teach #subheader, #teach #teach-main, #teach footer {
+#teach #subheader, #teach #teach-main {
 	position: relative;
 	top: -31px;
+}
+
+#teach footer {
+	position: relative;
+	top: -56px;
 }
 
 #lesson-form {
