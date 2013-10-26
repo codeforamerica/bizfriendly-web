@@ -365,59 +365,59 @@ var preview = (function (preview) {
       $("#open").click(_openClicked);
     }
 
-    // // If step type is check_for_new
-    // if (currentStep.stepType == 'check_for_new' && oauthToken){
-    //   console.log(originalCount);
-    //   // This step fires at least twice. First time it just gets the originalCount
-    //   // Every following time it compares the number of objects to the originalCount
-    //   if ( originalCount !== false ){
-    //     if (config.debug) console.log("originalCount: " + originalCount);
-    //     postData["originalCount"] = originalCount;
-    //   }
-    //   BfUser.check_for_new(postData, _checkForNew);
-    // }
-    // // check_if_attribute_exists
-    // if (currentStep.stepType == 'check_if_attribute_exists' && oauthToken){
-    //   if (config.debug) console.log(currentStep);
-    //   BfUser.check_if_attribute_exists(postData, _checkIfAttributeExists);
-    // }
+    // If step type is check_for_new
+    if (currentStep.stepType == 'check_for_new' && oauthToken){
+      console.log(originalCount);
+      // This step fires at least twice. First time it just gets the originalCount
+      // Every following time it compares the number of objects to the originalCount
+      if ( originalCount !== false ){
+        if (config.debug) console.log("originalCount: " + originalCount);
+        postData["originalCount"] = originalCount;
+      }
+      BfUser.check_for_new(postData, _checkForNew);
+    }
+    // check_if_attribute_exists
+    if (currentStep.stepType == 'check_if_attribute_exists' && oauthToken){
+      if (config.debug) console.log(currentStep);
+      BfUser.check_if_attribute_exists(postData, _checkIfAttributeExists);
+    }
 
-    // // check_attribute_for_value
-    // if (currentStep.stepType == 'check_attribute_for_value' && oauthToken){
-    //   BfUser.check_attribute_for_value(postData, _checkAttributeForValue);
-    // }
+    // check_attribute_for_value
+    if (currentStep.stepType == 'check_attribute_for_value' && oauthToken){
+      BfUser.check_attribute_for_value(postData, _checkAttributeForValue);
+    }
 
-    // // Is step type get_attributes_from_input
-    // if (currentStep.stepType == 'get_attributes_from_input'){
-    //   // First get the id from the input
-    //   $('#userInputSubmit').click(function(evt){
-    //     var userInput = $('#userInput').val();
-    //     // If Foursquare, get venue id from input URL.
-    //     if (service == 'foursquare'){
-    //       var userInputPath = userInput.split( '/' );
-    //       rememberedAttribute = userInputPath.pop();
-    //     }
-    //     challengeWindow.close();
-    //     _openChallengeWindow(userInput);
+    // Is step type get_attributes_from_input
+    if (currentStep.stepType == 'get_attributes_from_input'){
+      // First get the id from the input
+      $('#userInputSubmit').click(function(evt){
+        var userInput = $('#userInput').val();
+        // If Foursquare, get venue id from input URL.
+        if (service == 'foursquare'){
+          var userInputPath = userInput.split( '/' );
+          rememberedAttribute = userInputPath.pop();
+        }
+        challengeWindow.close();
+        _openChallengeWindow(userInput);
 
-    //     postData["rememberedAttribute"] = rememberedAttribute;
-    //     // Then call get_attributes
-    //     BfUser.get_attributes(postData, _getAttributes);
-    //   });
-    // }
+        postData["rememberedAttribute"] = rememberedAttribute;
+        // Then call get_attributes
+        BfUser.get_attributes(postData, _getAttributes);
+      });
+    }
 
-    // // check_attribute_for_update
-    // if (currentStep.stepType == 'check_attribute_for_update' && oauthToken){
-    //   console.log(originalAttributeValues);
-    //   // This step fires at least twice. First time it just gets the originalAttributeValues
-    //   // Every following time it compares the value of the attribute to the originalAttributeValues
-    //   if ( originalAttributeValues ){
-    //     if (config.debug) console.log("originalAttributeValues: " + originalAttributeValues);
-    //     postData["originalAttributeValues"] = originalAttributeValues.toString();
-    //   }
-    //   console.log(postData);
-    //   BfUser.check_attribute_for_update(postData, _checkAttributeForUpdate);
-    // }
+    // check_attribute_for_update
+    if (currentStep.stepType == 'check_attribute_for_update' && oauthToken){
+      console.log(originalAttributeValues);
+      // This step fires at least twice. First time it just gets the originalAttributeValues
+      // Every following time it compares the value of the attribute to the originalAttributeValues
+      if ( originalAttributeValues ){
+        if (config.debug) console.log("originalAttributeValues: " + originalAttributeValues);
+        postData["originalAttributeValues"] = originalAttributeValues.toString();
+      }
+      console.log(postData);
+      BfUser.check_attribute_for_update(postData, _checkAttributeForUpdate);
+    }
 
     // congrats
     if (currentStep.stepType == 'congrats'){
