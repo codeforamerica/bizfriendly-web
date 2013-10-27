@@ -167,7 +167,8 @@ var teach = (function (teach) {
       serviceName = $('#service-id :selected').text();
       $(".service-name").text(serviceName);
       serviceId = parseInt($("#service-id").val());
-      _watchServices(); 
+      _watchServices();
+
     })
   }
 
@@ -184,6 +185,55 @@ var teach = (function (teach) {
       }
       if (config.debug) console.log("Service Name: " + serviceName);
     });
+  }
+
+  function _interactiveLessons(){
+    var collections = []
+    console.log(serviceName);
+    if (serviceName == "Facebook"){
+      collections = [ "posts", "pictures", "pages"]
+    }
+    if (serviceName == "Foursquare"){
+      collections = [ "checkins", "venues", "lists"]
+    }
+    if (serviceName == "Trello"){
+      collections = [ "boards", "cards"]
+    }
+    $('#collection-name').empty();
+
+    $('#collection-name').append('<option value="none">What kind of item?</option>');
+    $.each(collections, function(i){
+      $('#collection-name').append('<option value='+collections[i]+'>'+collections[i]+'</option>');
+    })
+
+    $(".selectpicker").selectpicker("refresh");
+    console.log("Interactive")
+    _watchInteractiveOptions()
+  }
+
+  function _watchInteractiveOptions(){
+    $("#options-form").on("change", "#what-to-watch", function(){
+      console.log($("#what-to-watch").val());
+      if ($("#what-to-watch").val() == "A new item"){
+        currentStep.step_type = "check_for_new";
+      }
+    });
+    $("#options-form").on("change", "#collection-name", function(){
+      if ($("#collection-name").val() == "pages"){
+        currentStep.trigger_endpoint = "https://graph.facebook.com/me/accounts?fields=name&access_token=";
+        currentStep.trigger_check = "data";
+        currentStep.trigger_value = "name";
+        currentStep.thing_to_remember = "id";
+      }
+      if ($("#collection-name").val() == "posts"){
+        currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts&access_token=";
+        currentStep.trigger_check = "data";
+        currentStep.trigger_value = "message";
+        currentStep.thing_to_remember = "id";
+      }
+      console.log(currentStep);
+    });
+
   }
 
   function _orderSteps(){
@@ -639,10 +689,11 @@ var teach = (function (teach) {
   }
 
   function _optionsClicked(){
-    if ($("#elements .options").hasClass("hidden")){
-      $("#elements .options").removeClass("hidden");
+     _interactiveLessons();
+    if ($(".options").hasClass("hidden")){
+      $(".options").removeClass("hidden");
     } else {
-      $("#elements .options").addClass("hidden");
+      $(".options").addClass("hidden");
     }
   }
 

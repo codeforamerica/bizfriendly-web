@@ -292,7 +292,6 @@ hr {
 #step-builder {
 	position: relative;
 	top: -25px;
-	left: 120px;
 }
 
 #teach-dots {
@@ -332,6 +331,10 @@ hr {
 
 #elements hr {
 	padding: 5px;
+}
+
+#advanced-options {
+	padding-top: 25px;
 }
 
 #add-droppable img {
@@ -501,6 +504,18 @@ ul{
 .btn-blue:hover {
   background-color: #C7E4EE;
   border-color: #C7E4EE;
+}
+
+.btn-gray {
+	background-color: #BFBFBF;
+	border-color: #BFBFBF;
+	font-weight: 700;
+}
+
+.btn-gray:hover {
+	background-color: #BFBFBF;
+	border-color: #BFBFBF;
+	font-weight: 700;
 }
 
 #laptop {

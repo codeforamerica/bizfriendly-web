@@ -23,7 +23,7 @@ js: teach
 <div id="teach-main">
     <section id="teach-content" class="container">
         <form id="lesson-form" role="form" class="row">
-            <div class="col-sm-4 col-md-4 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+            <div class="col-sm-6 col-md-5 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                 <select id="category-id" class="selectpicker" data-width="100%">
                     <option val="none">Select a skill for your lesson</option>
                 </select>
@@ -43,19 +43,37 @@ js: teach
                 </ul>
             </div>
             <div id="step-builder" class="row">
-                <div id="elements" class="col-lg-offset-2 col-lg-1">
-                    <h3>Elements</h3>
-                    <hr/>
-                    <div id="text-element-drag" class="draggable"><p>Text</p></div>
-                    <div id="open-element-drag" class="draggable">Text & Open Button</div>
-                    <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
-                    <!-- <hr/>
-                    <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button> -->
-                    <div id="login-element-drag" class="draggable options">Text & Log In Button</div>
-                   <!--  <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
+                <div id="left-column" class="col-xs-3 col-sm-2 col-md-2 col-lg-3 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">
+                    <div class="row">
+                        <div id="elements" class="col-lg-6 col-lg-offset-6">
+                            <h3>Elements</h3>
+                            <hr/>
+                            <div id="text-element-drag" class="draggable"><p>Text</p></div>
+                            <div id="open-element-drag" class="draggable">Text & Open Button</div>
+                            <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
+                             <div id="login-element-drag" class="draggable">Text & Log In Button</div>
+                         </div>
+                    </div>
+                    <div id="advanced-options" class="row">
+                        <button type="button" id="step-options-btn" class="btn btn-gray btn-block">Advanced Options</button>
+                        <div class="options hidden alert alert-success">
+                            These advance features are being prototyped. Go forth with caution.
+                        </div>
+                        <form id="options-form"> 
+                            <select id="what-to-watch" class="selectpicker options hidden" data-width="100%">
+                                <option>What is this step watching?</option>
+                                <option>A new item</option>
+                                <option>New attribute on item</option>
+                                <option>Updated attribute on item</option>
+                                <option>Attribute equals expected value</option>
+                                <option>Attribute from input</option>
+                            </select>
+                            <select id="collection-name" class="selectpicker options hidden" data-width="100%"></select>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="teach-column col-lg-4">
+                <div class="teach-column col-xs-3 col-sm-4 col-md-4 col-lg-4">
                     <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
                     <div id="teach-instructions" class="teach-box">
                         <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
@@ -75,7 +93,7 @@ js: teach
                       </div>
                     </div>
                 </div>
-                <div id="right-column" class="col-lg-3">
+                <div id="right-column" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     <div id="feedback-window">
                         <div id="feedback-content">
                         </div>
