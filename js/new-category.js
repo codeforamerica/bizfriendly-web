@@ -78,10 +78,13 @@ var newCategory = (function (newCategory) {
         $('#submissionModal').modal();
 
         // Send an email to admins
-        $.post(config.bfUrl+"/new_content_email", newCategory, function(response){
-          if (config.debug) console.log("Email sent to admins.")
-          if (config.debug) console.log(response);
-        })
+        if (newCategory.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", newCategory, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
+        
       },
       error : function(error){
         $(".alert").removeClass("hidden");

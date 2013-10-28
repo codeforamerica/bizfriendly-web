@@ -1007,12 +1007,16 @@ var teach = (function (teach) {
           lessonId = data.objects[0].id
           _postSteps();
         newLesson["id"] = lessonId;
-        // Send an email to admins
-        $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
-          if (config.debug) console.log("Email sent to admins.")
-          if (config.debug) console.log(response);
-        })
+
+        if (newLesson.state == "submitted"){
+          // Send an email to admins
+          $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+          }
         }
+        
       },
       error : function(error){
         console.log(error);

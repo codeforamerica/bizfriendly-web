@@ -274,10 +274,13 @@ var newService = (function (newService) {
         $('#submissionModal').modal()
 
         // Send an email to admins
-        $.post(config.bfUrl+"/new_content_email", newService, function(response){
-          if (config.debug) console.log("Email sent to admins.")
-          if (config.debug) console.log(response);
-        })
+        if (newService.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", newService, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
+        
       },
       error : function(error){
         $(".alert").removeClass("hidden");
