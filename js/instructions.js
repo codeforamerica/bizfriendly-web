@@ -6,19 +6,21 @@ var instructions = (function (instructions) {
   var service = {}
   var steps = []
   var previewLesson;
-  if (window.opener.document.preview) {
-    console.log("Preview")
-    previewLesson = true;
-    lesson.name = window.opener.document.preview.lessonName.value;
-    lesson.creator = {}
-    lesson.service = {}
-    lesson.creator.name = window.opener.document.preview.authorName.value;
-    lesson.service.name = window.opener.document.preview.serviceName.value;
-    lesson.service.id = window.opener.document.preview.serviceId.value;
-    lesson.steps = window.opener.document.preview.steps.value;
-    console.log(lesson.steps);
-    lesson.steps = $.parseJSON(lesson.steps);
-    // console.log(steps);
+  if (window.opener){ // Emailed links don't have an opener.
+    if (window.opener.document.preview) {
+      console.log("Preview")
+      previewLesson = true;
+      lesson.name = window.opener.document.preview.lessonName.value;
+      lesson.creator = {}
+      lesson.service = {}
+      lesson.creator.name = window.opener.document.preview.authorName.value;
+      lesson.service.name = window.opener.document.preview.serviceName.value;
+      lesson.service.id = window.opener.document.preview.serviceId.value;
+      lesson.steps = window.opener.document.preview.steps.value;
+      console.log(lesson.steps);
+      lesson.steps = $.parseJSON(lesson.steps);
+      // console.log(steps);
+    }
   }
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson

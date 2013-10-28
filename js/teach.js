@@ -985,7 +985,8 @@ var teach = (function (teach) {
       data: JSON.stringify(newLesson),
       dataType: "json",
       success : function(){
-        _getLessonId();
+        _getLessonId(newLesson);
+
       },
       error : function(error){
         console.log(error)
@@ -993,10 +994,9 @@ var teach = (function (teach) {
     });
   }
 
-  function _getLessonId(){
+  function _getLessonId(newLesson){
     // Post draft lesson
-    lessonName = $("#lesson-name").text();
-    var filters = [{"name": "name", "op": "==", "val": lessonName}];
+    var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
@@ -1006,6 +1006,12 @@ var teach = (function (teach) {
         if (data.num_results){
           lessonId = data.objects[0].id
           _postSteps();
+        newLesson["id"] = lessonId;
+        // Send an email to admins
+        $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
+          if (config.debug) console.log("Email sent to admins.")
+          if (config.debug) console.log(response);
+        })
         }
       },
       error : function(error){

@@ -272,6 +272,12 @@ var newService = (function (newService) {
         console.log(newService);
         $(".service-name").text($("#new-service-name").val())
         $('#submissionModal').modal()
+
+        // Send an email to admins
+        $.post(config.bfUrl+"/new_content_email", newService, function(response){
+          if (config.debug) console.log("Email sent to admins.")
+          if (config.debug) console.log(response);
+        })
       },
       error : function(error){
         $(".alert").removeClass("hidden");
