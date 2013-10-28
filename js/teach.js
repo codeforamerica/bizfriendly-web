@@ -189,15 +189,14 @@ var teach = (function (teach) {
 
   function _interactiveLessons(){
     var collections = []
-    console.log(serviceName);
     if (serviceName == "Facebook"){
       collections = [ "posts", "pictures", "pages"]
     }
     if (serviceName == "Foursquare"){
-      collections = [ "checkins", "venues", "lists"]
+      collections = [ "checkins", "lists"]
     }
     if (serviceName == "Trello"){
-      collections = [ "boards", "cards"]
+      collections = [ "boards" ]
     }
     $('#collection-name').empty();
 
@@ -207,30 +206,108 @@ var teach = (function (teach) {
     })
 
     $(".selectpicker").selectpicker("refresh");
-    console.log("Interactive")
     _watchInteractiveOptions()
   }
 
   function _watchInteractiveOptions(){
     $("#options-form").on("change", "#what-to-watch", function(){
       console.log($("#what-to-watch").val());
+      if ($("#what-to-watch").val() != "What is this step watching?"){
+        // Disable open, login, and text-input
+        $("#login-element-drag").addClass("disabled").draggable("disable");
+        $("#text-entry-drag").addClass("disabled").draggable("disable");
+        $("#open-element-drag").addClass("disabled").draggable("disable");
+      } else {
+        // Enable open, login, and text-input
+        $("#open-element-drag").removeClass("disabled").draggable("enable");
+        $("#login-element-drag").removeClass("disabled").draggable("enable");
+        $("#text-entry-drag").removeClass("disabled").draggable("enable");
+      }
+      
+
       if ($("#what-to-watch").val() == "A new item"){
         currentStep.step_type = "check_for_new";
       }
     });
     $("#options-form").on("change", "#collection-name", function(){
-      if ($("#collection-name").val() == "pages"){
-        currentStep.trigger_endpoint = "https://graph.facebook.com/me/accounts?fields=name&access_token=";
-        currentStep.trigger_check = "data";
-        currentStep.trigger_value = "name";
-        currentStep.thing_to_remember = "id";
+      if (serviceName == "Facebook"){
+        if ($("#collection-name").val() == "pages"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/accounts?fields=name&access_token=";
+          currentStep.place_in_collection = "last";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "posts"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts?access_token=";
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "message";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "pictures"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts?access_token=";
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "picture";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<img class="responseDisplay">');
+        }
       }
-      if ($("#collection-name").val() == "posts"){
-        currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts&access_token=";
-        currentStep.trigger_check = "data";
-        currentStep.trigger_value = "message";
-        currentStep.thing_to_remember = "id";
+      if (serviceName == "Foursquare"){
+        if ($("#collection-name").val() == "checkins"){
+          var timestamp = Math.floor(new Date() / 1000);
+          currentStep.trigger_endpoint = 'https://api.foursquare.com/v2/users/self/checkins?afterTimestamp='+timestamp+'&v=20131027&oauth_token=';
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "response,checkins,items";
+          currentStep.trigger_value = "venue,name";
+          currentStep.thing_to_remember = "venue,id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "lists"){
+          currentStep.trigger_endpoint = 'https://api.foursquare.com/v2/users/self/lists?group=created&v=20131027&oauth_token=';
+          currentStep.place_in_collection = "second";
+          currentStep.trigger_check = "response,lists,items";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
       }
+      if (serviceName == "Trello"){
+        if ($("#collection-name").val() == "boards"){
+          currentStep.trigger_endpoint = 'https://api.trello.com/1/member/me/boards?fields=id,name,dateLastView&key=8d1015f4f92871529f1618fa828c2fe8&token=';
+          currentStep.place_in_collection = "alphabetical";
+          currentStep.trigger_check = "";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        // if ($("#collection-name").val() == "cards"){
+        //   currentStep.trigger_endpoint = 'https://trello.com/1/boards/replace_me/cards?key=8d1015f4f92871529f1618fa828c2fe8&token=';
+        //   currentStep.place_in_collection = "second";
+        //   currentStep.trigger_check = "response,lists,items";
+        //   currentStep.trigger_value = "name";
+        //   currentStep.thing_to_remember = "id";
+
+        //   // Feedback
+        //   $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        // }
+      }
+      
       console.log(currentStep);
     });
 
@@ -356,19 +433,24 @@ var teach = (function (teach) {
     
 
     // Turn on all step types again
-    $("#open-element-drag").removeClass("disabled").draggable("enable");
-    $("#login-element-drag").removeClass("disabled").draggable("enable");
-    $("#text-entry-drag").removeClass("disabled").draggable("enable");
-
+    $("#elements .disabled").removeClass("disabled").draggable("enable");
+    $("#what-to-watch").prop("disabled",false).selectpicker("refresh");
+    $("#collection-name").prop("disabled",false).selectpicker("refresh");
     if ($("#step-texts .open-element").length != 0){
       $("#login-element-drag").addClass("disabled").draggable("disable");
       $("#text-entry-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     } else if ($("#step-texts .login-element").length != 0){
       $("#open-element-drag").addClass("disabled").draggable("disable");
       $("#text-entry-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     } else if ($("#step-texts .text-entry-element").length != 0){
       $("#open-element-drag").addClass("disabled").draggable("disable");
       $("#login-element-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     }
     
 
@@ -408,7 +490,13 @@ var teach = (function (teach) {
         $(".flag-icon").click(_iconClicked);
         $(".heart-icon").click(_iconClicked);
         $(".thumbs-up-icon").click(_iconClicked);
-      }) 
+      })
+      // Disable draggables
+      $("#elements .draggable").addClass("disabled").draggable("disable");
+      // Disable advanced options
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
+
     }
     if (newSteps.length <= 2){
       $("#step-close-btn").hide();
@@ -513,7 +601,8 @@ var teach = (function (teach) {
           currentStep.step_type = "open";
           $("#login-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
-
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#open-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -539,6 +628,8 @@ var teach = (function (teach) {
           currentStep.step_type = "login";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#login-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -550,6 +641,8 @@ var teach = (function (teach) {
           currentStep.step_type = "input";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#login-element-drag").addClass("disabled").draggable("disable");
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#text-entry-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -655,7 +748,9 @@ var teach = (function (teach) {
     }
     // Turn disabled elements back on
     if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
-      $("#elements ul li").removeClass("disabled").draggable("enable");
+      $("#elements .disabled").removeClass("disabled").draggable("enable");
+      $("#what-to-watch").prop("disabled",false).selectpicker("refresh");
+      $("#collection-name").prop("disabled",false).selectpicker("refresh");
     }
     // if ($("#feedback-content .step-text").length == 0){
     //   var $clone = $("#droppable-prototype").clone();
@@ -749,7 +844,7 @@ var teach = (function (teach) {
     document.preview.serviceName.value = serviceName.toLowerCase();
     document.preview.serviceId.value = serviceId;
 
-    var url = 'preview-instructions.html';
+    var url = 'instructions.html';
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
