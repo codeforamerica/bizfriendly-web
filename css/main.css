@@ -566,11 +566,6 @@ ul{
 	color: #ff4000;
 }
 
-#recent, #top-learners {
-	position: relative;
-	top: -125px;
-}
-
 #recent-content {
 	padding-top: 25px;
 	border: solid 1px;
@@ -1134,12 +1129,16 @@ section .btn{
 	margin-left: 25px;
 }
 
-#profile-activity h1, #recent-activity h1 {
+#profile-activity h1, #leader-boards h1, #latest-activity h1 {
 	text-align: center;
 	background-color: #FFC9AE;
 	color: #ff4000;
 	line-height: 48px;
 	border-radius: 15px;
+}
+
+#latest-activity {
+	padding-top: 25px;
 }
 
 #recent-activity {
