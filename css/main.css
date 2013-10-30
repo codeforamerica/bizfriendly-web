@@ -1103,6 +1103,7 @@ section .btn{
 	color: #0F6095;
 	border-radius: 15px;
 	padding: 10px;
+	min-width:330px;
 }
 
 #profile-info .location, #profile-info .biz-name {
@@ -1122,6 +1123,10 @@ section .btn{
 
 #profile-info #profile-social-links a {
 	margin-right : 15px;
+}
+
+#fb-plugin {
+	background-color: #FFF;
 }
 
 
