@@ -88,6 +88,7 @@ var connect = (function (connect) {
   }
 
   function _getTopTeachers(response){
+    // This can be refactored. The ajax call messed up my pattern.
     teacherCounts = {};
     $.each(response.objects, function(i,userLesson){
       // If teacher isn't in the object, add it
@@ -99,8 +100,8 @@ var connect = (function (connect) {
       }
     })
     // Get names of teachers
-    var namedCounts = [];
     $.each(teacherCounts, function(id,count){
+      var namedCounts = [];
       var namedCount = {}
       $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+id, function(response){
         namedCount["name"] = response.name;
@@ -114,15 +115,15 @@ var connect = (function (connect) {
         })
         // Add to the page
         $.each(namedCounts, function(i,namedCount){
-        var html = "";
+          var html = "";
           if (i < 5){ // Top five learners
             html += '<p><a>'+namedCount.name+'</a>';
             html += " has taught "+namedCount.count+" lessons.</p>";
             // html += '<hr/>';
+            // Add to the page
+            $("#top-teachers").append(html);
           }
         })
-        // Add to the page
-        $("#top-teachers").append(html);
       })
     })
   }
