@@ -98,13 +98,9 @@ var connect = (function (connect) {
         teacherCounts[userLesson.lesson.creator_id] += 1
       }
     })
-    console.log(teacherCounts);
     // Get names of teachers
-    // var html = ""
     var namedCounts = [];
-
     $.each(teacherCounts, function(id,count){
-      console.log(id, count);
       var namedCount = {}
       $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+id, function(response){
         namedCount["name"] = response.name;
@@ -117,9 +113,8 @@ var connect = (function (connect) {
           return 0;
         })
         // Add to the page
-        console.log(namedCounts);
-        var html = "";
         $.each(namedCounts, function(i,namedCount){
+        var html = "";
           if (i < 5){ // Top five learners
             html += '<p><a>'+namedCount.name+'</a>';
             html += " has taught "+namedCount.count+" lessons.</p>";
