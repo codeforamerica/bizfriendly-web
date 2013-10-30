@@ -21,7 +21,6 @@ var connect = (function (connect) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
-    _checkIfLoggedIn();
     // Get top learners
     _getTopLearners(response);
     // Get Top Teachers
