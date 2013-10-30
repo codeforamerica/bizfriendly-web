@@ -2,6 +2,7 @@ var connect = (function (connect) {
 
   // private properties
   var user_id = BfUser.id;
+  var numOfTeachers;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -88,44 +89,48 @@ var connect = (function (connect) {
   }
 
   function _getTopTeachers(response){
-    // This can be refactored. The ajax call messed up my pattern.
     teacherCounts = {};
+    var numberOfTeachers = 0;
     $.each(response.objects, function(i,userLesson){
       // If teacher isn't in the object, add it
       if (!teacherCounts[userLesson.lesson.creator_id]){
         teacherCounts[userLesson.lesson.creator_id] = 0;
+        numberOfTeachers += 1;
       }
       if (userLesson.end_dt){
         teacherCounts[userLesson.lesson.creator_id] += 1
       }
     })
     // Get names of teachers
+    namedCounts = [];
     $.each(teacherCounts, function(id,count){
-      var namedCounts = [];
-      var namedCount = {}
       $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+id, function(response){
+        namedCount = {};
         namedCount["name"] = response.name;
         namedCount["count"] = count;
-        namedCounts.push(namedCount)
-        // Sort
-        namedCounts.sort(function(a,b){
-          if (a.count > b.count) return -1;
-          if (a.count < b.count) return 1;
-          return 0;
-        })
-        // Add to the page
-        $.each(namedCounts, function(i,namedCount){
+        namedCounts.push(namedCount);
+        numberOfTeachers -= 1;
+        if (!numberOfTeachers){
+          // Sort
+          namedCounts.sort(function(a,b){
+            if (a.count > b.count) return -1;
+            if (a.count < b.count) return 1;
+            return 0;
+          })
+          // Add to the page
           var html = "";
-          if (i < 5){ // Top five learners
-            html += '<p><a>'+namedCount.name+'</a>';
-            html += " has taught "+namedCount.count+" lessons.</p>";
-            // html += '<hr/>';
-            // Add to the page
-            $("#top-teachers").append(html);
-          }
-        })
-      })
-    })
+          $.each(namedCounts, function(i,namedCount){
+            if (i < 5){ // Top five learners
+              html += '<p><a>'+namedCount.name+'</a>';
+              html += " has taught "+namedCount.count+" lessons.</p>";
+              // html += '<hr/>';
+            }
+          })
+          $("#top-teachers").append(html);
+        }
+      });
+    });
+
   }
 
   function _getLatestActivity(response){
