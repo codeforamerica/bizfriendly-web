@@ -519,7 +519,7 @@ ul{
 }
 
 #laptop {
-	width: 445px;
+	width: 420px;
 	height: 240px;
 }
 
@@ -885,7 +885,7 @@ ul{
 	color: #FFF;
 }
 
-footer {
+#footer-menu {
 	background-color: #585b5b;
 	font-weight: 700;
 	margin-top: 25px;
