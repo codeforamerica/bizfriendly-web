@@ -124,7 +124,7 @@ var teach = (function (teach) {
           $('#category-id').append('<option value='+categories[i].id+'>'+categories[i].name+'</option>');
         }
       })
-      $('#category-id').append('<option value="add-new-category">Add new category</option>');
+      $('#category-id').append('<option value="add-new-category">Add new skill</option>');
       if (editingLesson) { $("#category-id").val(categoryId)}
       $('.selectpicker').selectpicker('refresh');
       _watchCategory();
