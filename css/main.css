@@ -232,6 +232,10 @@ th {
 	padding-bottom: 10px;
 }
 
+#bottom p {
+	margin: 10px;
+}
+
 footer {
 	margin-bottom: 100px;
 }
