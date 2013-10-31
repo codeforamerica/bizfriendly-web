@@ -529,10 +529,8 @@ ul{
 	left: 75px;
 }
 
-#about-subheader, #about-main {
-	position: relative;
-	top: -75px;
-	padding-bottom: 25px;
+#about-main {
+	padding-top: 25px;
 }
 
 #category-menu{
