@@ -613,15 +613,6 @@ ul{
 	display: inline;
 }
 
-#teach .titles {
-	text-align: center;
-}
-
-#teach .alert-info {
-	background-color: #C7E4EE;
-	color: #0F6095;
-}
-
 #teach-content {
 	padding: 25px;
 }
@@ -1203,9 +1194,14 @@ section .btn{
 	text-decoration: underline;
 }
 
-#teach-landing #main h2 {
+.teach-top h2 {
 	color: #FF4000;
 	text-align: center;
+}
+
+.teach-bottom h2 {
+	text-align: center;
+	color: #0F6095;
 }
 
 #teach-landing #main hr {
@@ -1234,14 +1230,18 @@ section .btn{
 	background-color: #FFC9AE;
 	border-radius: 15px;
 	padding: 15px;
-	height: 100%;
+	height: 425px;
 	margin-bottom: 15px;
 }
 
 .teach-bottom {
 	background-color: #C7E4EE;
-	height: 200px;
+	border-radius: 15px;
+	padding: 15px;
+	height: 425px;
+	margin-bottom: 15px;
 }
+
 
 .teach-top, .teach-bottom {
 	margin-right: 25px;
