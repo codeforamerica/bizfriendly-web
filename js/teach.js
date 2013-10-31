@@ -69,6 +69,13 @@ var teach = (function (teach) {
 
   function _getExistingLessonData(){
     $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, function(lesson){
+       // Check for owner or admin
+      if(BfUser.id != lesson.creator.id){
+        $('#teach-main').hide();
+        $(".login-required").text("Whoa, that is someone elses lesson.");
+        $('.login-required').show();
+      }
+
       // console.log(lesson);
       lessonName = lesson.name;
       $("#lesson-name").text(lessonName);
@@ -520,30 +527,12 @@ var teach = (function (teach) {
   function _updateProgressBar(){
     if (config.debug) console.log("NewSteps Length: "+newSteps.length);
     // Update teach-dots-number
-    while ($("#teach-dots-amount li").length < newSteps.length){
+    $("#teach-dots-amount").empty();
+    $(".progress-dots").empty();
+    $.each(newSteps, function(i, step){
       $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
-    } 
-    while ($("#teach-dots-amount li").length > newSteps.length){
-      $('#teach-dots-amount li').last().remove();
-    }
-    // Check number of dots
-    if (editingLesson) {
-      var counter = 0;
-      while ($(".progress-dots li").length < newSteps.length){
-        $('.progress-dots').append('<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>');
-        counter = counter + 1;
-      } 
-      while ($(".progress-dots li").length > newSteps.length){
-        $('.progress-dots li').last().remove();
-      }
-    } else {
-      if ($(".progress-dots li").length < newSteps.length){
-        $('.progress-dots').append('<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>');
-        counter = counter + 1;
-      }  else if ($(".progress-dots li").length > newSteps.length){
-        $('.progress-dots li').last().remove();
-      }
-    }
+      $('.progress-dots').append('<li class="step'+newSteps[i].step_number+'_progress progress-button" data-target="'+newSteps[i].step_number+'"></li>');
+    })
     $(newSteps).each(function(i){
       $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
       if (newSteps[i].step_number == currentStep.step_number){
@@ -551,7 +540,41 @@ var teach = (function (teach) {
       } else {
         $('.step'+newSteps[i].step_number+'_progress').html('');
       }
-    })
+    });
+    console.log(newSteps);
+    
+    // while ($("#teach-dots-amount li").length < newSteps.length){
+    //   $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
+    // } 
+    // while ($("#teach-dots-amount li").length > newSteps.length){
+    //   $('#teach-dots-amount li').last().remove();
+    // }
+    // Check number of dots
+    // if (editingLesson) {
+    //   var counter = 0;
+    //   while ($(".progress-dots li").length < newSteps.length){
+    //     $('.progress-dots').append('<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>');
+    //     counter = counter + 1;
+    //   } 
+    //   while ($(".progress-dots li").length > newSteps.length){
+    //     $('.progress-dots li').last().remove();
+    //   }
+    // } else {
+    //   if ($(".progress-dots li").length < newSteps.length){
+    //     $('.progress-dots').append('<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>');
+    //     counter = counter + 1;
+    //   }  else if ($(".progress-dots li").length > newSteps.length){
+    //     $('.progress-dots li').last().remove();
+    //   }
+    // }
+    // $(newSteps).each(function(i){
+    //   $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
+    //   if (newSteps[i].step_number == currentStep.step_number){
+    //     $('.step'+newSteps[i].step_number+'_progress').html('<h2>'+currentStep.step_number+'</h2>');
+    //   } else {
+    //     $('.step'+newSteps[i].step_number+'_progress').html('');
+    //   }
+    // })
   }
 
   function _makeEditable($clone){
@@ -905,6 +928,36 @@ var teach = (function (teach) {
   }
 
   function _updateSteps(){
+    // Delete steps that we've removed
+    var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+'/steps',
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data) {
+        $.each(data.objects, function(i,existingStep){
+          var inArray = false;
+          $.each(newSteps, function(x,newStep){
+            if (newStep.id == existingStep.id){
+              inArray = true;
+            }
+          })
+          if (!inArray){
+            $.ajax({
+              url: config.bfUrl+config.bfApiVersion+'/steps/'+existingStep.id,
+              type: "DELETE",
+              dataType: "json",
+              contentType: "application/json",
+              success: function(data) {console.log("DELETED STEP: "+existingStep.id)},
+              error: function(error){ console.log(error)}
+            });
+          }
+        })
+      },
+      error: function(error){console.log(error)}
+    });
+
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;

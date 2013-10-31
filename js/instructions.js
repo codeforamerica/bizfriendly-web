@@ -257,7 +257,8 @@ var instructions = (function (instructions) {
           lessonName : lesson.name,
           lessonId : lesson.id,
         }
-      if (lesson.name != 'Welcome to BizFriendly'){
+      if (currentStep.stepType == "congrats"){
+        console.log("Recording step completion.");
         BfUser.record_step(postData, _recordedStep);
       }
     }
