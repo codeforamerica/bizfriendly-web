@@ -129,8 +129,12 @@ var profile = (function (profile) {
       $("#services-created").append(html);
     } else {
       $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
-        $.each(response.objects, function(i){
-            _displayLesson(response.objects[i]);
+        $.each(response.objects, function(i, lesson){
+          if (lesson.creator_id == BfUser.id){
+                      console.log(BfUser.id);
+          console.log(lesson.creator_id);
+            _displayLesson(lesson);
+          }
         });
       });
     }

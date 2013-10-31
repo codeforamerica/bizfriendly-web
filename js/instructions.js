@@ -175,6 +175,18 @@ var instructions = (function (instructions) {
     $('section').attr('id','step'+currentStep.stepNumber);
     $('#step-text-content').html(currentStep.stepText);
     $('#feedback-content').html(currentStep.feedback);
+    if (!previewLesson){
+      // Record most recent opened step
+      postData = {
+          currentStep : currentStep,
+          lessonName : lesson.name,
+          lessonId : lesson.id,
+        }
+      if (currentStep.stepType == "congrats"){
+        console.log("Recording step completion.");
+        BfUser.record_step(postData, _recordedStep);
+      }
+    }
   }
 
   function _stepTransition(){
@@ -250,18 +262,6 @@ var instructions = (function (instructions) {
     currentStep = steps[currentStep.stepNumber];
     _updateStepsStates();
     _updateProgressBar();
-    if (!previewLesson){
-      // Record most recent opened step
-      postData = {
-          currentStep : currentStep,
-          lessonName : lesson.name,
-          lessonId : lesson.id,
-        }
-      if (currentStep.stepType == "congrats"){
-        console.log("Recording step completion.");
-        BfUser.record_step(postData, _recordedStep);
-      }
-    }
     _showStep();
     _checkStep();
   }

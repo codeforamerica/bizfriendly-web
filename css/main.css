@@ -1247,6 +1247,24 @@ section .btn{
 	margin-right: 25px;
 }
 
+#teaching-guide h2 {
+	color: #79C040;
+}
+
+#teaching-guide ul {
+	padding-left: 35px;
+	list-style: disc;
+}
+
+#teaching-guide .padded-img {
+	padding-bottom: 25px;
+}
+
+#teaching-guide a {
+	text-decoration: underline;
+}
+
+
 /* bootstrap additions */
 .alert-success a{
 	color: #FF4000;
