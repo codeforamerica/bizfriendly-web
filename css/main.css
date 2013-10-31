@@ -378,6 +378,15 @@ hr {
 	background-color: #FFC9AE
 }
 
+#congrats-links {
+	height: 150px;
+}
+
+#congrats-links ul {
+	width: 200px;
+	margin: 0 auto;
+}
+
 hr {
 	height: 1px;
 	background-color: #BFBFBF;
