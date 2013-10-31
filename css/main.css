@@ -98,6 +98,9 @@ a {
 	list-style: disc;
 }
 
+.orange-bg {
+	background-color: #FFC9AE;
+}
 #additional-resources a {
 	color: #0F6095;
 	text-decoration: underline;
