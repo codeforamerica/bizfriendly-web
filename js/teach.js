@@ -396,10 +396,11 @@ var teach = (function (teach) {
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
-    stepText = "";
+    stepText = '<div class="col-xs-12">';
     $.each($("#step-texts .active"), function(i){
       stepText += $("#step-texts .active")[i].outerHTML;
     })
+    stepText += "</div>";
     currentStep.step_text = stepText;
     // Save feedback
     currentStep.feedback = $("#feedback-content").html();

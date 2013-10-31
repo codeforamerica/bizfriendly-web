@@ -697,6 +697,10 @@ ul{
 	border: 1px solid #999999;
 }
 
+.orange-bg {
+	background-color: #FFC9AE;
+}
+
 .blue-square {
 	width: 25px;
 	height: 25px;
