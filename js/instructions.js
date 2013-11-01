@@ -2,11 +2,28 @@ var instructions = (function (instructions) {
   // private properties
   var width = window.screen.width;
   var height = window.screen.height;
+  var lesson = {};
+  var service = {}
+  var steps = []
+  var previewLesson;
+  if (window.opener){ // Emailed links don't have an opener.
+    if (window.opener.document.preview) {
+      console.log("Preview")
+      previewLesson = true;
+      lesson.name = window.opener.document.preview.lessonName.value;
+      lesson.creator = {}
+      lesson.service = {}
+      lesson.creator.name = window.opener.document.preview.authorName.value;
+      lesson.service.name = window.opener.document.preview.serviceName.value;
+      lesson.service.id = window.opener.document.preview.serviceId.value;
+      lesson.steps = window.opener.document.preview.steps.value;
+      console.log(lesson.steps);
+      lesson.steps = $.parseJSON(lesson.steps);
+      // console.log(steps);
+    }
+  }
   var bodyPadding = 0;
   var lessonId = 0; // Blank lesson
-  var lesson = {};
-  var service = {};
-  var steps = [];
   var step = {};
   var oauthToken = null;
   var currentStep = {};
@@ -27,10 +44,14 @@ var instructions = (function (instructions) {
   // initialize variables and load JSON
   function init(){
     if (config.debug) console.log('init');
-    // Get lessonId from the url
-    lessonId = window.location.search.split('?')[1];
-    // Call the API and get that lesson
-    $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, _main);
+    if (previewLesson) {
+      _main()
+    } else {
+      // Get lessonId from the url
+      lessonId = window.location.search.split('?')[1];
+      // Call the API and get that lesson
+      $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, _main);
+    }
   }
 
   // PRIVATE METHODS 
@@ -38,8 +59,10 @@ var instructions = (function (instructions) {
   // Main Function
   function _main(response){
     _checkWindowSize();
-    // Attach response to global lesson variable
-    lesson = response;
+    if (!previewLesson){
+      // Attach response to global lesson variable
+      lesson = response;
+    }
     // Set the name of the lesson
     $('#instructions-title').html(lesson.name);
     // Set author name
@@ -95,6 +118,7 @@ var instructions = (function (instructions) {
         stepNumber : steps[i].step_number,
         stepText : steps[i].step_text,
         triggerEndpoint : steps[i].trigger_endpoint,
+        placeInCollection : steps[i].place_in_collection,
         triggerCheck : steps[i].trigger_check,
         triggerValue : steps[i].trigger_value,
         thingToRemember : steps[i].thing_to_remember,
@@ -151,6 +175,18 @@ var instructions = (function (instructions) {
     $('section').attr('id','step'+currentStep.stepNumber);
     $('#step-text-content').html(currentStep.stepText);
     $('#feedback-content').html(currentStep.feedback);
+    if (!previewLesson){
+      // Record most recent opened step
+      postData = {
+          currentStep : currentStep,
+          lessonName : lesson.name,
+          lessonId : lesson.id,
+        }
+      if (currentStep.stepType == "congrats"){
+        console.log("Recording step completion.");
+        BfUser.record_step(postData, _recordedStep);
+      }
+    }
   }
 
   function _stepTransition(){
@@ -226,15 +262,6 @@ var instructions = (function (instructions) {
     currentStep = steps[currentStep.stepNumber];
     _updateStepsStates();
     _updateProgressBar();
-    // Record most recent opened step
-    postData = {
-        currentStep : currentStep,
-        lessonName : lesson.name,
-        lessonId : lesson.id,
-      }
-    if (lesson.name != 'Welcome to BizFriendly'){
-      BfUser.record_step(postData, _recordedStep);
-    }
     _showStep();
     _checkStep();
   }
@@ -511,7 +538,11 @@ var instructions = (function (instructions) {
     if ( response.new_object_added ){
       // Remember the attribute!
       rememberedAttribute = response.attribute_to_remember;
-      $('#step'+currentStep.stepNumber+' .responseDisplay').html(response.attribute_to_display);
+      if (response.attribute_to_display.indexOf("http") != -1){
+        $('#step'+currentStep.stepNumber+' .responseDisplay').attr('src',response.attribute_to_display);
+      } else {
+        $('#step'+currentStep.stepNumber+' .responseDisplay').text(response.attribute_to_display);
+      }
       $("#feedback").modal("show");
       $("#feedback-next").click(_goToNextStep);
       // Cancel out originalCount!!!

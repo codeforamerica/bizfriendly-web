@@ -14,17 +14,25 @@ var teach = (function (teach) {
   var stepText;
   var feedback;
   var openUrl;
+  var editingLesson;
 
   // PUBLIC METHODS
   function init(){
-    _main();
+    // Make sure they are logged in
+    _checkIfLoggedIn();
+    // Check if editing lesson or making new
+    lessonId = window.location.search.split('?')[1];
+    if (lessonId) { editingLesson = true }
+    if (editingLesson) {
+      _getExistingLessonData();
+    } else {
+      _main();
+    }
   }
 
   // PRIVATE METHODS
   function _main(){
     $('.draggable').draggable({ revert: true });
-    // Make sure they are logged in
-    _checkIfLoggedIn();
     // Get all the existing categories
     _getCategories();
     // Make lesson name editable
@@ -59,6 +67,53 @@ var teach = (function (teach) {
     }
   }
 
+  function _getExistingLessonData(){
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, function(lesson){
+       // Check for owner or admin
+      if(BfUser.id != lesson.creator.id){
+        $('#teach-main').hide();
+        $(".login-required").text("Whoa, that is someone elses lesson.");
+        $('.login-required').show();
+      }
+
+      // console.log(lesson);
+      lessonName = lesson.name;
+      $("#lesson-name").text(lessonName);
+      newSteps = lesson.steps;
+      serviceId = lesson.service_id;
+      $.getJSON(config.bfUrl+config.bfApiVersion+'/services/'+serviceId, function(service){
+        serviceName = service.name;
+        categoryId = service.category_id;
+        categoryName = service.category.name;
+        // console.log(service);
+
+        $('.draggable').draggable({ revert: true });
+        // Get all the existing categories
+        _getCategories();
+        // Make lesson name editable
+        _editLessonName();
+        // Order steps
+        _orderSteps();
+        currentStep = newSteps[0];
+        _showCurrentStep();
+
+
+        // Controls
+        $(".back").click(_backStep);
+        $('.next').click(_nextStep);
+        $('#add-new-step').click(_addNewStep);
+        $("#step-close-btn").click(_removeStep);
+        $("#preview").click(_previewClicked);
+        $("#save-draft").click(_saveDraft);
+        $("#submit").click(_submitClicked);
+        $(".temp-close-btn").click(_closeClicked);
+        $("#step-options-btn").click(_optionsClicked);
+
+      });
+    });
+
+  }
+
   function _getCategories(){
     // Get the existing categories
     $.get(config.bfUrl+config.bfApiVersion+'/categories', function(response){
@@ -69,10 +124,11 @@ var teach = (function (teach) {
           $('#category-id').append('<option value='+categories[i].id+'>'+categories[i].name+'</option>');
         }
       })
-      $('#category-id').append('<option value="add-new-category">Add new category</option>');
+      $('#category-id').append('<option value="add-new-category">Add new skill</option>');
+      if (editingLesson) { $("#category-id").val(categoryId)}
       $('.selectpicker').selectpicker('refresh');
       _watchCategory();
-      // Get all the existing services
+      // // Get all the existing services
       _getServices();
     })
   }
@@ -111,12 +167,15 @@ var teach = (function (teach) {
       })
 
       $('#service-id').append('<option value="add-new-service">Add new service</option>');
+      if (editingLesson) {$("#service-id").val(serviceId)};
       $('.selectpicker').selectpicker('refresh');
+
       // Init the service-name
       serviceName = $('#service-id :selected').text();
       $(".service-name").text(serviceName);
       serviceId = parseInt($("#service-id").val());
       _watchServices();
+
     })
   }
 
@@ -133,6 +192,141 @@ var teach = (function (teach) {
       }
       if (config.debug) console.log("Service Name: " + serviceName);
     });
+  }
+
+  function _interactiveLessons(){
+    var collections = []
+    if (serviceName == "Facebook"){
+      collections = [ "posts", "pictures", "pages"]
+    }
+    if (serviceName == "Foursquare"){
+      collections = [ "checkins", "lists"]
+    }
+    if (serviceName == "Trello"){
+      collections = [ "boards" ]
+    }
+    $('#collection-name').empty();
+
+    $('#collection-name').append('<option value="none">What kind of item?</option>');
+    $.each(collections, function(i){
+      $('#collection-name').append('<option value='+collections[i]+'>'+collections[i]+'</option>');
+    })
+
+    $(".selectpicker").selectpicker("refresh");
+    _watchInteractiveOptions()
+  }
+
+  function _watchInteractiveOptions(){
+    $("#options-form").on("change", "#what-to-watch", function(){
+      console.log($("#what-to-watch").val());
+      if ($("#what-to-watch").val() != "What is this step watching?"){
+        // Disable open, login, and text-input
+        $("#login-element-drag").addClass("disabled").draggable("disable");
+        $("#text-entry-drag").addClass("disabled").draggable("disable");
+        $("#open-element-drag").addClass("disabled").draggable("disable");
+      } else {
+        // Enable open, login, and text-input
+        $("#open-element-drag").removeClass("disabled").draggable("enable");
+        $("#login-element-drag").removeClass("disabled").draggable("enable");
+        $("#text-entry-drag").removeClass("disabled").draggable("enable");
+      }
+      
+
+      if ($("#what-to-watch").val() == "A new item"){
+        currentStep.step_type = "check_for_new";
+      }
+    });
+    $("#options-form").on("change", "#collection-name", function(){
+      if (serviceName == "Facebook"){
+        if ($("#collection-name").val() == "pages"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/accounts?fields=name&access_token=";
+          currentStep.place_in_collection = "last";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "posts"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts?access_token=";
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "message";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "pictures"){
+          currentStep.trigger_endpoint = "https://graph.facebook.com/me/posts?access_token=";
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "data";
+          currentStep.trigger_value = "picture";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<img class="responseDisplay">');
+        }
+      }
+      if (serviceName == "Foursquare"){
+        if ($("#collection-name").val() == "checkins"){
+          var timestamp = Math.floor(new Date() / 1000);
+          currentStep.trigger_endpoint = 'https://api.foursquare.com/v2/users/self/checkins?afterTimestamp='+timestamp+'&v=20131027&oauth_token=';
+          currentStep.place_in_collection = "first";
+          currentStep.trigger_check = "response,checkins,items";
+          currentStep.trigger_value = "venue,name";
+          currentStep.thing_to_remember = "venue,id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        if ($("#collection-name").val() == "lists"){
+          currentStep.trigger_endpoint = 'https://api.foursquare.com/v2/users/self/lists?group=created&v=20131027&oauth_token=';
+          currentStep.place_in_collection = "second";
+          currentStep.trigger_check = "response,lists,items";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+      }
+      if (serviceName == "Trello"){
+        if ($("#collection-name").val() == "boards"){
+          currentStep.trigger_endpoint = 'https://api.trello.com/1/member/me/boards?fields=id,name,dateLastView&key=8d1015f4f92871529f1618fa828c2fe8&token=';
+          currentStep.place_in_collection = "alphabetical";
+          currentStep.trigger_check = "";
+          currentStep.trigger_value = "name";
+          currentStep.thing_to_remember = "id";
+
+          // Feedback
+          $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        }
+        // if ($("#collection-name").val() == "cards"){
+        //   currentStep.trigger_endpoint = 'https://trello.com/1/boards/replace_me/cards?key=8d1015f4f92871529f1618fa828c2fe8&token=';
+        //   currentStep.place_in_collection = "second";
+        //   currentStep.trigger_check = "response,lists,items";
+        //   currentStep.trigger_value = "name";
+        //   currentStep.thing_to_remember = "id";
+
+        //   // Feedback
+        //   $("#feedback-content .plain").append('<span class="responseDisplay"></span>');
+        // }
+      }
+      
+      console.log(currentStep);
+    });
+
+  }
+
+  function _orderSteps(){
+    if (config.debug) console.log('ordering steps');
+    newSteps = newSteps.sort(function(a, b){
+      if (a.step_number < b.step_number) return -1;
+      if (a.step_number > b.step_number) return 1;
+      return 0;
+    })
   }
 
   // Make lesson name editable
@@ -184,7 +378,7 @@ var teach = (function (teach) {
   function _removeStep(){
     if (newSteps.length > 2){
       newSteps.splice(currentStep.step_number-1, 1);
-      console.log(newSteps);
+      if (config.debug) console.log(newSteps);
       currentStep = newSteps[currentStep.step_number - 2];
       _updateStepNumbers();
       _showCurrentStep();
@@ -193,7 +387,7 @@ var teach = (function (teach) {
   }
 
   function _updateStepNumbers(){
-    console.log(newSteps);
+    if (config.debug) console.log(newSteps);
     $.each(newSteps, function(i){
       newSteps[i].step_number = i+1;
     })
@@ -202,10 +396,11 @@ var teach = (function (teach) {
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
-    stepText = "";
+    stepText = '<div class="col-xs-12">';
     $.each($("#step-texts .active"), function(i){
       stepText += $("#step-texts .active")[i].outerHTML;
     })
+    stepText += "</div>";
     currentStep.step_text = stepText;
     // Save feedback
     currentStep.feedback = $("#feedback-content").html();
@@ -218,7 +413,7 @@ var teach = (function (teach) {
   }
 
   function _showCurrentStep(){
-    console.log(newSteps);
+    if (config.debug) console.log(newSteps);
 
     // Update all step states
     _updateStepsStates();
@@ -246,19 +441,24 @@ var teach = (function (teach) {
     
 
     // Turn on all step types again
-    $("#open-element-drag").removeClass("disabled").draggable("enable");
-    $("#login-element-drag").removeClass("disabled").draggable("enable");
-    $("#text-entry-drag").removeClass("disabled").draggable("enable");
-
+    $("#elements .disabled").removeClass("disabled").draggable("enable");
+    $("#what-to-watch").prop("disabled",false).selectpicker("refresh");
+    $("#collection-name").prop("disabled",false).selectpicker("refresh");
     if ($("#step-texts .open-element").length != 0){
       $("#login-element-drag").addClass("disabled").draggable("disable");
       $("#text-entry-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     } else if ($("#step-texts .login-element").length != 0){
       $("#open-element-drag").addClass("disabled").draggable("disable");
       $("#text-entry-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     } else if ($("#step-texts .text-entry-element").length != 0){
       $("#open-element-drag").addClass("disabled").draggable("disable");
       $("#login-element-drag").addClass("disabled").draggable("disable");
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
     }
     
 
@@ -298,7 +498,13 @@ var teach = (function (teach) {
         $(".flag-icon").click(_iconClicked);
         $(".heart-icon").click(_iconClicked);
         $(".thumbs-up-icon").click(_iconClicked);
-      }) 
+      })
+      // Disable draggables
+      $("#elements .draggable").addClass("disabled").draggable("disable");
+      // Disable advanced options
+      $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+      $("#collection-name").prop("disabled",true).selectpicker("refresh");
+
     }
     if (newSteps.length <= 2){
       $("#step-close-btn").hide();
@@ -320,19 +526,14 @@ var teach = (function (teach) {
 
   // Update the progress bar
   function _updateProgressBar(){
-    console.log(newSteps.length);
+    if (config.debug) console.log("NewSteps Length: "+newSteps.length);
     // Update teach-dots-number
-    if ($("#teach-dots-amount li").length < newSteps.length){
+    $("#teach-dots-amount").empty();
+    $(".progress-dots").empty();
+    $.each(newSteps, function(i, step){
       $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
-    } else if ($("#teach-dots-amount li").length > newSteps.length){
-      $('#teach-dots-amount li').last().remove();
-    }
-    // Check number of dots
-    if ($(".progress-dots li").length < newSteps.length){
-      $('.progress-dots').append('<li class="step'+newSteps[newSteps.length-1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length-1].step_number+'"></li>');
-    } else if ($(".progress-dots li").length > newSteps.length){
-      $('.progress-dots li').last().remove();
-    }
+      $('.progress-dots').append('<li class="step'+newSteps[i].step_number+'_progress progress-button" data-target="'+newSteps[i].step_number+'"></li>');
+    })
     $(newSteps).each(function(i){
       $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
       if (newSteps[i].step_number == currentStep.step_number){
@@ -340,7 +541,41 @@ var teach = (function (teach) {
       } else {
         $('.step'+newSteps[i].step_number+'_progress').html('');
       }
-    })
+    });
+    console.log(newSteps);
+    
+    // while ($("#teach-dots-amount li").length < newSteps.length){
+    //   $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
+    // } 
+    // while ($("#teach-dots-amount li").length > newSteps.length){
+    //   $('#teach-dots-amount li').last().remove();
+    // }
+    // Check number of dots
+    // if (editingLesson) {
+    //   var counter = 0;
+    //   while ($(".progress-dots li").length < newSteps.length){
+    //     $('.progress-dots').append('<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>');
+    //     counter = counter + 1;
+    //   } 
+    //   while ($(".progress-dots li").length > newSteps.length){
+    //     $('.progress-dots li').last().remove();
+    //   }
+    // } else {
+    //   if ($(".progress-dots li").length < newSteps.length){
+    //     $('.progress-dots').append('<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>');
+    //     counter = counter + 1;
+    //   }  else if ($(".progress-dots li").length > newSteps.length){
+    //     $('.progress-dots li').last().remove();
+    //   }
+    // }
+    // $(newSteps).each(function(i){
+    //   $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
+    //   if (newSteps[i].step_number == currentStep.step_number){
+    //     $('.step'+newSteps[i].step_number+'_progress').html('<h2>'+currentStep.step_number+'</h2>');
+    //   } else {
+    //     $('.step'+newSteps[i].step_number+'_progress').html('');
+    //   }
+    // })
   }
 
   function _makeEditable($clone){
@@ -390,14 +625,15 @@ var teach = (function (teach) {
           currentStep.step_type = "open";
           $("#login-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
-
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#open-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
           _makeEditable($clone);
 
           $("#open").click(function(){
-            console.log("open clicked");
+            if (config.debug) console.log("open clicked");
 
             var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
             $('#open').popover({ content: content, html: true, placement: 'right' });
@@ -416,6 +652,8 @@ var teach = (function (teach) {
           currentStep.step_type = "login";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#login-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -427,6 +665,8 @@ var teach = (function (teach) {
           currentStep.step_type = "input";
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#login-element-drag").addClass("disabled").draggable("disable");
+          $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
+          $("#collection-name").prop("disabled",true).selectpicker("refresh");
           var $clone = $("#text-entry-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
@@ -470,17 +710,17 @@ var teach = (function (teach) {
 
   function _colorControllers(){
     $(".orange-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#FFC9AE");
+      $(this).parent().parent().prev().attr("style","background-color: #FFC9AE;");
       $(this).parent().parent().prev().popover("destroy");
-      $(this).parent().parent().prev().find(".btn-teach").css("color","#ff4000");
+      $(this).parent().parent().prev().find(".btn-teach").attr("style","color: #ff4000;");
     })
     $(".blue-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#C7E4EE");
+      $(this).parent().parent().prev().attr("style","background-color: #C7E4EE;");
       $(this).parent().parent().prev().popover("destroy");
-      $(this).parent().parent().prev().find(".btn-teach").css("color","#0F6095");
+      $(this).parent().parent().prev().find(".btn-teach").attr("style","color: #0F6095;");
     })
     $(".white-square").click(function(evt){
-      $(this).parent().parent().prev().css("background-color","#FFFFFF");
+      $(this).parent().parent().prev().attr("style","background-color: #FFFFFF;");
       $(this).parent().parent().prev().popover("destroy");
     })
   }
@@ -520,7 +760,7 @@ var teach = (function (teach) {
   }
 
   function _closeClicked(evt){
-    console.log("close clicked");
+    if (config.debug) console.log("close clicked");
     // Erase the thing that this button is within.
     $(".active").popover("hide");
     $(this).parent().remove();
@@ -532,7 +772,9 @@ var teach = (function (teach) {
     }
     // Turn disabled elements back on
     if ($(this).siblings().attr("class") == "open-element" || $(this).siblings().attr("class") == "login-element") {
-      $("#elements ul li").removeClass("disabled").draggable("enable");
+      $("#elements .disabled").removeClass("disabled").draggable("enable");
+      $("#what-to-watch").prop("disabled",false).selectpicker("refresh");
+      $("#collection-name").prop("disabled",false).selectpicker("refresh");
     }
     // if ($("#feedback-content .step-text").length == 0){
     //   var $clone = $("#droppable-prototype").clone();
@@ -548,7 +790,7 @@ var teach = (function (teach) {
     var $clone = $("#droppable-prototype").clone();
     // Clean it up
     $clone.attr("id","").removeClass("hidden");
-    console.log($("#step-texts").height());
+    if (config.debug) console.log($("#step-texts").height());
     if ($("#step-texts").height() <= 300){
       $("#step-texts").append($clone);
       if ($("#step-texts").height() >= 300){
@@ -566,10 +808,11 @@ var teach = (function (teach) {
   }
 
   function _optionsClicked(){
-    if ($("#elements .options").hasClass("hidden")){
-      $("#elements .options").removeClass("hidden");
+     _interactiveLessons();
+    if ($(".options").hasClass("hidden")){
+      $(".options").removeClass("hidden");
     } else {
-      $("#elements .options").addClass("hidden");
+      $(".options").addClass("hidden");
     }
   }
 
@@ -611,7 +854,7 @@ var teach = (function (teach) {
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
-      console.log(newSteps[i].feedback);
+      if (config.debug) console.log(newSteps[i].feedback);
     })
 
   }
@@ -625,7 +868,7 @@ var teach = (function (teach) {
     document.preview.serviceName.value = serviceName.toLowerCase();
     document.preview.serviceId.value = serviceId;
 
-    var url = 'preview-instructions.html';
+    var url = 'instructions.html';
     var width = 340;
     var height = window.screen.height;
     var left = window.screen.width - 340;
@@ -636,8 +879,12 @@ var teach = (function (teach) {
   function _saveDraft(){
     if (serviceId) {
       _saveCurrentStep();
-      _cleanUpStepsHTML()
-      _checkForLesson("draft");
+      _cleanUpStepsHTML();
+      if (editingLesson) {
+        _updateLesson("draft");
+      } else {
+        _checkForLesson("draft");
+      }
     } else {
       $("#alert").removeClass("hidden").text("Choose a category and service.")
     }
@@ -647,11 +894,104 @@ var teach = (function (teach) {
   function _submitClicked(){
     if (serviceId) {
       _saveCurrentStep();
-      _cleanUpStepsHTML()
-      _checkForLesson("submitted");
+      _cleanUpStepsHTML();
+      if (editingLesson) {
+        _updateLesson("submitted");
+      } else {
+        _checkForLesson("submitted");
+      }
     } else {
       $("#alert").removeClass("hidden").text("Choose a category and service.")
     }
+  }
+
+  function _updateLesson(state){
+    var updateLesson = {
+      service_id : serviceId,
+      creator_id : BfUser.id,
+      name : $("#lesson-name").text(),
+      state : state
+    }
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId,
+      data: JSON.stringify(updateLesson),
+      dataType: "json",
+      success : function(){
+        if (config.debug) {console.log("Lesson updated.")}
+        _updateSteps();
+      },
+      error : function(error){
+        console.log(error)
+      }
+    });
+  }
+
+  function _updateSteps(){
+    // Delete steps that we've removed
+    var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+'/steps',
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data) {
+        $.each(data.objects, function(i,existingStep){
+          var inArray = false;
+          $.each(newSteps, function(x,newStep){
+            if (newStep.id == existingStep.id){
+              inArray = true;
+            }
+          })
+          if (!inArray){
+            $.ajax({
+              url: config.bfUrl+config.bfApiVersion+'/steps/'+existingStep.id,
+              type: "DELETE",
+              dataType: "json",
+              contentType: "application/json",
+              success: function(data) {console.log("DELETED STEP: "+existingStep.id)},
+              error: function(error){ console.log(error)}
+            });
+          }
+        })
+      },
+      error: function(error){console.log(error)}
+    });
+
+    $.each(newSteps, function (i){
+      // Clean up
+      newSteps[i].lesson_id = lessonId;
+      delete newSteps[i].step_state; // Not needed
+      if (config.debug) console.log(JSON.stringify(newSteps[i]));
+      $.ajax({
+        type: "PUT",
+        contentType: "application/json",
+        url: config.bfUrl+config.bfApiVersion+'/steps/'+newSteps[i].id,
+        data: JSON.stringify(newSteps[i]),
+        dataType: "json",
+        success : function(){
+          if (config.debug) console.log("Step updated.")
+        },
+        error : function(error){
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: config.bfUrl+config.bfApiVersion+'/steps',
+            data: JSON.stringify(newSteps[i]),
+            dataType: "json",
+            success : function(){
+              if (config.debug) console.log("Step posted.")
+            },
+            error : function(error){
+              console.log(error);
+            }
+          });
+        }
+      });
+    });
+    $(".lesson-name").text($("#lesson-name").text());;
+    $('#submissionModal').modal();
   }
 
   function _checkForLesson(state){
@@ -699,7 +1039,8 @@ var teach = (function (teach) {
       data: JSON.stringify(newLesson),
       dataType: "json",
       success : function(){
-        _getLessonId();
+        _getLessonId(newLesson);
+
       },
       error : function(error){
         console.log(error)
@@ -707,10 +1048,9 @@ var teach = (function (teach) {
     });
   }
 
-  function _getLessonId(){
+  function _getLessonId(newLesson){
     // Post draft lesson
-    lessonName = $("#lesson-name").text();
-    var filters = [{"name": "name", "op": "==", "val": lessonName}];
+    var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
@@ -720,7 +1060,17 @@ var teach = (function (teach) {
         if (data.num_results){
           lessonId = data.objects[0].id
           _postSteps();
+        newLesson["id"] = lessonId;
+
+        if (newLesson.state == "submitted"){
+          // Send an email to admins
+          $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+          }
         }
+        
       },
       error : function(error){
         console.log(error);
@@ -733,7 +1083,7 @@ var teach = (function (teach) {
       // Clean up
       newSteps[i].lesson_id = lessonId;
       delete newSteps[i].step_state; // Not needed
-      console.log(JSON.stringify(newSteps[i]));
+      if (config.debug) console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -741,7 +1091,7 @@ var teach = (function (teach) {
         data: JSON.stringify(newSteps[i]),
         dataType: "json",
         success : function(){
-          console.log("Step posted.")
+          if (config.debug) console.log("Step posted.")
         },
         error : function(error){
           console.log(error);

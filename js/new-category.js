@@ -76,11 +76,21 @@ var newCategory = (function (newCategory) {
       success : function(){
         $("#submissionModal .skill-name").text($("#new-skill-name").val());
         $('#submissionModal').modal();
+
+        // Send an email to admins
+        if (newCategory.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", newCategory, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
+        
       },
       error : function(error){
         $(".alert").removeClass("hidden");
       }
     });
+
   }
 
   // add public methods to the returned module and return it

@@ -74,8 +74,8 @@ var service = (function (service) {
         html += '<br/><p class="author-name">Created by <span class="author-name'+lessons[i].creator_id+'"></span></p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
         $("#tbody").append(html);
-        $(".instructions-link").click(_instructionsLinkClicked)
         _getCreatorName(lessons[i].id);
+        $("#"+lessons[i].id).click(_instructionsLinkClicked);
       })
     })
   }
@@ -88,14 +88,20 @@ var service = (function (service) {
 
 
   function _instructionsLinkClicked(evt){
-    lessonId = $(this).attr("id");
-    var url = 'instructions.html?'+lessonId;
-    var width = 340;
-    var height = window.screen.height;
-    var left = window.screen.width - 340;
-    var instructionOptions = "height="+height+",width="+width+",left="+left;
-    window.open(url,"instructions",instructionOptions);
-    $('#instructionsModal').modal()
+    // Make sure they are logged in first
+    if (!BfUser.signedIn) {
+      $('.alert').text("Whoa! You need to log in first.").removeClass('hidden');
+    } else {
+      // Open the lesson and the modal.
+      lessonId = $(this).attr("id");
+      var url = 'instructions.html?'+lessonId;
+      var width = 340;
+      var height = window.screen.height;
+      var left = window.screen.width - 340;
+      var instructionOptions = "height="+height+",width="+width+",left="+left;
+      window.open(url,"instructions",instructionOptions);
+      $('#instructionsModal').modal()
+    }
   }
 
   // add public methods to the returned module and return it

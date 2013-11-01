@@ -1,275 +1,238 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>BizFriendly | Teach</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="">
-    <meta charset="utf-8">
-
-    <link rel="icon" type="image/x-icon" href="ico/favicon.ico">
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-select.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href="css/main.css" rel="stylesheet">
-
-    <script src="js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="js/vendor/jquery.cookie.js"></script>
-    <script src="js/vendor/jquery-ui.js"></script>
-    <script src="js/vendor/jquery.jeditable.js"></script>
-    <script src="js/vendor/bootstrap.js"></script>
-    <script src="js/vendor/bootstrap-select.js"></script>
-    <script src="js/vendor/jquery.ui.widget.js"></script>
-    <script src="js/vendor/jquery.iframe-transport.js"></script>
-    <script src="js/vendor/jquery.fileupload.js"></script>
-
-
-
-    <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-</head>
-<body id="teach">
-    <div class="container">
-
-   <header class="navbar navbar-static-top row">
-    <div id="signinlinks" class="pull-right">
-            <a id="signInLink" href="signin.html">Sign In</a>
-            <a id="signUpLink" href="signup.html" >Sign Up</a>
-            <a id="bfUserName" href="profile.html"></a>
-            <a id="signOutLink" href="#">Sign Out</a>
-        </div>
-        <a class="navbar-brand" href="/"><img src="img/bizfriendly_weblogo_beta.png"></a>
-        <ul class="nav navbar-nav col-lg-10 col-sm-7">
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="learn.html">Learn</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="teach.html">Teach</a></li>
-            <li class="col-lg-2 col-sm-2 col-offset-1"><a href="connect.html">Connect</a></li>
-        </ul>
-    </header>
-    <div id="subnav" class="row">
-        <ul class="list-inline col-offset-3 col-lg-8">
-            <li><a class="active">Content Creator</a></li>
-            <li><a href="teaching-guide.html">Teaching Guide</a></li>
-            <li><a href="request-content.html">Content Requests</a></li>
+---
+layout: teach-layout
+title: lesson builder
+js: teach
+---
+<div class="container">
+    <div id="subnav" class="row hidden-xs">
+        <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+            <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
         </ul>
     </div>
     <div id="subheader" class="row">
-        <div class="col-offset-1">
+        <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
             <h1>Build your lesson by creating step instructions and feedback.</h1>
             <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin.</p>
         </div>
-        <div class="alert alert-info login-required col-offset-2 col-lg-8">
+        <div class="alert alert-info login-required col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
             You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
         </div>
     </div>
-
 </div>
 
-    <div id="teach-main">
-        <section id="teach-content" class="container">
-            <form id="lesson-form" role="form" class="">
-                <select id="category-id" class="selectpicker" data-width="300px">
+<div id="teach-main">
+    <section id="teach-content" class="container">
+        <form id="lesson-form" role="form" class="row">
+            <div class="col-sm-6 col-md-5 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                <select id="category-id" class="selectpicker" data-width="100%">
                     <option val="none">Select a skill for your lesson</option>
                 </select>
                 <br/>
-                <select id="service-id" class="selectpicker" data-width="300px">
-                </select>
-            </form>
-            <div id="lesson-builder">
-                <div id="teach-dots" class="row">
-                    <div>
-                        <a class="inline-block back"><img src="img/left.png"></a>
-                        <div id="current-dot" class="inline-block"></div>
-                        <a class="inline-block next"><img src="img/right.png"></a>
-                        <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
-                    </div>
-                    <ul id="teach-dots-amount" class="list-inline">
-                    </ul>
-                </div>
-                <div id="step-builder" class="row">
-                    <div id="elements" class="col-offset-2 col-lg-1">
-                        <h3>Elements</h3>
-                        <hr/>
-                        <div id="text-element-drag" class="draggable"><p>Text</p></div>
-                        <div id="open-element-drag" class="draggable">Text & Open Button</div>
-                        <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
-                        <!-- <hr/>
-                        <button type="button" id="step-options-btn" class="btn btn-blue btn-block">Step Options</button> -->
-                        <div id="login-element-drag" class="draggable options">Text & Log In Button</div>
-                       <!--  <div id="text-entry-drag" class="draggable options hidden">Text Entry Field</div> -->
-                    </div>
-
-                    <div class="teach-column col-lg-4">
-                        <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
-                        <div id="teach-instructions" class="teach-box">
-                            <h2 id="lesson-name" class="lesson-editable orange">Double click to edit the lesson name</h2>
-                            <p class="author-name">Created by <span id="author-name"></span>.</p>
-                            <ul class="progress-dots list-unstyled list-inline center"></ul>
-                            <section>
-                                <div id="step-texts">
-                                </div>
-                            </section>
-                            <div id="teach-controls">
-                              <button type="button" id="back" class="btn btn-primary">Back</button>
-                              <button type="button" id="next" class="btn btn-primary">Next</button>
-                              <br/>
-                              <div id="close-lesson-wrapper">
-                                  <button type="button" id="close-lesson" class="btn btn-default btn-block" disabled="disabled">Close Lesson</button>
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div id="right-column" class="col-lg-3">
-                        <div id="feedback-window">
-                            <div id="feedback-content">
-                            </div>
-                        </div>
-                        <div id="state-btns">
-                            <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
-                            <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
-                            <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
-                            <div id="alert" class="alert alert-danger hidden">WHAT</div>
-                        </div>
-                    </div>
-                </div>
+                <select id="service-id" class="selectpicker" data-width="100%"></select>
             </div>
-
-        </section>
-    </div>
-
-    <div id="popover" class="hidden">
-        <div class="orange-square"></div>
-        <div class="blue-square"></div>
-        <div class="white-square"></div>
-    </div>
-
-    <div id="congrats-popover" class="hidden">
-        <img class="star-icon" src="img/icon-star.png">
-        <img class="flag-icon" src="img/icon-flag.png">
-        <img class="heart-icon" src="img/icon-heart.png">
-        <img class="thumbs-up-icon" src="img/icon-like.png">
-    </div>
-
-    <div id="droppable-prototype" class="droppable temp step-text hidden">
-        <img class="temp-close-btn right" src="img/close-btn.png">
-        <p class="temp-text">Drag elements here to create your step.</p>
-    </div>
-
-    <div id="text-prototype" class="text-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-    </div>
-
-    <div id="open-prototype" class="open-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-        <button id="open" type="button" class="btn btn-teach btn-small">Open</button>
-    </div>
-
-    <div id="login-prototype" class="login-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <button id="login" type="button" class="btn btn-teach btn-small">Log In To <span class="service-name"></span></button>
-    </div>
-
-    <div id="text-entry-prototype" class="text-entry-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p>Click to edit text.</p>
-        <input type="text"></input>
-    </div>
-
-    <div id="image-prototype" class="image-element hidden">
-        <p class="bold">Click to edit text.</p>
-        <p class="plain">Click to edit text.</p>
-        <form id="img-upload-form" class="form-horizontal">
-            <label for="img-upload">Upload an image</label>
-            <input id="fileupload" type="file" name="files[]">
-            <!-- The global progress bar -->
-    <div id="progress" class="progress">
-        <div class="progress-bar progress-bar-success"></div>
-    </div>
-    <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
-            <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
         </form>
-    </div>
+        <div id="lesson-builder">
+            <div id="teach-dots" class="row">
+                <div>
+                    <a class="inline-block back"><img src="img/left.png"></a>
+                    <div id="current-dot" class="inline-block"></div>
+                    <a class="inline-block next"><img src="img/right.png"></a>
+                    <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
+                </div>
+                <ul id="teach-dots-amount" class="list-inline">
+                </ul>
+            </div>
+            <div id="step-builder" class="row">
+                <div id="left-column" class="col-xs-3 col-sm-2 col-md-2 col-lg-3 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">
+                    <div class="row">
+                        <div id="elements" class="col-lg-6 col-lg-offset-6">
+                            <h3>Elements</h3>
+                            <hr/>
+                            <div id="text-element-drag" class="draggable"><p>Text</p></div>
+                            <div id="open-element-drag" class="draggable">Text & Open Button</div>
+                            <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
+                             <div id="login-element-drag" class="draggable">Text & Log In Button</div>
+                         </div>
+                    </div>
+                    <div id="advanced-options" class="row">
+                        <button type="button" id="step-options-btn" class="btn btn-gray btn-block">Advanced Options</button>
+                        <div class="options hidden alert alert-success">
+                            These advance features are being prototyped. Go forth with caution.
+                        </div>
+                        <form id="options-form"> 
+                            <select id="what-to-watch" class="selectpicker options hidden" data-width="100%">
+                                <option>What is this step watching?</option>
+                                <option>A new item</option>
+                                <option>New attribute on item</option>
+                                <option>Updated attribute on item</option>
+                                <option>Attribute equals expected value</option>
+                                <option>Attribute from input</option>
+                            </select>
+                            <select id="collection-name" class="selectpicker options hidden" data-width="100%"></select>
+                        </form>
+                    </div>
+                </div>
 
-    <div id="feedback-prototype" class="hidden">
-        <div class="modal-header">
-            <h2 class="element-editable">Click to edit feedback.</h2>
-        </div>
-        <div class="modal-body">
-            <p class="bold element-editable">Click to edit text.</p>
-            <p class="plain element-editable">Click to edit text.</p>
-        </div>
-        <div class="modal-footer">
-            <div id="feedback-control">
-                <button type="button" id="feedback-next" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
+                <div class="teach-column col-xs-3 col-sm-4 col-md-4 col-lg-4">
+                    <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
+                    <div id="teach-instructions" class="teach-box">
+                        <h2 id="lesson-name" class="lesson-editable orange">Click to edit the lesson name</h2>
+                        <p class="author-name">Created by <span id="author-name"></span>.</p>
+                        <ul class="progress-dots list-unstyled list-inline center"></ul>
+                        <section>
+                            <div id="step-texts">
+                            </div>
+                        </section>
+                        <div id="teach-controls">
+                          <button type="button" id="back" class="btn btn-primary">Back</button>
+                          <button type="button" id="next" class="btn btn-primary">Next</button>
+                          <br/>
+                          <div id="close-lesson-wrapper">
+                              <button type="button" id="close-lesson" class="btn btn-default btn-block" disabled="disabled">Close Lesson</button>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div id="right-column" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div id="feedback-window">
+                        <div id="feedback-content">
+                        </div>
+                    </div>
+                    <div id="state-btns">
+                        <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
+                        <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
+                        <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
+                        <div id="alert" class="alert alert-danger hidden">WHAT</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="congrats-prototype" class="hidden center">
-        <div id="congrats-icons" class="step-text active center">
-            <img class="congrats-img" src="img/icon-like.png">
-            <p class="bold element-editable">Click to edit text.</p>
-            <p class="plain element-editable">Click to edit text.</p>
-        </div>
-        <div id="congrats-share" class="step-text active center">
-            <p class="bold">Share Your Success</p>
-            <ul class="list-inline">
-              <li><a id="fb-share" rel="nofollow"><img src="img/socialshare_fb_o.png"></a></li>
-              <li><a id="tw-share" rel="nofollow"><img src="img/socialshare_twitter_o.png"></a></li>
-              <li><a id="g-share" rel="nofollow"><img src="img/socialshare_google_o.png"></a></li>
-              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_linkedin_o.png"></a></li>
-              <li><a id="li-share" rel="nofollow"><img src="img/socialshare_email_o.png"></a></li>
-            </ul>
-        </div>
-        <div id="congrats-links" class="step-text active center">
-            <p class="bold">Find Out More</p>
-            <a id="additional-resources" type="button" class="btn btn-teach btn-small btn-block orange">Additional Resources</a>
-            <a id="more-lessons" type="button" class="btn btn-teach btn-small btn-block orange">More Lessons</a>
-        </div>
-      </div>
+    </section>
+</div>
 
-    <!-- Ghost Form -->
-    <form name="preview" target="instructions">
-        <input type=hidden name="lessonName" value="">
-        <input type=hidden name="steps" value="">
-        <input type=hidden name="authorName" value="">
-        <input type=hidden name="serviceName" value="">
-        <input type=hidden name="serviceId" value="">
+<div id="popover" class="hidden">
+    <div class="orange-square"></div>
+    <div class="blue-square"></div>
+    <div class="white-square"></div>
+</div>
+
+<div id="congrats-popover" class="hidden">
+    <img class="star-icon" src="img/icon-star.png">
+    <img class="flag-icon" src="img/icon-flag.png">
+    <img class="heart-icon" src="img/icon-heart.png">
+    <img class="thumbs-up-icon" src="img/icon-like.png">
+</div>
+
+<div id="droppable-prototype" class="droppable temp step-text hidden">
+    <img class="temp-close-btn right" src="img/close-btn.png">
+    <p class="temp-text">Drag elements here to create your step.</p>
+</div>
+
+<div id="text-prototype" class="text-element hidden">
+    <p class="bold">Click to edit text.</p>
+    <p class="plain">Click to edit text.</p>
+</div>
+
+<div id="open-prototype" class="open-element hidden">
+    <p class="bold">Click to edit text.</p>
+    <p class="plain">Click to edit text.</p>
+    <button id="open" type="button" class="btn btn-teach btn-xs">Open</button>
+</div>
+
+<div id="login-prototype" class="login-element hidden">
+    <p class="bold">Click to edit text.</p>
+    <button id="login" type="button" class="btn btn-teach btn-xs">Log In To <span class="service-name"></span></button>
+</div>
+
+<div id="text-entry-prototype" class="text-entry-element hidden">
+    <p class="bold">Click to edit text.</p>
+    <p>Click to edit text.</p>
+    <input type="text"></input>
+</div>
+
+<div id="image-prototype" class="image-element hidden">
+    <p class="bold">Click to edit text.</p>
+    <p class="plain">Click to edit text.</p>
+    <form id="img-upload-form" class="form-horizontal">
+        <label for="img-upload">Upload an image</label>
+        <input id="fileupload" type="file" name="files[]">
+        <!-- The global progress bar -->
+<div id="progress" class="progress">
+    <div class="progress-bar progress-bar-success"></div>
+</div>
+<!-- The container for the uploaded files -->
+<div id="files" class="files"></div>
+        <!-- <button type="submit" id="img-upload-submit" class="btn btn-default">Submit</button> -->
     </form>
+</div>
 
-     <!-- Modal -->
-  <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Nice Work!</h4>
+<div id="feedback-prototype" class="hidden">
+    <div class="modal-header">
+        <h2 class="element-editable">Click to edit feedback.</h2>
+    </div>
+    <div class="modal-body">
+        <p class="bold element-editable">Click to edit text.</p>
+        <p class="plain element-editable">Click to edit text.</p>
+    </div>
+    <div class="modal-footer">
+        <div id="feedback-control">
+            <button type="button" id="feedback-next" class="btn btn-primary" disabled="disabled" data-dismiss="modal">Next</button>
         </div>
-        <div class="modal-body">
-            <b>You created a new lesson called <span class="lesson-name orange"></span></b>
-            <p>To ensure high quality content on BizFriend.ly, your lesson will be reviewed before it goes live.</p>
-            <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
-            <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+    </div>
+</div>
 
-
-    <footer class="row">
-        <ul class="list-unstyled list-inline col-lg-12">
-            <li class="col-lg-1 col-offset-1"><a href="about.html">About</a></li>
-            <li class="col-lg-1"><a href="https://docs.google.com/forms/d/1hHXzRUBGmTtWPxkjHJ5aryPCkGpxcZq0AWM_2uae8Pc/viewform" target="_blank">Feedback</a></li>
-            <li id="credits" class="col-lg-6 col-offset-2"><img src="img/cfa_logo.png"> in partnership with Kansas City, Missouri and Kansas City, Kansas.</li>
+<div id="congrats-prototype" class="hidden center">
+    <div id="congrats-icons" class="step-text active center">
+        <img class="congrats-img" src="img/icon-like.png">
+        <p class="bold element-editable">Click to edit text.</p>
+        <p class="plain element-editable">Click to edit text.</p>
+    </div>
+    <div id="congrats-share" class="step-text active center">
+        <p class="bold">Share Your Success</p>
+        <ul class="list-inline">
+          <li><a id="fb-share" rel="nofollow"><img src="img/socialshare_fb_o.png"></a></li>
+          <li><a id="tw-share" rel="nofollow"><img src="img/socialshare_twitter_o.png"></a></li>
+          <li><a id="g-share" rel="nofollow"><img src="img/socialshare_google_o.png"></a></li>
+          <li><a id="li-share" rel="nofollow"><img src="img/socialshare_linkedin_o.png"></a></li>
+          <li><a id="li-share" rel="nofollow"><img src="img/socialshare_email_o.png"></a></li>
         </ul>
-    </footer>
-</body>
-    <script src="js/config.js"></script>
-    <script type="text/javascript" src="js/BfUser.js"></script>
-    <script type="text/javascript" src="js/teach.js"></script>
-</html>
+    </div>
+    <div id="congrats-links" class="step-text active center">
+        <p class="bold">Find Out More</p>
+        <ul>
+            <li><a id="additional-resources" type="button" class="btn btn-teach btn-xs btn-block orange">Additional Resources</a><li>
+            <li><a id="more-lessons" type="button" class="btn btn-teach btn-xs btn-block orange">More Lessons</a></li>
+            <li><a href="https://docs.google.com/forms/d/1-0s2k_gpkNDXWRpYYbzltFNaRT0FEOv2--gIwxGGZWU/viewform" target="_blank" id="leave-feedback" type="button" class="btn btn-teach btn-xs btn-block orange">Give Feedback</a></li>
+        </ul>
+    </div>
+  </div>
+
+<!-- Ghost Form -->
+<form name="preview" target="instructions">
+    <input type=hidden name="lessonName" value="">
+    <input type=hidden name="steps" value="">
+    <input type=hidden name="authorName" value="">
+    <input type=hidden name="serviceName" value="">
+    <input type=hidden name="serviceId" value="">
+</form>
+
+ <!-- Modal -->
+<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">Nice Work!</h4>
+    </div>
+    <div class="modal-body">
+        <b>You created a new lesson called <span class="lesson-name orange"></span></b>
+        <p>To ensure high quality content on BizFriend.ly, your lesson will be reviewed before it goes live.</p>
+        <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
+        <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

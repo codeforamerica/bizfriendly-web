@@ -143,7 +143,7 @@ var newService = (function (newService) {
   }
 
   function _getAdditionalResources(){
-    var addResourcesHtml = '<ul>';
+    var addResourcesHtml = '';
     addResourcesHtml += '<li><a href="'+$("#additional-resources-url1").val()+'">'+$("#additional-resources-name1").val()+'</a></li>';
     if ($("#additional-resources-name2").val()){
       addResourcesHtml += '<li><a href="'+$("#additional-resources-url2").val()+'">'+$("#additional-resources-name2").val()+'</a></li>';
@@ -157,12 +157,11 @@ var newService = (function (newService) {
     if ($("#additional-resources-name5").val()){
       addResourcesHtml += '<li><a href="'+$("#additional-resources-url5").val()+'">'+$("#additional-resources-name5").val()+'</a></li>';
     }
-    addResourcesHtml += "</ul>";
     return (addResourcesHtml);
   }
 
   function _getTips(){
-    var tips = "<ul>";
+    var tips = "";
     tips += '<li>'+$("#tips1").val()+'</li>';
     if ($("#tips2").val()){
       tips += '<li>'+$("#tips2").val()+'</li>'; 
@@ -170,7 +169,6 @@ var newService = (function (newService) {
     if ($("#tips3").val()){
       tips += '<li>'+$("#tips3").val()+'</li>';
     }
-    tips += "</ul>";
     return (tips);
   }
 
@@ -272,6 +270,15 @@ var newService = (function (newService) {
         console.log(newService);
         $(".service-name").text($("#new-service-name").val())
         $('#submissionModal').modal()
+
+        // Send an email to admins
+        if (newService.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", newService, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
+        
       },
       error : function(error){
         $(".alert").removeClass("hidden");

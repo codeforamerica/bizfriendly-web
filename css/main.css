@@ -20,6 +20,10 @@ a {
 	cursor: pointer;
 }
 
+.nav li a:hover, .nav li a:focus {
+	background-color: transparent;
+}
+
 .navbar, footer{
 	font-family: 'Open Sans';
 }
@@ -46,6 +50,7 @@ a {
 .btn {
 	font-family: 'Open Sans';
 	font-weight: 700;
+	color: #FFF;
 }
 
 #bottom a {
@@ -78,6 +83,24 @@ a {
 	font-family: 'Open Sans';
 	font-size: 14px;
 	font-weight: 700;
+}
+
+#service-media {
+	position: relative;
+    padding-bottom: 56.25%; /* 16/9 ratio */
+    padding-top: 30px; /* IE6 workaround*/
+    height: 0;
+    overflow: hidden;
+}
+
+#service-media iframe,
+#service-media object,
+#service-media embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .service-link {
@@ -195,21 +218,25 @@ th {
 	margin-bottom: 0;
 }
 
-#index #main, #index #bottom, #index footer {
+/*#bottom, footer, #about-subheader {
 	position: relative;
 	top: -50px;
-}
+}*/
 
 #main-text a {
 	margin-top: 25px;
 }
 
 #bottom {
-	margin-top: 25px;
+	margin-top: 50px;
 }
 
 #bottom img {
 	padding-bottom: 10px;
+}
+
+#bottom p {
+	margin: 10px;
 }
 
 footer {
@@ -220,10 +247,10 @@ footer {
 	position : relative;
 	top: -60px;
 }
-
+/*
 #subnav li {
 	padding-right: 110px;
-}
+}*/
 
 #subheader h1 {
 	margin-bottom: 5px;
@@ -255,9 +282,14 @@ hr {
 	text-align: center;
 }
 
-#teach #subheader, #teach #teach-main, #teach footer {
+#teach #subheader, #teach #teach-main {
 	position: relative;
 	top: -31px;
+}
+
+#teach footer {
+	position: relative;
+	top: -56px;
 }
 
 #lesson-form {
@@ -267,7 +299,6 @@ hr {
 #step-builder {
 	position: relative;
 	top: -25px;
-	left: 120px;
 }
 
 #teach-dots {
@@ -309,6 +340,10 @@ hr {
 	padding: 5px;
 }
 
+#advanced-options {
+	padding-top: 25px;
+}
+
 #add-droppable img {
 	margin-right: 5px;
 }
@@ -344,6 +379,15 @@ hr {
 
 #congrats-share, #congrats-links {
 	background-color: #FFC9AE
+}
+
+#congrats-links {
+	height: 150px;
+}
+
+#congrats-links ul {
+	width: 200px;
+	margin: 0 auto;
 }
 
 hr {
@@ -386,13 +430,9 @@ ul{
 	padding-top: 5px;
 }
 
-.navbar {
-	background-color: #FFF;
-}
-
 .nav {
-	margin-top: 55px;
-	margin-left: -6px;
+	margin-top: 56px;
+	margin-left: -30px;
 	height: 33px;
 	background-color: #585b5b;
 }
@@ -426,7 +466,7 @@ ul{
 #signinlinks {
 	position: relative;
 	top: 50px;
-	left: -20px;
+	left: -100px;
 }
 
 #main-text {
@@ -435,13 +475,6 @@ ul{
 
 #main-text .lesson-name {
 	padding-bottom: 15px;
-}
-
-
-#main-video {
-	position: relative;
-	top: 30px;
-	left: 130px;
 }
 
 .btn-primary {
@@ -489,12 +522,31 @@ ul{
   border-color: #C7E4EE;
 }
 
-#index #main {
-	background-image: url('../img/laptop.png');
-	background-repeat: no-repeat;
-	background-position: left 170px top 0px;
-	background-size: 445px 240px;
-	height: 250px;
+.btn-gray {
+	background-color: #BFBFBF;
+	border-color: #BFBFBF;
+	font-weight: 700;
+}
+
+.btn-gray:hover {
+	background-color: #BFBFBF;
+	border-color: #BFBFBF;
+	font-weight: 700;
+}
+
+#laptop {
+	width: 420px;
+	height: 240px;
+}
+
+#main-video iframe {
+	position:absolute;
+	top: 25px;
+	left: 75px;
+}
+
+#about-main {
+	padding-top: 25px;
 }
 
 #category-menu{
@@ -502,7 +554,7 @@ ul{
 	margin-bottom: 10px;
 }
 
-#learn #category-menu a {
+#category-menu a {
 	color: #0F5F94;
 	text-decoration: underline;
 }
@@ -526,11 +578,6 @@ ul{
 	line-height: 20px;
 	font-weight: 700;
 	color: #ff4000;
-}
-
-#recent, #top-learners {
-	position: relative;
-	top: -125px;
 }
 
 #recent-content {
@@ -567,15 +614,6 @@ ul{
 
 #teach-callout p{
 	display: inline;
-}
-
-#teach .titles {
-	text-align: center;
-}
-
-#teach .alert-info {
-	background-color: #C7E4EE;
-	color: #0F6095;
 }
 
 #teach-content {
@@ -664,6 +702,10 @@ ul{
 	height: 25px;
 	background-color: #FFC9AE;
 	border: 1px solid #999999;
+}
+
+.orange-bg {
+	background-color: #FFC9AE;
 }
 
 .blue-square {
@@ -821,24 +863,16 @@ ul{
 	color: #FF4000;
 }
 
-#index #subheader {
-	position: relative;
-	top: -150px;
-	left: -12px;
-}
-
 #connect #subheader {
 	position: relative;
 	top: -40px;
 }
 
 .text-overlay{
-	color: #FFF;
+	color: #FFF !important;
 	font-weight: 700;
-	position: relative;
-	top: -110px;
-	left: 50px;
-	width: 400px;
+	position: absolute;
+	top: 200px;
 }
 
 #about section {
@@ -858,7 +892,7 @@ ul{
 	color: #FFF;
 }
 
-footer {
+#footer-menu {
 	background-color: #585b5b;
 	font-weight: 700;
 	margin-top: 25px;
@@ -1042,11 +1076,6 @@ section .btn{
 	color: #74BBD4;
 }
 
-#feedback {
-	position: relative;
-	top: -200px;
-}
-
 #rating {
     background: #74BBD4;
     width: 280px;
@@ -1083,6 +1112,7 @@ section .btn{
 	color: #0F6095;
 	border-radius: 15px;
 	padding: 10px;
+	min-width:330px;
 }
 
 #profile-info .location, #profile-info .biz-name {
@@ -1104,17 +1134,25 @@ section .btn{
 	margin-right : 15px;
 }
 
+#fb-plugin {
+	background-color: #FFF;
+}
+
 
 #profile-activity {
 	margin-left: 25px;
 }
 
-#profile-activity h1, #recent-activity h1 {
+#profile-activity h1, #leader-boards h1, #latest-activity h1 {
 	text-align: center;
 	background-color: #FFC9AE;
 	color: #ff4000;
 	line-height: 48px;
 	border-radius: 15px;
+}
+
+#latest-activity {
+	padding-top: 25px;
 }
 
 #recent-activity {
@@ -1159,9 +1197,14 @@ section .btn{
 	text-decoration: underline;
 }
 
-#teach-landing #main h2 {
+.teach-top h2 {
 	color: #FF4000;
 	text-align: center;
+}
+
+.teach-bottom h2 {
+	text-align: center;
+	color: #0F6095;
 }
 
 #teach-landing #main hr {
@@ -1190,17 +1233,40 @@ section .btn{
 	background-color: #FFC9AE;
 	border-radius: 15px;
 	padding: 15px;
-	height: 400px;
+	height: 425px;
+	margin-bottom: 15px;
 }
 
 .teach-bottom {
 	background-color: #C7E4EE;
-	height: 200px;
+	border-radius: 15px;
+	padding: 15px;
+	height: 225px;
+	margin-bottom: 15px;
 }
+
 
 .teach-top, .teach-bottom {
 	margin-right: 25px;
 }
+
+#teaching-guide h2 {
+	color: #79C040;
+}
+
+#teaching-guide ul {
+	padding-left: 35px;
+	list-style: disc;
+}
+
+#teaching-guide .padded-img {
+	padding-bottom: 25px;
+}
+
+#teaching-guide a {
+	text-decoration: underline;
+}
+
 
 /* bootstrap additions */
 .alert-success a{

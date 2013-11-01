@@ -129,8 +129,12 @@ var profile = (function (profile) {
       $("#services-created").append(html);
     } else {
       $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
-        $.each(response.objects, function(i){
-            _displayLesson(response.objects[i]);
+        $.each(response.objects, function(i, lesson){
+          if (lesson.creator_id == BfUser.id){
+                      console.log(BfUser.id);
+          console.log(lesson.creator_id);
+            _displayLesson(lesson);
+          }
         });
       });
     }
@@ -140,8 +144,8 @@ var profile = (function (profile) {
     var html = '<div class="row">';
     html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
     html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
-    html += '<div class="col-lg-2 col-offset-1">';
-    html += '<!--<a type="button" href="edit.html?'+lesson.id+'" class="btn btn-default">Edit</a>-->';
+    html += '<div class="col-lg-2 col-lg-offset-1">';
+    html += '<a type="button" href="lesson-builder.html?'+lesson.id+'" class="btn btn-default">Edit</a>';
     html += '</div>';
     html += '</div>';
     $("#"+lesson.state).append(html);
