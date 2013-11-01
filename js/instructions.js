@@ -175,17 +175,17 @@ var instructions = (function (instructions) {
     $('section').attr('id','step'+currentStep.stepNumber);
     $('#step-text-content').html(currentStep.stepText);
     $('#feedback-content').html(currentStep.feedback);
+
+    // Save progress of every step taken
     if (!previewLesson){
+      console.log("Recording step completion.");
       // Record most recent opened step
       postData = {
-          currentStep : currentStep,
-          lessonName : lesson.name,
-          lessonId : lesson.id,
+          currentStepId : currentStep.id,
+          currentLessonId : lesson.id
         }
-      if (currentStep.stepType == "congrats"){
-        console.log("Recording step completion.");
-        BfUser.record_step(postData, _recordedStep);
-      }
+        // console.log(postData);
+      BfUser.record_step(postData, _recordedStep);
     }
   }
 
