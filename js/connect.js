@@ -53,7 +53,7 @@ var connect = (function (connect) {
         userCounts[userLesson.user.id] = 0;
       }
       // If they've finished a lesson, then plus one to the count.
-      if (userLesson.end_dt){
+      if (userLesson.completed){
         userCounts[userLesson.user.id] += 1;
       }
       // Build an object of user ids and names
@@ -97,7 +97,7 @@ var connect = (function (connect) {
         teacherCounts[userLesson.lesson.creator_id] = 0;
         numberOfTeachers += 1;
       }
-      if (userLesson.end_dt){
+      if (userLesson.completed){
         teacherCounts[userLesson.lesson.creator_id] += 1
       }
     })
@@ -137,7 +137,7 @@ var connect = (function (connect) {
     var recentlyCompletedLessons = []
     // Get finished lessons
     $.each(response.objects, function(i,userLesson){
-      if (userLesson.end_dt){
+      if (userLesson.completed){
         recentlyCompletedLessons.push(userLesson);
       }
     });

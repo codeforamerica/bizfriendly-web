@@ -5,15 +5,14 @@ var profile = (function (profile) {
   var user_name = BfUser.name;
   var lessonsCompleted = [];
   var lessonsCreated = [];
+  var profileID;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
   function init(){
     if (config.debug) console.log('init');
-    // Call the API and get that lesson, pass response to _main
     _loading();
     _main();
-    // $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', _main);
   }
 
   // PRIVATE METHODS
@@ -25,33 +24,51 @@ var profile = (function (profile) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
-    _checkIfLoggedIn();
-    _getActivity();
-    _showLessonsCreated();
+
+    // Who's profile?
+    profileID = window.location.search.split('?')[1];
+    // If id included in url, then show the public profile of that user
+    if (profileID){
+      _getUserInfo(profileID);
+      _getActivity(profileID);
+      _showLessonsCreated(profileID);
+      // Hide draft and submitted lessons
+      if (profileID != BfUser.id) {
+        $("#draft").hide();
+        $("#submitted").hide();
+      }
+    } else {
+    // If not, show logged in users private profile
+      _checkIfLoggedIn();
+      _getUserInfo(BfUser.id);
+      _getActivity(BfUser.id);
+      _showLessonsCreated(BfUser.id);
+    }
+  }
+
+  function _getUserInfo(userID){
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+userID, function(response){
+      $(".user-name").text(response.name);
+      $(".location").text(response.location);
+      $(".biz-name").text(response.business_name);
+    });
   }
 
   function _checkIfLoggedIn(){
     // Check if user is logged in
-    // If not, dont let them build a lesson
-    // If so, show their name as the author
     if (!BfUser.bfAccessToken){
       $('#main').hide();
       $('.login-required').show();
-    } else {
-      // if (config.debug) console.log('Logged In');
-      $(".user-name").text(BfUser.name);
     }
   }
 
-  function _getActivity(){
+  function _getActivity(userID){
     // Get # of lessons completed
     $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', function(response){
-      console.log(response.objects);
-      $.each(response.objects, function(i){
-        if (response.objects[i].user.id == BfUser.id){
-          if (response.objects[i].end_dt){
-            console.log("My completed lessons: "+response.objects[i])
-            lessonsCompleted.push(response.objects[i]);
+      $.each(response.objects, function(i,userLesson){
+        if (userLesson.user.id == userID){
+          if (userLesson.completed){
+            lessonsCompleted.push(userLesson);
           }
         }
       })
@@ -62,7 +79,7 @@ var profile = (function (profile) {
     $.getJSON(config.bfUrl+config.bfApiVersion+'/requests', function(response){
       var numOfRequests = 0;
       $.each(response.objects, function(i){
-        if (response.objects[i].creator_id == BfUser.id){
+        if (response.objects[i].creator_id == userID){
           numOfRequests++;
         }
       })
@@ -73,7 +90,7 @@ var profile = (function (profile) {
     $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
       var numOfLessonsCreated = 0;
       $.each(response.objects, function(i){
-        if (response.objects[i].creator_id == BfUser.id){
+        if (response.objects[i].creator_id == userID){
           lessonsCreated.push(response.objects[i]);
         }
       })
@@ -83,9 +100,9 @@ var profile = (function (profile) {
     // Get number of lessons taught
     $.getJSON(config.bfUrl+config.bfApiVersion+'/userlessons', function(response){
       var numOfLessonsTaught = 0;
-      $.each(response.objects, function(i){
-        if (response.objects[i].lesson.creator_id == BfUser.id){
-          if (response.objects[i].end_dt){
+      $.each(response.objects, function(i,userLesson){
+        if (userLesson.lesson.creator_id == userID){
+          if (userLesson.completed){
             numOfLessonsTaught++;
           }
         }
@@ -102,7 +119,6 @@ var profile = (function (profile) {
       $("#services-learned").append(html);
     } else {
       $.each(lessonsCompleted, function(i){
-        // console.log(lessonsCompleted[i].lesson.service_id);
         var html ="";
         url = config.bfUrl+config.bfApiVersion+'/services/'+lessonsCompleted[i].lesson.service_id;
         $.getJSON(url, function(response){
@@ -122,7 +138,7 @@ var profile = (function (profile) {
     }
   }
 
-  function _showLessonsCreated(){
+  function _showLessonsCreated(userID){
     if (!lessonsCreated){
       html = "<h2>We see you haven't started teaching on BizFriend.ly yet.</h2>"
       html += '<button type="button" href="teach.html" class="btn btn-default">Start Teaching</button>'
@@ -130,9 +146,7 @@ var profile = (function (profile) {
     } else {
       $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
         $.each(response.objects, function(i, lesson){
-          if (lesson.creator_id == BfUser.id){
-                      console.log(BfUser.id);
-          console.log(lesson.creator_id);
+          if (lesson.creator_id == userID){
             _displayLesson(lesson);
           }
         });
@@ -145,12 +159,14 @@ var profile = (function (profile) {
     html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
     html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
     html += '<div class="col-lg-2 col-lg-offset-1">';
-    html += '<a type="button" href="lesson-builder.html?'+lesson.id+'" class="btn btn-default">Edit</a>';
+    // If its your profile, show edit buttons
+    if (!profileID || profileID == BfUser.id) {
+      html += '<a type="button" href="lesson-builder.html?'+lesson.id+'" class="btn btn-default">Edit</a>';
+    };
     html += '</div>';
     html += '</div>';
     $("#"+lesson.state).append(html);
   }
-
 
   // add public methods to the returned module and return it
   profile.init = init;
