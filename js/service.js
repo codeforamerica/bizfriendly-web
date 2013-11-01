@@ -2,6 +2,7 @@ var service = (function (service) {
 
   var service = {};
   var lessons = [];
+  var lessonCompleted;
 
 
   // PUBLIC METHODS
@@ -55,6 +56,7 @@ var service = (function (service) {
     $.each(lessons, function(i){
       var html = '';
       var numberOfLearners;
+      lessonCompleted = false;
       // Get number of learners
       var filters = [{"name": "lesson_id", "op": "==", "val": lessons[i].id}];
       $.ajax({
@@ -64,13 +66,22 @@ var service = (function (service) {
         contentType: "application/json",
         success: function(data) {
           numberOfLearners = data.num_results;
+          $.each(data.objects, function(i,userLesson){
+            if (userLesson.completed && userLesson.user_id == BfUser.id){
+              lessonCompleted = true;
+            }
+          })
         },
         error : function(error){
           console.log(error);
         }
       }).done(function(){
         if (config.debug) console.log(lessons);
-        html += '<tr><td><a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
+        html += '<tr><td>'
+        if (lessonCompleted){
+          html += '<img src="img/green-check.png">'
+        }
+        html +='<a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
         html += '<br/><p class="author-name">Created by <span class="author-name'+lessons[i].creator_id+'"></span></p></td>';
         html += '<td>'+numberOfLearners+'</td></tr>';
         $("#tbody").append(html);
