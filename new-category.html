@@ -4,71 +4,73 @@ title: Add a new category
 js: new-category
 ---
 
-<div id="subnav" class="row hidden-xs">
-    <ul class="list-inline col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-        <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
-        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
-        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
-    </ul>
-</div>
-<div id="subheader" class="row">
-    <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-        <h1>Use the form below to add a skill category to BizFriend.ly</h1>
-        <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
+<div id="new-category">
+    <div id="subnav" class="row hidden-xs">
+        <ul class="list-inline col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+            <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
+        </ul>
     </div>
-    <div class="alert alert-info login-required col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-        You'll need to create a BizFriend.ly account before you can create a lesson. <a href="signup.html">Sign up</a> then come back here.
-    </div>
-</div>
-
-<section id="main" class="row">
-    <form role="form" class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
-        <legend class="blue">Skill Category Information</legend>
-        <p>To teach a skill that is new to BizFriend.ly, you'll have to provide some information that helps others know why they should learn this skill.</p>
-        <div class="form-group">
-            <input type="text" class="form-control" id="new-skill-name" placeholder="New Skill Name">
+    <div id="subheader" class="row">
+        <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+            <h1>Use the form below to add a skill category to BizFriend.ly</h1>
+            <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
         </div>
-        <div class="form-group">
-            <textarea id="new-skill-description" class="form-control" placeholder="Description of new skill" rows="4"></textarea>
+        <div class="alert alert-info login-required col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+            You'll need to create a BizFriend.ly account before you can create a lesson. <a href="signup.html">Sign up</a> then come back here.
         </div>
-        <button id="preview" type="button" class="btn btn-blue">Preview</button>
-        <button id="save-draft" type="button" class="btn btn-blue">Save Draft</button>
-        <button id="submit" type="button" class="btn btn-primary">Submit</button>
-        <div class="hidden alert alert-danger">A category with that name already exists</div>
-    </form>
-</section>
+    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title"></h4>
-    </div>
-    <div class="modal-body">
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    <section id="main" class="row">
+        <form role="form" class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
+            <legend class="blue">Skill Category Information</legend>
+            <p>To teach a skill that is new to BizFriend.ly, you'll have to provide some information that helps others know why they should learn this skill.</p>
+            <div class="form-group">
+                <input type="text" class="form-control" id="new-skill-name" placeholder="New Skill Name">
+            </div>
+            <div class="form-group">
+                <textarea id="new-skill-description" class="form-control" placeholder="Description of new skill" rows="4"></textarea>
+            </div>
+            <button id="preview" type="button" class="btn btn-blue">Preview</button>
+            <button id="save-draft" type="button" class="btn btn-blue">Save Draft</button>
+            <button id="submit" type="button" class="btn btn-primary">Submit</button>
+            <div class="hidden alert alert-danger">A category with that name already exists</div>
+        </form>
+    </section>
 
-<!-- Modal -->
-<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title">Nice Work!</h4>
-    </div>
-    <div class="modal-body">
-        <b>You created a new skill called <span class="skill-name orange"></span></b>
-        <p>To ensure high quality content on BizFriend.ly, your skill will be reviewed before it goes live.</p>
-        <a type="button" class="btn btn-default" href="/new-category.html">Create Another</a>
-        <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
-    </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Nice Work!</h4>
+        </div>
+        <div class="modal-body">
+            <b>You created a new skill called <span class="skill-name orange"></span></b>
+            <p>To ensure high quality content on BizFriend.ly, your skill will be reviewed before it goes live.</p>
+            <a type="button" class="btn btn-default" href="/new-category.html">Create Another</a>
+            <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+    </div><!-- /.modal -->

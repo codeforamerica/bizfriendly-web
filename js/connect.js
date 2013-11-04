@@ -22,6 +22,7 @@ var connect = (function (connect) {
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
+    _checkIfLoggedIn();
     // Get top learners
     _getTopLearners(response);
     // Get Top Teachers
@@ -31,16 +32,19 @@ var connect = (function (connect) {
   }
 
   function _checkIfLoggedIn(){
-    // Check if user is logged in
-    // If not, dont let them build a lesson
-    // If so, show their name as the author
     if (!BfUser.bfAccessToken){
-      $('#main').hide();
-      $('.login-required').show();
+      $("#profile-info").hide();
     } else {
-      // if (config.debug) console.log('Logged In');
-      $(".user-name").text(BfUser.name);
+      _getUserInfo(BfUser.id);
     }
+  }
+
+  function _getUserInfo(userID){
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+userID, function(response){
+      $(".user-name").text(response.name);
+      $(".location").text(response.location);
+      $(".biz-name").text(response.business_name);
+    });
   }
 
   function _getTopLearners(response){
@@ -136,8 +140,10 @@ var connect = (function (connect) {
   function _getLatestActivity(response){
     var recentlyCompletedLessons = []
     // Get finished lessons
+    var recentCounter = 10;
     $.each(response.objects, function(i,userLesson){
-      if (userLesson.completed){
+      recentCounter -= 1;
+      if (userLesson.completed && recentCounter > 0){
         recentlyCompletedLessons.push(userLesson);
       }
     });

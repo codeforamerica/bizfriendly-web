@@ -150,6 +150,10 @@ th {
 	color: #FF4000;
 }
 
+#subnav {
+	z-index: 9999;
+}
+
 #subnav a {
 	color: #FF4000;
 	font-weight: 700;
@@ -247,10 +251,6 @@ footer {
 	position : relative;
 	top: -60px;
 }
-/*
-#subnav li {
-	padding-right: 110px;
-}*/
 
 #subheader h1 {
 	margin-bottom: 5px;
@@ -282,7 +282,9 @@ hr {
 	text-align: center;
 }
 
-#teach #subheader, #teach #teach-main {
+#teach-landing #subheader, #teach-landing #main, #teach-header, 
+#teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
+#new-category #main {
 	position: relative;
 	top: -31px;
 }
@@ -324,7 +326,9 @@ hr {
 	background-color: #FFF;
 	border: 3px dashed #999;
 	border-radius: 15px;
+	width: 100px;
 	height: 70px;
+	margin-left: 6px;
 	margin-bottom: 10px;
 	font-weight: 700;
 	text-align: center;
@@ -596,13 +600,8 @@ ul{
 	color: #FF4000;
 }
 
-#new-category form {
-	padding: 0;
-	margin-top: 25px;
-}
-
-#new-service #main form a{
-	color: #FF4000;
+legend {
+	padding-top: 10px;
 }
 
 
@@ -863,11 +862,6 @@ ul{
 	color: #FF4000;
 }
 
-#connect #subheader {
-	position: relative;
-	top: -40px;
-}
-
 .text-overlay{
 	color: #FFF !important;
 	font-weight: 700;
@@ -1107,7 +1101,19 @@ section .btn{
 	text-align: center;
 }
 
+#connect #left-column {
+	min-width:330px;
+}
+
 #profile-info {
+	background-color: #C7E4EE;
+	color: #0F6095;
+	border-radius: 15px;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+#fb-plugin-box {
 	background-color: #C7E4EE;
 	color: #0F6095;
 	border-radius: 15px;

@@ -4,93 +4,95 @@ title: profile
 js: profile
 ---
 
-<div id="subnav" class="row hidden-xs">
-    <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-        <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Your Profile</a></li>
-        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Invite A Friend</a></li>
-    </ul>
-</div>
-<div id="subheader" class="row">
-    <div class="col-lg-offset-1 col-lg-11">
-        <h1>Nice work! Here's where you can see everything you've done on BizFriend.ly</h1>
+<div id="profile">
+    <!-- <div id="subnav" class="row hidden-xs">
+        <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+            <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Your Profile</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Invite A Friend</a></li>
+        </ul>
+    </div> -->
+    <div id="subheader" class="row">
+        <div class="col-lg-offset-1 col-lg-11">
+            <h1>Nice work! Here's where you can see everything you've done on BizFriend.ly</h1>
+        </div>
+        <div class="alert alert-info login-required col-lg-offset-1 col-lg-11">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
+        </div>
     </div>
-    <div class="alert alert-info login-required col-lg-offset-1 col-lg-11">
-        You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
-    </div>
-</div>
 
-<section id="main" class="row">
-    <div id="profile-info" class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 ">
-        <h1 class="user-name">Jane Doe</h1>
-        <p class="location"></p>
-        <p class="biz-name"></p>
-        <div id="profile-social-links">
-            <a id="profile-li"><img src="img/profile-li-icon.png"></a>
-            <a id="profile-g+"><img src="img/profile-g+-icon.png"></a>
-            <a id="profile-fb"><img src="img/profile-fb-icon.png"></a>
-            <a id="profile-twitter"><img src="img/profile-twitter-icon.png"></a>
-            <a id="profile-site"><img src="img/profile-site-icon.png"></a>
-        </div>
-        <p class="profile-description">Brief intro to the community.</p>
-        <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
-    </div>
-    <div id="profile-activity" class="col-sm-6 col-md-6 col-lg-6">
-        <div id="accomplishments" class="activity">
-            <h1>Accomplishments</h1>
-            <div class="row">
-                <div id="lessons-complete" class="col-sm-3 col-md-3 col-lg-3">
-                </br>
-                lessons complete
-                </div>
-                <div id="requests" class="col-sm-3 col-md-3 col-lg-3">
-                </br>
-                requests
-                </div>
-                <div id="lessons-created" class="col-sm-3 col-md-3 col-lg-3">
-                </br>
-                lessons created
-                </div>
-                <div id="lessons-taught" class="col-sm-3 col-md-3 col-lg-3">
-                </br>
-                lessons taught
-                </div>
+    <section id="main" class="row">
+        <div id="profile-info" class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 ">
+            <h1 class="user-name">Jane Doe</h1>
+            <p class="location"></p>
+            <p class="biz-name"></p>
+            <div id="profile-social-links">
+                <a id="profile-li"><img src="img/profile-li-icon.png"></a>
+                <a id="profile-g+"><img src="img/profile-g+-icon.png"></a>
+                <a id="profile-fb"><img src="img/profile-fb-icon.png"></a>
+                <a id="profile-twitter"><img src="img/profile-twitter-icon.png"></a>
+                <a id="profile-site"><img src="img/profile-site-icon.png"></a>
             </div>
+            <p class="profile-description">Brief intro to the community.</p>
+            <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
         </div>
-        <div id="learning" class="activity">
-            <h1>Learning</h1>
-            <div id="services-learned">
-            </div>
-        </div>
-        <div id="teaching" class="activity">
-            <h1>Teaching</h1>
-            <div id="services-created">
-                <div id="draft">
-                    <h3>Drafts</h3>
-                </div>
-                <div id="submitted">
-                    <h3>Submitted</h3>
-                </div>
-                <div id="published">
-                    <h3>Published</h3>
-                </div>
-            </div>
-        </div>
-        <!-- <div id="requesting" class="activity">
-            <h1>Requesting</h1>
-            <div class="row">
-                <div id="lessons-complete" class="col-sm-3 col-md-3 col-lg-3">
-                    lessons-complete
-                </div>
-                <div id="requests" class="col-sm-3 col-md-3 col-lg-3">
+        <div id="profile-activity" class="col-sm-6 col-md-6 col-lg-6">
+            <div id="accomplishments" class="activity">
+                <h1>Accomplishments</h1>
+                <div class="row">
+                    <div id="lessons-complete" class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                    </br>
+                    lessons complete
+                    </div>
+                    <!-- <div id="requests" class="col-sm-3 col-md-3 col-lg-3">
+                    </br>
                     requests
-                </div>
-                <div id="content-created" class="col-sm-3 col-md-3 col-lg-3">
-                    content-created
-                </div>
-                <div id="lessons-taught" class="col-sm-3 col-md-3 col-lg-3">
-                    lessons-taught
+                    </div> -->
+                    <div id="lessons-created" class="col-sm-3 col-md-3 col-lg-3">
+                    </br>
+                    lessons created
+                    </div>
+                    <div id="lessons-taught" class="col-sm-3 col-md-3 col-lg-3">
+                    </br>
+                    lessons taught
+                    </div>
                 </div>
             </div>
-        </div> -->
-    </div>
-</section>
+            <div id="learning" class="activity">
+                <h1>Learning</h1>
+                <div id="services-learned">
+                </div>
+            </div>
+            <div id="teaching" class="activity">
+                <h1>Teaching</h1>
+                <div id="services-created">
+                    <div id="draft">
+                        <h3>Drafts</h3>
+                    </div>
+                    <div id="submitted">
+                        <h3>Submitted</h3>
+                    </div>
+                    <div id="published">
+                        <h3>Published</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="requesting" class="activity">
+                <h1>Requesting</h1>
+                <div class="row">
+                    <div id="lessons-complete" class="col-sm-3 col-md-3 col-lg-3">
+                        lessons-complete
+                    </div>
+                    <div id="requests" class="col-sm-3 col-md-3 col-lg-3">
+                        requests
+                    </div>
+                    <div id="content-created" class="col-sm-3 col-md-3 col-lg-3">
+                        content-created
+                    </div>
+                    <div id="lessons-taught" class="col-sm-3 col-md-3 col-lg-3">
+                        lessons-taught
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+</div>
