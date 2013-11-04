@@ -53,41 +53,43 @@ var service = (function (service) {
 
   function _lessonTable(){
     // Fill up table tbody
-    $.each(lessons, function(i){
-      var html = '';
-      var numberOfLearners;
-      lessonCompleted = false;
-      // Get number of learners
-      var filters = [{"name": "lesson_id", "op": "==", "val": lessons[i].id}];
-      $.ajax({
-        url: config.bfUrl+config.bfApiVersion+'/userlessons',
-        data: {"q": JSON.stringify({"filters": filters})},
-        dataType: "json",
-        contentType: "application/json",
-        success: function(data) {
-          numberOfLearners = data.num_results;
-          $.each(data.objects, function(i,userLesson){
-            if (userLesson.completed && userLesson.user_id == BfUser.id){
-              lessonCompleted = true;
-            }
-          })
-        },
-        error : function(error){
-          console.log(error);
-        }
-      }).done(function(){
-        if (config.debug) console.log(lessons);
-        html += '<tr><td>'
-        if (lessonCompleted){
-          html += '<img src="img/green-check.png">'
-        }
-        html +='<a id="'+lessons[i].id+'" class="orange bold instructions-link">'+lessons[i].name+'</a>';
-        html += '<br/><p class="author-name">Created by <span class="author-name'+lessons[i].creator_id+'"></span></p></td>';
-        html += '<td>'+numberOfLearners+'</td></tr>';
-        $("#tbody").append(html);
-        _getCreatorName(lessons[i].id);
-        $("#"+lessons[i].id).click(_instructionsLinkClicked);
-      })
+    $.each(lessons, function(i, lesson){
+      if (lesson.state == "published"){
+        var html = '';
+        var numberOfLearners;
+        lessonCompleted = false;
+        // Get number of learners
+        var filters = [{"name": "lesson_id", "op": "==", "val": lesson.id}];
+        $.ajax({
+          url: config.bfUrl+config.bfApiVersion+'/userlessons',
+          data: {"q": JSON.stringify({"filters": filters})},
+          dataType: "json",
+          contentType: "application/json",
+          success: function(data) {
+            numberOfLearners = data.num_results;
+            $.each(data.objects, function(i,userLesson){
+              if (userLesson.completed && userLesson.user_id == BfUser.id){
+                lessonCompleted = true;
+              }
+            })
+          },
+          error : function(error){
+            console.log(error);
+          }
+        }).done(function(){
+          if (config.debug) console.log(lessons);
+          html += '<tr><td>'
+          if (lessonCompleted){
+            html += '<img src="img/green-check.png">'
+          }
+          html +='<a id="'+lesson.id+'" class="orange bold instructions-link">'+lesson.name+'</a>';
+          html += '<br/><p class="author-name">Created by <span class="author-name'+lesson.creator_id+'"></span></p></td>';
+          html += '<td>'+numberOfLearners+'</td></tr>';
+          $("#tbody").append(html);
+          _getCreatorName(lesson.id);
+          $("#"+lesson.id).click(_instructionsLinkClicked);
+        })
+      }
     })
   }
 
