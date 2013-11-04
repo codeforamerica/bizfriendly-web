@@ -159,6 +159,7 @@ var teach = (function (teach) {
   function _getServices(){
     // Get existing services
     $("#service-id").empty();
+    $('#service-id').append('<option value="none">Select a web service for your lesson</option>');
     categoryId = $("#category-id").val();
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
       var services = response.objects;
