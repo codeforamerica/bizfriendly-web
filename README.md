@@ -1,5 +1,4 @@
-[![Stories in Ready](http://badge.waffle.io/codeforamerica/howtocity-web.png)](http://waffle.io/codeforamerica/howtocity-web)  
-[![Build Status](https://travis-ci.org/codeforamerica/howtocity-api.png)](https://travis-ci.org/codeforamerica/howtocity-api)
+  [![Build Status](https://travis-ci.org/codeforamerica/bizfriendly-api.png)](https://travis-ci.org/codeforamerica/bizfriendly-api)
 
 BizFriend.ly Web Site
 =========
