@@ -69,11 +69,15 @@ var teach = (function (teach) {
 
   function _getExistingLessonData(){
     $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons/'+lessonId, function(lesson){
-       // Check for owner or admin
+      // Check for owner or admin
       if(BfUser.id != lesson.creator.id){
-        $('#teach-main').hide();
-        $(".login-required").text("Whoa, that is someone elses lesson.");
-        $('.login-required').show();
+        $.getJSON(config.bfUrl+'/'+BfUser.id+'/is_admin', function(isAdmin){
+          if (!isAdmin.response){
+            $('#teach-main').hide();
+            $(".login-required").text("Whoa, that is someone elses lesson.");
+            $('.login-required').show();
+          }
+        })
       }
 
       // console.log(lesson);
@@ -155,6 +159,7 @@ var teach = (function (teach) {
   function _getServices(){
     // Get existing services
     $("#service-id").empty();
+    $('#service-id').append('<option value="none">Select a web service for your lesson</option>');
     categoryId = $("#category-id").val();
     $.get(config.bfUrl+config.bfApiVersion+'/services', function(response){
       var services = response.objects;

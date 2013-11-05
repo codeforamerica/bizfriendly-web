@@ -3,14 +3,15 @@ layout: teach-layout
 title: lesson builder
 js: teach
 ---
-<div class="container">
-    <div id="subnav" class="row hidden-xs">
-        <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-            <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
-            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
-            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
-        </ul>
-    </div>
+<div id="subnav" class="row hidden-xs">
+    <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+        <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
+        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
+        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
+    </ul>
+</div>
+
+<div id="teach-header" class="container">
     <div id="subheader" class="row">
         <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
             <h1>Build your lesson by creating step instructions and feedback.</h1>
@@ -30,7 +31,9 @@ js: teach
                     <option val="none">Select a skill for your lesson</option>
                 </select>
                 <br/>
-                <select id="service-id" class="selectpicker" data-width="100%"></select>
+                <select id="service-id" class="selectpicker" data-width="100%">
+                    <option val="none">Select a web service for your lesson</option>
+                </select>
             </div>
         </form>
         <div id="lesson-builder">
@@ -47,7 +50,7 @@ js: teach
             <div id="step-builder" class="row">
                 <div id="left-column" class="col-xs-3 col-sm-2 col-md-2 col-lg-3 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">
                     <div class="row">
-                        <div id="elements" class="col-lg-6 col-lg-offset-6">
+                        <div id="elements" class="col-lg-6 col-lg-offset-6 center">
                             <h3>Elements</h3>
                             <hr/>
                             <div id="text-element-drag" class="draggable"><p>Text</p></div>
@@ -57,11 +60,15 @@ js: teach
                          </div>
                     </div>
                     <div id="advanced-options" class="row">
-                        <button type="button" id="step-options-btn" class="btn btn-gray btn-block">Advanced Options</button>
-                        <div class="options hidden alert alert-success">
-                            These advance features are being prototyped. Go forth with caution.
-                        </div>
-                        <form id="options-form"> 
+                        <!-- <div class="col-lg-6 col-lg-offset-6"> -->
+                            <button type="button" id="step-options-btn" class="btn btn-gray col-lg-6 col-lg-offset-6">Advanced</button>
+                        <!-- </div> -->
+                        <br/>
+                        <br/>
+                            <div class="options hidden alert alert-success">
+                                These advanced features are being prototyped. Go forth with caution.
+                            </div> 
+                        <form id="options-form">
                             <select id="what-to-watch" class="selectpicker options hidden" data-width="100%">
                                 <option>What is this step watching?</option>
                                 <option>A new item</option>

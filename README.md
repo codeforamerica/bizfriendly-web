@@ -1,5 +1,4 @@
-[![Stories in Ready](http://badge.waffle.io/codeforamerica/howtocity-web.png)](http://waffle.io/codeforamerica/howtocity-web)  
-[![Build Status](https://travis-ci.org/codeforamerica/howtocity-api.png)](https://travis-ci.org/codeforamerica/howtocity-api)
+  [![Build Status](https://travis-ci.org/codeforamerica/bizfriendly-api.png)](https://travis-ci.org/codeforamerica/bizfriendly-api)
 
 BizFriend.ly Web Site
 =========
@@ -7,10 +6,10 @@ BizFriend.ly Web Site
 BizFriend.ly teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
 
 ## <a name="about"></a>About
-This is the main website for the BizFriend.ly service. It is powered by the [BizFriend.ly API](http://github.com/codeforamerica/howtocity-api)
+This is the main website for the BizFriend.ly service. It is powered by the [BizFriend.ly API](http://github.com/codeforamerica/bizfriendly-api)
 
 ## <a name="demo"></a>Demo
-http://codeforamerica.github.io/howtocity-web/
+http://codeforamerica.github.io/bizfriendly-web/
 
 
 ## <a name="development-setup"></a>Development Setup
@@ -18,7 +17,7 @@ BizFriend.ly's website is just javascript and html. Run it on any webserver you'
 
 ## <a name="contributing"></a>Contributing
 
-The list of [beginner friendly](https://github.com/codeforamerica/howtocity-web/issues?labels=beginner+friendly&page=1&state=open) issues is a great place to start!
+The list of [beginner friendly](https://github.com/codeforamerica/bizfriendly-web/issues?labels=beginner+friendly&page=1&state=open) issues is a great place to start!
 
 In the spirit of [free software][free-sw], **everyone** is encouraged to help
 improve this project.
@@ -40,7 +39,7 @@ Here are some ways *you* can contribute:
 * by reviewing patches
 * [financially][]
 
-[issues]: https://github.com/codeforamerica/howtocity-web/issues
+[issues]: https://github.com/codeforamerica/bizfriendly-web/issues
 [financially]: https://secure.codeforamerica.org/page/contribute
 
 ## <a name="issues"></a>Submitting an Issue
@@ -63,6 +62,6 @@ bug.
 ## <a name="copyright"></a>Copyright
 Copyright (c) 2013 Code for America. See [LICENSE][] for details.
 
-[license]: https://github.com/codeforamerica/howtocity-web
+[license]: https://github.com/codeforamerica/bizfriendly-web
 
-[![Code for America Tracker](http://stats.codeforamerica.org/codeforamerica/howtocity-web.png)](http://stats.codeforamerica.org/projects/howtocity-web)
+[![Code for America Tracker](http://stats.codeforamerica.org/codeforamerica/bizfriendly-web.png)](http://stats.codeforamerica.org/projects/bizfriendly-web)
