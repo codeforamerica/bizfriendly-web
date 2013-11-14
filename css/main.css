@@ -282,6 +282,10 @@ hr {
 	text-align: center;
 }
 
+#draftMessage a, #submittedMessage a {
+	text-decoration: underline;
+}
+
 #teach-landing #subheader, #teach-landing #main, #teach-header, 
 #teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
 #new-category #main {

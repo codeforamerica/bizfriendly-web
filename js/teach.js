@@ -926,6 +926,19 @@ var teach = (function (teach) {
       success : function(){
         if (config.debug) {console.log("Lesson updated.")}
         _updateSteps();
+
+        if (state == "draft"){
+          $("#draftMessage").show();
+          $("#submittedMessage").hide();
+        }
+        if (state == "submitted"){
+          $("#draftMessage").hide();
+          $("#submittedMessage").show();
+        }
+
+        $(".lesson-name").text($("#lesson-name").text());
+        $('#submissionModal').modal();
+
       },
       error : function(error){
         console.log(error)
@@ -995,8 +1008,6 @@ var teach = (function (teach) {
         }
       });
     });
-    $(".lesson-name").text($("#lesson-name").text());;
-    $('#submissionModal').modal();
   }
 
   function _checkForLesson(state){
@@ -1046,6 +1057,18 @@ var teach = (function (teach) {
       success : function(){
         _getLessonId(newLesson);
 
+        if (state == "draft"){
+          $("#draftMessage").show();
+          $("#submittedMessage").hide();
+        }
+        if (state == "submitted"){
+          $("#draftMessage").hide();
+          $("#submittedMessage").show();
+        }
+
+        $(".lesson-name").text($("#lesson-name").text());
+        $('#submissionModal').modal();
+
       },
       error : function(error){
         console.log(error)
@@ -1064,7 +1087,7 @@ var teach = (function (teach) {
       success: function(data) {
         if (data.num_results){
           lessonId = data.objects[0].id
-          _postSteps();
+          _postSteps(newLesson.state);
         newLesson["id"] = lessonId;
 
         if (newLesson.state == "submitted"){
@@ -1083,7 +1106,7 @@ var teach = (function (teach) {
     });
   }
 
-  function _postSteps(){
+  function _postSteps(state){
     $.each(newSteps, function (i){
       // Clean up
       newSteps[i].lesson_id = lessonId;
@@ -1103,8 +1126,6 @@ var teach = (function (teach) {
         }
       });
     });
-    $(".lesson-name").text($("#lesson-name").text());;
-    $('#submissionModal').modal();
   }
 
   // add public methods to the returned module and return it
