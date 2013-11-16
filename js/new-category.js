@@ -13,8 +13,12 @@ var newCategory = (function (newCategory) {
     // Make sure they are logged in
     _checkIfLoggedIn();
     $("#preview").click(_previewClicked);
-    $("#save-draft").click(_saveDraftClicked);
-    $("#submit").click(_submitClicked);
+    $("#save-draft").click(function(){
+      _submitClicked("draft")
+    });
+    $("#submit").click(function(){
+      _submitClicked("submitted")
+    });
   }
 
   function _checkIfLoggedIn(){
@@ -30,16 +34,23 @@ var newCategory = (function (newCategory) {
     $('#previewModal').modal();
   }
 
-  function _saveDraftClicked(){
-    _checkOnCategory("draft");
-  }
-
-  function _submitClicked(){
-    _checkOnCategory("submitted");
+  function _submitClicked(state){
+    // Validate form
+    if (!$("#new-skill-description").val()) {
+      $("#form-alert").text("Please enter a description for your new skill.").removeClass("hidden");
+    }
+    if (!$("#new-skill-name").val()) {
+      $("#form-alert").text("Please enter a name for your new skill.").removeClass("hidden");
+    }
+    if ($("#new-skill-name").val() && $("#new-skill-description").val())
+    {
+      $("#form-alert").hide();
+      _checkOnCategory(state);
+    }
   }
 
   function _checkOnCategory(state){
-    var filters = [{"name": "name", "op": "==", "val": $("#new-skill-name").text()}];
+    var filters = [{"name": "name", "op": "==", "val": $("#new-skill-name").val()}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/categories',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
@@ -48,14 +59,14 @@ var newCategory = (function (newCategory) {
       success: function(data) {
         // Service already exists, give user a warning
         if (data.num_results){
-          $(".alert").removeClass("hidden");
+          $("#form-alert").text("A category with that name already exists").removeClass("hidden");
         } else {
           // Lesson doesn't exist, post it
           _postCategory(state);
         }
       },
       error : function(error){
-        console.log(error);
+        $("#form-alert").text(error).removeClass("hidden");
       }
     });
   }
@@ -87,7 +98,7 @@ var newCategory = (function (newCategory) {
         
       },
       error : function(error){
-        $(".alert").removeClass("hidden");
+        $("#form-alert").text(error).removeClass("hidden");
       }
     });
 

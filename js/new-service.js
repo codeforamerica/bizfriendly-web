@@ -20,8 +20,12 @@ var newService = (function (newService) {
     $("#add-tips").click(_addTipsClicked);
     $("#add-resources").click(_addResourcesClicked);
     $("#preview").click(_previewClicked);
-    $("#save-draft").click(_saveDraftClicked);
-    $("#submit").click(_submitClicked);
+    $("#save-draft").click(function(){
+      _submitClicked("draft");
+    });
+    $("#submit").click(function(){
+      _submitClicked("submitted");
+    });
   }
 
   function _checkIfLoggedIn(){
@@ -37,7 +41,7 @@ var newService = (function (newService) {
       $.each(response.objects, function(i){
         $('#category-id').append('<option value='+response.objects[i].id+'>'+response.objects[i].name+'</option>');
       })
-      $('#category-id').append('<option value="add-new-category">Add new category</option>');
+      $('#category-id').append('<option value="add-new-category">Add new skill</option>');
     }).done(function(){
       $('.selectpicker').selectpicker();
       _watchCategory();
@@ -209,17 +213,19 @@ var newService = (function (newService) {
     $('#previewModal').modal()
   }
 
-  function _saveDraftClicked(){
-    _checkForService("draft");
-  }
-
-  function _submitClicked(){
-    _checkForService("submitted");
+  function _submitClicked(state){
+    // Validate form
+    if (!$("#new-service-name").val()) {
+      $("#form-alert").text("Please enter a name for your new service.").removeClass("hidden");
+    } else {
+      $("#form-alert").hide();
+      _checkForService(state);
+    }
   }
 
   function _checkForService(state){
     // Post draft lesson
-    var filters = [{"name": "name", "op": "==", "val": $("#new-service-name").text()}];
+    var filters = [{"name": "name", "op": "==", "val": $("#new-service-name").val()}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/services',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},

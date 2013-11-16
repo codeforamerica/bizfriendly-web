@@ -282,7 +282,7 @@ hr {
 	text-align: center;
 }
 
-#draftMessage a, #submittedMessage a {
+#draftMessage a, #submittedMessage a, #submissionModal a {
 	text-decoration: underline;
 }
 
