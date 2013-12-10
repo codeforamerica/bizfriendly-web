@@ -3,7 +3,7 @@
 BizFriend.ly Web Site
 =========
 
-BizFriend.ly teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
+http://BizFriend.ly teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
 
 ## <a name="about"></a>About
 This is the main website for the BizFriend.ly service. It is powered by the [BizFriend.ly API](http://github.com/codeforamerica/bizfriendly-api)
@@ -68,16 +68,14 @@ This is the main website for the BizFriend.ly service. It is powered by the [Biz
 
 </pre>
 
-## <a name="demo"></a>Demo
-http://codeforamerica.github.io/bizfriendly-web/
-
-
 ## <a name="development-setup"></a>Development Setup
 BizFriend.ly's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
 
 ## <a name="contributing"></a>Contributing
 
 The list of [beginner friendly](https://github.com/codeforamerica/bizfriendly-web/issues?labels=beginner+friendly&page=1&state=open) issues is a great place to start!
+
+We sort the importance of our issues using the star labels. [Three stars](https://github.com/codeforamerica/bizfriendly-web/issues?labels=%E2%98%85%E2%98%85%E2%98%85&page=1&state=open) are the most important issues.
 
 In the spirit of [free software][free-sw], **everyone** is encouraged to help
 improve this project.
