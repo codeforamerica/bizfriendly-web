@@ -106,6 +106,7 @@ var service = (function (service) {
       $('.alert').text("Whoa! You need to log in first.").removeClass('hidden');
     } else {
       // Open the lesson and the modal.
+      $('#instructionsModal').modal()
       lessonId = $(this).attr("id");
       var url = 'instructions.html?'+lessonId;
       var width = 340;
@@ -113,7 +114,7 @@ var service = (function (service) {
       var left = window.screen.width - 340;
       var instructionOptions = "height="+height+",width="+width+",left="+left;
       window.open(url,"instructions",instructionOptions);
-      $('#instructionsModal').modal()
+      
     }
   }
 
