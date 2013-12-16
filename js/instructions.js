@@ -182,7 +182,8 @@ var instructions = (function (instructions) {
       // Record most recent opened step
       postData = {
           currentStepId : currentStep.id,
-          currentLessonId : lesson.id
+          currentLessonId : lesson.id,
+          auth : BfUser.bfAccessToken
         }
         // console.log(postData);
       BfUser.record_step(postData, _recordedStep);
