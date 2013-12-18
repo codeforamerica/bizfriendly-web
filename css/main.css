@@ -88,7 +88,6 @@ a {
 #service-media {
 	position: relative;
     padding-bottom: 56.25%; /* 16/9 ratio */
-    padding-top: 30px; /* IE6 workaround*/
     height: 0;
     overflow: hidden;
 }
