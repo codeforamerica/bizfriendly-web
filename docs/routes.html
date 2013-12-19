@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>routes.py</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="__init__.html">
+                __init__.py
+              </a>
+            
+              
+              <a class="source" href="admin.html">
+                admin.py
+              </a>
+            
+              
+              <a class="source" href="api.html">
+                api.py
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.py
+              </a>
+            
+              
+              <a class="source" href="forms.html">
+                forms.py
+              </a>
+            
+              
+              <a class="source" href="models.html">
+                models.py
+              </a>
+            
+              
+              <a class="source" href="routes.html">
+                routes.py
+              </a>
+            
+              
+              <a class="source" href="BfUser.html">
+                BfUser.js
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.js
+              </a>
+            
+              
+              <a class="source" href="connect.html">
+                connect.js
+              </a>
+            
+              
+              <a class="source" href="edit.html">
+                edit.js
+              </a>
+            
+              
+              <a class="source" href="instructions.html">
+                instructions.js
+              </a>
+            
+              
+              <a class="source" href="learn.html">
+                learn.js
+              </a>
+            
+              
+              <a class="source" href="lesson.html">
+                lesson.js
+              </a>
+            
+              
+              <a class="source" href="new-category.html">
+                new-category.js
+              </a>
+            
+              
+              <a class="source" href="new-service.html">
+                new-service.js
+              </a>
+            
+              
+              <a class="source" href="profile.html">
+                profile.js
+              </a>
+            
+              
+              <a class="source" href="service.html">
+                service.js
+              </a>
+            
+              
+              <a class="source" href="teach.html">
+                teach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>routes.py</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">from</span> flask <span class="keyword">import</span> request, make_response
+<span class="keyword">from</span> bizfriendly <span class="keyword">import</span> app
+<span class="keyword">from</span> models <span class="keyword">import</span> *
+<span class="keyword">from</span> api <span class="keyword">import</span> *
+
+<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime
+<span class="keyword">import</span> os, requests, json, time, re, boto, random
+<span class="keyword">from</span> boto.s3.key <span class="keyword">import</span> Key</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Helper Functions --------------------------------------------------------</p>
+<p>Traverses a path into a json object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">def</span> <span class="title">get_data_on_attribute_path</span><span class="params">(json_data, attributes)</span>:</span>
+    <span class="keyword">for</span> attribute <span class="keyword">in</span> attributes:
+        attribute = autoconvert(attribute)
+        json_data = json_data[attribute]
+    data = json_data <span class="comment"># Should be a string or int now, not json</span>
+    <span class="keyword">return</span> data</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Convert to a python boolean</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">def</span> <span class="title">boolify</span><span class="params">(s)</span>:</span>
+    <span class="keyword">if</span> s == <span class="string">'True'</span> <span class="keyword">or</span> s == <span class="string">'true'</span>:
+        <span class="keyword">return</span> <span class="keyword">True</span>
+    <span class="keyword">if</span> s == <span class="string">'False'</span> <span class="keyword">or</span> s == <span class="string">'false'</span>:
+        <span class="keyword">return</span> <span class="keyword">False</span>
+    <span class="keyword">raise</span> ValueError(<span class="string">"huh?"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Convert string to a boolean, int, float, or list</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">def</span> <span class="title">autoconvert</span><span class="params">(s)</span>:</span>
+    <span class="keyword">for</span> fn <span class="keyword">in</span> (boolify, int, float):
+        <span class="keyword">try</span>:
+            <span class="keyword">return</span> fn(s)
+        <span class="keyword">except</span> ValueError:
+            <span class="keyword">pass</span>
+        <span class="keyword">if</span> type(s) == unicode:
+            <span class="keyword">if</span> <span class="string">','</span> <span class="keyword">in</span> s:
+                <span class="keyword">try</span>:
+                    <span class="keyword">return</span> s.split(<span class="string">','</span>)
+                <span class="keyword">except</span> AttributeError:
+                    <span class="keyword">pass</span>
+    <span class="keyword">return</span> s</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Routes --------------------------------------------------------</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="decorator">@app.route('/check_for_new', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">check_for_new</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Check once for original count of objects
+then check if new object exists
+Remember new object
+Return desired endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    our_response = {
+        <span class="string">"attribute_to_display"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_to_remember"</span> : <span class="keyword">False</span>,
+        <span class="string">"new_object_added"</span> : <span class="keyword">False</span>,
+        <span class="string">"original_count"</span> : <span class="keyword">False</span>,
+        <span class="string">"timeout"</span> : <span class="keyword">True</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response = {}
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">403</span>)
+
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+    
+    third_party_service = request.form[<span class="string">'thirdPartyService'</span>]
+    
+    <span class="keyword">if</span> app.config[<span class="string">'DEBUG'</span>]:
+        <span class="keyword">if</span> third_party_service == <span class="string">'facebook'</span>:
+            our_response = {
+                <span class="string">"attribute_to_display"</span> : <span class="string">"TEST PAGE"</span>,
+                <span class="string">"attribute_to_remember"</span> : <span class="number">297429370396923</span>,
+                <span class="string">"new_object_added"</span> : <span class="keyword">True</span>,
+                <span class="string">"original_count"</span> : <span class="number">10000000</span>,
+                <span class="string">"timeout"</span> : <span class="keyword">False</span>
+            }
+        <span class="keyword">if</span> third_party_service == <span class="string">'trello'</span>:
+            step_number = autoconvert(request.form[<span class="string">'currentStep[stepNumber]'</span>])
+            <span class="keyword">if</span> step_number == <span class="number">3</span>:
+                our_response = {
+                    <span class="string">"attribute_to_display"</span> : <span class="string">"BizFriendly Test Board"</span>,
+                    <span class="string">"attribute_to_remember"</span> : <span class="string">"52279d81c2fc68175a000609"</span>,
+                    <span class="string">"new_object_added"</span> : <span class="keyword">True</span>,
+                    <span class="string">"original_count"</span> : <span class="number">10000000</span>,
+                    <span class="string">"timeout"</span> : <span class="keyword">False</span>
+                }
+
+    resource_url = request.form[<span class="string">'currentStep[triggerEndpoint]'</span>]
+    <span class="keyword">if</span> <span class="string">'rememberedAttribute'</span> <span class="keyword">in</span> request.form:
+        remembered_attribute = request.form[<span class="string">'rememberedAttribute'</span>]
+    <span class="keyword">try</span>:
+        resource_url = resource_url.replace(<span class="string">'replace_me'</span>,remembered_attribute)
+    <span class="keyword">except</span>:
+        <span class="keyword">pass</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Check if a triggerCheck has been set.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    path_for_objects = <span class="keyword">False</span>
+    <span class="keyword">if</span> request.form[<span class="string">'currentStep[triggerCheck]'</span>]:
+        path_for_objects = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)
+    path_for_attribute_to_display = request.form[<span class="string">'currentStep[triggerValue]'</span>].split(<span class="string">','</span>)
+    path_for_attribute_to_remember = request.form[<span class="string">'currentStep[thingToRemember]'</span>].split(<span class="string">','</span>)
+    place_in_collection = request.form[<span class="string">'currentStep[placeInCollection]'</span>]
+    original_count = autoconvert(request.form[<span class="string">'originalCount'</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If original_count is false in post data, then just return the count of objects at the endpoint.
+original_count can be 0 so check not int instead of False</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> type(original_count) != int:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>r = current_user.make_authorized_request(service_name, trigger_endpoint)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        resource = current_user.make_authorized_request(third_party_service, resource_url)
+        resource = resource.json()
+        <span class="keyword">if</span> path_for_objects:
+            <span class="keyword">for</span> key <span class="keyword">in</span> path_for_objects:
+                key = autoconvert(key)
+                <span class="keyword">if</span> resource:
+                    resource = resource[key]
+        original_count = len(resource)
+        our_response[<span class="string">"original_count"</span>] = original_count
+        our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span>
+        <span class="keyword">return</span> make_response(json.dumps(our_response), <span class="number">200</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p> Check api_resource_url every two seconds for a new addition at path_of_resource_to_check</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    timer = <span class="number">0</span>
+    <span class="keyword">while</span> timer &lt; <span class="number">28</span>:
+        time.sleep(<span class="number">2</span>)
+        timer = timer + <span class="number">2</span>
+        resource = current_user.make_authorized_request(third_party_service, resource_url)
+        resource = resource.json()
+        <span class="keyword">if</span> path_for_objects:
+            <span class="keyword">for</span> key <span class="keyword">in</span> path_for_objects:
+                key = autoconvert(key)
+                <span class="keyword">if</span> resource:
+                    resource = resource[key] 
+        <span class="keyword">if</span> len(resource) &gt; original_count:
+            our_response[<span class="string">"new_object_added"</span>] = <span class="keyword">True</span>
+            <span class="keyword">break</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> our_response[<span class="string">"new_object_added"</span>]:
+        <span class="keyword">return</span> make_response(json.dumps(our_response), <span class="number">200</span>) <span class="comment"># timeout</span>
+    <span class="keyword">else</span>:
+        our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Facebook pages are added to the end of the list.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> place_in_collection == <span class="string">'last'</span>:
+        the_new_resource = resource.pop()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Foursquare has new tips as the first in the list.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> place_in_collection == <span class="string">'first'</span>:
+        the_new_resource = resource.pop(<span class="number">0</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Foursquare lists have the new list second, after the default to do list.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> place_in_collection == <span class="string">'second'</span>:
+        the_new_resource = resource.pop(<span class="number">1</span>)
+    <span class="keyword">if</span> place_in_collection == <span class="string">'alphabetical'</span>:
+        <span class="keyword">if</span> third_party_service == <span class="string">"trello"</span>:
+            resource.sort(key=<span class="keyword">lambda</span> board : board[<span class="string">"dateLastView"</span>], reverse=<span class="keyword">True</span>)
+            the_new_resource = resource.pop(<span class="number">0</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Return an attribute to display if its not blank.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> path_for_attribute_to_display[<span class="number">0</span>]:
+        our_response[<span class="string">"attribute_to_display"</span>] = get_data_on_attribute_path(the_new_resource, path_for_attribute_to_display)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Remember an attribute of the new resource if its not blank.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> path_for_attribute_to_remember[<span class="number">0</span>]:
+        our_response[<span class="string">"attribute_to_remember"</span>] = get_data_on_attribute_path(the_new_resource, path_for_attribute_to_remember)
+    <span class="keyword">return</span> make_response(json.dumps(our_response), <span class="number">200</span>)
+
+
+<span class="decorator">@app.route('/check_if_attribute_exists', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">check_if_attribute_exists</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Check if attribute exists
+Return attribute</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    our_response = {
+        <span class="string">"attribute_exists"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_to_display"</span> : <span class="keyword">False</span>,
+        <span class="string">"timeout"</span> : <span class="keyword">True</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">403</span>)
+
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+
+    third_party_service = request.form[<span class="string">'thirdPartyService'</span>]
+    resource_url = request.form[<span class="string">'currentStep[triggerEndpoint]'</span>]
+    <span class="keyword">if</span> <span class="string">'rememberedAttribute'</span> <span class="keyword">in</span> request.form:
+        remembered_attribute = request.form[<span class="string">'rememberedAttribute'</span>]
+    <span class="keyword">try</span>:
+        resource_url = resource_url.replace(<span class="string">'replace_me'</span>,remembered_attribute)
+    <span class="keyword">except</span>:
+        <span class="keyword">pass</span>
+    path_for_attribute_to_display = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Check api_resource_url every two seconds for a value</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    timer = <span class="number">0</span>
+    <span class="keyword">while</span> timer &lt; <span class="number">28</span>:
+        time.sleep(<span class="number">2</span>)
+        timer = timer + <span class="number">2</span>
+        resource = current_user.make_authorized_request(third_party_service, resource_url)
+        resource = resource.json()
+        <span class="keyword">if</span> len(resource) == <span class="number">0</span>: <span class="comment"># If empty list, it doesn't exist</span>
+            <span class="keyword">return</span> json.dumps(our_response)
+        <span class="keyword">for</span> key <span class="keyword">in</span> path_for_attribute_to_display:
+            key = autoconvert(key)
+            <span class="keyword">if</span> type(resource) == list <span class="keyword">and</span> type(key) == int:
+                resource = resource[key]
+            <span class="keyword">elif</span> key <span class="keyword">in</span> resource:
+                resource = resource[key]
+            <span class="keyword">else</span>: <span class="comment"># key doesn't exist</span>
+                <span class="keyword">return</span> json.dumps(our_response)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>If resource is still a dict, we didn&#39;t find what we were looking for.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> type(resource) != dict:
+            our_response[<span class="string">"attribute_exists"</span>] = <span class="keyword">True</span>
+            our_response[<span class="string">"attribute_to_display"</span>] = resource
+            our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span>
+            <span class="keyword">return</span> json.dumps(our_response)
+    <span class="keyword">return</span> json.dumps(our_response)
+
+
+<span class="decorator">@app.route('/check_attribute_for_value', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">check_attribute_for_value</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Check attribute for value
+If it matches, return other attribute</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    our_response = {
+        <span class="string">"attribute_value_matches"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_to_display"</span> : <span class="keyword">False</span>,
+        <span class="string">"timeout"</span> : <span class="keyword">True</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">403</span>)
+
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+
+    third_party_service = request.form[<span class="string">'thirdPartyService'</span>]
+    resource_url = request.form[<span class="string">'currentStep[triggerEndpoint]'</span>]
+    <span class="keyword">if</span> <span class="string">'rememberedAttribute'</span> <span class="keyword">in</span> request.form:
+        remembered_attribute = request.form[<span class="string">'rememberedAttribute'</span>]
+    <span class="keyword">try</span>:
+        resource_url = resource_url.replace(<span class="string">'replace_me'</span>,remembered_attribute)
+    <span class="keyword">except</span>:
+        <span class="keyword">pass</span>
+    trigger_checks = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)
+    trigger_value = request.form[<span class="string">'currentStep[triggerValue]'</span>]
+    path_for_attribute_to_display = request.form[<span class="string">'currentStep[thingToRemember]'</span>].split(<span class="string">','</span>)
+
+    timer = <span class="number">0</span>
+    <span class="keyword">while</span> timer &lt; <span class="number">28</span>:
+        time.sleep(<span class="number">2</span>)
+        timer = timer + <span class="number">2</span>
+        resource = current_user.make_authorized_request(third_party_service, resource_url)
+        resource = resource.json()
+        trigger_check = get_data_on_attribute_path(resource, trigger_checks)
+        trigger_value = autoconvert(trigger_value)
+        <span class="keyword">if</span> trigger_check == trigger_value:
+            our_response[<span class="string">"attribute_value_matches"</span>] = <span class="keyword">True</span>
+            our_response[<span class="string">"attribute_to_display"</span>] = get_data_on_attribute_path(resource,path_for_attribute_to_display)
+            our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span>
+            <span class="keyword">return</span> json.dumps(our_response)
+    <span class="keyword">return</span> json.dumps(our_response)
+
+<span class="decorator">@app.route("/check_attribute_for_update", methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">check_attribute_for_update</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Check once for original_value of attribute
+then check if attribute value has changed
+Return that endpoint</p>
+<p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">403</span>)
+
+    our_response = {
+        <span class="string">"original_attribute_value"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_value_updated"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_to_display"</span> : <span class="keyword">False</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>&quot;attribute_to_remember&quot; : False,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="string">"timeout"</span> : <span class="keyword">True</span>
+    }
+
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+
+    third_party_service = request.form[<span class="string">'thirdPartyService'</span>]
+    resource_url = request.form[<span class="string">'currentStep[triggerEndpoint]'</span>]
+    <span class="keyword">if</span> <span class="string">'rememberedAttribute'</span> <span class="keyword">in</span> request.form:
+        remembered_attribute = request.form[<span class="string">'rememberedAttribute'</span>]
+    <span class="keyword">try</span>:
+        resource_url = resource_url.replace(<span class="string">'replace_me'</span>,remembered_attribute)
+    <span class="keyword">except</span>:
+        <span class="keyword">pass</span>
+    path_for_attribute_to_check = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>trigger_value = request.form[&#39;currentStep[triggerValue]&#39;]
+Dispaly same column we were checking</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    path_for_attribute_to_display = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>path_for_attribute_to_remember = request.form[&#39;currentStep[thingToRemember]&#39;].split(&#39;,&#39;)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    original_attribute_values = autoconvert(request.form[<span class="string">'originalAttributeValues'</span>])
+    
+    <span class="keyword">if</span> <span class="keyword">not</span> original_attribute_values:
+        original_attribute_values = []
+        response = current_user.make_authorized_request(third_party_service, resource_url)
+        resources = response.json()
+        <span class="keyword">for</span> resource <span class="keyword">in</span> resources:
+            resource = get_data_on_attribute_path(resource, path_for_attribute_to_check)
+            original_attribute_values.append(resource)
+        our_response[<span class="string">"original_attribute_values"</span>] = original_attribute_values
+        our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span>
+        <span class="keyword">return</span> json.dumps(our_response)
+
+    timer = <span class="number">0</span>
+    <span class="keyword">while</span> timer &lt; <span class="number">28</span>:
+        time.sleep(<span class="number">2</span>)
+        timer = timer + <span class="number">2</span>
+        resource = current_user.make_authorized_request(third_party_service, resource_url)
+        resources = resource.json()
+        current_attribute_values = set()
+        <span class="keyword">for</span> resource <span class="keyword">in</span> resources:
+            current_attribute_values.add(get_data_on_attribute_path(resource, path_for_attribute_to_check))
+        updated_value = current_attribute_values.difference(set(original_attribute_values))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>for resource in resources:
+    if updated_value == resource[&quot;name&quot;]:
+        updated_value_id = resource[&quot;id&quot;]</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> len(updated_value):
+            updated_value = updated_value.pop()
+            our_response[<span class="string">"attribute_value_updated"</span>] = <span class="keyword">True</span>
+            our_response[<span class="string">"attribute_to_display"</span>] = updated_value</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>our_response[&quot;attribute_to_remember&quot;] = updated_value_id</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            our_response[<span class="string">"timeout"</span>] = <span class="keyword">False</span>
+            <span class="keyword">return</span> json.dumps(our_response)
+    <span class="keyword">return</span> json.dumps(our_response)
+
+
+
+<span class="decorator">@app.route('/get_attributes', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">get_attributes</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Get the attributes from the resource_url
+If remembered_attributes exists, use that as the id</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    our_response = {
+        <span class="string">"attribute"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_2"</span> : <span class="keyword">False</span>,
+        <span class="string">"attribute_3"</span> : <span class="keyword">False</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">403</span>)
+
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+
+    third_party_service = request.form[<span class="string">'thirdPartyService'</span>]
+    resource_url = request.form[<span class="string">'currentStep[triggerEndpoint]'</span>]
+    <span class="keyword">if</span> <span class="string">'rememberedAttribute'</span> <span class="keyword">in</span> request.form:
+        remembered_attribute = request.form[<span class="string">'rememberedAttribute'</span>]
+    <span class="keyword">try</span>:
+        resource_url = resource_url.replace(<span class="string">'replace_me'</span>,remembered_attribute)
+    <span class="keyword">except</span>:
+        <span class="keyword">pass</span>
+    path_for_attribute = request.form[<span class="string">'currentStep[triggerCheck]'</span>].split(<span class="string">','</span>)
+    path_for_attribute_2 = request.form[<span class="string">'currentStep[triggerValue]'</span>].split(<span class="string">','</span>)
+    path_for_attribute_3 = request.form[<span class="string">'currentStep[thingToRemember]'</span>].split(<span class="string">','</span>)
+
+    resource = current_user.make_authorized_request(third_party_service, resource_url)
+    resource = resource.json()
+    <span class="keyword">try</span>:
+        our_response[<span class="string">"attribute"</span>] = get_data_on_attribute_path(resource, path_for_attribute)
+    <span class="keyword">except</span> KeyError:
+        <span class="keyword">pass</span>
+    <span class="keyword">try</span>:
+        our_response[<span class="string">"attribute_2"</span>] = get_data_on_attribute_path(resource, path_for_attribute_2)
+    <span class="keyword">except</span> KeyError:
+        <span class="keyword">pass</span>
+    <span class="keyword">try</span>:
+        our_response[<span class="string">"attribute_3"</span>] = get_data_on_attribute_path(resource, path_for_attribute_3)
+    <span class="keyword">except</span> KeyError:
+        <span class="keyword">pass</span>
+    <span class="keyword">return</span> json.dumps(our_response)
+
+
+<span class="decorator">@app.route('/signup', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">htc_signup</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>If request is from ie9, the info comes in raw.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> request.data:
+        ie9_data = request.data.replace(<span class="string">'%40'</span>,<span class="string">'@'</span>)
+        match = re.match(<span class="string">"name=(.*)&amp;email=(.+)&amp;password=(.+)"</span>, ie9_data)
+        user_name = match.group(<span class="number">1</span>)
+        user_email = match.group(<span class="number">2</span>).lower()
+        user_password = match.group(<span class="number">3</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>All other browsers post as a form </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> request.form:
+        user_email = request.form[<span class="string">'email'</span>].lower()
+        user_password = request.form[<span class="string">'password'</span>]
+        user_name = request.form[<span class="string">'name'</span>]
+    
+    response = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Validate emails</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="keyword">not</span> re.match(<span class="string">"^[a-zA-Z0-9_.+-]+\@[a-zA-Z0-9-]+\.+[a-zA-Z0-9]{2,4}$"</span>, user_email):
+        response[<span class="string">'error'</span>] = <span class="string">'That email doesn\'t look right.'</span>
+        response = make_response(json.dumps(response), <span class="number">401</span>)
+        response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+        <span class="keyword">return</span> response
+
+    current_user = Bf_user(user_email, user_password, user_name)
+    <span class="keyword">if</span> (Bf_user.query.filter_by(email=user_email).first()):
+        response[<span class="string">'error'</span>] = <span class="string">'Someone has already signed up with that email.'</span>
+        response = make_response(json.dumps(response), <span class="number">401</span>)
+        response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+        <span class="keyword">return</span> response
+    <span class="keyword">else</span>:        
+        db.session.add(current_user)
+        db.session.commit()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>EMail the new user</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    subject = <span class="string">"Welcome to BizFriend.ly"</span>
+    html = <span class="string">'&lt;h3&gt;Thanks for joining, &lt;a href="http://bizfriend.ly"&gt;BizFriend.ly&lt;/a&gt;!&lt;/h3&gt;'</span>
+    html += <span class="string">'&lt;p&gt;We\'re a community of entrepreneurial learners and teachers who share the latest digital skills and web services to run your business.&lt;/p&gt;'</span> 
+    html += <span class="string">"&lt;p&gt;Now that you have an account, there's a few things you can do:&lt;/p&gt;"</span>
+    html += <span class="string">'&lt;ul&gt;&lt;li&gt;Start Learning! Try out a few lessons at &lt;a href="http://bizfriend.ly/learn.html"&gt;http://bizfriend.ly/learn.html&lt;/a&gt;&lt;/li&gt;'</span>
+    html += <span class="string">'&lt;li&gt;Start Teaching! Teach other business owners the skills you\'re best at &lt;a href="http://bizfriend.ly/teach.html"&gt;http://bizfriend.ly/teach.html&lt;/a&gt;&lt;/li&gt;'</span>
+    html += <span class="string">"&lt;li&gt;See all what other businesses are up to and track your accomplishments &lt;a href=\"http://bizfriend.ly/connect.html\"&gt;http://bizfriend.ly/connect.html&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;"</span>
+    html += <span class="string">"&lt;p&gt;We'd love to hear any feedback you have at &lt;a href=\"http://bit.ly/1bS1yEQ\"&gt;http://bit.ly/1bS1yEQ&lt;/a&gt; and feel free to email us with any questions!&lt;/p&gt;"</span>
+    html += <span class="string">'''Andew &amp; Ariel&lt;br/&gt;
+               Co-Founders of &lt;a href="http://bizfriend.ly"&gt;BizFriend.ly&lt;/a&gt;&lt;br/&gt;
+               2013 Code for America Fellows&lt;br/&gt;
+               &lt;a href="mailto:kansascity@codeforamerica.org"&gt;kansascity@codeforamerica.org&lt;/a&gt;
+            '''</span>
+
+    requests.post(
+        <span class="string">"https://api.mailgun.net/v2/app14961102.mailgun.org/messages"</span>,
+        auth=(<span class="string">"api"</span>, app.config[<span class="string">'MAIL_GUN_KEY'</span>]),
+        data={<span class="string">"from"</span>: <span class="string">"Andrew Hyder &lt;andrewh@codeforamerica.org&gt;"</span>,
+              <span class="string">"to"</span>: [user_email],
+              <span class="string">"cc"</span>: <span class="string">"Kansas City &lt;kansascity@codeforamerica.org&gt;"</span>,
+              <span class="string">"subject"</span>: subject,
+              <span class="string">"html"</span>: html})
+
+    current_user = Bf_user.query.filter_by(email=user_email).first()
+    response[<span class="string">'access_token'</span>] = current_user.access_token 
+    response[<span class="string">'email'</span>] = current_user.email
+    response[<span class="string">'name'</span>] = current_user.name
+    response[<span class="string">'id'</span>] = current_user.id</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Return a proper response with correct headers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    response = make_response(json.dumps(response), <span class="number">200</span>)
+    response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+    <span class="keyword">return</span> response
+
+
+<span class="decorator">@app.route('/signin', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">htc_signin</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>If request is from ie9, the info comes in raw.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> request.data:
+        ie9_data = request.data.replace(<span class="string">'%40'</span>,<span class="string">'@'</span>)
+        match = re.match(<span class="string">"email=(.+)&amp;password=(.+)"</span>, ie9_data)
+        user_email = match.group(<span class="number">1</span>).lower()
+        user_password = match.group(<span class="number">2</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>All other browsers post as a form </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> request.form:
+        user_email = request.form[<span class="string">'email'</span>].lower()
+        user_password = request.form[<span class="string">'password'</span>]
+    
+    response = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Validate emails</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="keyword">not</span> re.match(<span class="string">"^[a-zA-Z0-9_.+-]+\@[a-zA-Z0-9-]+\.+[a-zA-Z0-9]{2,4}$"</span>, user_email):
+        response[<span class="string">'error'</span>] = <span class="string">'That email doesn\'t look right.'</span>
+        response = make_response(json.dumps(response), <span class="number">401</span>)
+        response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+        <span class="keyword">return</span> response
+
+    current_user = Bf_user.query.filter_by(email=user_email).first()
+    <span class="keyword">if</span> current_user <span class="keyword">and</span> current_user.check_pw(user_password):</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>User is valid, return credentials</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        response[<span class="string">'access_token'</span>] = current_user.access_token
+        response[<span class="string">'token_type'</span>] = <span class="string">"bearer"</span>
+        response[<span class="string">'email'</span>] = current_user.email
+        response[<span class="string">'name'</span>] = current_user.name
+        response[<span class="string">'id'</span>] = current_user.id
+        response = make_response(json.dumps(response),<span class="number">200</span>)
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">"Couldn't find your email and password."</span>
+        response = make_response(json.dumps(response),<span class="number">401</span>)
+    response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+    <span class="keyword">return</span> response
+
+
+<span class="decorator">@app.route('/create_connection', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">create_connection</span><span class="params">()</span>:</span>
+    response = {
+        <span class="string">"connection_saved"</span> : <span class="keyword">False</span>
+    }
+
+    service_name = request.form[<span class="string">'service'</span>]
+    oauth_token = request.form[<span class="string">'service_access'</span>]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Require Authorization header for this endpoint</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="string">'Authorization'</span> <span class="keyword">in</span> request.headers:
+        htc_access = request.headers[<span class="string">'Authorization'</span>]
+    <span class="keyword">else</span>:
+        response[<span class="string">'error'</span>] = <span class="string">'Authorization required'</span>
+        <span class="keyword">return</span> make_response(response, <span class="number">401</span>)
+    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+    <span class="keyword">if</span> <span class="keyword">not</span> current_user:
+        response[<span class="string">'error'</span>] = <span class="string">'User not found'</span>
+        <span class="keyword">return</span> make_response(json.dumps(response), <span class="number">404</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Update exisitng connection with new oauth token</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    connectionUpdatedFlag = <span class="keyword">False</span>
+    <span class="keyword">for</span> connection <span class="keyword">in</span> current_user.connections:
+        <span class="keyword">if</span> connection.service == service_name:
+            connectionUpdatedFlag = <span class="keyword">True</span>
+            connection.access_token = oauth_token</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Make a new connection if there isnt one</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="keyword">not</span> connectionUpdatedFlag:
+        new_connection = Connection(service_name, oauth_token)
+        current_user.connections.append(new_connection)
+    db.session.commit()
+    response[<span class="string">'connection_saved'</span>] = <span class="keyword">True</span>
+    response = make_response(json.dumps(response), <span class="number">200</span>)
+    response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+    <span class="keyword">return</span> response
+
+<span class="decorator">@app.route('/record_step', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">record_step</span><span class="params">()</span>:</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>If request is from ie9, the info comes in raw.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> request.data:
+        match = re.match(<span class="string">"currentStepId=(.+)&amp;currentLessonId=(.+)&amp;auth=(.*)"</span>, request.data)
+        current_step_id = match.group(<span class="number">1</span>)
+        current_lesson_id = match.group(<span class="number">2</span>)
+        htc_access = match.group(<span class="number">3</span>)
+
+    <span class="keyword">if</span> request.form:
+        current_lesson_id = request.form[<span class="string">'currentLessonId'</span>]
+        current_step_id = request.form[<span class="string">'currentStepId'</span>]
+        htc_access = request.form[<span class="string">'auth'</span>]
+
+    response = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Get user, lesson, step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    current_user = Bf_user.query.filter_by(access_token=htc_access).first()
+    current_lesson = Lesson.query.filter_by(id=current_lesson_id).first()
+    current_step = Step.query.filter_by(id=current_step_id).first()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>If already started the lesson, just alter recent step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">for</span> user_lesson <span class="keyword">in</span> current_user.lessons_completed:
+        <span class="keyword">if</span> user_lesson.lesson_id == current_lesson.id:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Save the farthest step they get to.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">if</span> current_step.step_number &gt; user_lesson.recent_step_number:
+                user_lesson.recent_step_number = current_step.step_number
+                user_lesson.recent_step_id = current_step.id</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>If final step in lesson, update end_dt</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            step_count = max([step.step_number <span class="keyword">for</span> step <span class="keyword">in</span> current_lesson.steps])
+            <span class="keyword">if</span> current_step.step_number == step_count:
+                user_lesson.end_dt = datetime.now()
+                user_lesson.completed = <span class="keyword">True</span>
+            db.session.commit()
+            response[<span class="string">'message'</span>] = <span class="string">"New step recorded."</span>
+            response = make_response(json.dumps(response), <span class="number">200</span>)
+            response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+            <span class="keyword">return</span> response</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>New to the lesson, append it to user lesson association</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> current_user <span class="keyword">and</span> current_lesson:
+        user_lesson = UserLesson(start_dt=datetime.now())
+        current_lesson.recent_step_id = current_step.id
+        current_lesson.recent_step_number = current_step.step_number
+        user_lesson.lesson = current_lesson
+        current_user.lessons_completed.append(user_lesson)
+        db.session.commit()
+        response[<span class="string">'status'</span>] = <span class="number">200</span>
+        response[<span class="string">'message'</span>] = <span class="string">"New lesson and step recorded."</span>
+    <span class="keyword">else</span>:
+        response[<span class="string">'status'</span>] = <span class="number">404</span>
+        response[<span class="string">'error'</span>] = <span class="string">"Unable to save lesson state."</span>
+
+    response = make_response(json.dumps(response), response[<span class="string">'status'</span>])
+    response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+    <span class="keyword">return</span> response
+
+<span class="decorator">@app.route('/third_party_services', methods=['GET','POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">third_party_services</span><span class="params">()</span>:</span>
+    files = os.listdir(<span class="string">'bizfriendly/static'</span>)
+    response = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>third_party_service_resources = []</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">for</span> filename <span class="keyword">in</span> files:
+        json_data=open(<span class="string">'bizfriendly/static/'</span>+filename).read()
+        data = json.loads(json_data)
+        response.append(data)
+    <span class="keyword">return</span> json.dumps(response)
+
+<span class="decorator">@app.route('/image_upload', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">image_upload</span><span class="params">()</span>:</span>
+    <span class="keyword">try</span>:
+        os.mkdir(<span class="string">'tmp'</span>)
+    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+        <span class="keyword">pass</span>
+    file = request.files[<span class="string">'files[]'</span>]
+    file.save(os.path.join(<span class="string">'tmp'</span>, file.filename))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <h1 id="check-image-size">Check image size</h1>
+<p>img = Image.open(&quot;tmp/&quot;+file.filename)</p>
+<h1 id="get-the-image-s-width-and-height-in-pixels">get the image&#39;s width and height in pixels</h1>
+<p>width, height = img.size
+if width &gt; 260:
+    response = {}
+    response[&quot;message&quot;] = &quot;Image too wide.&quot;
+    return make_response(json.dumps(response), 401)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    conn = boto.connect_s3(app.config[<span class="string">'AWS_ACCESS_KEY_ID'</span>], app.config[<span class="string">'AWS_SECRET_ACCESS_KEY'</span>])
+    mybucket = conn.get_bucket(app.config[<span class="string">'S3_BUCKET_NAME'</span>])
+    k = Key(mybucket)
+    k.key = file.filename
+    k.set_contents_from_filename(os.path.join(<span class="string">'tmp'</span>, file.filename))
+    mybucket.set_acl(<span class="string">'public-read'</span>, file.filename)
+    conn.close()
+    return_json = {
+        <span class="string">"name"</span>: file.filename,
+        <span class="string">"size"</span>: os.stat(<span class="string">'tmp/'</span>+file.filename).st_size,
+        <span class="string">"url"</span>: <span class="string">"https://%s.s3.amazonaws.com/%s"</span> % (app.config[<span class="string">'S3_BUCKET_NAME'</span>], file.filename)
+    }
+    <span class="keyword">return</span> json.dumps({<span class="string">"files"</span> : [return_json]})
+
+
+<span class="decorator">@app.route('/request_password_reset', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">request_password_reset</span><span class="params">()</span>:</span>
+    email = request.form[<span class="string">'email'</span>]
+    response = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Validate emails</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="keyword">not</span> re.match(<span class="string">"^[a-zA-Z0-9_.+-]+\@[a-zA-Z0-9-]+\.+[a-zA-Z0-9]{2,4}$"</span>, email):
+        response[<span class="string">'error'</span>] = <span class="string">'That email doesn\'t look right.'</span>
+        response = make_response(json.dumps(response), <span class="number">401</span>)
+        response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+        <span class="keyword">return</span> response</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>Get that user</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    current_user = Bf_user.query.filter_by(email=email).first()
+    <span class="keyword">if</span> <span class="keyword">not</span> current_user:
+        response[<span class="string">'error'</span>] = <span class="string">"Couldn't find your email and password."</span>
+        response = make_response(json.dumps(response),<span class="number">401</span>)
+        <span class="keyword">return</span> response
+    current_user.reset_token = random.randrange(<span class="number">0</span>,<span class="number">100000000</span>)
+    db.session.commit()
+
+    subject = <span class="string">"Reset BizFriendly Password"</span>
+    text = <span class="string">"Want to change your BizFriend.ly password?"</span>
+    text += <span class="string">"http://bizfriend.ly/reset-password.html?"</span>+str(current_user.reset_token)
+    response = requests.post(
+        <span class="string">"https://api.mailgun.net/v2/app14961102.mailgun.org/messages"</span>,
+        auth=(<span class="string">"api"</span>, app.config[<span class="string">'MAIL_GUN_KEY'</span>]),
+        data={<span class="string">"from"</span>: <span class="string">"Andrew Hyder &lt;andrewh@codeforamerica.org&gt;"</span>,
+              <span class="string">"to"</span>: [email],
+              <span class="string">"subject"</span>: subject,
+              <span class="string">"text"</span>: text})
+    <span class="keyword">return</span> response.text
+
+<span class="decorator">@app.route('/password_reset', methods=['POST'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">password_reset</span><span class="params">()</span>:</span>
+    email = request.form[<span class="string">'email'</span>]
+    password = request.form[<span class="string">'password'</span>]
+    reset_token = request.form[<span class="string">'resetToken'</span>]
+    response = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Validate emails</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> <span class="keyword">not</span> re.match(<span class="string">"^[a-zA-Z0-9_.+-]+\@[a-zA-Z0-9-]+\.+[a-zA-Z0-9]{2,4}$"</span>, email):
+        response[<span class="string">'error'</span>] = <span class="string">'That email doesn\'t look right.'</span>
+        response = make_response(json.dumps(response), <span class="number">401</span>)
+        response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+        <span class="keyword">return</span> response</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>Reset password</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    current_user = Bf_user.query.filter_by(email=email).first()
+    <span class="keyword">if</span> <span class="keyword">not</span> current_user:
+        response[<span class="string">'error'</span>] = <span class="string">"Couldn't find your email and password."</span>
+        response = make_response(json.dumps(response),<span class="number">401</span>)
+        <span class="keyword">return</span> response
+    <span class="keyword">if</span> current_user.reset_token == int(reset_token):
+        current_user.password = current_user.pw_digest(password)
+        current_user.reset_token = <span class="keyword">None</span>
+        db.session.commit()
+
+    response[<span class="string">'message'</span>] = <span class="string">"Password reset"</span>
+    response[<span class="string">'status'</span>] = <span class="number">200</span>
+    response = make_response(json.dumps(response))
+    response.headers[<span class="string">'content-type'</span>] = <span class="string">'application/json'</span>
+    <span class="keyword">return</span> response
+
+<span class="decorator">@app.route('/.well-known/status', methods=['GET'])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">status</span><span class="params">()</span>:</span>
+    response = {}
+    response[<span class="string">'status'</span>] = <span class="string">'ok'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Check DB</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">try</span>:
+        db_category = Category.query.first()
+    <span class="keyword">except</span>:
+        response[<span class="string">'status'</span>] = <span class="string">"Database is unavailable"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>Timestamp</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    response[<span class="string">"updated"</span>] = int(time.time())
+    response[<span class="string">"dependencies"</span>] = [<span class="string">"S3"</span>, <span class="string">"Mailgun"</span>]
+    response = make_response(json.dumps(response))
+    <span class="keyword">return</span> response
+
+<span class="decorator">@app.route("/new_content_email", methods=["POST"])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">new_content_email</span><span class="params">()</span>:</span>
+    admins = Bf_user.query.filter_by(role=<span class="string">"admin"</span>)
+    new_content = request.form
+    creator = Bf_user.query.filter_by(id=new_content[<span class="string">"creator_id"</span>]).first()
+    <span class="keyword">if</span> <span class="string">"category_id"</span> <span class="keyword">in</span> new_content:
+        category = Category.query.filter_by(id=new_content[<span class="string">"category_id"</span>]).first()
+        service = Service.query.filter_by(name=new_content[<span class="string">"name"</span>]).first()
+    <span class="keyword">if</span> <span class="string">"service_id"</span> <span class="keyword">in</span> new_content:
+        service = Service.query.filter_by(id=new_content[<span class="string">"service_id"</span>]).first()
+        category = Category.query.filter_by(id=service.category.id).first()
+    subject = <span class="string">"New "</span>+new_content[<span class="string">"state"</span>]+<span class="string">" content Added to BizFriend.ly"</span>
+    html = <span class="string">"&lt;p&gt;Name: "</span>+new_content[<span class="string">"name"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"category_id"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">'&lt;p&gt;Service Link: &lt;a href="http://bizfriend.ly/service.html?'</span>+str(service.id)+<span class="string">'"&gt;http://bizfriend.ly/service.html?'</span>+str(service.id)+<span class="string">'&lt;/a&gt;&lt;/p&gt;'</span>
+    <span class="keyword">if</span> <span class="string">"service_id"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">'&lt;p&gt;Lesson Link: &lt;a href="http://bizfriend.ly/instructions.html?'</span>+new_content[<span class="string">"id"</span>]+<span class="string">'"&gt;http://bizfriend.ly/instructions.html?'</span>+new_content[<span class="string">"id"</span>]+<span class="string">'&lt;/a&gt;&lt;/p&gt;'</span>
+    <span class="keyword">if</span> <span class="string">"url"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Url: "</span>+new_content[<span class="string">"url"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"description"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Description: "</span>+new_content[<span class="string">"description"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"short_description"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Short Descrption: "</span>+new_content[<span class="string">"short_description"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"long_description"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Long Descrption: "</span>+new_content[<span class="string">"long_description"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"additional_resources"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Additional Resources: "</span>+new_content[<span class="string">"additional_resources"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"tips"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Tips: "</span>+new_content[<span class="string">"tips"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"icon"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Icon: &lt;img src="</span>+new_content[<span class="string">"icon"</span>]+<span class="string">"&gt;&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"media"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Media: "</span>+new_content[<span class="string">"media"</span>]+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"category_id"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Skill: "</span>+category.name+<span class="string">"&lt;/p&gt;"</span>
+    <span class="keyword">if</span> <span class="string">"service_id"</span> <span class="keyword">in</span> new_content:
+        html += <span class="string">"&lt;p&gt;Skill: "</span>+category.name+<span class="string">"&lt;/p&gt;"</span>
+        html += <span class="string">"&lt;p&gt;Service: "</span>+service.name+<span class="string">"&lt;/p&gt;"</span>
+
+    html += <span class="string">"&lt;p&gt;Created by: "</span>+creator.name+<span class="string">", "</span>+creator.email+<span class="string">"&lt;/p&gt;"</span>
+    html += <span class="string">"&lt;br&gt;"</span>
+    html += <span class="string">"&lt;p&gt;You're getting this email because you are an Admin for BizFriend.ly&lt;/p&gt;"</span>
+    <span class="keyword">for</span> admin <span class="keyword">in</span> admins:
+        response = requests.post(</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Production app14961102.mailgun.org
+Staging app17090450.mailgun.org</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="string">"https://api.mailgun.net/v2/app14961102.mailgun.org/messages"</span>,
+            auth=(<span class="string">"api"</span>, app.config[<span class="string">'MAIL_GUN_KEY'</span>]),
+            data={<span class="string">"from"</span>: <span class="string">"Andrew Hyder &lt;andrewh@codeforamerica.org&gt;"</span>,
+                  <span class="string">"to"</span>: admin.email,
+                  <span class="string">"subject"</span>: subject,
+                  <span class="string">"html"</span>: html})
+        <span class="keyword">print</span> response.text
+    <span class="keyword">return</span> response.text
+
+<span class="decorator">@app.route("/&lt;user_id&gt;/is_admin", methods=["GET"])</span>
+<span class="function"><span class="keyword">def</span> <span class="title">is_admin</span><span class="params">(user_id)</span>:</span>
+    user = Bf_user.query.filter_by(id=user_id).first()
+    response = {}
+    <span class="keyword">if</span> user.role == <span class="string">"admin"</span>:
+        response[<span class="string">'response'</span>] = <span class="keyword">True</span>
+        <span class="keyword">return</span> make_response(json.dumps(response), <span class="number">200</span>)
+    <span class="keyword">else</span>:
+        response[<span class="string">'response'</span>] = <span class="keyword">False</span>
+        <span class="keyword">return</span> make_response(json.dumps(response), <span class="number">200</span>)</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

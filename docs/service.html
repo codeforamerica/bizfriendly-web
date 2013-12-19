@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>service.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="__init__.html">
+                __init__.py
+              </a>
+            
+              
+              <a class="source" href="admin.html">
+                admin.py
+              </a>
+            
+              
+              <a class="source" href="api.html">
+                api.py
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.py
+              </a>
+            
+              
+              <a class="source" href="forms.html">
+                forms.py
+              </a>
+            
+              
+              <a class="source" href="models.html">
+                models.py
+              </a>
+            
+              
+              <a class="source" href="routes.html">
+                routes.py
+              </a>
+            
+              
+              <a class="source" href="BfUser.html">
+                BfUser.js
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.js
+              </a>
+            
+              
+              <a class="source" href="connect.html">
+                connect.js
+              </a>
+            
+              
+              <a class="source" href="edit.html">
+                edit.js
+              </a>
+            
+              
+              <a class="source" href="instructions.html">
+                instructions.js
+              </a>
+            
+              
+              <a class="source" href="learn.html">
+                learn.js
+              </a>
+            
+              
+              <a class="source" href="lesson.html">
+                lesson.js
+              </a>
+            
+              
+              <a class="source" href="new-category.html">
+                new-category.js
+              </a>
+            
+              
+              <a class="source" href="new-service.html">
+                new-service.js
+              </a>
+            
+              
+              <a class="source" href="profile.html">
+                profile.js
+              </a>
+            
+              
+              <a class="source" href="service.html">
+                service.js
+              </a>
+            
+              
+              <a class="source" href="teach.html">
+                teach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>service.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> service = (<span class="function"><span class="keyword">function</span> <span class="params">(service)</span> {</span>
+
+  <span class="keyword">var</span> service = {};
+  <span class="keyword">var</span> lessons = [];
+  <span class="keyword">var</span> lessonCompleted;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>PUBLIC METHODS
+initialize variables and load JSON</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(<span class="string">'init'</span>);
+    serviceId = window.location.search.split(<span class="string">'?'</span>)[<span class="number">1</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Call the API and get that service</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _loading();
+    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/services/'</span>+serviceId, _main);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>PRIVATE METHODS</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_loading</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>console.log(&#39;Loading&#39;);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">'#main'</span>).toggle();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_main</span><span class="params">(response)</span>{</span>
+    $(<span class="string">'#loading'</span>).toggle();
+    $(<span class="string">'#main'</span>).toggle();
+    service = response;
+    lessons = service.lessons;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>_makeSummary();</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _checkIfLoggedIn();
+    _showService();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_checkIfLoggedIn</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (!BfUser.bfAccessToken){
+      $(<span class="string">'#main-text .btn'</span>).hide();
+      $(<span class="string">'.login-required'</span>).show();
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_showService</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(service);
+    $(<span class="string">"#service-icon"</span>).attr(<span class="string">"src"</span>,service.icon);
+    $(<span class="string">"#service-name"</span>).text(service.name);
+    $(<span class="string">"#service-description"</span>).html(service.long_description);
+    $(<span class="string">"#tips"</span>).html(service.tips)
+    $(<span class="string">"#additional-resources"</span>).html(service.additional_resources);
+    $(<span class="string">"#tips"</span>).html(service.tips)
+    $(<span class="string">"#service-media"</span>).html(service.media);
+    _lessonTable();
+    $(<span class="string">"#teach-callout .service-name"</span>).text(service.name);
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_lessonTable</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Fill up table tbody</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $.each(lessons, <span class="function"><span class="keyword">function</span><span class="params">(i, lesson)</span>{</span>
+      <span class="keyword">if</span> (lesson.state == <span class="string">"published"</span>){
+        <span class="keyword">var</span> html = <span class="string">''</span>;
+        <span class="keyword">var</span> numberOfLearners;
+        lessonCompleted = <span class="literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Get number of learners</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">var</span> filters = [{<span class="string">"name"</span>: <span class="string">"lesson_id"</span>, <span class="string">"op"</span>: <span class="string">"=="</span>, <span class="string">"val"</span>: lesson.id}];
+        $.ajax({
+          url: config.bfUrl+config.bfApiVersion+<span class="string">'/userlessons'</span>,
+          data: {<span class="string">"q"</span>: JSON.stringify({<span class="string">"filters"</span>: filters})},
+          dataType: <span class="string">"json"</span>,
+          contentType: <span class="string">"application/json"</span>,
+          success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
+            numberOfLearners = data.num_results;
+            $.each(data.objects, <span class="function"><span class="keyword">function</span><span class="params">(i,userLesson)</span>{</span>
+              <span class="keyword">if</span> (userLesson.completed &amp;&amp; userLesson.user_id == BfUser.id){
+                lessonCompleted = <span class="literal">true</span>;
+              }
+            })
+          },
+          error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+            console.log(error);
+          }
+        }).done(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+          <span class="keyword">if</span> (config.debug) console.log(lessons);
+          html += <span class="string">'&lt;tr&gt;&lt;td&gt;'</span>
+          <span class="keyword">if</span> (lessonCompleted){
+            html += <span class="string">'&lt;img src="img/green-check.png"&gt;'</span>
+          }
+          html +=<span class="string">'&lt;a id="'</span>+lesson.id+<span class="string">'" class="orange bold instructions-link"&gt;'</span>+lesson.name+<span class="string">'&lt;/a&gt;'</span>;
+          html += <span class="string">'&lt;br/&gt;&lt;p class="author-name"&gt;Created by &lt;span class="author-name'</span>+lesson.creator_id+<span class="string">'"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;'</span>;
+          html += <span class="string">'&lt;td&gt;'</span>+numberOfLearners+<span class="string">'&lt;/td&gt;&lt;/tr&gt;'</span>;
+          $(<span class="string">"#tbody"</span>).append(html);
+          _getCreatorName(lesson.id);
+          $(<span class="string">"#"</span>+lesson.id).click(_instructionsLinkClicked);
+        })
+      }
+    })
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_getCreatorName</span><span class="params">(lessonId)</span>{</span>
+    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">"/lessons/"</span>+lessonId, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
+      $(<span class="string">'.author-name'</span>+response.creator_id).text(response.creator.name);
+    })
+  }
+
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_instructionsLinkClicked</span><span class="params">(evt)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Make sure they are logged in first</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (!BfUser.signedIn) {
+      $(<span class="string">'.alert'</span>).text(<span class="string">"Whoa! You need to log in first."</span>).removeClass(<span class="string">'hidden'</span>);
+    } <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Open the lesson and the modal.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="string">'#instructionsModal'</span>).modal()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>10 seconds later the modal closes.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        $(<span class="string">'#instructionsModal'</span>).modal(<span class="string">'hide'</span>)
+      },<span class="number">10000</span>);
+      lessonId = $(<span class="keyword">this</span>).attr(<span class="string">"id"</span>);
+      <span class="keyword">var</span> url = <span class="string">'instructions.html?'</span>+lessonId;
+      <span class="keyword">var</span> width = <span class="number">340</span>;
+      <span class="keyword">var</span> height = window.screen.height;
+      <span class="keyword">var</span> left = window.screen.width - <span class="number">340</span>;
+      <span class="keyword">var</span> instructionOptions = <span class="string">"height="</span>+height+<span class="string">",width="</span>+width+<span class="string">",left="</span>+left;
+      window.open(url,<span class="string">"instructions"</span>,instructionOptions);
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>add public methods to the returned module and return it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  service.init = init;
+  <span class="keyword">return</span> service;
+}(service || {}));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>initialize the module</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>service.init()</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

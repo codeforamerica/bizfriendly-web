@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>teach.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="__init__.html">
+                __init__.py
+              </a>
+            
+              
+              <a class="source" href="admin.html">
+                admin.py
+              </a>
+            
+              
+              <a class="source" href="api.html">
+                api.py
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.py
+              </a>
+            
+              
+              <a class="source" href="forms.html">
+                forms.py
+              </a>
+            
+              
+              <a class="source" href="models.html">
+                models.py
+              </a>
+            
+              
+              <a class="source" href="routes.html">
+                routes.py
+              </a>
+            
+              
+              <a class="source" href="BfUser.html">
+                BfUser.js
+              </a>
+            
+              
+              <a class="source" href="config.html">
+                config.js
+              </a>
+            
+              
+              <a class="source" href="connect.html">
+                connect.js
+              </a>
+            
+              
+              <a class="source" href="edit.html">
+                edit.js
+              </a>
+            
+              
+              <a class="source" href="instructions.html">
+                instructions.js
+              </a>
+            
+              
+              <a class="source" href="learn.html">
+                learn.js
+              </a>
+            
+              
+              <a class="source" href="lesson.html">
+                lesson.js
+              </a>
+            
+              
+              <a class="source" href="new-category.html">
+                new-category.js
+              </a>
+            
+              
+              <a class="source" href="new-service.html">
+                new-service.js
+              </a>
+            
+              
+              <a class="source" href="profile.html">
+                profile.js
+              </a>
+            
+              
+              <a class="source" href="service.html">
+                service.js
+              </a>
+            
+              
+              <a class="source" href="teach.html">
+                teach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>teach.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> teach = (<span class="function"><span class="keyword">function</span> <span class="params">(teach)</span> {</span>
+
+  <span class="keyword">var</span> user_id = <span class="literal">false</span>;
+  <span class="keyword">var</span> newSteps = [];
+  <span class="keyword">var</span> currentStep = {};
+  <span class="keyword">var</span> categoryId;
+  <span class="keyword">var</span> categoryName;
+  <span class="keyword">var</span> serviceId;
+  <span class="keyword">var</span> serviceName;
+  <span class="keyword">var</span> lessonId;
+  <span class="keyword">var</span> lessonName;
+  <span class="keyword">var</span> lessonNames = [];
+  <span class="keyword">var</span> stepType;
+  <span class="keyword">var</span> stepText;
+  <span class="keyword">var</span> feedback;
+  <span class="keyword">var</span> openUrl;
+  <span class="keyword">var</span> editingLesson;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>PUBLIC METHODS</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Make sure they are logged in</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _checkIfLoggedIn();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Check if editing lesson or making new</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    lessonId = window.location.search.split(<span class="string">'?'</span>)[<span class="number">1</span>];
+    <span class="keyword">if</span> (lessonId) { editingLesson = <span class="literal">true</span> }
+    <span class="keyword">if</span> (editingLesson) {
+      _getExistingLessonData();
+    } <span class="keyword">else</span> {
+      _main();
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>PRIVATE METHODS</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_main</span><span class="params">()</span>{</span>
+    $(<span class="string">'.draggable'</span>).draggable({ revert: <span class="literal">true</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Get all the existing categories</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _getCategories();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Make lesson name editable</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _editLessonName();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Add the first Step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _addFirstStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Add the congrats step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _addCongratsStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Controls</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">".back"</span>).click(_backStep);
+    $(<span class="string">'.next'</span>).click(_nextStep);
+    $(<span class="string">'#add-new-step'</span>).click(_addNewStep);
+    $(<span class="string">"#step-close-btn"</span>).click(_removeStep);
+    $(<span class="string">"#preview"</span>).click(_previewClicked);
+    $(<span class="string">"#save-draft"</span>).click(_saveDraft);
+    $(<span class="string">"#submit"</span>).click(_submitClicked);
+    $(<span class="string">".temp-close-btn"</span>).click(_closeClicked);
+    $(<span class="string">"#step-options-btn"</span>).click(_optionsClicked);
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_checkIfLoggedIn</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Check if user is logged in
+If not, dont let them build a lesson
+If so, show their name as the author</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (!BfUser.bfAccessToken){
+      $(<span class="string">'#teach-main'</span>).hide();
+      $(<span class="string">'.login-required'</span>).show();
+    } <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>if (config.debug) console.log(&#39;Logged In&#39;);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="string">"#author-name"</span>).text(BfUser.name);
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_getExistingLessonData</span><span class="params">()</span>{</span>
+    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/lessons/'</span>+lessonId, <span class="function"><span class="keyword">function</span><span class="params">(lesson)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Check for owner or admin</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span>(BfUser.id != lesson.creator.id){
+        $.getJSON(config.bfUrl+<span class="string">'/'</span>+BfUser.id+<span class="string">'/is_admin'</span>, <span class="function"><span class="keyword">function</span><span class="params">(isAdmin)</span>{</span>
+          <span class="keyword">if</span> (!isAdmin.response){
+            $(<span class="string">'#teach-main'</span>).hide();
+            $(<span class="string">".login-required"</span>).text(<span class="string">"Whoa, that is someone elses lesson."</span>);
+            $(<span class="string">'.login-required'</span>).show();
+          }
+        })
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>console.log(lesson);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      lessonName = lesson.name;
+      $(<span class="string">"#lesson-name"</span>).text(lessonName);
+      newSteps = lesson.steps;
+      serviceId = lesson.service_id;
+      $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/services/'</span>+serviceId, <span class="function"><span class="keyword">function</span><span class="params">(service)</span>{</span>
+        serviceName = service.name;
+        categoryId = service.category_id;
+        categoryName = service.category.name;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>console.log(service);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="string">'.draggable'</span>).draggable({ revert: <span class="literal">true</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Get all the existing categories</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        _getCategories();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Make lesson name editable</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        _editLessonName();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Order steps</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        _orderSteps();
+        currentStep = newSteps[<span class="number">0</span>];
+        _showCurrentStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Controls</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="string">".back"</span>).click(_backStep);
+        $(<span class="string">'.next'</span>).click(_nextStep);
+        $(<span class="string">'#add-new-step'</span>).click(_addNewStep);
+        $(<span class="string">"#step-close-btn"</span>).click(_removeStep);
+        $(<span class="string">"#preview"</span>).click(_previewClicked);
+        $(<span class="string">"#save-draft"</span>).click(_saveDraft);
+        $(<span class="string">"#submit"</span>).click(_submitClicked);
+        $(<span class="string">".temp-close-btn"</span>).click(_closeClicked);
+        $(<span class="string">"#step-options-btn"</span>).click(_optionsClicked);
+
+      });
+    });
+
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_getCategories</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Get the existing categories</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $.get(config.bfUrl+config.bfApiVersion+<span class="string">'/categories'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
+      <span class="keyword">var</span> categories = response.objects;
+      $.each(categories, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Show if catgory is published OR user created it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (categories[i].state == <span class="string">"published"</span> || categories[i].creator_id == BfUser.id){
+          $(<span class="string">'#category-id'</span>).append(<span class="string">'&lt;option value='</span>+categories[i].id+<span class="string">'&gt;'</span>+categories[i].name+<span class="string">'&lt;/option&gt;'</span>);
+        }
+      })
+      $(<span class="string">'#category-id'</span>).append(<span class="string">'&lt;option value="add-new-category"&gt;Add new skill&lt;/option&gt;'</span>);
+      <span class="keyword">if</span> (editingLesson) { $(<span class="string">"#category-id"</span>).val(categoryId)}
+      $(<span class="string">'.selectpicker'</span>).selectpicker(<span class="string">'refresh'</span>);
+      _watchCategory();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>// Get all the existing services</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      _getServices();
+    })
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_watchCategory</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Add a listener to the category menu.
+If they choose to add a new category, open that page.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#lesson-form"</span>).on(<span class="string">"change"</span>, <span class="string">"#category-id"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+      $(<span class="string">"#alert"</span>).addClass(<span class="string">"hidden"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>if ($(&quot;#category-id&quot;).val() == &quot;none&quot;) {
+  $(&#39;#service-id&#39;).append(&#39;<option value="none">Select a web service for your lesson.</option>&#39;);
+}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> ($(<span class="string">"#category-id"</span>).val() == <span class="string">"add-new-category"</span>){
+        window.open(<span class="string">"new-category.html"</span>,<span class="string">"_self"</span>);
+      } <span class="keyword">else</span> {
+        categoryId = $(<span class="string">"#category-id"</span>).val();
+        categoryName = $(<span class="string">"#category-id :selected"</span>).text();
+      }
+      <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Category Name: "</span> + categoryName);
+      _getServices();
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_getServices</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Get existing services</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#service-id"</span>).empty();
+    $(<span class="string">'#service-id'</span>).append(<span class="string">'&lt;option value="none"&gt;Select a web service for your lesson&lt;/option&gt;'</span>);
+    categoryId = $(<span class="string">"#category-id"</span>).val();
+    $.get(config.bfUrl+config.bfApiVersion+<span class="string">'/services'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
+      <span class="keyword">var</span> services = response.objects;
+      $.each(services, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+        <span class="keyword">if</span> (services[i].category_id == categoryId){
+          <span class="keyword">if</span> (services[i].state == <span class="string">"published"</span> || services[i].creator_id == BfUser.id){
+            $(<span class="string">'#service-id'</span>).append(<span class="string">'&lt;option value='</span>+services[i].id+<span class="string">'&gt;'</span>+services[i].name+<span class="string">'&lt;/option&gt;'</span>);
+          }
+        }
+      })
+
+      $(<span class="string">'#service-id'</span>).append(<span class="string">'&lt;option value="add-new-service"&gt;Add new service&lt;/option&gt;'</span>);
+      <span class="keyword">if</span> (editingLesson) {$(<span class="string">"#service-id"</span>).val(serviceId)};
+      $(<span class="string">'.selectpicker'</span>).selectpicker(<span class="string">'refresh'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Init the service-name</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      serviceName = $(<span class="string">'#service-id :selected'</span>).text();
+      $(<span class="string">".service-name"</span>).text(serviceName);
+      serviceId = parseInt($(<span class="string">"#service-id"</span>).val());
+      _watchServices();
+
+    })
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_watchServices</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Add listener to services menu
+If they choose to add a new one, open that page</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#lesson-form"</span>).on(<span class="string">"change"</span>, <span class="string">"#service-id"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+      <span class="keyword">if</span> ($(<span class="string">"#service-id"</span>).val() == <span class="string">"add-new-service"</span>){
+        window.open(<span class="string">"new-service.html"</span>,<span class="string">"_self"</span>);
+      } <span class="keyword">else</span> {
+        serviceId = $(<span class="string">"#service-id"</span>).val();
+        serviceName = $(<span class="string">'#service-id :selected'</span>).text();
+        $(<span class="string">".service-name"</span>).text(serviceName);
+      }
+      <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Service Name: "</span> + serviceName);
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_interactiveLessons</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> collections = []
+    <span class="keyword">if</span> (serviceName == <span class="string">"Facebook"</span>){
+      collections = [ <span class="string">"posts"</span>, <span class="string">"pictures"</span>, <span class="string">"pages"</span>]
+    }
+    <span class="keyword">if</span> (serviceName == <span class="string">"Foursquare"</span>){
+      collections = [ <span class="string">"checkins"</span>, <span class="string">"lists"</span>]
+    }
+    <span class="keyword">if</span> (serviceName == <span class="string">"Trello"</span>){
+      collections = [ <span class="string">"boards"</span> ]
+    }
+    $(<span class="string">'#collection-name'</span>).empty();
+
+    $(<span class="string">'#collection-name'</span>).append(<span class="string">'&lt;option value="none"&gt;What kind of item?&lt;/option&gt;'</span>);
+    $.each(collections, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      $(<span class="string">'#collection-name'</span>).append(<span class="string">'&lt;option value='</span>+collections[i]+<span class="string">'&gt;'</span>+collections[i]+<span class="string">'&lt;/option&gt;'</span>);
+    })
+
+    $(<span class="string">".selectpicker"</span>).selectpicker(<span class="string">"refresh"</span>);
+    _watchInteractiveOptions()
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_watchInteractiveOptions</span><span class="params">()</span>{</span>
+    $(<span class="string">"#options-form"</span>).on(<span class="string">"change"</span>, <span class="string">"#what-to-watch"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+      console.log($(<span class="string">"#what-to-watch"</span>).val());
+      <span class="keyword">if</span> ($(<span class="string">"#what-to-watch"</span>).val() != <span class="string">"What is this step watching?"</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Disable open, login, and text-input</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="string">"#login-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+        $(<span class="string">"#text-entry-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+        $(<span class="string">"#open-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      } <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Enable open, login, and text-input</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="string">"#open-element-drag"</span>).removeClass(<span class="string">"disabled"</span>).draggable(<span class="string">"enable"</span>);
+        $(<span class="string">"#login-element-drag"</span>).removeClass(<span class="string">"disabled"</span>).draggable(<span class="string">"enable"</span>);
+        $(<span class="string">"#text-entry-drag"</span>).removeClass(<span class="string">"disabled"</span>).draggable(<span class="string">"enable"</span>);
+      }
+      
+
+      <span class="keyword">if</span> ($(<span class="string">"#what-to-watch"</span>).val() == <span class="string">"A new item"</span>){
+        currentStep.step_type = <span class="string">"check_for_new"</span>;
+      }
+    });
+    $(<span class="string">"#options-form"</span>).on(<span class="string">"change"</span>, <span class="string">"#collection-name"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+      <span class="keyword">if</span> (serviceName == <span class="string">"Facebook"</span>){
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"pages"</span>){
+          currentStep.trigger_endpoint = <span class="string">"https://graph.facebook.com/me/accounts?fields=name&amp;access_token="</span>;
+          currentStep.place_in_collection = <span class="string">"last"</span>;
+          currentStep.trigger_check = <span class="string">"data"</span>;
+          currentStep.trigger_value = <span class="string">"name"</span>;
+          currentStep.thing_to_remember = <span class="string">"id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;span class="responseDisplay"&gt;&lt;/span&gt;'</span>);
+        }
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"posts"</span>){
+          currentStep.trigger_endpoint = <span class="string">"https://graph.facebook.com/me/posts?access_token="</span>;
+          currentStep.place_in_collection = <span class="string">"first"</span>;
+          currentStep.trigger_check = <span class="string">"data"</span>;
+          currentStep.trigger_value = <span class="string">"message"</span>;
+          currentStep.thing_to_remember = <span class="string">"id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;span class="responseDisplay"&gt;&lt;/span&gt;'</span>);
+        }
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"pictures"</span>){
+          currentStep.trigger_endpoint = <span class="string">"https://graph.facebook.com/me/posts?access_token="</span>;
+          currentStep.place_in_collection = <span class="string">"first"</span>;
+          currentStep.trigger_check = <span class="string">"data"</span>;
+          currentStep.trigger_value = <span class="string">"picture"</span>;
+          currentStep.thing_to_remember = <span class="string">"id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;img class="responseDisplay"&gt;'</span>);
+        }
+      }
+      <span class="keyword">if</span> (serviceName == <span class="string">"Foursquare"</span>){
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"checkins"</span>){
+          <span class="keyword">var</span> timestamp = Math.floor(<span class="keyword">new</span> Date() / <span class="number">1000</span>);
+          currentStep.trigger_endpoint = <span class="string">'https://api.foursquare.com/v2/users/self/checkins?afterTimestamp='</span>+timestamp+<span class="string">'&amp;v=20131027&amp;oauth_token='</span>;
+          currentStep.place_in_collection = <span class="string">"first"</span>;
+          currentStep.trigger_check = <span class="string">"response,checkins,items"</span>;
+          currentStep.trigger_value = <span class="string">"venue,name"</span>;
+          currentStep.thing_to_remember = <span class="string">"venue,id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;span class="responseDisplay"&gt;&lt;/span&gt;'</span>);
+        }
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"lists"</span>){
+          currentStep.trigger_endpoint = <span class="string">'https://api.foursquare.com/v2/users/self/lists?group=created&amp;v=20131027&amp;oauth_token='</span>;
+          currentStep.place_in_collection = <span class="string">"second"</span>;
+          currentStep.trigger_check = <span class="string">"response,lists,items"</span>;
+          currentStep.trigger_value = <span class="string">"name"</span>;
+          currentStep.thing_to_remember = <span class="string">"id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;span class="responseDisplay"&gt;&lt;/span&gt;'</span>);
+        }
+      }
+      <span class="keyword">if</span> (serviceName == <span class="string">"Trello"</span>){
+        <span class="keyword">if</span> ($(<span class="string">"#collection-name"</span>).val() == <span class="string">"boards"</span>){
+          currentStep.trigger_endpoint = <span class="string">'https://api.trello.com/1/member/me/boards?fields=id,name,dateLastView&amp;key=8d1015f4f92871529f1618fa828c2fe8&amp;token='</span>;
+          currentStep.place_in_collection = <span class="string">"alphabetical"</span>;
+          currentStep.trigger_check = <span class="string">""</span>;
+          currentStep.trigger_value = <span class="string">"name"</span>;
+          currentStep.thing_to_remember = <span class="string">"id"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $(<span class="string">"#feedback-content .plain"</span>).append(<span class="string">'&lt;span class="responseDisplay"&gt;&lt;/span&gt;'</span>);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>if ($(&quot;#collection-name&quot;).val() == &quot;cards&quot;){
+  currentStep.trigger_endpoint = &#39;<a href="https://trello.com/1/boards/replace_me/cards?key=8d1015f4f92871529f1618fa828c2fe8&amp;token=">https://trello.com/1/boards/replace_me/cards?key=8d1015f4f92871529f1618fa828c2fe8&amp;token=</a>&#39;;
+  currentStep.place_in_collection = &quot;second&quot;;
+  currentStep.trigger_check = &quot;response,lists,items&quot;;
+  currentStep.trigger_value = &quot;name&quot;;
+  currentStep.thing_to_remember = &quot;id&quot;;</p>
+<p>  // Feedback
+  $(&quot;#feedback-content .plain&quot;).append(&#39;<span class="responseDisplay"></span>&#39;);
+}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      }
+      
+      console.log(currentStep);
+    });
+
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_orderSteps</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(<span class="string">'ordering steps'</span>);
+    newSteps = newSteps.sort(<span class="function"><span class="keyword">function</span><span class="params">(a, b)</span>{</span>
+      <span class="keyword">if</span> (a.step_number &lt; b.step_number) <span class="keyword">return</span> -<span class="number">1</span>;
+      <span class="keyword">if</span> (a.step_number &gt; b.step_number) <span class="keyword">return</span> <span class="number">1</span>;
+      <span class="keyword">return</span> <span class="number">0</span>;
+    })
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>Make lesson name editable</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_editLessonName</span><span class="params">()</span>{</span>
+    $(<span class="string">'.lesson-editable'</span>).editable(<span class="function"><span class="keyword">function</span><span class="params">(value, settings)</span> {</span>
+      $(<span class="string">"#alert"</span>).addClass(<span class="string">"hidden"</span>);
+      <span class="keyword">return</span>(value)
+      }, { 
+        onblur : <span class="string">"submit"</span>,
+        submit  : <span class="string">'OK'</span>
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_addFirstStep</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Create a new step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    currentStep = {
+        step_number : <span class="number">1</span>,
+        step_type : <span class="string">""</span>,
+        step_text : <span class="string">""</span>,
+        creator_id : BfUser.id
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>Save current step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newSteps.push(currentStep);
+    _updateProgressBar();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_addNewStep</span><span class="params">()</span>{</span>
+    _saveCurrentStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Create a new step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    currentStep = {
+      step_number : newSteps.length,
+      step_type : <span class="string">""</span>,
+      step_text : <span class="string">""</span>,
+      step_state : <span class="string">"active"</span>,
+      creator_id : BfUser.id
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Keep congrats at the last step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (newSteps[newSteps.length-<span class="number">1</span>].step_type == <span class="string">"congrats"</span>){
+      newSteps[newSteps.length-<span class="number">1</span>].step_number = newSteps.length + <span class="number">1</span>;
+      newSteps[newSteps.length-<span class="number">1</span>].step_state = <span class="string">"unfinished"</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Add new blank step as second to last position</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newSteps.splice(newSteps.length-<span class="number">1</span>, <span class="number">0</span>, currentStep)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>Show new step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _showCurrentStep();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_removeStep</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (newSteps.length &gt; <span class="number">2</span>){
+      newSteps.splice(currentStep.step_number-<span class="number">1</span>, <span class="number">1</span>);
+      <span class="keyword">if</span> (config.debug) console.log(newSteps);
+      currentStep = newSteps[currentStep.step_number - <span class="number">2</span>];
+      _updateStepNumbers();
+      _showCurrentStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>_backStep();</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_updateStepNumbers</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(newSteps);
+    $.each(newSteps, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      newSteps[i].step_number = i+<span class="number">1</span>;
+    })
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_saveCurrentStep</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>Save the active step-texts in currentStep
+TODO: Save feedback too</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    stepText = <span class="string">'&lt;div class="col-xs-12"&gt;'</span>;
+    $.each($(<span class="string">"#step-texts .active"</span>), <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      stepText += $(<span class="string">"#step-texts .active"</span>)[i].outerHTML;
+    })
+    stepText += <span class="string">"&lt;/div&gt;"</span>;
+    currentStep.step_text = stepText;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Save feedback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    currentStep.feedback = $(<span class="string">"#feedback-content"</span>).html();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>Then add it to newSteps</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $.each(newSteps, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      <span class="keyword">if</span> (newSteps[i].step_number == currentStep.step_number){
+        newSteps[i] = currentStep;
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_showCurrentStep</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(newSteps);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>Update all step states</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _updateStepsStates();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>Update progress bar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _updateProgressBar();
+
+    $(<span class="string">"#step-texts"</span>).html(currentStep.step_text);
+    <span class="keyword">if</span> (!currentStep.feedback) {
+      <span class="keyword">var</span> $clone = $(<span class="string">"#feedback-prototype"</span>).clone();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Clean it up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $clone.removeAttr(<span class="string">"id"</span>).removeClass(<span class="string">"hidden"</span>);
+      $(<span class="string">"#feedback-content"</span>).html($clone);
+    }
+    $(<span class="string">"#feedback-content"</span>).html(currentStep.feedback);
+    $(<span class="string">'.element-editable'</span>).editable(<span class="function"><span class="keyword">function</span><span class="params">(value, settings)</span> {</span>
+          <span class="keyword">return</span> (value);
+        },{
+          type: <span class="string">"textarea"</span>,
+          rows : <span class="number">3</span>,
+          cols : <span class="number">35</span>,
+          onblur : <span class="string">"submit"</span>,
+          submit : <span class="string">"OK"</span>
+      });
+    $(<span class="string">".popover"</span>).remove();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Turn on all step types again</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#elements .disabled"</span>).removeClass(<span class="string">"disabled"</span>).draggable(<span class="string">"enable"</span>);
+    $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">false</span>).selectpicker(<span class="string">"refresh"</span>);
+    $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">false</span>).selectpicker(<span class="string">"refresh"</span>);
+    <span class="keyword">if</span> ($(<span class="string">"#step-texts .open-element"</span>).length != <span class="number">0</span>){
+      $(<span class="string">"#login-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#text-entry-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+      $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> ($(<span class="string">"#step-texts .login-element"</span>).length != <span class="number">0</span>){
+      $(<span class="string">"#open-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#text-entry-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+      $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> ($(<span class="string">"#step-texts .text-entry-element"</span>).length != <span class="number">0</span>){
+      $(<span class="string">"#open-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#login-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+      $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+      $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>Show three new temp texts</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (currentStep.step_type != <span class="string">"congrats"</span>){
+      $(<span class="string">"#feedback-window"</span>).show();
+      $(<span class="string">"#step-close-btn"</span>).show();
+      <span class="keyword">while</span> ($(<span class="string">"#step-texts"</span>).children().length &lt; <span class="number">3</span>){
+        <span class="keyword">var</span> $clone = $(<span class="string">"#droppable-prototype"</span>).clone();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Clean it up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+        $(<span class="string">"#step-texts"</span>).append($clone);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>if ($(&quot;#feedback-content&quot;).children().length == 0){
+  // $clone.addClass(&quot;active&quot;);
+  $(&quot;#feedback-content&quot;).append($clone);
+}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="keyword">else</span> {
+      $(<span class="string">"#feedback-window"</span>).hide();
+      $(<span class="string">"#step-close-btn"</span>).hide();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Make congrats editable</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="string">'.element-editable'</span>).editable(<span class="function"><span class="keyword">function</span><span class="params">(value, settings)</span> {</span>
+          <span class="keyword">return</span> (value);
+        },{
+          type: <span class="string">"textarea"</span>,
+          rows : <span class="number">3</span>,
+          cols : <span class="number">35</span>,
+          onblur : <span class="string">"submit"</span>,
+          submit : <span class="string">"OK"</span>
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>Add congrats-icon</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">var</span> content = $(<span class="string">"#congrats-popover"</span>).html();
+      $(<span class="string">".congrats-img"</span>).popover({ content: content, html: <span class="literal">true</span>, placement: <span class="string">'right'</span> });
+      $(<span class="string">'.congrats-img'</span>).on(<span class="string">'shown.bs.popover'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Turn on controllers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="string">".star-icon"</span>).click(_iconClicked);
+        $(<span class="string">".flag-icon"</span>).click(_iconClicked);
+        $(<span class="string">".heart-icon"</span>).click(_iconClicked);
+        $(<span class="string">".thumbs-up-icon"</span>).click(_iconClicked);
+      })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>Disable draggables</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="string">"#elements .draggable"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <p>Disable advanced options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+      $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+
+    }
+    <span class="keyword">if</span> (newSteps.length &lt;= <span class="number">2</span>){
+      $(<span class="string">"#step-close-btn"</span>).hide();
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>Turn on drop</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _turnOnDrop();
+    $(<span class="string">".temp-close-btn"</span>).click(_closeClicked);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>Only allow 12 steps</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (newSteps.length &gt;= <span class="number">12</span>){
+      $(<span class="string">"#add-new-step"</span>).hide();
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_iconClicked</span><span class="params">(evt)</span>{</span>
+    $(<span class="string">".congrats-img"</span>).attr(<span class="string">"src"</span>,$(<span class="keyword">this</span>).attr(<span class="string">"src"</span>));
+    $(<span class="string">".congrats-img"</span>).popover(<span class="string">"hide"</span>)
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p>Update the progress bar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_updateProgressBar</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(<span class="string">"NewSteps Length: "</span>+newSteps.length);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>Update teach-dots-number</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#teach-dots-amount"</span>).empty();
+    $(<span class="string">".progress-dots"</span>).empty();
+    $.each(newSteps, <span class="function"><span class="keyword">function</span><span class="params">(i, step)</span>{</span>
+      $(<span class="string">'#teach-dots-amount'</span>).append(<span class="string">'&lt;li&gt;&lt;img src="img/blue-dot.png"&gt;&lt;/li&gt;'</span>);
+      $(<span class="string">'.progress-dots'</span>).append(<span class="string">'&lt;li class="step'</span>+newSteps[i].step_number+<span class="string">'_progress progress-button" data-target="'</span>+newSteps[i].step_number+<span class="string">'"&gt;&lt;/li&gt;'</span>);
+    })
+    $(newSteps).each(<span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      $(<span class="string">'.step'</span>+newSteps[i].step_number+<span class="string">'_progress'</span>).removeClass(<span class="string">'unfinished active finished'</span>).addClass(newSteps[i].step_state);
+      <span class="keyword">if</span> (newSteps[i].step_number == currentStep.step_number){
+        $(<span class="string">'.step'</span>+newSteps[i].step_number+<span class="string">'_progress'</span>).html(<span class="string">'&lt;h2&gt;'</span>+currentStep.step_number+<span class="string">'&lt;/h2&gt;'</span>);
+      } <span class="keyword">else</span> {
+        $(<span class="string">'.step'</span>+newSteps[i].step_number+<span class="string">'_progress'</span>).html(<span class="string">''</span>);
+      }
+    });
+    console.log(newSteps);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <p>while ($(&quot;#teach-dots-amount li&quot;).length &lt; newSteps.length){
+  $(&#39;#teach-dots-amount&#39;).append(&#39;<li><img src="img/blue-dot.png"></li>&#39;);
+} 
+while ($(&quot;#teach-dots-amount li&quot;).length &gt; newSteps.length){
+  $(&#39;#teach-dots-amount li&#39;).last().remove();
+}
+Check number of dots
+if (editingLesson) {
+  var counter = 0;
+  while ($(&quot;.progress-dots li&quot;).length &lt; newSteps.length){
+    $(&#39;.progress-dots&#39;).append(&#39;<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>&#39;);
+    counter = counter + 1;
+  } 
+  while ($(&quot;.progress-dots li&quot;).length &gt; newSteps.length){
+    $(&#39;.progress-dots li&#39;).last().remove();
+  }
+} else {
+  if ($(&quot;.progress-dots li&quot;).length &lt; newSteps.length){
+    $(&#39;.progress-dots&#39;).append(&#39;<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>&#39;);
+    counter = counter + 1;
+  }  else if ($(&quot;.progress-dots li&quot;).length &gt; newSteps.length){
+    $(&#39;.progress-dots li&#39;).last().remove();
+  }
+}
+$(newSteps).each(function(i){
+  $(&#39;.step&#39;+newSteps[i].step_number+&#39;_progress&#39;).removeClass(&#39;unfinished active finished&#39;).addClass(newSteps[i].step_state);
+  if (newSteps[i].step_number == currentStep.step_number){
+    $(&#39;.step&#39;+newSteps[i].step_number+&#39;_progress&#39;).html(&#39;<h2>&#39;+currentStep.step_number+&#39;</h2>&#39;);
+  } else {
+    $(&#39;.step&#39;+newSteps[i].step_number+&#39;_progress&#39;).html(&#39;&#39;);
+  }
+})</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_makeEditable</span><span class="params">($clone)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              <p>Make editable</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $clone.children(<span class="string">"p"</span>).addClass(<span class="string">"element-editable"</span>);
+    $(<span class="string">'.element-editable'</span>).editable(<span class="function"><span class="keyword">function</span><span class="params">(value, settings)</span> {</span>
+      <span class="keyword">return</span> (value);
+    },{
+      type : <span class="string">"textarea"</span>,
+      rows : <span class="number">3</span>,
+      cols : <span class="number">35</span>,
+      onblur : <span class="string">"submit"</span>,
+      submit : <span class="string">"OK"</span>
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_turnOnDrop</span><span class="params">()</span>{</span>
+    $( <span class="string">".droppable"</span> ).droppable({
+      drop: <span class="function"><span class="keyword">function</span><span class="params">( event, ui )</span> {</span>
+        $( <span class="keyword">this</span> ).children(<span class="string">".temp-text"</span>).remove();
+        $( <span class="keyword">this</span> ).removeClass(<span class="string">"temp"</span>).addClass(<span class="string">"active"</span>);
+        $( <span class="keyword">this</span> ).removeClass(<span class="string">"droppable ui-droppable"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p>Height of step-texts</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(<span class="string">"#step-texts"</span>).height() &gt;= <span class="number">350</span>){
+          $(<span class="string">".temp"</span>)[<span class="number">0</span>].remove();
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-67">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-67">&#182;</a>
+              </div>
+              <p>Add colorPopover</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">var</span> content = $(<span class="string">"#popover"</span>).html();
+        $(<span class="keyword">this</span>).popover({ content: content, html: <span class="literal">true</span>, placement: <span class="string">'right'</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-68">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-68">&#182;</a>
+              </div>
+              <p>Have to repeat for inadvertant popups</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="keyword">this</span>).on(<span class="string">'shown.bs.popover'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          _colorControllers();
+        })
+        $(<span class="keyword">this</span>).popover(<span class="string">"show"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-69">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-69">&#182;</a>
+              </div>
+              <p>If text-element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(ui.draggable[<span class="number">0</span>]).attr(<span class="string">"id"</span>) == <span class="string">"text-element-drag"</span>){
+          <span class="keyword">var</span> $clone = $(<span class="string">"#text-prototype"</span>).clone();
+          $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+          $clone.appendTo( <span class="keyword">this</span> );
+          _makeEditable($clone);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <p>If open-element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(ui.draggable[<span class="number">0</span>]).attr(<span class="string">"id"</span>) == <span class="string">"open-element-drag"</span>){
+          currentStep.step_type = <span class="string">"open"</span>;
+          $(<span class="string">"#login-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#text-entry-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          <span class="keyword">var</span> $clone = $(<span class="string">"#open-prototype"</span>).clone();
+          $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+          $clone.appendTo( <span class="keyword">this</span> );
+          _makeEditable($clone);
+
+          $(<span class="string">"#open"</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+            <span class="keyword">if</span> (config.debug) console.log(<span class="string">"open clicked"</span>);
+
+            <span class="keyword">var</span> content = <span class="string">'&lt;p&gt;What web address to open?&lt;/p&gt;&lt;input id="open-url" type="url"&gt;&lt;/input&gt;&lt;button id="open-url-submit"&gt;OK&lt;/button&gt;'</span>;
+            $(<span class="string">'#open'</span>).popover({ content: content, html: <span class="literal">true</span>, placement: <span class="string">'right'</span> });
+            $(<span class="string">'#open'</span>).popover(<span class="string">"show"</span>);
+            $(<span class="string">"#open-url-submit"</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+              currentStep.step_type = <span class="string">"open"</span>;
+              currentStep.trigger_endpoint = $(<span class="string">"#open-url"</span>).val();
+              $(<span class="string">"#open"</span>).popover(<span class="string">"hide"</span>);
+            })
+          })
+          $(<span class="string">".temp-close-btn"</span>).click(_closeClicked);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-71">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-71">&#182;</a>
+              </div>
+              <p>If login-element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(ui.draggable[<span class="number">0</span>]).attr(<span class="string">"id"</span>) == <span class="string">"login-element-drag"</span>){
+          currentStep.step_type = <span class="string">"login"</span>;
+          $(<span class="string">"#open-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#text-entry-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          <span class="keyword">var</span> $clone = $(<span class="string">"#login-prototype"</span>).clone();
+          $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+          $clone.appendTo( <span class="keyword">this</span> );
+          _makeEditable($clone);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-72">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-72">&#182;</a>
+              </div>
+              <p>If text-entry-element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(ui.draggable[<span class="number">0</span>]).attr(<span class="string">"id"</span>) == <span class="string">"text-entry-drag"</span>){
+          currentStep.step_type = <span class="string">"input"</span>;
+          $(<span class="string">"#open-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#login-element-drag"</span>).addClass(<span class="string">"disabled"</span>).draggable(<span class="string">"disable"</span>);
+          $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">true</span>).selectpicker(<span class="string">"refresh"</span>);
+          <span class="keyword">var</span> $clone = $(<span class="string">"#text-entry-prototype"</span>).clone();
+          $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+          $clone.appendTo( <span class="keyword">this</span> );
+          _makeEditable($clone);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-73">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-73">&#182;</a>
+              </div>
+              <p>If image-element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> ($(ui.draggable[<span class="number">0</span>]).attr(<span class="string">"id"</span>) == <span class="string">"image-element-drag"</span>){
+          <span class="keyword">var</span> $clone = $(<span class="string">"#image-prototype"</span>).clone();
+          $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+          $clone.appendTo( <span class="keyword">this</span> );
+          $(<span class="string">"#fileupload"</span>).attr(<span class="string">"data-url"</span>,config.bfUrl+<span class="string">"/image_upload"</span>);
+          _makeEditable($clone);
+          $(<span class="string">'#fileupload'</span>).fileupload({
+              dataType: <span class="string">'json'</span>,
+              done: <span class="function"><span class="keyword">function</span> <span class="params">(e, data)</span> {</span>
+                  $.each(data.result.files, <span class="function"><span class="keyword">function</span> <span class="params">(index, file)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-74">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-74">&#182;</a>
+              </div>
+              <p>console.log(index);
+console.log(file);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                      $(<span class="string">"#img-upload-form"</span>).remove();
+                      $(<span class="string">".image-element"</span>).append(<span class="string">'&lt;img class="uploaded-image" src="'</span>+file.url+<span class="string">'"&gt;'</span>);
+                  });
+              },
+              progressall: <span class="function"><span class="keyword">function</span> <span class="params">(e, data)</span> {</span>
+                <span class="keyword">var</span> progress = parseInt(data.loaded / data.total * <span class="number">100</span>, <span class="number">10</span>);
+                $(<span class="string">'#progress .progress-bar'</span>).css(
+                    <span class="string">'width'</span>,
+                    progress + <span class="string">'%'</span>
+                );
+              },
+              error : <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
+                response = $.parseJSON(response.responseText);
+                $(<span class="string">'#img-upload-form'</span>).append(response[<span class="string">"message"</span>]);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              <p>console.log(response.responseText);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              }
+          });
+        }
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_colorControllers</span><span class="params">()</span>{</span>
+    $(<span class="string">".orange-square"</span>).click(<span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+      $(<span class="keyword">this</span>).parent().parent().prev().attr(<span class="string">"style"</span>,<span class="string">"background-color: #FFC9AE;"</span>);
+      $(<span class="keyword">this</span>).parent().parent().prev().popover(<span class="string">"destroy"</span>);
+      $(<span class="keyword">this</span>).parent().parent().prev().find(<span class="string">".btn-teach"</span>).attr(<span class="string">"style"</span>,<span class="string">"color: #ff4000;"</span>);
+    })
+    $(<span class="string">".blue-square"</span>).click(<span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+      $(<span class="keyword">this</span>).parent().parent().prev().attr(<span class="string">"style"</span>,<span class="string">"background-color: #C7E4EE;"</span>);
+      $(<span class="keyword">this</span>).parent().parent().prev().popover(<span class="string">"destroy"</span>);
+      $(<span class="keyword">this</span>).parent().parent().prev().find(<span class="string">".btn-teach"</span>).attr(<span class="string">"style"</span>,<span class="string">"color: #0F6095;"</span>);
+    })
+    $(<span class="string">".white-square"</span>).click(<span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+      $(<span class="keyword">this</span>).parent().parent().prev().attr(<span class="string">"style"</span>,<span class="string">"background-color: #FFFFFF;"</span>);
+      $(<span class="keyword">this</span>).parent().parent().prev().popover(<span class="string">"destroy"</span>);
+    })
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-76">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-76">&#182;</a>
+              </div>
+              <p>Set the newSteps state</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_updateStepsStates</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-77">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-77">&#182;</a>
+              </div>
+              <p>if (config.debug) console.log(&#39;updating newSteps states&#39;);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(newSteps).each(<span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      <span class="keyword">if</span> (currentStep.step_number == newSteps[i].step_number){
+        newSteps[i].step_state = <span class="string">"active"</span>;
+      }
+      <span class="keyword">if</span> (currentStep.step_number &gt; newSteps[i].step_number){
+        newSteps[i].step_state = <span class="string">"finished"</span>;
+      }
+      <span class="keyword">if</span> (currentStep.step_number &lt; newSteps[i].step_number){
+        newSteps[i].step_state = <span class="string">"unfinished"</span>;
+      }
+    })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-78">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-78">&#182;</a>
+              </div>
+              <p>Set current-dot</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">"#current-dot"</span>).html(<span class="string">"&lt;h1&gt;"</span>+currentStep.step_number+<span class="string">"&lt;/h1&gt;"</span>);
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_backStep</span><span class="params">(evt)</span>{</span>
+    _saveCurrentStep();
+    <span class="keyword">if</span> (currentStep.step_number &gt; <span class="number">1</span>) {
+      currentStep = newSteps[currentStep.step_number - <span class="number">2</span>];
+      _showCurrentStep();
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_nextStep</span><span class="params">(evt)</span>{</span>
+    _saveCurrentStep();
+    <span class="keyword">if</span> (currentStep.step_number &lt; newSteps.length){
+      currentStep = newSteps[currentStep.step_number];
+      _showCurrentStep();
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_closeClicked</span><span class="params">(evt)</span>{</span>
+    <span class="keyword">if</span> (config.debug) console.log(<span class="string">"close clicked"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-79">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-79">&#182;</a>
+              </div>
+              <p>Erase the thing that this button is within.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $(<span class="string">".active"</span>).popover(<span class="string">"hide"</span>);
+    $(<span class="keyword">this</span>).parent().remove();
+    <span class="keyword">if</span> ($(<span class="string">"#add-droppable"</span>).length == <span class="number">0</span>){
+      <span class="keyword">if</span> ($(<span class="string">"#step-texts"</span>).height() &lt;= <span class="number">300</span>){
+        $(<span class="string">'#teach-instructions'</span>).append(<span class="string">'&lt;a id="add-droppable"&gt;&lt;img src="img/add-btn.png" height="25px"&gt;Add another element&lt;/a&gt;'</span>);
+        $(<span class="string">"#add-droppable"</span>).click(_addDroppableClicked);
+      }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-80">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-80">&#182;</a>
+              </div>
+              <p>Turn disabled elements back on</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> ($(<span class="keyword">this</span>).siblings().attr(<span class="string">"class"</span>) == <span class="string">"open-element"</span> || $(<span class="keyword">this</span>).siblings().attr(<span class="string">"class"</span>) == <span class="string">"login-element"</span>) {
+      $(<span class="string">"#elements .disabled"</span>).removeClass(<span class="string">"disabled"</span>).draggable(<span class="string">"enable"</span>);
+      $(<span class="string">"#what-to-watch"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">false</span>).selectpicker(<span class="string">"refresh"</span>);
+      $(<span class="string">"#collection-name"</span>).prop(<span class="string">"disabled"</span>,<span class="literal">false</span>).selectpicker(<span class="string">"refresh"</span>);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-81">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-81">&#182;</a>
+              </div>
+              <p>if ($(&quot;#feedback-content .step-text&quot;).length == 0){
+  var $clone = $(&quot;#droppable-prototype&quot;).clone();
+  $clone.attr(&quot;id&quot;,&quot;&quot;).removeClass(&quot;hidden&quot;);
+  $(&quot;#feedback-content&quot;).append($clone);
+  _turnOnDrop();</p>
+<p>}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_addDroppableClicked</span><span class="params">(evt)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-82">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-82">&#182;</a>
+              </div>
+              <p>$clone the prototype</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> $clone = $(<span class="string">"#droppable-prototype"</span>).clone();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-83">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-83">&#182;</a>
+              </div>
+              <p>Clean it up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $clone.attr(<span class="string">"id"</span>,<span class="string">""</span>).removeClass(<span class="string">"hidden"</span>);
+    <span class="keyword">if</span> (config.debug) console.log($(<span class="string">"#step-texts"</span>).height());
+    <span class="keyword">if</span> ($(<span class="string">"#step-texts"</span>).height() &lt;= <span class="number">300</span>){
+      $(<span class="string">"#step-texts"</span>).append($clone);
+      <span class="keyword">if</span> ($(<span class="string">"#step-texts"</span>).height() &gt;= <span class="number">300</span>){
+        $(<span class="string">"#add-droppable"</span>).remove();
+      }
+    } <span class="keyword">else</span> {
+      $(<span class="string">"#add-droppable"</span>).remove();
+    }
+    _turnOnDrop();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-84">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-84">&#182;</a>
+              </div>
+              <p>If there are three (and the hidden prototype) then dont add more</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> ($(<span class="string">".droppable"</span>).length == <span class="number">4</span>){
+      $(<span class="string">"#add-droppable"</span>).remove();
+    }
+    $(<span class="string">".temp-close-btn"</span>).click(_closeClicked);
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_optionsClicked</span><span class="params">()</span>{</span>
+     _interactiveLessons();
+    <span class="keyword">if</span> ($(<span class="string">".options"</span>).hasClass(<span class="string">"hidden"</span>)){
+      $(<span class="string">".options"</span>).removeClass(<span class="string">"hidden"</span>);
+    } <span class="keyword">else</span> {
+      $(<span class="string">".options"</span>).addClass(<span class="string">"hidden"</span>);
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_addCongratsStep</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-85">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-85">&#182;</a>
+              </div>
+              <p>Create a new step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    currentStep = {
+      step_number : <span class="number">2</span>,
+      step_type : <span class="string">""</span>,
+      step_text : <span class="string">""</span>,
+      creator_id : BfUser.id
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-86">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-86">&#182;</a>
+              </div>
+              <p>Add it to the list</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newSteps.push(currentStep);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-87">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-87">&#182;</a>
+              </div>
+              <p>Add the congratulations step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> $clone = $(<span class="string">"#congrats-prototype"</span>).clone();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-88">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-88">&#182;</a>
+              </div>
+              <p>Clean it up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $clone.removeAttr(<span class="string">"id"</span>).removeClass(<span class="string">"hidden"</span>);
+    $(<span class="string">"#step-texts"</span>).empty();
+    $(<span class="string">"#step-texts"</span>).append($clone);
+    currentStep.step_type = <span class="string">"congrats"</span>;
+    _saveCurrentStep();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-89">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-89">&#182;</a>
+              </div>
+              <p>Go back to first step</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    currentStep = newSteps[<span class="number">0</span>];
+    _showCurrentStep();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_cleanUpStepsHTML</span><span class="params">()</span>{</span>
+    stepText = <span class="string">""</span>;
+    $.each(newSteps, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
+      stepText = newSteps[i].step_text;
+      stepText = stepText.replace(<span class="keyword">new</span> RegExp(<span class="string">'&lt;img class="temp-close-btn right" src="img/close-btn.png"&gt;'</span>, <span class="string">'g'</span>), <span class="string">""</span>);
+      stepText = stepText.replace(<span class="regexp">/(\r\n|\n|\r)/gm</span>,<span class="string">""</span>);
+      stepText = stepText.replace(<span class="regexp">/\s+/g</span>,<span class="string">" "</span>);
+      stepText = stepText.replace(<span class="keyword">new</span> RegExp(<span class="string">'Click to edit text.'</span>, <span class="string">'g'</span>),<span class="string">""</span>);
+      newSteps[i].step_text = stepText;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-90">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-90">&#182;</a>
+              </div>
+              <p>Clean up feedback
+feedback = newSteps[i].feedback;</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      newSteps[i].feedback = newSteps[i].feedback.replace(<span class="keyword">new</span> RegExp(<span class="string">'disabled="disabled"'</span>, <span class="string">'g'</span>), <span class="string">""</span>);
+      newSteps[i].feedback = newSteps[i].feedback.replace(<span class="keyword">new</span> RegExp(<span class="string">'Click to edit text.'</span>, <span class="string">'g'</span>),<span class="string">""</span>);
+      <span class="keyword">if</span> (config.debug) console.log(newSteps[i].feedback);
+    })
+
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_previewClicked</span><span class="params">(evt)</span>{</span>
+    _saveCurrentStep();
+    _cleanUpStepsHTML();
+    document.preview.lessonName.value = $(<span class="string">"#lesson-name"</span>).text();
+    document.preview.authorName.value = BfUser.name;
+    document.preview.steps.value =JSON.stringify(newSteps);
+    document.preview.serviceName.value = serviceName.toLowerCase();
+    document.preview.serviceId.value = serviceId;
+
+    <span class="keyword">var</span> url = <span class="string">'instructions.html'</span>;
+    <span class="keyword">var</span> width = <span class="number">340</span>;
+    <span class="keyword">var</span> height = window.screen.height;
+    <span class="keyword">var</span> left = window.screen.width - <span class="number">340</span>;
+    <span class="keyword">var</span> instructionOptions = <span class="string">"height="</span>+height+<span class="string">",width="</span>+width+<span class="string">",left="</span>+left;
+    window.open(url,<span class="string">"instructions"</span>,instructionOptions);
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_saveDraft</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (serviceId) {
+      _saveCurrentStep();
+      _cleanUpStepsHTML();
+      <span class="keyword">if</span> (editingLesson) {
+        _updateLesson(<span class="string">"draft"</span>);
+      } <span class="keyword">else</span> {
+        _checkForLesson(<span class="string">"draft"</span>);
+      }
+    } <span class="keyword">else</span> {
+      $(<span class="string">"#alert"</span>).removeClass(<span class="string">"hidden"</span>).text(<span class="string">"Choose a category and service."</span>)
+    }
+    
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_submitClicked</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (serviceId) {
+      _saveCurrentStep();
+      _cleanUpStepsHTML();
+      <span class="keyword">if</span> (editingLesson) {
+        _updateLesson(<span class="string">"submitted"</span>);
+      } <span class="keyword">else</span> {
+        _checkForLesson(<span class="string">"submitted"</span>);
+      }
+    } <span class="keyword">else</span> {
+      $(<span class="string">"#alert"</span>).removeClass(<span class="string">"hidden"</span>).text(<span class="string">"Choose a category and service."</span>)
+    }
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_updateLesson</span><span class="params">(state)</span>{</span>
+    <span class="keyword">var</span> updateLesson = {
+      service_id : serviceId,
+      creator_id : BfUser.id,
+      name : $(<span class="string">"#lesson-name"</span>).text(),
+      state : state
+    }
+    $.ajax({
+      type: <span class="string">"PUT"</span>,
+      contentType: <span class="string">"application/json"</span>,
+      url: config.bfUrl+config.bfApiVersion+<span class="string">'/lessons/'</span>+lessonId,
+      data: JSON.stringify(updateLesson),
+      dataType: <span class="string">"json"</span>,
+      success : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">if</span> (config.debug) {console.log(<span class="string">"Lesson updated."</span>)}
+        _updateSteps();
+      },
+      error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+        console.log(error)
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_updateSteps</span><span class="params">()</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-91">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-91">&#182;</a>
+              </div>
+              <p>Delete steps that we&#39;ve removed</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> filters = [{<span class="string">"name"</span>: <span class="string">"lesson_id"</span>, <span class="string">"op"</span>: <span class="string">"=="</span>, <span class="string">"val"</span>: lessonId}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+<span class="string">'/steps'</span>,
+      data: {<span class="string">"q"</span>: JSON.stringify({<span class="string">"filters"</span>: filters}), <span class="string">"single"</span> : <span class="literal">true</span>},
+      dataType: <span class="string">"json"</span>,
+      contentType: <span class="string">"application/json"</span>,
+      success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
+        $.each(data.objects, <span class="function"><span class="keyword">function</span><span class="params">(i,existingStep)</span>{</span>
+          <span class="keyword">var</span> inArray = <span class="literal">false</span>;
+          $.each(newSteps, <span class="function"><span class="keyword">function</span><span class="params">(x,newStep)</span>{</span>
+            <span class="keyword">if</span> (newStep.id == existingStep.id){
+              inArray = <span class="literal">true</span>;
+            }
+          })
+          <span class="keyword">if</span> (!inArray){
+            $.ajax({
+              url: config.bfUrl+config.bfApiVersion+<span class="string">'/steps/'</span>+existingStep.id,
+              type: <span class="string">"DELETE"</span>,
+              dataType: <span class="string">"json"</span>,
+              contentType: <span class="string">"application/json"</span>,
+              success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>console.log(<span class="string">"DELETED STEP: "</span>+existingStep.id)},
+              error: <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span> console.log(error)}
+            });
+          }
+        })
+      },
+      error: <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>console.log(error)}
+    });
+
+    $.each(newSteps, <span class="function"><span class="keyword">function</span> <span class="params">(i)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-92">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-92">&#182;</a>
+              </div>
+              <p>Clean up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      newSteps[i].lesson_id = lessonId;
+      <span class="keyword">delete</span> newSteps[i].step_state; <span class="comment">// Not needed</span>
+      <span class="keyword">if</span> (config.debug) console.log(JSON.stringify(newSteps[i]));
+      $.ajax({
+        type: <span class="string">"PUT"</span>,
+        contentType: <span class="string">"application/json"</span>,
+        url: config.bfUrl+config.bfApiVersion+<span class="string">'/steps/'</span>+newSteps[i].id,
+        data: JSON.stringify(newSteps[i]),
+        dataType: <span class="string">"json"</span>,
+        success : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+          <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Step updated."</span>)
+        },
+        error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+          $.ajax({
+            type: <span class="string">"POST"</span>,
+            contentType: <span class="string">"application/json"</span>,
+            url: config.bfUrl+config.bfApiVersion+<span class="string">'/steps'</span>,
+            data: JSON.stringify(newSteps[i]),
+            dataType: <span class="string">"json"</span>,
+            success : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+              <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Step posted."</span>)
+            },
+            error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+              console.log(error);
+            }
+          });
+        }
+      });
+    });
+    $(<span class="string">".lesson-name"</span>).text($(<span class="string">"#lesson-name"</span>).text());;
+    $(<span class="string">'#submissionModal'</span>).modal();
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_checkForLesson</span><span class="params">(state)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-93">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-93">&#182;</a>
+              </div>
+              <p>Post draft lesson</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    lessonName = $(<span class="string">"#lesson-name"</span>).text();
+    <span class="keyword">var</span> filters = [{<span class="string">"name"</span>: <span class="string">"name"</span>, <span class="string">"op"</span>: <span class="string">"=="</span>, <span class="string">"val"</span>: lessonName}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+<span class="string">'/lessons'</span>,
+      data: {<span class="string">"q"</span>: JSON.stringify({<span class="string">"filters"</span>: filters}), <span class="string">"single"</span> : <span class="literal">true</span>},
+      dataType: <span class="string">"json"</span>,
+      contentType: <span class="string">"application/json"</span>,
+      success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
+              </div>
+              <p>Lesson already exists, give user a warning</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (data.num_results){
+          $(<span class="string">"#alert"</span>).removeClass(<span class="string">"hidden"</span>).text(<span class="string">"A lesson with that name already exists."</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-95">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-95">&#182;</a>
+              </div>
+              <p>$(&quot;#lesson-name&quot;).popover({ content: &quot;Lesson already exists.&quot;, html: true, placement: &#39;right&#39; });
+$(&quot;#lesson-name&quot;).popover(&quot;show&quot;);
+$(&#39;#lesson-name&#39;).on(&#39;shown.bs.popover&#39;, function () {
+  $(&quot;html&quot;).click(function(){
+    $(&quot;#lesson-name&quot;).popover(&quot;destroy&quot;);
+  })
+})</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        } <span class="keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-96">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-96">&#182;</a>
+              </div>
+              <p>Lesson doesn&#39;t exist, post it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          _postLesson(state);
+        }
+      },
+      error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+        console.log(error);
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_postLesson</span><span class="params">(state)</span>{</span>
+    newLesson = {
+      service_id : serviceId,
+      creator_id : BfUser.id,
+      name : lessonName,
+      state : state
+    }
+    $.ajax({
+      type: <span class="string">"POST"</span>,
+      contentType: <span class="string">"application/json"</span>,
+      url: config.bfUrl+config.bfApiVersion+<span class="string">'/lessons'</span>,
+      data: JSON.stringify(newLesson),
+      dataType: <span class="string">"json"</span>,
+      success : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        _getLessonId(newLesson);
+
+      },
+      error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+        console.log(error)
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_getLessonId</span><span class="params">(newLesson)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-97">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-97">&#182;</a>
+              </div>
+              <p>Post draft lesson</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> filters = [{<span class="string">"name"</span>: <span class="string">"name"</span>, <span class="string">"op"</span>: <span class="string">"=="</span>, <span class="string">"val"</span>: newLesson[<span class="string">"name"</span>]}];
+    $.ajax({
+      url: config.bfUrl+config.bfApiVersion+<span class="string">'/lessons'</span>,
+      data: {<span class="string">"q"</span>: JSON.stringify({<span class="string">"filters"</span>: filters}), <span class="string">"single"</span> : <span class="literal">true</span>},
+      dataType: <span class="string">"json"</span>,
+      contentType: <span class="string">"application/json"</span>,
+      success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
+        <span class="keyword">if</span> (data.num_results){
+          lessonId = data.objects[<span class="number">0</span>].id
+          _postSteps();
+        newLesson[<span class="string">"id"</span>] = lessonId;
+
+        <span class="keyword">if</span> (newLesson.state == <span class="string">"submitted"</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-98">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-98">&#182;</a>
+              </div>
+              <p>Send an email to admins</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $.post(config.bfUrl+<span class="string">"/new_content_email"</span>, newLesson, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
+            <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Email sent to admins."</span>)
+            <span class="keyword">if</span> (config.debug) console.log(response);
+          })
+          }
+        }
+        
+      },
+      error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+        console.log(error);
+      }
+    });
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">_postSteps</span><span class="params">()</span>{</span>
+    $.each(newSteps, <span class="function"><span class="keyword">function</span> <span class="params">(i)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-99">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-99">&#182;</a>
+              </div>
+              <p>Clean up</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      newSteps[i].lesson_id = lessonId;
+      <span class="keyword">delete</span> newSteps[i].step_state; <span class="comment">// Not needed</span>
+      <span class="keyword">if</span> (config.debug) console.log(JSON.stringify(newSteps[i]));
+      $.ajax({
+        type: <span class="string">"POST"</span>,
+        contentType: <span class="string">"application/json"</span>,
+        url: config.bfUrl+config.bfApiVersion+<span class="string">'/steps'</span>,
+        data: JSON.stringify(newSteps[i]),
+        dataType: <span class="string">"json"</span>,
+        success : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+          <span class="keyword">if</span> (config.debug) console.log(<span class="string">"Step posted."</span>)
+        },
+        error : <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+          console.log(error);
+        }
+      });
+    });
+    $(<span class="string">".lesson-name"</span>).text($(<span class="string">"#lesson-name"</span>).text());;
+    $(<span class="string">'#submissionModal'</span>).modal();
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-100">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-100">&#182;</a>
+              </div>
+              <p>add public methods to the returned module and return it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  teach.init = init;
+  <span class="keyword">return</span> teach;
+}(teach || {}));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-101">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-101">&#182;</a>
+              </div>
+              <p>initialize the module</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>teach.init()</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
