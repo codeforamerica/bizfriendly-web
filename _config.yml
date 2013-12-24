@@ -1,1 +1,2 @@
 destination: _site
+include: ['__init__.html']

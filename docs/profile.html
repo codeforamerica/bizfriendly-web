@@ -1,522 +1,358 @@
 <!DOCTYPE html>
-
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <title>profile.js</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="docco.css" />
+  <link rel="stylesheet" href="pycco.css">
 </head>
 <body>
-  <div id="container">
-    <div id="background"></div>
-    
-      <ul id="jump_to">
-        <li>
-          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
-          <a class="small" href="javascript:void(0);">+</a>
-          <div id="jump_wrapper">
-          <div id="jump_page">
-            
-              
-              <a class="source" href="__init__.html">
-                __init__.py
-              </a>
-            
-              
-              <a class="source" href="admin.html">
-                admin.py
-              </a>
-            
-              
-              <a class="source" href="api.html">
-                api.py
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.py
-              </a>
-            
-              
-              <a class="source" href="forms.html">
-                forms.py
-              </a>
-            
-              
-              <a class="source" href="models.html">
-                models.py
-              </a>
-            
-              
-              <a class="source" href="routes.html">
-                routes.py
-              </a>
-            
-              
-              <a class="source" href="BfUser.html">
-                BfUser.js
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.js
-              </a>
-            
-              
-              <a class="source" href="connect.html">
-                connect.js
-              </a>
-            
-              
-              <a class="source" href="edit.html">
-                edit.js
-              </a>
-            
-              
-              <a class="source" href="instructions.html">
-                instructions.js
-              </a>
-            
-              
-              <a class="source" href="learn.html">
-                learn.js
-              </a>
-            
-              
-              <a class="source" href="lesson.html">
-                lesson.js
-              </a>
-            
-              
-              <a class="source" href="new-category.html">
-                new-category.js
-              </a>
-            
-              
-              <a class="source" href="new-service.html">
-                new-service.js
-              </a>
-            
-              
-              <a class="source" href="profile.html">
-                profile.js
-              </a>
-            
-              
-              <a class="source" href="service.html">
-                service.js
-              </a>
-            
-              
-              <a class="source" href="teach.html">
-                teach.js
-              </a>
-            
-          </div>
-        </li>
-      </ul>
-    
-    <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>profile.js</h1>
-              </div>
-          </li>
-        
-        
-        
-        <li id="section-1">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> profile = (<span class="function"><span class="keyword">function</span> <span class="params">(profile)</span> {</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>private properties</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> user_id = BfUser.id;
-  <span class="keyword">var</span> user_name = BfUser.name;
-  <span class="keyword">var</span> lessonsCompleted = [];
-  <span class="keyword">var</span> lessonsCreated = [];
-  <span class="keyword">var</span> profileID;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>PUBLIC METHODS
-initialize variables and load JSON</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span>{</span>
-    <span class="keyword">if</span> (config.debug) console.log(<span class="string">'init'</span>);
-    _loading();
-    _main();
-  }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>PRIVATE METHODS</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">_loading</span><span class="params">()</span>{</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p>console.log(&#39;Loading&#39;);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    $(<span class="string">'#main'</span>).toggle();
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_main</span><span class="params">(response)</span>{</span>
-    $(<span class="string">'#loading'</span>).toggle();
-    $(<span class="string">'#main'</span>).toggle();</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>Who&#39;s profile?</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    profileID = window.location.search.split(<span class="string">'?'</span>)[<span class="number">1</span>];</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>If id included in url, then show the public profile of that user</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (profileID){
-      _getUserInfo(profileID);
-      _getActivity(profileID);
-      _showLessonsCreated(profileID);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-8">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
-              </div>
-              <p>Hide draft and submitted lessons</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> (profileID != BfUser.id) {
-        $(<span class="string">"#draft"</span>).hide();
-        $(<span class="string">"#submitted"</span>).hide();
-      }
-    } <span class="keyword">else</span> {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-9">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
-              </div>
-              <p>If not, show logged in users private profile</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      _checkIfLoggedIn();
-      _getUserInfo(BfUser.id);
-      _getActivity(BfUser.id);
-      _showLessonsCreated(BfUser.id);
-    }
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_getUserInfo</span><span class="params">(userID)</span>{</span>
-    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/users/'</span>+userID, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-      $(<span class="string">".user-name"</span>).text(response.name);
-      $(<span class="string">".location"</span>).text(response.location);
-      $(<span class="string">".biz-name"</span>).text(response.business_name);
-    });
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_checkIfLoggedIn</span><span class="params">()</span>{</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-10">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
-              </div>
-              <p>Check if user is logged in</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (!BfUser.bfAccessToken){
-      $(<span class="string">'#main'</span>).hide();
-      $(<span class="string">'.login-required'</span>).show();
-    }
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_getActivity</span><span class="params">(userID)</span>{</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-11">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
-              </div>
-              <p>Get # of lessons completed</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/userlessons'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-      $.each(response.objects, <span class="function"><span class="keyword">function</span><span class="params">(i,userLesson)</span>{</span>
-        <span class="keyword">if</span> (userLesson.user.id == userID){
-          <span class="keyword">if</span> (userLesson.completed){
-            lessonsCompleted.push(userLesson);
-          }
-        }
-      })
-      $(<span class="string">"#lessons-complete"</span>).prepend(<span class="string">'&lt;span class="activity-number"&gt;'</span>+lessonsCompleted.length+<span class="string">'&lt;/span&gt;'</span>);
-      _displayLessonsCompleted();
-    });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-12">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
-              </div>
-              <p>Get number of requests</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/requests'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-      <span class="keyword">var</span> numOfRequests = <span class="number">0</span>;
-      $.each(response.objects, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
-        <span class="keyword">if</span> (response.objects[i].creator_id == userID){
-          numOfRequests++;
-        }
-      })
-      $(<span class="string">"#requests"</span>).prepend(<span class="string">'&lt;span class="activity-number"&gt;'</span>+numOfRequests+<span class="string">'&lt;/span&gt;'</span>);
-    });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-13">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
-              </div>
-              <p>Get number of lessons created</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/lessons'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-      <span class="keyword">var</span> numOfLessonsCreated = <span class="number">0</span>;
-      $.each(response.objects, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
-        <span class="keyword">if</span> (response.objects[i].creator_id == userID){
-          lessonsCreated.push(response.objects[i]);
-        }
-      })
-      $(<span class="string">"#lessons-created"</span>).prepend(<span class="string">'&lt;span class="activity-number"&gt;'</span>+lessonsCreated.length+<span class="string">'&lt;/span&gt;'</span>);
-    });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-14">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
-              </div>
-              <p>Get number of lessons taught</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/userlessons'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-      <span class="keyword">var</span> numOfLessonsTaught = <span class="number">0</span>;
-      $.each(response.objects, <span class="function"><span class="keyword">function</span><span class="params">(i,userLesson)</span>{</span>
-        <span class="keyword">if</span> (userLesson.lesson.creator_id == userID){
-          <span class="keyword">if</span> (userLesson.completed){
-            numOfLessonsTaught++;
-          }
-        }
-      })
-      $(<span class="string">"#lessons-taught"</span>).prepend(<span class="string">'&lt;span class="activity-number"&gt;'</span>+numOfLessonsTaught+<span class="string">'&lt;/span&gt;'</span>);
-    });
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_displayLessonsCompleted</span><span class="params">()</span>{</span>
-    <span class="keyword">if</span> (!lessonsCompleted){
-      html = <span class="string">"&lt;h2&gt;We see you haven't started learning on BizFriend.ly yet.&lt;/h2&gt;"</span>
-      html += <span class="string">"&lt;p&gt;Find a skill to start learning today.&lt;/p&gt;"</span>
-      html += <span class="string">'&lt;button type="button" href="learn.html" class="btn btn-default"&gt;Start Learning&lt;/button&gt;'</span>
-      $(<span class="string">"#services-learned"</span>).append(html);
-    } <span class="keyword">else</span> {
-      $.each(lessonsCompleted, <span class="function"><span class="keyword">function</span><span class="params">(i)</span>{</span>
-        <span class="keyword">var</span> html =<span class="string">""</span>;
-        url = config.bfUrl+config.bfApiVersion+<span class="string">'/services/'</span>+lessonsCompleted[i].lesson.service_id;
-        $.getJSON(url, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-          html += <span class="string">'&lt;div class="service-learned"&gt;'</span>;
-          html += <span class="string">'&lt;a href="/service.html?'</span>+response.id+<span class="string">'" class="service-name"&gt;'</span>+response.name+<span class="string">'&lt;/a&gt;'</span>;
-          $.each(lessonsCompleted, <span class="function"><span class="keyword">function</span><span class="params">(x)</span>{</span>
-            <span class="keyword">if</span> (lessonsCompleted[x].lesson.service_id == response.id){
-              html += <span class="string">'&lt;br/&gt;&lt;img src="img/green-check.png"&gt;'</span>;
-              html += <span class="string">'&lt;span class="lesson-name"&gt;'</span>+lessonsCompleted[x].lesson.name+<span class="string">'&lt;/span&gt;'</span>;
-              html += <span class="string">'&lt;span class="pull-right"&gt;'</span>+moment(lessonsCompleted[x].end_dt).format(<span class="string">"MMM Do YY"</span>)+<span class="string">'&lt;/span&gt;'</span>;
-            }
-          })
-          html += <span class="string">'&lt;/div&gt;'</span>;
-          $(<span class="string">"#services-learned"</span>).append(html);
-        })
-      });
-    }
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_showLessonsCreated</span><span class="params">(userID)</span>{</span>
-    <span class="keyword">if</span> (!lessonsCreated){
-      html = <span class="string">"&lt;h2&gt;We see you haven't started teaching on BizFriend.ly yet.&lt;/h2&gt;"</span>
-      html += <span class="string">'&lt;button type="button" href="teach.html" class="btn btn-default"&gt;Start Teaching&lt;/button&gt;'</span>
-      $(<span class="string">"#services-created"</span>).append(html);
-    } <span class="keyword">else</span> {
-      $.getJSON(config.bfUrl+config.bfApiVersion+<span class="string">'/lessons'</span>, <span class="function"><span class="keyword">function</span><span class="params">(response)</span>{</span>
-        $.each(response.objects, <span class="function"><span class="keyword">function</span><span class="params">(i, lesson)</span>{</span>
-          <span class="keyword">if</span> (lesson.creator_id == userID){
-            _displayLesson(lesson);
-          }
-        });
-      });
-    }
-  }
-
-  <span class="function"><span class="keyword">function</span> <span class="title">_displayLesson</span><span class="params">(lesson)</span>{</span>
-    <span class="keyword">var</span> html = <span class="string">'&lt;div class="row"&gt;'</span>;
-    html += <span class="string">'&lt;div class="col-lg-7"&gt;&lt;span class="lesson-name"&gt;'</span>+lesson.name+<span class="string">'&lt;/span&gt;&lt;/div&gt;'</span>;
-    html += <span class="string">'&lt;div class="col-lg-2"&gt;&lt;span class="content-type right"&gt;Lesson&lt;/span&gt;&lt;/div&gt;'</span>;
-    html += <span class="string">'&lt;div class="col-lg-2 col-lg-offset-1"&gt;'</span>;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-15">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
-              </div>
-              <p>If its your profile, show edit buttons</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (!profileID || profileID == BfUser.id) {
-      html += <span class="string">'&lt;a type="button" href="lesson-builder.html?'</span>+lesson.id+<span class="string">'" class="btn btn-default"&gt;Edit&lt;/a&gt;'</span>;
-    };
-    html += <span class="string">'&lt;/div&gt;'</span>;
-    html += <span class="string">'&lt;/div&gt;'</span>;
-    $(<span class="string">"#"</span>+lesson.state).append(html);
-  }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <p>add public methods to the returned module and return it</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  profile.init = init;
-  <span class="keyword">return</span> profile;
-}(profile|| {}));</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>initialize the module</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>profile.init()</pre></div></div>
-            
-        </li>
-        
-    </ul>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>profile.js</h1></div>
   </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">profile</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">profile</span><span class="p">)</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>private properties</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">user_id</span> <span class="o">=</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">user_name</span> <span class="o">=</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">lessonsCompleted</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">lessonsCreated</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">profileID</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>PUBLIC METHODS
+initialize variables and load JSON</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">init</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+    <span class="nx">_loading</span><span class="p">();</span>
+    <span class="nx">_main</span><span class="p">();</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>PRIVATE METHODS</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_loading</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>console.log('Loading');</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_main</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#loading&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Who's profile?</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">profileID</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>If id included in url, then show the public profile of that user</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">profileID</span><span class="p">){</span>
+      <span class="nx">_getUserInfo</span><span class="p">(</span><span class="nx">profileID</span><span class="p">);</span>
+      <span class="nx">_getActivity</span><span class="p">(</span><span class="nx">profileID</span><span class="p">);</span>
+      <span class="nx">_showLessonsCreated</span><span class="p">(</span><span class="nx">profileID</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Hide draft and submitted lessons</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span><span class="nx">profileID</span> <span class="o">!=</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#draft&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#submitted&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>If not, show logged in users private profile</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>      <span class="nx">_checkIfLoggedIn</span><span class="p">();</span>
+      <span class="nx">_getUserInfo</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="nx">_getActivity</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="nx">_showLessonsCreated</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_getUserInfo</span><span class="p">(</span><span class="nx">userID</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/users/&#39;</span><span class="o">+</span><span class="nx">userID</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.user-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.location&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">location</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.biz-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">business_name</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_checkIfLoggedIn</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Check if user is logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.login-required&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_getActivity</span><span class="p">(</span><span class="nx">userID</span><span class="p">){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Get # of lessons completed</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/userlessons&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">userLesson</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">userLesson</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="nx">userID</span><span class="p">){</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">userLesson</span><span class="p">.</span><span class="nx">completed</span><span class="p">){</span>
+            <span class="nx">lessonsCompleted</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">userLesson</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#lessons-complete&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;activity-number&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">lessonsCompleted</span><span class="p">.</span><span class="nx">length</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">);</span>
+      <span class="nx">_displayLessonsCompleted</span><span class="p">();</span>
+    <span class="p">});</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Get number of requests</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/requests&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="kd">var</span> <span class="nx">numOfRequests</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">creator_id</span> <span class="o">==</span> <span class="nx">userID</span><span class="p">){</span>
+          <span class="nx">numOfRequests</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#requests&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;activity-number&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">numOfRequests</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">);</span>
+    <span class="p">});</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Get number of lessons created</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/lessons&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="kd">var</span> <span class="nx">numOfLessonsCreated</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">creator_id</span> <span class="o">==</span> <span class="nx">userID</span><span class="p">){</span>
+          <span class="nx">lessonsCreated</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#lessons-created&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;activity-number&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">lessonsCreated</span><span class="p">.</span><span class="nx">length</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">);</span>
+    <span class="p">});</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Get number of lessons taught</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/userlessons&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="kd">var</span> <span class="nx">numOfLessonsTaught</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">userLesson</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">userLesson</span><span class="p">.</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">creator_id</span> <span class="o">==</span> <span class="nx">userID</span><span class="p">){</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">userLesson</span><span class="p">.</span><span class="nx">completed</span><span class="p">){</span>
+            <span class="nx">numOfLessonsTaught</span><span class="o">++</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#lessons-taught&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;activity-number&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">numOfLessonsTaught</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_displayLessonsCompleted</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">lessonsCompleted</span><span class="p">){</span>
+      <span class="nx">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;h2&gt;We see you haven&#39;t started learning on BizFriend.ly yet.&lt;/h2&gt;&quot;</span>
+      <span class="nx">html</span> <span class="o">+=</span> <span class="s2">&quot;&lt;p&gt;Find a skill to start learning today.&lt;/p&gt;&quot;</span>
+      <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;button type=&quot;button&quot; href=&quot;learn.html&quot; class=&quot;btn btn-default&quot;&gt;Start Learning&lt;/button&gt;&#39;</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#services-learned&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">lessonsCompleted</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/services/&#39;</span><span class="o">+</span><span class="nx">lessonsCompleted</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">service_id</span><span class="p">;</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;div class=&quot;service-learned&quot;&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;a href=&quot;/service.html?&#39;</span><span class="o">+</span><span class="nx">response</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;&quot; class=&quot;service-name&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">response</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">lessonsCompleted</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">lessonsCompleted</span><span class="p">[</span><span class="nx">x</span><span class="p">].</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">service_id</span> <span class="o">==</span> <span class="nx">response</span><span class="p">.</span><span class="nx">id</span><span class="p">){</span>
+              <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;br/&gt;&lt;img src=&quot;img/green-check.png&quot;&gt;&#39;</span><span class="p">;</span>
+              <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;span class=&quot;lesson-name&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">lessonsCompleted</span><span class="p">[</span><span class="nx">x</span><span class="p">].</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">;</span>
+              <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;span class=&quot;pull-right&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">moment</span><span class="p">(</span><span class="nx">lessonsCompleted</span><span class="p">[</span><span class="nx">x</span><span class="p">].</span><span class="nx">end_dt</span><span class="p">).</span><span class="nx">format</span><span class="p">(</span><span class="s2">&quot;MMM Do YY&quot;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">;</span>
+            <span class="p">}</span>
+          <span class="p">})</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#services-learned&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+        <span class="p">})</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_showLessonsCreated</span><span class="p">(</span><span class="nx">userID</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">lessonsCreated</span><span class="p">){</span>
+      <span class="nx">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;h2&gt;We see you haven&#39;t started teaching on BizFriend.ly yet.&lt;/h2&gt;&quot;</span>
+      <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;button type=&quot;button&quot; href=&quot;teach.html&quot; class=&quot;btn btn-default&quot;&gt;Start Teaching&lt;/button&gt;&#39;</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#services-created&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/lessons&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">lesson</span><span class="p">){</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">creator_id</span> <span class="o">==</span> <span class="nx">userID</span><span class="p">){</span>
+            <span class="nx">_displayLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_displayLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;div class=&quot;row&quot;&gt;&#39;</span><span class="p">;</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;div class=&quot;col-lg-7&quot;&gt;&lt;span class=&quot;lesson-name&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&lt;/div&gt;&#39;</span><span class="p">;</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;div class=&quot;col-lg-2&quot;&gt;&lt;span class=&quot;content-type right&quot;&gt;Lesson&lt;/span&gt;&lt;/div&gt;&#39;</span><span class="p">;</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;div class=&quot;col-lg-2 col-lg-offset-1&quot;&gt;&#39;</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>If its your profile, show edit buttons</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">profileID</span> <span class="o">||</span> <span class="nx">profileID</span> <span class="o">==</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;a type=&quot;button&quot; href=&quot;lesson-builder.html?&#39;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;&quot; class=&quot;btn btn-default&quot;&gt;Edit&lt;/a&gt;&#39;</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">;</span>
+    <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">;</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">state</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>add public methods to the returned module and return it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">profile</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="nx">init</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">profile</span><span class="p">;</span>
+<span class="p">}(</span><span class="nx">profile</span><span class="o">||</span> <span class="p">{}));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>initialize the module</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">profile</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
 </body>
-</html>

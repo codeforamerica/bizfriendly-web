@@ -1,179 +1,93 @@
 <!DOCTYPE html>
-
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <title>forms.py</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="docco.css" />
+  <link rel="stylesheet" href="pycco.css">
 </head>
 <body>
-  <div id="container">
-    <div id="background"></div>
-    
-      <ul id="jump_to">
-        <li>
-          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
-          <a class="small" href="javascript:void(0);">+</a>
-          <div id="jump_wrapper">
-          <div id="jump_page">
-            
-              
-              <a class="source" href="__init__.html">
-                __init__.py
-              </a>
-            
-              
-              <a class="source" href="admin.html">
-                admin.py
-              </a>
-            
-              
-              <a class="source" href="api.html">
-                api.py
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.py
-              </a>
-            
-              
-              <a class="source" href="forms.html">
-                forms.py
-              </a>
-            
-              
-              <a class="source" href="models.html">
-                models.py
-              </a>
-            
-              
-              <a class="source" href="routes.html">
-                routes.py
-              </a>
-            
-              
-              <a class="source" href="BfUser.html">
-                BfUser.js
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.js
-              </a>
-            
-              
-              <a class="source" href="connect.html">
-                connect.js
-              </a>
-            
-              
-              <a class="source" href="edit.html">
-                edit.js
-              </a>
-            
-              
-              <a class="source" href="instructions.html">
-                instructions.js
-              </a>
-            
-              
-              <a class="source" href="learn.html">
-                learn.js
-              </a>
-            
-              
-              <a class="source" href="lesson.html">
-                lesson.js
-              </a>
-            
-              
-              <a class="source" href="new-category.html">
-                new-category.js
-              </a>
-            
-              
-              <a class="source" href="new-service.html">
-                new-service.js
-              </a>
-            
-              
-              <a class="source" href="profile.html">
-                profile.js
-              </a>
-            
-              
-              <a class="source" href="service.html">
-                service.js
-              </a>
-            
-              
-              <a class="source" href="teach.html">
-                teach.js
-              </a>
-            
-          </div>
-        </li>
-      </ul>
-    
-    <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>forms.py</h1>
-              </div>
-          </li>
-        
-        
-        
-        <li id="section-1">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="keyword">from</span> flask.ext.wtf <span class="keyword">import</span> Form
-<span class="keyword">from</span> wtforms <span class="keyword">import</span> TextField, PasswordField
-<span class="keyword">from</span> models <span class="keyword">import</span> Bf_user
-<span class="keyword">from</span> datetime <span class="keyword">import</span> date
-
-<span class="keyword">from</span> bizfriendly <span class="keyword">import</span> app
-
-<span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span><span class="params">(Form)</span>:</span>
-    email = TextField()
-    password = PasswordField()
-
-    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span>
-        Form.__init__(self, *args, **kwargs)
-        self.user = <span class="keyword">None</span>
-
-    <span class="function"><span class="keyword">def</span> <span class="title">validate</span><span class="params">(self)</span>:</span>
-        <span class="keyword">if</span> <span class="keyword">not</span> Form.validate(self):
-            <span class="keyword">return</span> <span class="keyword">False</span>
-
-        user = Bf_user.query.filter_by(email=self.email.data).first()
-        <span class="keyword">if</span> user <span class="keyword">is</span> <span class="keyword">None</span>:
-            self.email.errors.append(<span class="string">'Unknown email'</span>)
-            <span class="keyword">return</span> <span class="keyword">False</span>
-
-        <span class="keyword">if</span> <span class="keyword">not</span> user.check_pw(self.password.data):
-            self.password.errors.append(<span class="string">'Invalid password'</span>)
-            <span class="keyword">return</span> <span class="keyword">False</span>
-
-        <span class="keyword">if</span> user.role != <span class="string">'admin'</span>:
-            self.email.errors.append(<span class="string">'Not an admin.'</span>)
-            <span class="keyword">return</span> <span class="keyword">False</span>
-
-        self.user = user
-        <span class="keyword">return</span> <span class="keyword">True</span></pre></div></div>
-            
-        </li>
-        
-    </ul>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>forms.py</h1></div>
   </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.ext.wtf</span> <span class="kn">import</span> <span class="n">Form</span>
+<span class="kn">from</span> <span class="nn">wtforms</span> <span class="kn">import</span> <span class="n">TextField</span><span class="p">,</span> <span class="n">PasswordField</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Bf_user</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+
+<span class="kn">from</span> <span class="nn">bizfriendly</span> <span class="kn">import</span> <span class="n">app</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">TextField</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">Form</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">None</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">Form</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="n">Bf_user</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Unknown email&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">check_pw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Invalid password&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="s">&#39;admin&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Not an admin.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
 </body>
-</html>

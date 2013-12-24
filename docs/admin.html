@@ -1,296 +1,256 @@
 <!DOCTYPE html>
-
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <title>admin.py</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="docco.css" />
+  <link rel="stylesheet" href="pycco.css">
 </head>
 <body>
-  <div id="container">
-    <div id="background"></div>
-    
-      <ul id="jump_to">
-        <li>
-          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
-          <a class="small" href="javascript:void(0);">+</a>
-          <div id="jump_wrapper">
-          <div id="jump_page">
-            
-              
-              <a class="source" href="__init__.html">
-                __init__.py
-              </a>
-            
-              
-              <a class="source" href="admin.html">
-                admin.py
-              </a>
-            
-              
-              <a class="source" href="api.html">
-                api.py
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.py
-              </a>
-            
-              
-              <a class="source" href="forms.html">
-                forms.py
-              </a>
-            
-              
-              <a class="source" href="models.html">
-                models.py
-              </a>
-            
-              
-              <a class="source" href="routes.html">
-                routes.py
-              </a>
-            
-              
-              <a class="source" href="BfUser.html">
-                BfUser.js
-              </a>
-            
-              
-              <a class="source" href="config.html">
-                config.js
-              </a>
-            
-              
-              <a class="source" href="connect.html">
-                connect.js
-              </a>
-            
-              
-              <a class="source" href="edit.html">
-                edit.js
-              </a>
-            
-              
-              <a class="source" href="instructions.html">
-                instructions.js
-              </a>
-            
-              
-              <a class="source" href="learn.html">
-                learn.js
-              </a>
-            
-              
-              <a class="source" href="lesson.html">
-                lesson.js
-              </a>
-            
-              
-              <a class="source" href="new-category.html">
-                new-category.js
-              </a>
-            
-              
-              <a class="source" href="new-service.html">
-                new-service.js
-              </a>
-            
-              
-              <a class="source" href="profile.html">
-                profile.js
-              </a>
-            
-              
-              <a class="source" href="service.html">
-                service.js
-              </a>
-            
-              
-              <a class="source" href="teach.html">
-                teach.js
-              </a>
-            
-          </div>
-        </li>
-      </ul>
-    
-    <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>admin.py</h1>
-              </div>
-          </li>
-        
-        
-        
-        <li id="section-1">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="keyword">from</span> flask.ext.admin.contrib.sqlamodel <span class="keyword">import</span> ModelView
-<span class="keyword">from</span> flask.ext.admin <span class="keyword">import</span> Admin, BaseView
-<span class="keyword">from</span> bizfriendly <span class="keyword">import</span> app
-<span class="keyword">from</span> models <span class="keyword">import</span> *
-<span class="keyword">from</span> forms <span class="keyword">import</span> LoginForm
-<span class="keyword">from</span> flask <span class="keyword">import</span> g, render_template, redirect, request, url_for
-<span class="keyword">from</span> flask.ext.login <span class="keyword">import</span> LoginManager, login_user, logout_user, current_user, login_required</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>LOGIN --</p>
-<p>login manager</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>lm = LoginManager()
-lm.init_app(app)
-lm.login_view = <span class="string">'login'</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>load login manager</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="decorator">@lm.user_loader</span>
-<span class="function"><span class="keyword">def</span> <span class="title">load_user</span><span class="params">(id)</span>:</span>
-    <span class="keyword">return</span> Bf_user.query.get(int(id))</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>set global user to current user</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="decorator">@app.before_request</span>
-<span class="function"><span class="keyword">def</span> <span class="title">before_request</span><span class="params">()</span>:</span>
-    g.user = current_user
-
-<span class="decorator">@app.route('/login', methods = ['GET', 'POST'])</span>
-<span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span>
-    form = LoginForm()</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p>if the user is authenticated, go to the index page</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> g.user <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> g.user.is_authenticated():
-        <span class="keyword">return</span> redirect(<span class="string">'/api/admin/'</span>)
-    <span class="keyword">else</span>:
-        <span class="keyword">if</span> form.validate_on_submit():
-            user = Bf_user.query.filter_by(email=form.email.data).first()
-            login_user(user)
-            <span class="keyword">return</span> redirect(<span class="string">'/api/admin/'</span>)
-
-    <span class="keyword">return</span> render_template(<span class="string">'login.html'</span>,
-            title = <span class="string">'Sign In'</span>,
-            form = form)
-
-<span class="class"><span class="keyword">class</span> <span class="title">AdminView</span><span class="params">(ModelView)</span>:</span>
-    <span class="function"><span class="keyword">def</span> <span class="title">is_accessible</span><span class="params">(self)</span>:</span>
-        <span class="keyword">return</span> current_user.is_authenticated()</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>ADMIN ------------------------------------------------------------</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>admin = Admin(app, name=<span class="string">'BizFriend.ly Admin'</span>, url=<span class="string">'/api/admin'</span>)
-
-<span class="class"><span class="keyword">class</span> <span class="title">CategoryView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-
-<span class="class"><span class="keyword">class</span> <span class="title">ServiceView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-    column_auto_select_related = <span class="keyword">True</span>
-
-<span class="class"><span class="keyword">class</span> <span class="title">LessonView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-    column_auto_select_related = <span class="keyword">True</span>
-
-<span class="class"><span class="keyword">class</span> <span class="title">StepView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-    column_auto_select_related = <span class="keyword">True</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>column_list = (&#39;lesson_id&#39;,&#39;lesson&#39;,&#39;id&#39;,&#39;name&#39;,&#39;step_number&#39;,&#39;step_type&#39;,&#39;step_text&#39;,&#39;trigger_endpoint&#39;,&#39;trigger_check&#39;,&#39;trigger_value&#39;,&#39;thing_to_remember&#39;,&#39;feedback&#39;,&#39;next_step_number&#39;)
-column_sortable_list = ((&#39;lesson_id&#39;,Lesson.id),&#39;name&#39;,&#39;step_type&#39;)</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Bf_userView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-    column_list = (<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'email'</span>,<span class="string">'business_name'</span>,<span class="string">'location'</span>,<span class="string">'role'</span>)
-
-<span class="class"><span class="keyword">class</span> <span class="title">UserLessonView</span><span class="params">(AdminView)</span>:</span>
-    column_display_pk = <span class="keyword">True</span>
-    column_auto_select_related = <span class="keyword">True</span>
-
-admin.add_view(CategoryView(Category, db.session))
-admin.add_view(CategoryView(Service, db.session))
-admin.add_view(LessonView(Lesson, db.session))
-admin.add_view(StepView(Step, db.session))
-admin.add_view(Bf_userView(Bf_user, db.session))
-admin.add_view(UserLessonView(UserLesson, db.session))</pre></div></div>
-            
-        </li>
-        
-    </ul>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>admin.py</h1></div>
   </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.ext.admin.contrib.sqlamodel</span> <span class="kn">import</span> <span class="n">ModelView</span>
+<span class="kn">from</span> <span class="nn">flask.ext.admin</span> <span class="kn">import</span> <span class="n">Admin</span><span class="p">,</span> <span class="n">BaseView</span>
+<span class="kn">from</span> <span class="nn">bizfriendly</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">forms</span> <span class="kn">import</span> <span class="n">LoginForm</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span>
+<span class="kn">from</span> <span class="nn">flask.ext.login</span> <span class="kn">import</span> <span class="n">LoginManager</span><span class="p">,</span> <span class="n">login_user</span><span class="p">,</span> <span class="n">logout_user</span><span class="p">,</span> <span class="n">current_user</span><span class="p">,</span> <span class="n">login_required</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>LOGIN --</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>login manager</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">lm</span> <span class="o">=</span> <span class="n">LoginManager</span><span class="p">()</span>
+<span class="n">lm</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">lm</span><span class="o">.</span><span class="n">login_view</span> <span class="o">=</span> <span class="s">&#39;login&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>load login manager</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@lm.user_loader</span>
+<span class="k">def</span> <span class="nf">load_user</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Bf_user</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>set global user to current user</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@app.before_request</span>
+<span class="k">def</span> <span class="nf">before_request</span><span class="p">():</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">current_user</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">LoginForm</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>if the user is authenticated, go to the index page</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/api/admin/&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">Bf_user</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">login_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/api/admin/&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;login.html&#39;</span><span class="p">,</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s">&#39;Sign In&#39;</span><span class="p">,</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">form</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">AdminView</span><span class="p">(</span><span class="n">ModelView</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">is_accessible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>ADMIN ------------------------------------------------------------</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">admin</span> <span class="o">=</span> <span class="n">Admin</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;BizFriend.ly Admin&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s">&#39;/api/admin&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">CategoryView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">ServiceView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">column_auto_select_related</span> <span class="o">=</span> <span class="bp">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">LessonView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">column_auto_select_related</span> <span class="o">=</span> <span class="bp">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">StepView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">column_auto_select_related</span> <span class="o">=</span> <span class="bp">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>column_list = ('lesson_id','lesson','id','name','step_number','step_type','step_text','trigger_endpoint','trigger_check','trigger_value','thing_to_remember','feedback','next_step_number')
+column_sortable_list = (('lesson_id',Lesson.id),'name','step_type')</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Bf_userView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">column_list</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span><span class="s">&#39;name&#39;</span><span class="p">,</span><span class="s">&#39;email&#39;</span><span class="p">,</span><span class="s">&#39;business_name&#39;</span><span class="p">,</span><span class="s">&#39;location&#39;</span><span class="p">,</span><span class="s">&#39;role&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">UserLessonView</span><span class="p">(</span><span class="n">AdminView</span><span class="p">):</span>
+    <span class="n">column_display_pk</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">column_auto_select_related</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">CategoryView</span><span class="p">(</span><span class="n">Category</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">CategoryView</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">LessonView</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">StepView</span><span class="p">(</span><span class="n">Step</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">Bf_userView</span><span class="p">(</span><span class="n">Bf_user</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">UserLessonView</span><span class="p">(</span><span class="n">UserLesson</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
 </body>
-</html>
