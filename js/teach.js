@@ -340,7 +340,9 @@ var teach = (function (teach) {
       $("#alert").addClass("hidden");
       return(value)
       }, { 
+        type: "textarea",
         onblur : "submit",
+        rows : 2,
         submit  : 'OK'
     });
   }
