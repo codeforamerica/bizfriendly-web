@@ -438,7 +438,7 @@ var teach = (function (teach) {
         },{
           type: "textarea",
           rows : 3,
-          cols : 35,
+          cols : 27,
           onblur : "submit",
           submit : "OK"
       });
@@ -490,7 +490,7 @@ var teach = (function (teach) {
         },{
           type: "textarea",
           rows : 3,
-          cols : 35,
+          cols : 27,
           onblur : "submit",
           submit : "OK"
       });
@@ -591,7 +591,7 @@ var teach = (function (teach) {
     },{
       type : "textarea",
       rows : 3,
-      cols : 35,
+      cols : 27,
       onblur : "submit",
       submit : "OK"
     });
