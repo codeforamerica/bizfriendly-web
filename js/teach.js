@@ -358,7 +358,6 @@ var teach = (function (teach) {
 
     // Save current step
     newSteps.push(currentStep);
-    _updateProgressBar();
   }
 
   function _addNewStep(){
@@ -403,12 +402,8 @@ var teach = (function (teach) {
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
-    stepText = '<div class="col-xs-12">';
-    $.each($("#step-texts .active"), function(i){
-      stepText += $("#step-texts .active")[i].outerHTML;
-    })
-    stepText += "</div>";
-    currentStep.step_text = stepText;
+    $(".temp").remove()
+    currentStep.step_text = $("#step-texts").html();
     // Save feedback
     currentStep.feedback = $("#feedback-content").html();
     // Then add it to newSteps
@@ -476,13 +471,13 @@ var teach = (function (teach) {
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
         // Clean it up
-        $clone.attr("id","").removeClass("hidden");
+        $clone.attr("id","").removeClass("hidden").addClass("temp");
         $("#step-texts").append($clone);
       }
-      // if ($("#feedback-content").children().length == 0){
-      //   // $clone.addClass("active");
-      //   $("#feedback-content").append($clone);
-      // }
+      if ($("#feedback-content").children().length == 0){
+        // $clone.addClass("active");
+        $("#feedback-content").append($clone);
+      }
     } else {
       $("#feedback-window").hide();
       $("#step-close-btn").hide();
@@ -549,40 +544,6 @@ var teach = (function (teach) {
         $('.step'+newSteps[i].step_number+'_progress').html('');
       }
     });
-    console.log(newSteps);
-    
-    // while ($("#teach-dots-amount li").length < newSteps.length){
-    //   $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
-    // } 
-    // while ($("#teach-dots-amount li").length > newSteps.length){
-    //   $('#teach-dots-amount li').last().remove();
-    // }
-    // Check number of dots
-    // if (editingLesson) {
-    //   var counter = 0;
-    //   while ($(".progress-dots li").length < newSteps.length){
-    //     $('.progress-dots').append('<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>');
-    //     counter = counter + 1;
-    //   } 
-    //   while ($(".progress-dots li").length > newSteps.length){
-    //     $('.progress-dots li').last().remove();
-    //   }
-    // } else {
-    //   if ($(".progress-dots li").length < newSteps.length){
-    //     $('.progress-dots').append('<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>');
-    //     counter = counter + 1;
-    //   }  else if ($(".progress-dots li").length > newSteps.length){
-    //     $('.progress-dots li').last().remove();
-    //   }
-    // }
-    // $(newSteps).each(function(i){
-    //   $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
-    //   if (newSteps[i].step_number == currentStep.step_number){
-    //     $('.step'+newSteps[i].step_number+'_progress').html('<h2>'+currentStep.step_number+'</h2>');
-    //   } else {
-    //     $('.step'+newSteps[i].step_number+'_progress').html('');
-    //   }
-    // })
   }
 
   function _makeEditable($clone){
@@ -804,7 +765,7 @@ var teach = (function (teach) {
     // $clone the prototype
     var $clone = $("#droppable-prototype").clone();
     // Clean it up
-    $clone.attr("id","").removeClass("hidden");
+    $clone.attr("id","").removeClass("hidden").addClass("temp");
     if (config.debug) console.log($("#step-texts").height());
     if ($("#step-texts").height() <= 300){
       $("#step-texts").append($clone);
