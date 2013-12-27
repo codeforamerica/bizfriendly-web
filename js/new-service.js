@@ -223,7 +223,8 @@ var newService = (function (newService) {
 
   function _checkForService(state){
     // Post draft lesson
-    var filters = [{"name": "name", "op": "==", "val": $("#new-service-name").text()}];
+    console.log($("#new-service-name").val());
+    var filters = [{"name": "name", "op": "==", "val": $("#new-service-name").val()}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/services',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
@@ -231,7 +232,7 @@ var newService = (function (newService) {
       contentType: "application/json",
       success: function(data) {
         // Service already exists, give user a warning
-        console.log(data);
+        console.log(JSON.stringify(data));
         if (data.num_results){
           $(".alert").removeClass("hidden");
         } else {
@@ -240,7 +241,7 @@ var newService = (function (newService) {
         }
       },
       error : function(error){
-        console.log(error);
+        console.log(JSON.stringify(error));
       }
     });
   }
@@ -249,7 +250,9 @@ var newService = (function (newService) {
     // If no video embed, use an image instead.
     var media = $("#video-embed").val();
     if (!media) {
-      media = "<img src="+$("#uploaded-image img").attr("src")+"/>";
+      if ($("#uploaded-image img").attr('src')){
+        media = "<img src="+$("#uploaded-image img").attr("src")+"/>";
+      }
     }
     newService = {
       name : $("#new-service-name").val(),
@@ -264,7 +267,8 @@ var newService = (function (newService) {
       creator_id : BfUser.id,
       category_id : $("#category-id").val()
     }
-    console.log(newService);
+    console.log(JSON.stringify(newService));
+
     $.ajax({
       type: "POST",
       contentType: "application/json",
@@ -272,7 +276,6 @@ var newService = (function (newService) {
       data: JSON.stringify(newService),
       dataType: "json",
       success : function(){
-        console.log(newService);
         $(".service-name").text($("#new-service-name").val())
         $('#submissionModal').modal()
 
@@ -287,6 +290,7 @@ var newService = (function (newService) {
       },
       error : function(error){
         $(".alert").removeClass("hidden");
+        console.log(JSON.stringify(error));
       }
     });
   }
