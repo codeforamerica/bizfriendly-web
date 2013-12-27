@@ -639,15 +639,23 @@ var teach = (function (teach) {
           $clone.appendTo( this );
           _makeEditable($clone);
 
+          var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
+          $('#open').popover({ content: content, html: true, placement: 'right' });
+
           $("#open").click(function(){
             if (config.debug) console.log("open clicked");
 
-            var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
-            $('#open').popover({ content: content, html: true, placement: 'right' });
+            $("#open-url").val(currentStep.trigger_endpoint);
             $('#open').popover("show");
             $("#open-url-submit").click(function(){
               currentStep.step_type = "open";
-              currentStep.trigger_endpoint = $("#open-url").val();
+              // Ensure there is an http in front of the url.
+              var url = $("#open-url").val();
+              if (url.indexOf("http") == -1){
+                url = "http://" + url;
+              }
+              currentStep.trigger_endpoint = url;
+              console.log(currentStep.trigger_endpoint)
               $("#open").popover("hide");
             })
           })
