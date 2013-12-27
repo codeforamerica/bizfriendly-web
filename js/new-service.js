@@ -55,7 +55,7 @@ var newService = (function (newService) {
   }
 
   function _iconUpload(){
-    $("#icon-upload").attr("data-url",config.bfUrl+"/image_upload");
+    $("#icon-upload").attr("data-url",config.bfUrl+"/image_upload?icon");
     $('#icon-upload').fileupload({
         dataType: 'json',
         done: function (e, data) {
@@ -63,7 +63,7 @@ var newService = (function (newService) {
                 // console.log(index);
                 // console.log(file);
                 $("#icon-upload-form").remove();
-                $("#uploaded-icon").html('<img src="'+file.url+'" width="50">');
+                $("#uploaded-icon").html('<img src="'+file.url+'">');
             });
         },
         progressall: function (e, data) {
@@ -74,15 +74,17 @@ var newService = (function (newService) {
           );
         },
         error : function(response){
-          response = $.parseJSON(response.responseText);
-          $('#icon-upload-form').append(response["message"]);
-          // console.log(response.responseText);
+          console.log(response);
+          if (response.status != 200){
+            response = $.parseJSON(response.responseText);
+            $('#icon-upload-form').append(response["message"]).addClass("alert alert-danger");
+          }
         }
     });
   }
 
   function _imageUpload(){
-    $("#image-upload").attr("data-url",config.bfUrl+"/image_upload");
+    $("#image-upload").attr("data-url",config.bfUrl+"/image_upload?service");
     $('#image-upload').fileupload({
         dataType: 'json',
         done: function (e, data) {
@@ -101,9 +103,11 @@ var newService = (function (newService) {
           );
         },
         error : function(response){
-          response = $.parseJSON(response.responseText);
-          $('#image-upload-form').append(response["message"]);
-          // console.log(response.responseText);
+          console.log(response);
+          if (response.status != 200){
+            response = $.parseJSON(response.responseText);
+            $('#image-upload-form').append(response["message"]).addClass("alert alert-danger");
+          }
         }
     });
   }
@@ -204,7 +208,7 @@ var newService = (function (newService) {
     }
     $("#previewModal .modal-body").append("Uploaded Icon: "+$("#uploaded-icon").html()+"<br/>");
     $("#previewModal .modal-body").append("Uploaded Image: "+$("#uploaded-image").html()+"<br/>");
-    $("#previewModal .modal-body").append("YouTube Link: "+$("#service-video-link").val()+"<br/>");
+    $("#previewModal .modal-body").append("Vimeo Embed: "+$("#video-embed").val()+"<br/>");
     
     $('#previewModal').modal()
   }
@@ -242,9 +246,10 @@ var newService = (function (newService) {
   }
 
   function _postService(state){
-    var media = $("#service-video-link").val();
+    // If no video embed, use an image instead.
+    var media = $("#video-embed").val();
     if (!media) {
-      media = $("#uploaded-image img").attr("src");
+      media = "<img src="+$("#uploaded-image img").attr("src")+"/>";
     }
     newService = {
       name : $("#new-service-name").val(),

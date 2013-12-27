@@ -1272,6 +1272,10 @@ section .btn{
 	text-decoration: underline;
 }
 
+#new-service input {
+	margin-bottom: 10px;
+}
+
 
 /* bootstrap additions */
 .alert-success a{
