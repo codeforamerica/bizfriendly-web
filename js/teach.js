@@ -659,12 +659,9 @@ var teach = (function (teach) {
           $('#fileupload').fileupload({
               dataType: 'json',
               done: function (e, data) {
-                  $.each(data.result.files, function (index, file) {
-                      // console.log(index);
-                      // console.log(file);
-                      $("#img-upload-form").remove();
-                      $(".image-element").append('<img class="uploaded-image" src="'+file.url+'">');
-                  });
+                var url = 'https://bizfriendly-img-uploads.s3.amazonaws.com/'+data.files[0].name;
+                $("#img-upload-form").remove();
+                $(".image-element").append('<img class="uploaded-image" src="'+url+'">');
               },
               progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -676,7 +673,6 @@ var teach = (function (teach) {
               error : function(response){
                 response = $.parseJSON(response.responseText);
                 $('#img-upload-form').append(response["message"]);
-                // console.log(response.responseText);
               }
           });
         }
@@ -830,7 +826,7 @@ var teach = (function (teach) {
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
-      if (config.debug) console.log(newSteps[i].feedback);
+      // if (config.debug) console.log(newSteps[i].feedback);
     })
 
   }
@@ -909,7 +905,7 @@ var teach = (function (teach) {
     var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/steps',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      data: {"q": {"filters": filters}, "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
@@ -971,12 +967,11 @@ var teach = (function (teach) {
   }
 
   function _checkForLesson(state){
-    // Post draft lesson
     lessonName = $("#lesson-name").text();
     var filters = [{"name": "name", "op": "==", "val": lessonName}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      data: {"q": {"filters": filters}, "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
@@ -1015,6 +1010,7 @@ var teach = (function (teach) {
       data: JSON.stringify(newLesson),
       dataType: "json",
       success : function(){
+        console.log("Lesson Posted");
         _getLessonId(newLesson);
 
       },
@@ -1025,15 +1021,15 @@ var teach = (function (teach) {
   }
 
   function _getLessonId(newLesson){
-    // Post draft lesson
     var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+      data: {"q": {"filters": filters}, "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
         if (data.num_results){
+          console.log("WHOOOOO");
           lessonId = data.objects[0].id
           _postSteps();
         newLesson["id"] = lessonId;
@@ -1045,6 +1041,8 @@ var teach = (function (teach) {
             if (config.debug) console.log(response);
           })
           }
+        } else {
+          console.dir(data);
         }
         
       },

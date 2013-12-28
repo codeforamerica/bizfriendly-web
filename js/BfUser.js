@@ -119,7 +119,7 @@ var BfUser = (function (BfUser)  {
         email : $('#email').val(),
         password : $('#password').val()
     }
-    if (config.debug) console.log(newUser);
+    if (config.debug) console.log(JSON.stringify(newUser));
     $.post(config.bfUrl + '/signup', newUser, _signedUp).fail(_badPost);
   }
 

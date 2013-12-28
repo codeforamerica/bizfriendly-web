@@ -39,7 +39,7 @@ var newCategory = (function (newCategory) {
   }
 
   function _checkOnCategory(state){
-    var filters = [{"name": "name", "op": "==", "val": $("#new-skill-name").text()}];
+    var filters = [{"name": "name", "op": "==", "val": $("#new-skill-name").val()}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/categories',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
@@ -55,7 +55,7 @@ var newCategory = (function (newCategory) {
         }
       },
       error : function(error){
-        console.log(error);
+        console.log(JSON.stringify(error));
       }
     });
   }

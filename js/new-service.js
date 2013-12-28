@@ -88,12 +88,9 @@ var newService = (function (newService) {
     $('#image-upload').fileupload({
         dataType: 'json',
         done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                // console.log(index);
-                // console.log(file);
-                $("#image-upload-form").remove();
-                $("#uploaded-image").html('<img src="'+file.url+'">');
-            });
+          var url = 'https://bizfriendly-img-uploads.s3.amazonaws.com/'+data.files[0].name;
+          $("#image-upload-form").remove();
+          $("#uploaded-image").html('<img src="'+url+'">');
         },
         progressall: function (e, data) {
           var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -103,7 +100,7 @@ var newService = (function (newService) {
           );
         },
         error : function(response){
-          console.log(response);
+          console.log(JSON.stringify(response));
           if (response.status != 200){
             response = $.parseJSON(response.responseText);
             $('#image-upload-form').append(response["message"]).addClass("alert alert-danger");
@@ -251,7 +248,7 @@ var newService = (function (newService) {
     var media = $("#video-embed").val();
     if (!media) {
       if ($("#uploaded-image img").attr('src')){
-        media = "<img src="+$("#uploaded-image img").attr("src")+"/>";
+        media = $("#uploaded-image").html();
       }
     }
     newService = {
