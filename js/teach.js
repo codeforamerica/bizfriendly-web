@@ -858,31 +858,38 @@ var teach = (function (teach) {
   }
 
   function _saveDraft(){
-    if (serviceId) {
-      _saveCurrentStep();
-      _cleanUpStepsHTML();
-      if (editingLesson) {
-        _updateLesson("draft");
+    if ($("#terms").prop("checked")){
+      if (serviceId) {
+        _saveCurrentStep();
+        _cleanUpStepsHTML();
+        if (editingLesson) {
+          _updateLesson("draft");
+        } else {
+          _checkForLesson("draft");
+        }
       } else {
-        _checkForLesson("draft");
+        $("#alert").removeClass("hidden").text("Choose a category and service up top.")
       }
     } else {
-      $("#alert").removeClass("hidden").text("Choose a category and service.")
+      $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
     }
-    
   }
 
   function _submitClicked(){
-    if (serviceId) {
-      _saveCurrentStep();
-      _cleanUpStepsHTML();
-      if (editingLesson) {
-        _updateLesson("submitted");
+    if ($("#terms").prop("checked")){
+      if (serviceId) {
+        _saveCurrentStep();
+        _cleanUpStepsHTML();
+        if (editingLesson) {
+          _updateLesson("submitted");
+        } else {
+          _checkForLesson("submitted");
+        }
       } else {
-        _checkForLesson("submitted");
+        $("#alert").removeClass("hidden").text("Choose a category and service up top.")
       }
     } else {
-      $("#alert").removeClass("hidden").text("Choose a category and service.")
+      $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
     }
   }
 
