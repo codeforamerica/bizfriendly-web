@@ -38,12 +38,13 @@ js: teach
         </form>
         <div id="lesson-builder">
             <div id="teach-dots" class="row">
-                <!-- <div> -->
                     <a class="inline-block back"><img src="img/left.png"></a>
                     <div id="current-dot" class="inline-block"></div>
                     <a class="inline-block next"><img src="img/right.png"></a>
-                    <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
-                <!-- </div> -->
+                    <div id="add-new-step">
+                        <a class="inline-block"><img src="img/add-btn.png"></a>
+                        <p><span id="remaining-steps"></span> more steps.</p>
+                    </div>
                 <ul id="teach-dots-amount" class="list-inline">
                 </ul>
             </div>

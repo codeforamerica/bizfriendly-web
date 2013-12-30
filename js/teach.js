@@ -527,9 +527,9 @@ var teach = (function (teach) {
 
     // Only allow 12 steps
     if (newSteps.length >= 12){
-      $("#add-new-step img").hide();
+      $("#add-new-step img, #add-new-step p ").hide();
     } else {
-      $("#add-new-step img").show();
+      $("#add-new-step img, #add-new-step p").show();
     }
   }
 
@@ -556,6 +556,9 @@ var teach = (function (teach) {
         $('.step'+newSteps[i].step_number+'_progress').html('');
       }
     });
+    // Update remaining steps
+    var remainingSteps = 12 - newSteps.length;
+    $("#remaining-steps").text(remainingSteps);
   }
 
   function _makeEditable($clone){

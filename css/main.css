@@ -303,10 +303,13 @@ hr {
 }
 
 #teach-dots {
+	margin: 0 auto;
 	text-align: center;
 	position: relative;
 	top: -30px;
 	left:30px;
+	padding-top: 35px;
+	width : 300px;
 }
 
 #teach-dots-amount {
@@ -637,13 +640,11 @@ legend {
 	font-size: 48px;
 }
 
-
-#add-new-step img {
-	padding-top: 35px;
+#add-new-step {
+	width: 50px;
+	float: right;
+	font-size: 10px;
 }
-
-
-
 
 #elements .disabled {
 	background-color: #666;
