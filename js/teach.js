@@ -52,6 +52,7 @@ var teach = (function (teach) {
     $("#submit").click(_submitClicked);
     $(".temp-close-btn").click(_closeClicked);
     $("#step-options-btn").click(_optionsClicked);
+    $('li.progress-button').click(_progressClicked);
   }
 
   function _checkIfLoggedIn(){
@@ -111,7 +112,7 @@ var teach = (function (teach) {
         $("#submit").click(_submitClicked);
         $(".temp-close-btn").click(_closeClicked);
         $("#step-options-btn").click(_optionsClicked);
-
+        $('li.progress-button').click(_progressClicked);
       });
     });
 
@@ -513,6 +514,7 @@ var teach = (function (teach) {
     // Turn on drop
     _turnOnDrop();
     $(".temp-close-btn").click(_closeClicked);
+    $('li.progress-button').click(_progressClicked);
 
     // Only allow 12 steps
     if (newSteps.length >= 12){
@@ -783,6 +785,14 @@ var teach = (function (teach) {
     } else {
       $(".options").addClass("hidden");
     }
+  }
+
+  // progress circle li element is clicked
+  function _progressClicked(evt) {
+    console.log("Clicked Step: " + $(this).attr('data-target'));
+    _saveCurrentStep();
+    currentStep = newSteps[$(this).attr('data-target') - 1];
+    _showCurrentStep();
   }
 
   function _addCongratsStep(){
