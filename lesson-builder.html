@@ -38,12 +38,12 @@ js: teach
         </form>
         <div id="lesson-builder">
             <div id="teach-dots" class="row">
-                <div>
+                <!-- <div> -->
                     <a class="inline-block back"><img src="img/left.png"></a>
                     <div id="current-dot" class="inline-block"></div>
                     <a class="inline-block next"><img src="img/right.png"></a>
                     <a id="add-new-step" class="inline-block"><img src="img/add-btn.png"></a>
-                </div>
+                <!-- </div> -->
                 <ul id="teach-dots-amount" class="list-inline">
                 </ul>
             </div>
@@ -111,6 +111,8 @@ js: teach
                         <button id="preview" type="button" class="btn btn-default btn-block">Preview</button>
                         <button id="save-draft" type="button" class="btn btn-default btn-block">Save Draft</button>
                         <button id="submit" type="button" class="btn btn-primary btn-block">Submit</button>
+                        <input id="terms" type="checkbox" checked> <span class="bold">Agree to Terms</span>
+                        <p><small>When you create new content on BizFriend.ly you’re agreeing to share with the community. All content on BizFriend.ly is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></p>
                         <div id="alert" class="alert alert-danger hidden">WHAT</div>
                     </div>
                 </div>
@@ -191,12 +193,12 @@ js: teach
 </div>
 
 <div id="congrats-prototype" class="hidden center">
-    <div id="congrats-icons" class="step-text active center">
+    <div id="congrats-icons" class="step-text center">
         <img class="congrats-img" src="img/icon-like.png">
         <p class="bold element-editable">Click to edit text.</p>
         <p class="plain element-editable">Click to edit text.</p>
     </div>
-    <div id="congrats-share" class="step-text active center">
+    <div id="congrats-share" class="step-text center">
         <p class="bold">Share Your Success</p>
         <ul class="list-inline">
           <li><a id="fb-share" rel="nofollow"><img src="img/socialshare_fb_o.png"></a></li>
@@ -206,7 +208,7 @@ js: teach
           <li><a id="li-share" rel="nofollow"><img src="img/socialshare_email_o.png"></a></li>
         </ul>
     </div>
-    <div id="congrats-links" class="step-text active center">
+    <div id="congrats-links" class="step-text center">
         <p class="bold">Find Out More</p>
         <ul>
             <li><a id="additional-resources" type="button" class="btn btn-teach btn-xs btn-block orange">Additional Resources</a><li>

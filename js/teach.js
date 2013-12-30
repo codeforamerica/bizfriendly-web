@@ -463,9 +463,16 @@ var teach = (function (teach) {
       $("#collection-name").prop("disabled",true).selectpicker("refresh");
     }
     
-
-    // Show three new temp texts
+    // Set up non congrats steps
     if (currentStep.step_type != "congrats"){
+      // Add close button back to existing steps
+      if (editingLesson) {
+        if ($(".step-text.active").find(".temp-close-btn").length == 0) {
+          $(".step-text.active").prepend('<img class="temp-close-btn right" src="img/close-btn.png">');
+        }
+      }
+
+      // Show three new temp texts
       $("#feedback-window").show();
       $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
@@ -481,6 +488,8 @@ var teach = (function (teach) {
     } else {
       $("#feedback-window").hide();
       $("#step-close-btn").hide();
+      // Become active when visible. Helps when searching for active elements on other steps.
+      $(".step-text").addClass(".active");
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
           return (value);
