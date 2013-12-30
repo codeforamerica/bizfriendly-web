@@ -666,7 +666,6 @@ var teach = (function (teach) {
         // If image-element
         if ($(ui.draggable[0]).attr("id") == "image-element-drag"){
           // Clear image upload from prototype
-          $("#image-prototype").find(".uploaded-image").remove();
           $("#image-prototype").find(".progress-bar-success").css("width","0px");
           var $clone = $("#image-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
@@ -676,9 +675,11 @@ var teach = (function (teach) {
           $('#fileupload').fileupload({
               dataType: 'json',
               done: function (e, data) {
+                // Clean up image element so it doesn't show up on other image-elements
                 var url = 'https://bizfriendly-img-uploads.s3.amazonaws.com/'+data.files[0].name;
                 $("#img-upload-form").remove();
-                $(".image-element").append('<img class="uploaded-image" src="'+url+'">');
+                $(".image-element:first").append('<img class="uploaded-image" src="'+url+'">');
+                $(".image-element:first").removeClass("image-element");
               },
               progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
