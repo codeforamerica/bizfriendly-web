@@ -489,7 +489,7 @@ var teach = (function (teach) {
       $("#feedback-window").hide();
       $("#step-close-btn").hide();
       // Become active when visible. Helps when searching for active elements on other steps.
-      $(".step-text").addClass(".active");
+      $(".step-text:visible").addClass("active");
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
           return (value);
@@ -665,6 +665,9 @@ var teach = (function (teach) {
 
         // If image-element
         if ($(ui.draggable[0]).attr("id") == "image-element-drag"){
+          // Clear image upload from prototype
+          $("#image-prototype").find(".uploaded-image").remove();
+          $("#image-prototype").find(".progress-bar-success").css("width","0px");
           var $clone = $("#image-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
