@@ -62,7 +62,7 @@ var teach = (function (teach) {
       $('#teach-main').hide();
       $('.login-required').show();
     } else {
-      // if (config.debug) console.log('Logged In');
+      if (config.debug) console.log('Logged In');
       $("#author-name").text(BfUser.name);
     }
   }
@@ -80,16 +80,15 @@ var teach = (function (teach) {
         })
       }
 
-      // console.log(lesson);
       lessonName = lesson.name;
       $("#lesson-name").text(lessonName);
       newSteps = lesson.steps;
+      if (config.debug) console.log(newSteps);
       serviceId = lesson.service_id;
       $.getJSON(config.bfUrl+config.bfApiVersion+'/services/'+serviceId, function(service){
         serviceName = service.name;
         categoryId = service.category_id;
         categoryName = service.category.name;
-        // console.log(service);
 
         $('.draggable').draggable({ revert: true });
         // Get all the existing categories
@@ -223,7 +222,7 @@ var teach = (function (teach) {
 
   function _watchInteractiveOptions(){
     $("#options-form").on("change", "#what-to-watch", function(){
-      console.log($("#what-to-watch").val());
+
       if ($("#what-to-watch").val() != "What is this step watching?"){
         // Disable open, login, and text-input
         $("#login-element-drag").addClass("disabled").draggable("disable");
@@ -381,21 +380,21 @@ var teach = (function (teach) {
     _showCurrentStep();
   }
 
+  // Remove the current step
   function _removeStep(){
-    if (newSteps.length > 2){
-      newSteps.splice(currentStep.step_number-1, 1);
-      if (config.debug) console.log(newSteps);
-      currentStep = newSteps[currentStep.step_number - 2];
-      _updateStepNumbers();
-      _showCurrentStep();
-      // _backStep();
-    }
+    newSteps.splice(currentStep.step_number-1, 1);
+    _updateStepNumbers();
+    $.each(newSteps, function(i, newStep){
+      if (currentStep.step_number == newStep.step_number){
+        currentStep = newStep;
+      }
+    })
+    _showCurrentStep();
   }
 
   function _updateStepNumbers(){
-    if (config.debug) console.log(newSteps);
-    $.each(newSteps, function(i){
-      newSteps[i].step_number = i+1;
+    $.each(newSteps, function(i, newStep){
+      newStep.step_number = i+1;
     })
   }
 
@@ -616,7 +615,6 @@ var teach = (function (teach) {
                 url = "http://" + url;
               }
               currentStep.trigger_endpoint = url;
-              console.log(currentStep.trigger_endpoint)
               $("#open").popover("hide");
             })
           })
@@ -699,15 +697,14 @@ var teach = (function (teach) {
 
   // Set the newSteps state
   function _updateStepsStates(){
-    // if (config.debug) console.log('updating newSteps states');
-    $(newSteps).each(function(i){
-      if (currentStep.step_number == newSteps[i].step_number){
+    $(newSteps).each(function(i, newStep){
+      if (currentStep.step_number == newStep.step_number){
         newSteps[i].step_state = "active";
       }
-      if (currentStep.step_number > newSteps[i].step_number){
+      if (currentStep.step_number > newStep.step_number){
         newSteps[i].step_state = "finished";
       }
-      if (currentStep.step_number < newSteps[i].step_number){
+      if (currentStep.step_number < newStep.step_number){
         newSteps[i].step_state = "unfinished";
       }
     })
@@ -826,7 +823,7 @@ var teach = (function (teach) {
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
-      // if (config.debug) console.log(newSteps[i].feedback);
+      if (config.debug) console.log(newSteps[i].feedback);
     })
 
   }
@@ -901,22 +898,24 @@ var teach = (function (teach) {
   }
 
   function _updateSteps(){
-    // Delete steps that we've removed
+    // Find all existing steps for this lesson
+    // compare them against the edited steps
+    // delete any that dont exist any more.
     var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/steps',
       data: {"q": {"filters": filters}, "single" : true},
       dataType: "json",
       contentType: "application/json",
-      success: function(data) {
+      success: function(data) { 
         $.each(data.objects, function(i,existingStep){
-          var inArray = false;
+          var oldStepStillInNewSteps = false;
           $.each(newSteps, function(x,newStep){
             if (newStep.id == existingStep.id){
-              inArray = true;
+              oldStepStillInNewSteps = true;
             }
           })
-          if (!inArray){
+          if (!oldStepStillInNewSteps){
             $.ajax({
               url: config.bfUrl+config.bfApiVersion+'/steps/'+existingStep.id,
               type: "DELETE",
@@ -935,7 +934,6 @@ var teach = (function (teach) {
       // Clean up
       newSteps[i].lesson_id = lessonId;
       delete newSteps[i].step_state; // Not needed
-      if (config.debug) console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "PUT",
         contentType: "application/json",
@@ -1029,7 +1027,6 @@ var teach = (function (teach) {
       contentType: "application/json",
       success: function(data) {
         if (data.num_results){
-          console.log("WHOOOOO");
           lessonId = data.objects[0].id
           _postSteps();
         newLesson["id"] = lessonId;
@@ -1057,7 +1054,6 @@ var teach = (function (teach) {
       // Clean up
       newSteps[i].lesson_id = lessonId;
       delete newSteps[i].step_state; // Not needed
-      if (config.debug) console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "POST",
         contentType: "application/json",
