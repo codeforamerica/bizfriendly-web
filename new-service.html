@@ -9,7 +9,7 @@ js: new-service
         <ul class="list-inline col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
             <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
             <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
-            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="request-content.html">Content Requests</a></li>
+            <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="https://docs.google.com/a/codeforamerica.org/forms/d/1walyyOEbAibc3lVtJgkyaMib7oHvfvEu7zfSCROzh70/viewform">Content Requests</a></li>
         </ul>
     </div>
     <div id="subheader" class="row">
@@ -24,7 +24,7 @@ js: new-service
 
     <section id="main" class="row">
         <form id="new-category-form" role="form" class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
-            <legend class="blue">Service Information</legend>
+            <legend class="green">Service Information</legend>
             <p>To create a lesson about a web service that is new to BizFriend.ly, you'll have to provide some information that helps others know why they should learn about it.</p>
             <div class="form-group">
                 <input type="text" class="form-control" id="new-service-name" placeholder="Name of website / web service">
@@ -39,7 +39,7 @@ js: new-service
                 <textarea id="new-service-long-description" class="form-control" placeholder="Longer description for the service landing page that describes what the web service does and its of value to small business owners." rows="4"></textarea>
             </div>
 
-            <legend class="blue">Tips to Keep in Mind</legend>
+            <legend class="green">Tips to Keep in Mind</legend>
             <p>Up to three brief points that learners should keep in mind.</p>
             <div class="form-group">
                 <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
@@ -59,7 +59,7 @@ js: new-service
                     <input type="text" class="form-control hidden" id="tips3" placeholder="Tips to keep in mind">
                 </div>
             </div>
-            <legend class="blue">Additional Resources</legend>
+            <legend class="green">Additional Resources</legend>
             <p>Add up to five links to additional resources related to how to use the web service.</p>
             <div class="form-group">
                 <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
@@ -115,7 +115,7 @@ js: new-service
                 </div>
             </div>
 
-            <legend class="blue">Service Icon</legend>
+            <legend class="green">Service Icon</legend>
             <p>Add an icon for the web service. It’s important that the icon is 30 pixels by 30 pixels or less. See the <a href="teaching-guide.html">teaching guide</a> for more info on icons.</p>
             <div id="icon-upload-form">
                 <input id="icon-upload" type="file" name="files[]">
@@ -128,7 +128,7 @@ js: new-service
             </div>
             <div id="uploaded-icon"></div>
 
-            <legend class="blue">Service Video or Image</legend>
+            <legend class="green">Service Video or Image</legend>
             <p>Add an image or a video about the web service. The image should be 600 pixels by 338 pixels and either a JPEG or PNG. To add a video, you’ll want to first upload it to Vimeo, set the embed settings to only include the video title and set the size to 600 x 338 pixels, and then copy and paste the entire embed link into the form. </p>
             <div id="image-upload-form">
                 <label for="image-upload">Image Upload</label>
@@ -144,10 +144,10 @@ js: new-service
 
             <div class="form-group">
                 <label for="video-embed">Video Embed</label>
-                <input id="video-embed" type="url" class="form-control" id="service-video-link" placeholder="Copy and paste Vimeo embed code.">
+                <input id="video-embed" type="url" class="form-control" placeholder="Copy and paste Vimeo embed code.">
             </div>
             <div class="form-group">
-                <legend class="blue">Select A Skill</legend>
+                <legend class="green">Select A Skill</legend>
                 <p>Select a skill that best fits with your web service. If none of the options look right, use the "add new skill" option in the menu to create a new skill.</p>
                 <br/>
                 <select id="category-id" class="selectpicker" data-width="auto"></select>
@@ -192,7 +192,7 @@ js: new-service
             <b>You created a new service called <span class="service-name orange"></span></b>
             <p>To ensure high quality content on BizFriend.ly, your service will be reviewed by a real human before it goes live. In the meantime, you can build lessons for your web service by selecting the skill and web service in the pulldown menu at the top of the <a href="lesson-builder.html">lesson builder<a/>.</p>
             <a type="button" class="btn btn-default" href="/new-service.html">Create Another</a>
-            <!--<a type="button" class="btn btn-default" href="/profile.html">>See What You've Created</a>-->
+            <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

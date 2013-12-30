@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>new-category.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>new-category.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">newCategory</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">newCategory</span><span class="p">)</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>private properties</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>PUBLIC METHODS
+initialize variables and load JSON</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">init</span><span class="p">(){</span>
+    <span class="nx">_main</span><span class="p">()</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>PRIVATE METHODS</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_main</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Make sure they are logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">_checkIfLoggedIn</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#preview&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_previewClicked</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#save-draft&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_saveDraftClicked</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#submit&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_submitClicked</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_checkIfLoggedIn</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.login-required&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_previewClicked</span><span class="p">(){</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#previewModal .modal-title&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-name&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">());</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#previewModal .modal-body&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-description&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">());</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#previewModal&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_saveDraftClicked</span><span class="p">(){</span>
+    <span class="nx">_checkOnCategory</span><span class="p">(</span><span class="s2">&quot;draft&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_submitClicked</span><span class="p">(){</span>
+    <span class="nx">_checkOnCategory</span><span class="p">(</span><span class="s2">&quot;submitted&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_checkOnCategory</span><span class="p">(</span><span class="nx">state</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">filters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;op&quot;</span><span class="o">:</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">()}];</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/categories&#39;</span><span class="p">,</span>
+      <span class="nx">data</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;q&quot;</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="s2">&quot;filters&quot;</span><span class="o">:</span> <span class="nx">filters</span><span class="p">}),</span> <span class="s2">&quot;single&quot;</span> <span class="o">:</span> <span class="kc">true</span><span class="p">},</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Service already exists, give user a warning</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">num_results</span><span class="p">){</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.alert&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Lesson doesn't exist, post it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="nx">_postCategory</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nx">error</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_postCategory</span><span class="p">(</span><span class="nx">state</span><span class="p">){</span>
+    <span class="nx">newCategory</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">name</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-name&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+      <span class="nx">description</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-description&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+      <span class="nx">state</span> <span class="o">:</span> <span class="nx">state</span><span class="p">,</span>
+      <span class="nx">creator_id</span> <span class="o">:</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span>
+    <span class="p">}</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+      <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/categories&#39;</span><span class="p">,</span>
+      <span class="nx">data</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">newCategory</span><span class="p">),</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+      <span class="nx">success</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#submissionModal .skill-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#new-skill-name&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">());</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#submissionModal&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">();</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Send an email to admins</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">newCategory</span><span class="p">.</span><span class="nx">state</span> <span class="o">==</span> <span class="s2">&quot;submitted&quot;</span><span class="p">){</span>
+          <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="s2">&quot;/new_content_email&quot;</span><span class="p">,</span> <span class="nx">newCategory</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Email sent to admins.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+        
+      <span class="p">},</span>
+      <span class="nx">error</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.alert&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>add public methods to the returned module and return it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">newCategory</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="nx">init</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">newCategory</span><span class="p">;</span>
+<span class="p">}(</span><span class="nx">newCategory</span> <span class="o">||</span> <span class="p">{}));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>initialize the module</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">newCategory</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

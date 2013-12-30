@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>service.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>service.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="kd">var</span> <span class="nx">service</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="kd">var</span> <span class="nx">lessons</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">lessonCompleted</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>PUBLIC METHODS
+initialize variables and load JSON</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">init</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+    <span class="nx">serviceId</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Call the API and get that service</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">_loading</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/services/&#39;</span><span class="o">+</span><span class="nx">serviceId</span><span class="p">,</span> <span class="nx">_main</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>PRIVATE METHODS</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_loading</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>console.log('Loading');</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_main</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#loading&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main&#39;</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+    <span class="nx">service</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
+    <span class="nx">lessons</span> <span class="o">=</span> <span class="nx">service</span><span class="p">.</span><span class="nx">lessons</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>_makeSummary();</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">_checkIfLoggedIn</span><span class="p">();</span>
+    <span class="nx">_showService</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_checkIfLoggedIn</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#main-text .btn&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.login-required&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_showService</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">service</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#service-icon&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span><span class="nx">service</span><span class="p">.</span><span class="nx">icon</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#service-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#service-description&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">long_description</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#tips&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">tips</span><span class="p">)</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#additional-resources&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">additional_resources</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#tips&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">tips</span><span class="p">)</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#service-media&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">media</span><span class="p">);</span>
+    <span class="nx">_lessonTable</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#teach-callout .service-name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_lessonTable</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Fill up table tbody</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">lessons</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">lesson</span><span class="p">){</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">state</span> <span class="o">==</span> <span class="s2">&quot;published&quot;</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">numberOfLearners</span><span class="p">;</span>
+        <span class="nx">lessonCompleted</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Get number of learners</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="kd">var</span> <span class="nx">filters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;lesson_id&quot;</span><span class="p">,</span> <span class="s2">&quot;op&quot;</span><span class="o">:</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="o">:</span> <span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="p">}];</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+          <span class="nx">url</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s1">&#39;/userlessons&#39;</span><span class="p">,</span>
+          <span class="nx">data</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;q&quot;</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="s2">&quot;filters&quot;</span><span class="o">:</span> <span class="nx">filters</span><span class="p">})},</span>
+          <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+          <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">numberOfLearners</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">num_results</span><span class="p">;</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">objects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">userLesson</span><span class="p">){</span>
+              <span class="k">if</span> <span class="p">(</span><span class="nx">userLesson</span><span class="p">.</span><span class="nx">completed</span> <span class="o">&amp;&amp;</span> <span class="nx">userLesson</span><span class="p">.</span><span class="nx">user_id</span> <span class="o">==</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">){</span>
+                <span class="nx">lessonCompleted</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+              <span class="p">}</span>
+            <span class="p">})</span>
+          <span class="p">},</span>
+          <span class="nx">error</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">lessons</span><span class="p">);</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;&lt;td&gt;&#39;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">lessonCompleted</span><span class="p">){</span>
+            <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;img src=&quot;img/green-check.png&quot;&gt;&#39;</span>
+          <span class="p">}</span>
+          <span class="nx">html</span> <span class="o">+=</span><span class="s1">&#39;&lt;a id=&quot;&#39;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;&quot; class=&quot;orange bold instructions-link&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;br/&gt;&lt;p class=&quot;author-name&quot;&gt;Created by &lt;span class=&quot;author-name&#39;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">creator_id</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;td&gt;&#39;</span><span class="o">+</span><span class="nx">numberOfLearners</span><span class="o">+</span><span class="s1">&#39;&lt;/td&gt;&lt;/tr&gt;&#39;</span><span class="p">;</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#tbody&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+          <span class="nx">_getCreatorName</span><span class="p">(</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="o">+</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_instructionsLinkClicked</span><span class="p">);</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_getCreatorName</span><span class="p">(</span><span class="nx">lessonId</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfApiVersion</span><span class="o">+</span><span class="s2">&quot;/lessons/&quot;</span><span class="o">+</span><span class="nx">lessonId</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.author-name&#39;</span><span class="o">+</span><span class="nx">response</span><span class="p">.</span><span class="nx">creator_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">creator</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+
+
+  <span class="kd">function</span> <span class="nx">_instructionsLinkClicked</span><span class="p">(</span><span class="nx">evt</span><span class="p">){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Make sure they are logged in first</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.alert&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;Whoa! You need to log in first.&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;hidden&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Open the lesson and the modal.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#instructionsModal&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>10 seconds later the modal closes.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>      <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#instructionsModal&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">)</span>
+      <span class="p">},</span><span class="mi">10000</span><span class="p">);</span>
+      <span class="nx">lessonId</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;instructions.html?&#39;</span><span class="o">+</span><span class="nx">lessonId</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="mi">340</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">screen</span><span class="p">.</span><span class="nx">width</span> <span class="o">-</span> <span class="mi">340</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">instructionOptions</span> <span class="o">=</span> <span class="s2">&quot;height=&quot;</span><span class="o">+</span><span class="nx">height</span><span class="o">+</span><span class="s2">&quot;,width=&quot;</span><span class="o">+</span><span class="nx">width</span><span class="o">+</span><span class="s2">&quot;,left=&quot;</span><span class="o">+</span><span class="nx">left</span><span class="p">;</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="s2">&quot;instructions&quot;</span><span class="p">,</span><span class="nx">instructionOptions</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>add public methods to the returned module and return it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">service</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="nx">init</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">service</span><span class="p">;</span>
+<span class="p">}(</span><span class="nx">service</span> <span class="o">||</span> <span class="p">{}));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>initialize the module</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">service</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -52,6 +52,7 @@ var teach = (function (teach) {
     $("#submit").click(_submitClicked);
     $(".temp-close-btn").click(_closeClicked);
     $("#step-options-btn").click(_optionsClicked);
+    $('li.progress-button').click(_progressClicked);
   }
 
   function _checkIfLoggedIn(){
@@ -62,7 +63,7 @@ var teach = (function (teach) {
       $('#teach-main').hide();
       $('.login-required').show();
     } else {
-      // if (config.debug) console.log('Logged In');
+      if (config.debug) console.log('Logged In');
       $("#author-name").text(BfUser.name);
     }
   }
@@ -80,16 +81,15 @@ var teach = (function (teach) {
         })
       }
 
-      // console.log(lesson);
       lessonName = lesson.name;
       $("#lesson-name").text(lessonName);
       newSteps = lesson.steps;
+      if (config.debug) console.log(newSteps);
       serviceId = lesson.service_id;
       $.getJSON(config.bfUrl+config.bfApiVersion+'/services/'+serviceId, function(service){
         serviceName = service.name;
         categoryId = service.category_id;
         categoryName = service.category.name;
-        // console.log(service);
 
         $('.draggable').draggable({ revert: true });
         // Get all the existing categories
@@ -112,7 +112,7 @@ var teach = (function (teach) {
         $("#submit").click(_submitClicked);
         $(".temp-close-btn").click(_closeClicked);
         $("#step-options-btn").click(_optionsClicked);
-
+        $('li.progress-button').click(_progressClicked);
       });
     });
 
@@ -223,7 +223,7 @@ var teach = (function (teach) {
 
   function _watchInteractiveOptions(){
     $("#options-form").on("change", "#what-to-watch", function(){
-      console.log($("#what-to-watch").val());
+
       if ($("#what-to-watch").val() != "What is this step watching?"){
         // Disable open, login, and text-input
         $("#login-element-drag").addClass("disabled").draggable("disable");
@@ -340,7 +340,9 @@ var teach = (function (teach) {
       $("#alert").addClass("hidden");
       return(value)
       }, { 
+        type: "textarea",
         onblur : "submit",
+        rows : 2,
         submit  : 'OK'
     });
   }
@@ -356,7 +358,6 @@ var teach = (function (teach) {
 
     // Save current step
     newSteps.push(currentStep);
-    _updateProgressBar();
   }
 
   function _addNewStep(){
@@ -380,33 +381,29 @@ var teach = (function (teach) {
     _showCurrentStep();
   }
 
+  // Remove the current step
   function _removeStep(){
-    if (newSteps.length > 2){
-      newSteps.splice(currentStep.step_number-1, 1);
-      if (config.debug) console.log(newSteps);
-      currentStep = newSteps[currentStep.step_number - 2];
-      _updateStepNumbers();
-      _showCurrentStep();
-      // _backStep();
-    }
+    newSteps.splice(currentStep.step_number-1, 1);
+    _updateStepNumbers();
+    $.each(newSteps, function(i, newStep){
+      if (currentStep.step_number == newStep.step_number){
+        currentStep = newStep;
+      }
+    })
+    _showCurrentStep();
   }
 
   function _updateStepNumbers(){
-    if (config.debug) console.log(newSteps);
-    $.each(newSteps, function(i){
-      newSteps[i].step_number = i+1;
+    $.each(newSteps, function(i, newStep){
+      newStep.step_number = i+1;
     })
   }
 
   function _saveCurrentStep(){
     // Save the active step-texts in currentStep
     // TODO: Save feedback too
-    stepText = '<div class="col-xs-12">';
-    $.each($("#step-texts .active"), function(i){
-      stepText += $("#step-texts .active")[i].outerHTML;
-    })
-    stepText += "</div>";
-    currentStep.step_text = stepText;
+    $(".temp").remove()
+    currentStep.step_text = $("#step-texts").html();
     // Save feedback
     currentStep.feedback = $("#feedback-content").html();
     // Then add it to newSteps
@@ -438,7 +435,7 @@ var teach = (function (teach) {
         },{
           type: "textarea",
           rows : 3,
-          cols : 35,
+          cols : 27,
           onblur : "submit",
           submit : "OK"
       });
@@ -466,31 +463,40 @@ var teach = (function (teach) {
       $("#collection-name").prop("disabled",true).selectpicker("refresh");
     }
     
-
-    // Show three new temp texts
+    // Set up non congrats steps
     if (currentStep.step_type != "congrats"){
+      // Add close button back to existing steps
+      if (editingLesson) {
+        if ($(".step-text.active").find(".temp-close-btn").length == 0) {
+          $(".step-text.active").prepend('<img class="temp-close-btn right" src="img/close-btn.png">');
+        }
+      }
+
+      // Show three new temp texts
       $("#feedback-window").show();
       $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
         // Clean it up
-        $clone.attr("id","").removeClass("hidden");
+        $clone.attr("id","").removeClass("hidden").addClass("temp");
         $("#step-texts").append($clone);
       }
-      // if ($("#feedback-content").children().length == 0){
-      //   // $clone.addClass("active");
-      //   $("#feedback-content").append($clone);
-      // }
+      if ($("#feedback-content").children().length == 0){
+        // $clone.addClass("active");
+        $("#feedback-content").append($clone);
+      }
     } else {
       $("#feedback-window").hide();
       $("#step-close-btn").hide();
+      // Become active when visible. Helps when searching for active elements on other steps.
+      $(".step-text:visible").addClass("active");
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
           return (value);
         },{
           type: "textarea",
           rows : 3,
-          cols : 35,
+          cols : 27,
           onblur : "submit",
           submit : "OK"
       });
@@ -517,10 +523,13 @@ var teach = (function (teach) {
     // Turn on drop
     _turnOnDrop();
     $(".temp-close-btn").click(_closeClicked);
+    $('li.progress-button').click(_progressClicked);
 
     // Only allow 12 steps
     if (newSteps.length >= 12){
-      $("#add-new-step").hide();
+      $("#add-new-step img, #add-new-step p ").hide();
+    } else {
+      $("#add-new-step img, #add-new-step p").show();
     }
   }
 
@@ -547,40 +556,9 @@ var teach = (function (teach) {
         $('.step'+newSteps[i].step_number+'_progress').html('');
       }
     });
-    console.log(newSteps);
-    
-    // while ($("#teach-dots-amount li").length < newSteps.length){
-    //   $('#teach-dots-amount').append('<li><img src="img/blue-dot.png"></li>');
-    // } 
-    // while ($("#teach-dots-amount li").length > newSteps.length){
-    //   $('#teach-dots-amount li').last().remove();
-    // }
-    // Check number of dots
-    // if (editingLesson) {
-    //   var counter = 0;
-    //   while ($(".progress-dots li").length < newSteps.length){
-    //     $('.progress-dots').append('<li class="step'+newSteps[counter].step_number+'_progress progress-button" data-target="'+newSteps[counter].step_number+'"></li>');
-    //     counter = counter + 1;
-    //   } 
-    //   while ($(".progress-dots li").length > newSteps.length){
-    //     $('.progress-dots li').last().remove();
-    //   }
-    // } else {
-    //   if ($(".progress-dots li").length < newSteps.length){
-    //     $('.progress-dots').append('<li class="step'+newSteps[newSteps.length - 1].step_number+'_progress progress-button" data-target="'+newSteps[newSteps.length - 1].step_number+'"></li>');
-    //     counter = counter + 1;
-    //   }  else if ($(".progress-dots li").length > newSteps.length){
-    //     $('.progress-dots li').last().remove();
-    //   }
-    // }
-    // $(newSteps).each(function(i){
-    //   $('.step'+newSteps[i].step_number+'_progress').removeClass('unfinished active finished').addClass(newSteps[i].step_state);
-    //   if (newSteps[i].step_number == currentStep.step_number){
-    //     $('.step'+newSteps[i].step_number+'_progress').html('<h2>'+currentStep.step_number+'</h2>');
-    //   } else {
-    //     $('.step'+newSteps[i].step_number+'_progress').html('');
-    //   }
-    // })
+    // Update remaining steps
+    var remainingSteps = 12 - newSteps.length;
+    $("#remaining-steps").text(remainingSteps);
   }
 
   function _makeEditable($clone){
@@ -591,7 +569,7 @@ var teach = (function (teach) {
     },{
       type : "textarea",
       rows : 3,
-      cols : 35,
+      cols : 27,
       onblur : "submit",
       submit : "OK"
     });
@@ -603,11 +581,6 @@ var teach = (function (teach) {
         $( this ).children(".temp-text").remove();
         $( this ).removeClass("temp").addClass("active");
         $( this ).removeClass("droppable ui-droppable");
-
-        // Height of step-texts
-        if ($("#step-texts").height() >= 350){
-          $(".temp")[0].remove();
-        }
 
         // Add colorPopover
         var content = $("#popover").html();
@@ -637,15 +610,22 @@ var teach = (function (teach) {
           $clone.appendTo( this );
           _makeEditable($clone);
 
+          var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
+          $('#open').popover({ content: content, html: true, placement: 'right' });
+
           $("#open").click(function(){
             if (config.debug) console.log("open clicked");
 
-            var content = '<p>What web address to open?</p><input id="open-url" type="url"></input><button id="open-url-submit">OK</button>';
-            $('#open').popover({ content: content, html: true, placement: 'right' });
+            $("#open-url").val(currentStep.trigger_endpoint);
             $('#open').popover("show");
             $("#open-url-submit").click(function(){
               currentStep.step_type = "open";
-              currentStep.trigger_endpoint = $("#open-url").val();
+              // Ensure there is an http in front of the url.
+              var url = $("#open-url").val();
+              if (url.indexOf("http") == -1){
+                url = "http://" + url;
+              }
+              currentStep.trigger_endpoint = url;
               $("#open").popover("hide");
             })
           })
@@ -680,20 +660,21 @@ var teach = (function (teach) {
 
         // If image-element
         if ($(ui.draggable[0]).attr("id") == "image-element-drag"){
+          // Clear image upload from prototype
+          $("#image-prototype").find(".progress-bar-success").css("width","0px");
           var $clone = $("#image-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
-          $("#fileupload").attr("data-url",config.bfUrl+"/image_upload");
+          $("#fileupload").attr("data-url",config.bfUrl+"/image_upload?instruction");
           _makeEditable($clone);
           $('#fileupload').fileupload({
               dataType: 'json',
               done: function (e, data) {
-                  $.each(data.result.files, function (index, file) {
-                      // console.log(index);
-                      // console.log(file);
-                      $("#img-upload-form").remove();
-                      $(".image-element").append('<img class="uploaded-image" src="'+file.url+'">');
-                  });
+                // Clean up image element so it doesn't show up on other image-elements
+                var url = 'https://bizfriendly-img-uploads.s3.amazonaws.com/'+data.files[0].name;
+                $("#img-upload-form").remove();
+                $(".image-element:first").append('<img class="uploaded-image" src="'+url+'">');
+                $(".image-element:first").removeClass("image-element");
               },
               progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -705,7 +686,6 @@ var teach = (function (teach) {
               error : function(response){
                 response = $.parseJSON(response.responseText);
                 $('#img-upload-form').append(response["message"]);
-                // console.log(response.responseText);
               }
           });
         }
@@ -732,15 +712,14 @@ var teach = (function (teach) {
 
   // Set the newSteps state
   function _updateStepsStates(){
-    // if (config.debug) console.log('updating newSteps states');
-    $(newSteps).each(function(i){
-      if (currentStep.step_number == newSteps[i].step_number){
+    $(newSteps).each(function(i, newStep){
+      if (currentStep.step_number == newStep.step_number){
         newSteps[i].step_state = "active";
       }
-      if (currentStep.step_number > newSteps[i].step_number){
+      if (currentStep.step_number > newStep.step_number){
         newSteps[i].step_state = "finished";
       }
-      if (currentStep.step_number < newSteps[i].step_number){
+      if (currentStep.step_number < newStep.step_number){
         newSteps[i].step_state = "unfinished";
       }
     })
@@ -794,7 +773,7 @@ var teach = (function (teach) {
     // $clone the prototype
     var $clone = $("#droppable-prototype").clone();
     // Clean it up
-    $clone.attr("id","").removeClass("hidden");
+    $clone.attr("id","").removeClass("hidden").addClass("temp");
     if (config.debug) console.log($("#step-texts").height());
     if ($("#step-texts").height() <= 300){
       $("#step-texts").append($clone);
@@ -819,6 +798,14 @@ var teach = (function (teach) {
     } else {
       $(".options").addClass("hidden");
     }
+  }
+
+  // progress circle li element is clicked
+  function _progressClicked(evt) {
+    console.log("Clicked Step: " + $(this).attr('data-target'));
+    _saveCurrentStep();
+    currentStep = newSteps[$(this).attr('data-target') - 1];
+    _showCurrentStep();
   }
 
   function _addCongratsStep(){
@@ -859,7 +846,7 @@ var teach = (function (teach) {
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
-      if (config.debug) console.log(newSteps[i].feedback);
+      // if (config.debug) console.log(newSteps[i].feedback);
     })
 
   }
@@ -882,31 +869,38 @@ var teach = (function (teach) {
   }
 
   function _saveDraft(){
-    if (serviceId) {
-      _saveCurrentStep();
-      _cleanUpStepsHTML();
-      if (editingLesson) {
-        _updateLesson("draft");
+    if ($("#terms").prop("checked")){
+      if (serviceId) {
+        _saveCurrentStep();
+        _cleanUpStepsHTML();
+        if (editingLesson) {
+          _updateLesson("draft");
+        } else {
+          _checkForLesson("draft");
+        }
       } else {
-        _checkForLesson("draft");
+        $("#alert").removeClass("hidden").text("Choose a category and service up top.")
       }
     } else {
-      $("#alert").removeClass("hidden").text("Choose a category and service.")
+      $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
     }
-    
   }
 
   function _submitClicked(){
-    if (serviceId) {
-      _saveCurrentStep();
-      _cleanUpStepsHTML();
-      if (editingLesson) {
-        _updateLesson("submitted");
+    if ($("#terms").prop("checked")){
+      if (serviceId) {
+        _saveCurrentStep();
+        _cleanUpStepsHTML();
+        if (editingLesson) {
+          _updateLesson("submitted");
+        } else {
+          _checkForLesson("submitted");
+        }
       } else {
-        _checkForLesson("submitted");
+        $("#alert").removeClass("hidden").text("Choose a category and service up top.")
       }
     } else {
-      $("#alert").removeClass("hidden").text("Choose a category and service.")
+      $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
     }
   }
 
@@ -947,22 +941,24 @@ var teach = (function (teach) {
   }
 
   function _updateSteps(){
-    // Delete steps that we've removed
+    // Find all existing steps for this lesson
+    // compare them against the edited steps
+    // delete any that dont exist any more.
     var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/steps',
       data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
-      success: function(data) {
+      success: function(data) { 
         $.each(data.objects, function(i,existingStep){
-          var inArray = false;
+          var oldStepStillInNewSteps = false;
           $.each(newSteps, function(x,newStep){
             if (newStep.id == existingStep.id){
-              inArray = true;
+              oldStepStillInNewSteps = true;
             }
           })
-          if (!inArray){
+          if (!oldStepStillInNewSteps){
             $.ajax({
               url: config.bfUrl+config.bfApiVersion+'/steps/'+existingStep.id,
               type: "DELETE",
@@ -981,7 +977,6 @@ var teach = (function (teach) {
       // Clean up
       newSteps[i].lesson_id = lessonId;
       delete newSteps[i].step_state; // Not needed
-      if (config.debug) console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "PUT",
         contentType: "application/json",
@@ -1011,7 +1006,6 @@ var teach = (function (teach) {
   }
 
   function _checkForLesson(state){
-    // Post draft lesson
     lessonName = $("#lesson-name").text();
     var filters = [{"name": "name", "op": "==", "val": lessonName}];
     $.ajax({
@@ -1021,6 +1015,7 @@ var teach = (function (teach) {
       contentType: "application/json",
       success: function(data) {
         // Lesson already exists, give user a warning
+        console.log(data);
         if (data.num_results){
           $("#alert").removeClass("hidden").text("A lesson with that name already exists.")
           // $("#lesson-name").popover({ content: "Lesson already exists.", html: true, placement: 'right' });
@@ -1054,54 +1049,13 @@ var teach = (function (teach) {
       url: config.bfUrl+config.bfApiVersion+'/lessons',
       data: JSON.stringify(newLesson),
       dataType: "json",
-      success : function(){
-        _getLessonId(newLesson);
-
-        if (state == "draft"){
-          $("#draftMessage").show();
-          $("#submittedMessage").hide();
-        }
-        if (state == "submitted"){
-          $("#draftMessage").hide();
-          $("#submittedMessage").show();
-        }
-
-        $(".lesson-name").text($("#lesson-name").text());
-        $('#submissionModal').modal();
-
+      success : function(data){
+        console.log("Lesson Posted");
+        lessonId = data.id;
+        _postSteps();
       },
       error : function(error){
         console.log(error)
-      }
-    });
-  }
-
-  function _getLessonId(newLesson){
-    // Post draft lesson
-    var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
-    $.ajax({
-      url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
-      dataType: "json",
-      contentType: "application/json",
-      success: function(data) {
-        if (data.num_results){
-          lessonId = data.objects[0].id
-          _postSteps(newLesson.state);
-        newLesson["id"] = lessonId;
-
-        if (newLesson.state == "submitted"){
-          // Send an email to admins
-          $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
-            if (config.debug) console.log("Email sent to admins.")
-            if (config.debug) console.log(response);
-          })
-          }
-        }
-        
-      },
-      error : function(error){
-        console.log(error);
       }
     });
   }
@@ -1111,7 +1065,6 @@ var teach = (function (teach) {
       // Clean up
       newSteps[i].lesson_id = lessonId;
       delete newSteps[i].step_state; // Not needed
-      if (config.debug) console.log(JSON.stringify(newSteps[i]));
       $.ajax({
         type: "POST",
         contentType: "application/json",

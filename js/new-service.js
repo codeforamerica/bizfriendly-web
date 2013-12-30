@@ -59,7 +59,7 @@ var newService = (function (newService) {
   }
 
   function _iconUpload(){
-    $("#icon-upload").attr("data-url",config.bfUrl+"/image_upload");
+    $("#icon-upload").attr("data-url",config.bfUrl+"/image_upload?icon");
     $('#icon-upload').fileupload({
         dataType: 'json',
         done: function (e, data) {
@@ -67,7 +67,7 @@ var newService = (function (newService) {
                 // console.log(index);
                 // console.log(file);
                 $("#icon-upload-form").remove();
-                $("#uploaded-icon").html('<img src="'+file.url+'" width="50">');
+                $("#uploaded-icon").html('<img src="'+file.url+'">');
             });
         },
         progressall: function (e, data) {
@@ -78,24 +78,23 @@ var newService = (function (newService) {
           );
         },
         error : function(response){
-          response = $.parseJSON(response.responseText);
-          $('#icon-upload-form').append(response["message"]);
-          // console.log(response.responseText);
+          console.log(response);
+          if (response.status != 200){
+            response = $.parseJSON(response.responseText);
+            $('#icon-upload-form').append(response["message"]).addClass("alert alert-danger");
+          }
         }
     });
   }
 
   function _imageUpload(){
-    $("#image-upload").attr("data-url",config.bfUrl+"/image_upload");
+    $("#image-upload").attr("data-url",config.bfUrl+"/image_upload?service");
     $('#image-upload').fileupload({
         dataType: 'json',
         done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                // console.log(index);
-                // console.log(file);
-                $("#image-upload-form").remove();
-                $("#uploaded-image").html('<img src="'+file.url+'">');
-            });
+          var url = 'https://bizfriendly-img-uploads.s3.amazonaws.com/'+data.files[0].name;
+          $("#image-upload-form").remove();
+          $("#uploaded-image").html('<img src="'+url+'">');
         },
         progressall: function (e, data) {
           var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -105,9 +104,11 @@ var newService = (function (newService) {
           );
         },
         error : function(response){
-          response = $.parseJSON(response.responseText);
-          $('#image-upload-form').append(response["message"]);
-          // console.log(response.responseText);
+          console.log(JSON.stringify(response));
+          if (response.status != 200){
+            response = $.parseJSON(response.responseText);
+            $('#image-upload-form').append(response["message"]).addClass("alert alert-danger");
+          }
         }
     });
   }
@@ -208,7 +209,7 @@ var newService = (function (newService) {
     }
     $("#previewModal .modal-body").append("Uploaded Icon: "+$("#uploaded-icon").html()+"<br/>");
     $("#previewModal .modal-body").append("Uploaded Image: "+$("#uploaded-image").html()+"<br/>");
-    $("#previewModal .modal-body").append("YouTube Link: "+$("#service-video-link").val()+"<br/>");
+    $("#previewModal .modal-body").append("Vimeo Embed: "+$("#video-embed").val()+"<br/>");
     
     $('#previewModal').modal()
   }
@@ -233,7 +234,7 @@ var newService = (function (newService) {
       contentType: "application/json",
       success: function(data) {
         // Service already exists, give user a warning
-        console.log(data);
+        console.log(JSON.stringify(data));
         if (data.num_results){
           $(".alert").removeClass("hidden");
         } else {
@@ -242,15 +243,18 @@ var newService = (function (newService) {
         }
       },
       error : function(error){
-        console.log(error);
+        console.log(JSON.stringify(error));
       }
     });
   }
 
   function _postService(state){
-    var media = $("#service-video-link").val();
+    // If no video embed, use an image instead.
+    var media = $("#video-embed").val();
     if (!media) {
-      media = $("#uploaded-image img").attr("src");
+      if ($("#uploaded-image img").attr('src')){
+        media = $("#uploaded-image").html();
+      }
     }
     newService = {
       name : $("#new-service-name").val(),
@@ -265,7 +269,8 @@ var newService = (function (newService) {
       creator_id : BfUser.id,
       category_id : $("#category-id").val()
     }
-    console.log(newService);
+    console.log(JSON.stringify(newService));
+
     $.ajax({
       type: "POST",
       contentType: "application/json",
@@ -273,7 +278,6 @@ var newService = (function (newService) {
       data: JSON.stringify(newService),
       dataType: "json",
       success : function(){
-        console.log(newService);
         $(".service-name").text($("#new-service-name").val())
         $('#submissionModal').modal()
 
@@ -288,6 +292,7 @@ var newService = (function (newService) {
       },
       error : function(error){
         $(".alert").removeClass("hidden");
+        console.log(JSON.stringify(error));
       }
     });
   }

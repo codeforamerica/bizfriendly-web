@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>BfUser.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>BfUser.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">BfUser</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">BfUser</span><span class="p">)</span>  <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>/// CONSTRUCTION /////</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">email</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">bfAccessToken</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">signedIn</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>/// PUBLIC METHODS /////</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">init</span><span class="p">(){</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Init BfUser.&quot;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>if "signout=true" is present in the URL, clear the cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">_getURLParameter</span><span class="p">(</span><span class="s1">&#39;signout&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="nx">_clearUserCookie</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">userData</span> <span class="o">=</span> <span class="nx">_readUserCookie</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">userData</span><span class="p">){</span>
+        <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">userData</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+        <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">userData</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+        <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">userData</span><span class="p">.</span><span class="nx">email</span><span class="p">;</span>
+        <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span> <span class="o">=</span> <span class="nx">userData</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
+        <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span> <span class="o">=</span> <span class="nx">userData</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">userData</span><span class="p">.</span><span class="nx">access_token</span><span class="p">){</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#signup-form&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;alert-danger&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-success&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;You&#39;re already signed up! &lt;a href=&#39;signup.html?signout=true&#39;&gt;Need to create another account?&lt;/a&gt;&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">_main</span><span class="p">();</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>/// PRIVATE METHODS /////</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_main</span><span class="p">()</span> <span class="p">{</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Signup clicked, send info to server</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfSignUp&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_signUpClicked</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>SignIn clicked, send info to server</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfSignIn&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_signInClicked</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>SignOut clicked, clear state cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signOutLink&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_signOutClicked</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>A password reset is requested</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#request-password-reset-btn&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_requestPasswordResetClicked</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>The password is reset</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#password-reset-btn&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">_passwordResetClicked</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Setup page based on signin state</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">_updatePage</span><span class="p">();</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Make a post to server with API access token appended</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="nx">requestUrl</span><span class="p">,</span>
+      <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+      <span class="nx">beforeSend</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xhr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">xhr</span><span class="p">.</span><span class="nx">setRequestHeader</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">);</span>
+      <span class="p">},</span>
+      <span class="nx">data</span><span class="o">:</span><span class="nx">data</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span><span class="nx">successFunc</span>
+    <span class="p">})</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Read the user state cookie: return json</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_readUserCookie</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Pull data out of cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">.</span><span class="nx">json</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">cookieData</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>Cookie doesn't exist, create it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">cookieData</span> <span class="o">==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_setUserCookie</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">cookieData</span><span class="p">;</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Set the user state cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_setUserCookie</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">email</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">access_token</span><span class="p">){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">.</span><span class="nx">json</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">setData</span> <span class="o">=</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">email</span><span class="p">,</span> <span class="nx">signedIn</span><span class="o">:</span> <span class="nx">status</span><span class="p">,</span>
+      <span class="nx">access_token</span><span class="o">:</span> <span class="nx">access_token</span><span class="p">};</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">,</span> <span class="nx">setData</span><span class="p">,</span> <span class="p">{</span><span class="nx">expires</span><span class="o">:</span><span class="mi">7</span><span class="p">,</span> <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">});</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Clears the user state cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_clearUserCookie</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">access_token</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>set cleared cookie values in case cookie isn't removed</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">_setUserCookie</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">removeCookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Update page to reflect user state</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_updatePage</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signInLink&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.bfUserName&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signOutLink&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signInLink&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signOutLink&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">function</span> <span class="nx">_badPost</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="nx">response</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">parseJSON</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert h2&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-danger&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>Send sign up info to server on signup click.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_signUpClicked</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Submitting signup info.&quot;</span><span class="p">)</span>
+      <span class="nx">newUser</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">name</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#name&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+        <span class="nx">email</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#email&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+        <span class="nx">password</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#password&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newUser</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/signup&#39;</span><span class="p">,</span> <span class="nx">newUser</span><span class="p">,</span> <span class="nx">_signedUp</span><span class="p">).</span><span class="nx">fail</span><span class="p">(</span><span class="nx">_badPost</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>Send sign in info to server on signin click.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_signInClicked</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="nx">returningUser</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">email</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#email&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+      <span class="nx">password</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#password&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+    <span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">returningUser</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/signin&#39;</span><span class="p">,</span> <span class="nx">returningUser</span><span class="p">,</span> <span class="nx">_signedIn</span><span class="p">).</span><span class="nx">fail</span><span class="p">(</span><span class="nx">_badPost</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>Sign out clicked, clear user state/cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_signOutClicked</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="nx">_clearUserCookie</span><span class="p">();</span>
+    <span class="nx">_updatePage</span><span class="p">();</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;signin.html&quot;</span><span class="p">,</span> <span class="s2">&quot;_self&quot;</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>A password reset is requested</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_requestPasswordResetClicked</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">email</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#reset-email&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()}</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="s1">&#39;/request_password_reset&#39;</span><span class="p">,</span><span class="nx">email</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+      <span class="nx">response</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">parseJSON</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">message</span> <span class="o">==</span> <span class="s2">&quot;Queued. Thank you.&quot;</span><span class="p">){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert h2&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;alert-danger&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-success&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;Check your email.&quot;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="nx">_badPost</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>THe new password is sent in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_passwordResetClicked</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;email&quot;</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#reset-email&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+      <span class="s2">&quot;password&quot;</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#reset-password-field&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+      <span class="s2">&quot;resetToken&quot;</span> <span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span><span class="o">+</span><span class="s1">&#39;/password_reset&#39;</span><span class="p">,</span> <span class="nx">postData</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert h2&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;alert-danger&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-success&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;Password reset.&quot;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="nx">_badPost</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>SignedUp successful</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_signedUp</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">email</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>Set a cookie!</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">removeCookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">);</span>
+    <span class="nx">_setUserCookie</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>disable input fields and button when successfully signed up</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signup-form input&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfSignUp&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span><span class="p">);</span>
+
+    <span class="nx">_updatePage</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert h2&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-success&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;Great. You&#39;re all signed up.&quot;</span><span class="p">);</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>Set User state based on sign in response</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_signedIn</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">email</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>Set a cookie!</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">removeCookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">);</span>
+    <span class="nx">_setUserCookie</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">,</span> <span class="nx">BfUser</span><span class="p">.</span><span class="nx">bfAccessToken</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">debug</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>disable input fields and button when successfully signed up</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signin-form input&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfSignIn&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span><span class="p">);</span>
+
+    <span class="nx">_updatePage</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert h2&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;alert alert-success&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;Great. You&#39;re signed in. &lt;a href=&#39;signin.html?signout=true&#39;&gt;Sign in under a different account?&lt;/a&gt;&quot;</span><span class="p">);</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>Update page to reflect user state</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_updatePage</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">signedIn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signInLink&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signUpLink&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfUserName&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">BfUser</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfUserName&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signOutLink&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signInLink&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signUpLink&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfUserName&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;#&quot;&gt;&lt;/a&gt;&#39;</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#bfUserName&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#signOutLink&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      <p>Read the user state cookie: return json</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_readUserCookie</span><span class="p">(){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>Pull data out of cookie</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">.</span><span class="nx">json</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">cookieData</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;BfUser&#39;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      <p>Cookie doesn't exist, create it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">cookieData</span> <span class="o">==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_setUserCookie</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">cookieData</span><span class="p">;</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      <p>Remember the access token of a service connection</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">create_connection</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/create_connection&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      <p>Remember the most recent step progress</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">record_step</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/record_step&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      <p>Check for new</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">check_for_new</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/check_for_new&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      <p>Check if attribute exists</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">check_if_attribute_exists</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/check_if_attribute_exists&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      <p>Check attribute for value</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">check_attribute_for_value</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/check_attribute_for_value&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      <p>Check attribute for update</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">check_attribute_for_update</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/check_attribute_for_update&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      <p>Get attributes</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">get_attributes</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/get_attributes&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      <p>Get attributes</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">postRating</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_tokenPost</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bfUrl</span> <span class="o">+</span> <span class="s1">&#39;/post_rating&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">successFunc</span><span class="p">)</span>
+  <span class="p">};</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      <p>Retrieve a URL parameter
+@param name [String] The parameter name to retrieve.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">_getURLParameter</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">decodeURI</span><span class="p">(</span>
+        <span class="p">(</span><span class="nb">RegExp</span><span class="p">(</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="s1">&#39;(.+?)(&amp;|$)&#39;</span><span class="p">).</span><span class="nx">exec</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">)</span><span class="o">||</span><span class="p">[,</span><span class="kc">null</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">);</span>
+  <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      <p>add public methods to the returned module and return it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="nx">init</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">record_step</span> <span class="o">=</span> <span class="nx">record_step</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">create_connection</span> <span class="o">=</span> <span class="nx">create_connection</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">check_for_new</span> <span class="o">=</span> <span class="nx">check_for_new</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">check_if_attribute_exists</span> <span class="o">=</span> <span class="nx">check_if_attribute_exists</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">check_attribute_for_value</span> <span class="o">=</span> <span class="nx">check_attribute_for_value</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">check_attribute_for_update</span> <span class="o">=</span> <span class="nx">check_attribute_for_update</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">get_attributes</span> <span class="o">=</span> <span class="nx">get_attributes</span><span class="p">;</span>
+  <span class="nx">BfUser</span><span class="p">.</span><span class="nx">postRating</span> <span class="o">=</span> <span class="nx">postRating</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="nx">BfUser</span><span class="p">;</span>
+<span class="p">}(</span><span class="nx">BfUser</span> <span class="o">||</span> <span class="p">{}));</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      <p>Initialize Module</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">BfUser</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -142,15 +142,15 @@ var connect = (function (connect) {
     // Get finished lessons
     var recentCounter = 10;
     $.each(response.objects, function(i,userLesson){
-      recentCounter -= 1;
       if (userLesson.completed && recentCounter > 0){
+        recentCounter -= 1;
         recentlyCompletedLessons.push(userLesson);
       }
     });
     // Sort by time
     recentlyCompletedLessons.sort(function(a,b){
-      if (a.end_dt > b.end_dt) return -1;
-      if (a.end_dt < b.end_dt) return 1;
+      if (Date.parse(a.end_dt) > Date.parse(b.end_dt)) return -1;
+      if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
       return 0;
     })
     // Add to page
