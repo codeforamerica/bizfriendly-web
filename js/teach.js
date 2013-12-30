@@ -846,7 +846,7 @@ var teach = (function (teach) {
       // feedback = newSteps[i].feedback;
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('disabled="disabled"', 'g'), "");
       newSteps[i].feedback = newSteps[i].feedback.replace(new RegExp('Click to edit text.', 'g'),"");
-      if (config.debug) console.log(newSteps[i].feedback);
+      // if (config.debug) console.log(newSteps[i].feedback);
     })
 
   }
@@ -934,7 +934,7 @@ var teach = (function (teach) {
     var filters = [{"name": "lesson_id", "op": "==", "val": lessonId}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/steps',
-      data: {"q": {"filters": filters}, "single" : true},
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) { 
@@ -996,14 +996,18 @@ var teach = (function (teach) {
 
   function _checkForLesson(state){
     lessonName = $("#lesson-name").text();
+    console.log("Filter")
+    console.log(typeof lessonName);
+    
     var filters = [{"name": "name", "op": "==", "val": lessonName}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": {"filters": filters}, "single" : true},
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
         // Lesson already exists, give user a warning
+        console.log(data);
         if (data.num_results){
           $("#alert").removeClass("hidden").text("A lesson with that name already exists.")
           // $("#lesson-name").popover({ content: "Lesson already exists.", html: true, placement: 'right' });
@@ -1049,14 +1053,17 @@ var teach = (function (teach) {
   }
 
   function _getLessonId(newLesson){
-    var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
+    console.log("No filter")
+    console.log(typeof newLesson["name"]);
+    var filters = [{"name": "name", "op": "==", "val": lessonName}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": {"filters": filters}, "single" : true},
+      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
       dataType: "json",
       contentType: "application/json",
       success: function(data) {
         if (data.num_results){
+          console.log(data);
           lessonId = data.objects[0].id
           _postSteps();
         newLesson["id"] = lessonId;
