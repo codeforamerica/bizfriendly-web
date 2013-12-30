@@ -656,7 +656,7 @@ var teach = (function (teach) {
           var $clone = $("#image-prototype").clone();
           $clone.attr("id","").removeClass("hidden");
           $clone.appendTo( this );
-          $("#fileupload").attr("data-url",config.bfUrl+"/image_upload");
+          $("#fileupload").attr("data-url",config.bfUrl+"/image_upload?instruction");
           _makeEditable($clone);
           $('#fileupload').fileupload({
               dataType: 'json',
