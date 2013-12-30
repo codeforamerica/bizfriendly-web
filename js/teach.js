@@ -996,9 +996,6 @@ var teach = (function (teach) {
 
   function _checkForLesson(state){
     lessonName = $("#lesson-name").text();
-    console.log("Filter")
-    console.log(typeof lessonName);
-    
     var filters = [{"name": "name", "op": "==", "val": lessonName}];
     $.ajax({
       url: config.bfUrl+config.bfApiVersion+'/lessons',
@@ -1041,10 +1038,10 @@ var teach = (function (teach) {
       url: config.bfUrl+config.bfApiVersion+'/lessons',
       data: JSON.stringify(newLesson),
       dataType: "json",
-      success : function(){
+      success : function(data){
         console.log("Lesson Posted");
-        _getLessonId(newLesson);
-
+        lessonId = data.id;
+        _postSteps();
       },
       error : function(error){
         console.log(error)
@@ -1052,39 +1049,37 @@ var teach = (function (teach) {
     });
   }
 
-  function _getLessonId(newLesson){
-    console.log("No filter")
-    console.log(typeof newLesson["name"]);
-    var filters = [{"name": "name", "op": "==", "val": lessonName}];
-    $.ajax({
-      url: config.bfUrl+config.bfApiVersion+'/lessons',
-      data: {"q": JSON.stringify({"filters": filters}), "single" : true},
-      dataType: "json",
-      contentType: "application/json",
-      success: function(data) {
-        if (data.num_results){
-          console.log(data);
-          lessonId = data.objects[0].id
-          _postSteps();
-        newLesson["id"] = lessonId;
+  // function _getLessonId(newLesson){
+  //   var filters = [{"name": "name", "op": "==", "val": newLesson["name"]}];
+  //   $.ajax({
+  //     url: config.bfUrl+config.bfApiVersion+'/lessons',
+  //     data: {"q": JSON.stringify({"filters": filters}), "single" : true},
+  //     dataType: "json",
+  //     contentType: "application/json",
+  //     success: function(data) {
+  //       if (data.num_results){
+  //         console.log(data);
+  //         lessonId = data.objects[0].id
+  //         _postSteps();
+  //       newLesson["id"] = lessonId;
 
-        if (newLesson.state == "submitted"){
-          // Send an email to admins
-          $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
-            if (config.debug) console.log("Email sent to admins.")
-            if (config.debug) console.log(response);
-          })
-          }
-        } else {
-          console.dir(data);
-        }
+  //       if (newLesson.state == "submitted"){
+  //         // Send an email to admins
+  //         $.post(config.bfUrl+"/new_content_email", newLesson, function(response){
+  //           if (config.debug) console.log("Email sent to admins.")
+  //           if (config.debug) console.log(response);
+  //         })
+  //         }
+  //       } else {
+  //         console.dir(data);
+  //       }
         
-      },
-      error : function(error){
-        console.log(error);
-      }
-    });
-  }
+  //     },
+  //     error : function(error){
+  //       console.log(error);
+  //     }
+  //   });
+  // }
 
   function _postSteps(){
     $.each(newSteps, function (i){
