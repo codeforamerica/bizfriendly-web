@@ -518,7 +518,9 @@ var teach = (function (teach) {
 
     // Only allow 12 steps
     if (newSteps.length >= 12){
-      $("#add-new-step").hide();
+      $("#add-new-step img").hide();
+    } else {
+      $("#add-new-step img").show();
     }
   }
 
