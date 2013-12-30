@@ -582,11 +582,6 @@ var teach = (function (teach) {
         $( this ).removeClass("temp").addClass("active");
         $( this ).removeClass("droppable ui-droppable");
 
-        // Height of step-texts
-        if ($("#step-texts").height() >= 350){
-          $(".temp")[0].remove();
-        }
-
         // Add colorPopover
         var content = $("#popover").html();
         $(this).popover({ content: content, html: true, placement: 'right' });
