@@ -287,7 +287,7 @@ hr {
 
 #teach-landing #subheader, #teach-landing #main, #teach-header, 
 #teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
-#new-category #main {
+#new-category #main, #teaching-guide #subheader, #teaching-guide #main {
 	position: relative;
 	top: -31px;
 }
@@ -1275,6 +1275,10 @@ section .btn{
 
 #teaching-guide a {
 	text-decoration: underline;
+}
+
+#teaching-guide #subnav a {
+	text-decoration: none;
 }
 
 #new-service input {
