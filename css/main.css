@@ -87,9 +87,9 @@ a {
 
 #service-media {
 	position: relative;
-    padding-bottom: 56.25%; /* 16/9 ratio */
-    height: 0;
-    overflow: hidden;
+  padding-bottom: 56.25%; /* 16/9 ratio */
+  height: 0;
+  overflow: hidden;
 }
 
 #service-media iframe,
@@ -100,6 +100,10 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+#service-media img {
+	width: 100%;
 }
 
 .service-link {
