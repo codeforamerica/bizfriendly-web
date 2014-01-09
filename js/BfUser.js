@@ -188,7 +188,7 @@ var BfUser = (function (BfUser)  {
     $('#bfSignUp').attr("disabled", "disabled");
 
     _updatePage();
-    $('#alert h2').addClass('alert alert-success').html("Great. You're all signed up.");
+    $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').html("Great. You're all signed up.");
   };
 
   //Set User state based on sign in response
@@ -210,7 +210,7 @@ var BfUser = (function (BfUser)  {
     $('#bfSignIn').attr("disabled", "disabled");
 
     _updatePage();
-    $('#alert h2').addClass('alert alert-success').html("Great. You're signed in. <a href='signin.html?signout=true'>Sign in under a different account?</a>");
+    $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').html("Great. You're signed in. <a href='signin.html?signout=true'>Sign in under a different account?</a>");
   };
 
   // Update page to reflect user state
