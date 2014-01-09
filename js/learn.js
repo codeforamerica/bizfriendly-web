@@ -38,7 +38,7 @@ var learn = (function (learn) {
     $(categories).each(function(i){
       if (config.debug) console.log(categories[i].name);
 
-      if (i % 2 === 0) {
+      if (i < (categories.length / 2)) {
         $("#category-left").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
       } else {
         $("#category-right").append('<a href="#'+categories[i].id+'">'+categories[i].name+'</p>')
