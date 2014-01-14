@@ -217,7 +217,12 @@ th {
 
 
 /*POSITION */
+header {
+	height: 180px;
+}
+
 .navbar {
+	position: relative;
 	margin-bottom: 0;
 }
 
@@ -441,10 +446,16 @@ ul{
 }
 
 .nav {
-	margin-top: 56px;
-	margin-left: -31px;
+	position: absolute;
+	top: 75px;
+	left: 199px;
 	height: 33px;
 	background-color: #585b5b;
+}
+
+.navbar-brand {
+	position: absolute;
+	left: 0;
 }
 
 .navbar-nav li a {
@@ -474,9 +485,13 @@ ul{
 }
 
 #signinlinks {
-	position: relative;
-	top: 50px;
-	left: -100px;
+	text-align: right;
+	margin-top: 45px;
+	margin-left: 200px;
+}
+
+#signinlinks a {
+	white-space: nowrap;
 }
 
 #main-text {
