@@ -75,7 +75,7 @@ Don't want to install anything? You can use the nifty [Jekit](https://jekit.code
 
 To do this, fork this repo, and commit your changes on a branch to your fork. You can then preview what your changes look like by navigating to:
 
-https://jekit.codeforamerica.org/USERNAME/codeforamerica.org/BRANCHNAME/
+https://jekit.codeforamerica.org/USERNAME/bizfriendly-web/BRANCHNAME/
 
 For a basic example of its usage, if GitHub user **@lolname** has made changes to the about.html page on their fork, they can preview their changes using Jekit by going to:
 
