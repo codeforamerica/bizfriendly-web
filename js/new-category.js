@@ -1,6 +1,7 @@
 var newCategory = (function (newCategory) {
   // private properties
-
+  var editingExisitingCategory = false;
+  var categoryId;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -12,6 +13,7 @@ var newCategory = (function (newCategory) {
   function _main(response){
     // Make sure they are logged in
     _checkIfLoggedIn();
+    _newOrEdit();
     $("#preview").click(_previewClicked);
     $("#save-draft").click(function(){
       _submitClicked("draft")
@@ -26,6 +28,21 @@ var newCategory = (function (newCategory) {
       $('#main').hide();
       $('.login-required').show();
     }
+  }
+
+  function _newOrEdit(){
+    if (window.location.search.split('?')[1]){
+      editingExisitingCategory = true;
+      _getExistingCategory();
+    }
+  }
+
+  function _getExistingCategory(){
+    categoryId = window.location.search.split('?')[1];
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/categories/'+categoryId, function(response){
+      $("#new-skill-name").val(response.name);
+      $("#new-skill-description").val(response.description);
+    });
   }
 
   function _previewClicked(){
@@ -45,7 +62,12 @@ var newCategory = (function (newCategory) {
     if ($("#new-skill-name").val() && $("#new-skill-description").val())
     {
       $("#form-alert").hide();
-      _checkOnCategory(state);
+      // Put or Post
+      if (editingExisitingCategory){
+        _putCategory(state);
+      } else {
+        _checkOnCategory(state);
+      }
     }
   }
 
@@ -95,13 +117,43 @@ var newCategory = (function (newCategory) {
             if (config.debug) console.log(response);
           })
         }
+  
+      },
+      error : function(error){
+        $("#form-alert").text(error).removeClass("hidden");
+      }
+    });
+  }
+
+  function _putCategory(state){
+    existingCategory = {
+      name : $("#new-skill-name").val(),
+      description : $("#new-skill-description").val(),
+      state : state
+    }
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: config.bfUrl+config.bfApiVersion+'/categories/'+categoryId,
+      data: JSON.stringify(existingCategory),
+      dataType: "json",
+      success : function(){
+        $("#submissionModal .skill-name").text($("#new-skill-name").val());
+        $('#submissionModal').modal();
+
+        // Send an email to admins
+        if (newCategory.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", newCategory, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
         
       },
       error : function(error){
         $("#form-alert").text(error).removeClass("hidden");
       }
     });
-
   }
 
   // add public methods to the returned module and return it
