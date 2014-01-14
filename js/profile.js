@@ -75,16 +75,6 @@ var profile = (function (profile) {
       $("#lessons-complete").prepend('<span class="activity-number">'+lessonsCompleted.length+'</span>');
       _displayLessonsCompleted();
     });
-    // Get number of requests
-    $.getJSON(config.bfUrl+config.bfApiVersion+'/requests', function(response){
-      var numOfRequests = 0;
-      $.each(response.objects, function(i){
-        if (response.objects[i].creator_id == userID){
-          numOfRequests++;
-        }
-      })
-      $("#requests").prepend('<span class="activity-number">'+numOfRequests+'</span>');
-    });
 
     // Get number of lessons created
     $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
@@ -144,28 +134,49 @@ var profile = (function (profile) {
       html += '<button type="button" href="teach.html" class="btn btn-default">Start Teaching</button>'
       $("#services-created").append(html);
     } else {
+      $.getJSON(config.bfUrl+config.bfApiVersion+'/categories', function(response){
+        $.each(response.objects, function(i, category){
+          if (category.creator_id == userID){
+            _displayContent(category, "category");
+          }
+        });
+      });
+      $.getJSON(config.bfUrl+config.bfApiVersion+'/services', function(response){
+        $.each(response.objects, function(i, service){
+          if (service.creator_id == userID){
+            _displayContent(service, "service");
+          }
+        });
+      });
       $.getJSON(config.bfUrl+config.bfApiVersion+'/lessons', function(response){
         $.each(response.objects, function(i, lesson){
           if (lesson.creator_id == userID){
-            _displayLesson(lesson);
+            _displayContent(lesson, "lesson");
           }
         });
       });
     }
   }
 
-  function _displayLesson(lesson){
+  function _displayContent(content, content_type){
     var html = '<div class="row">';
-    html += '<div class="col-lg-7"><span class="lesson-name">'+lesson.name+'</span></div>';
-    html += '<div class="col-lg-2"><span class="content-type right">Lesson</span></div>';
+    html += '<div class="col-lg-7"><span class="content-name">'+content.name+'</span></div>';
+    html += '<div class="col-lg-2"><span class="content-type right">'+content_type+'</span></div>';
     html += '<div class="col-lg-2 col-lg-offset-1">';
     // If its your profile, show edit buttons
     if (!profileID || profileID == BfUser.id) {
-      html += '<a type="button" href="lesson-builder.html?'+lesson.id+'" class="btn btn-default">Edit</a>';
+      if (content_type == "lesson"){
+        html += '<a type="button" href="lesson-builder.html?'+content.id+'" class="btn btn-default">Edit</a>';
+      } else if (content_type == "service") {
+        html += '<a type="button" href="new-service.html?'+content.id+'" class="btn btn-default">Edit</a>';
+      } else if (content_type == "category") {
+        html += '<a type="button" href="new-category.html?'+content.id+'" class="btn btn-default">Edit</a>';
+      }
+      
     };
     html += '</div>';
     html += '</div>';
-    $("#"+lesson.state).append(html);
+    $("#"+content.state).append(html);
   }
 
   // add public methods to the returned module and return it
