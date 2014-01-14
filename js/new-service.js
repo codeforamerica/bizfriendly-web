@@ -1,6 +1,7 @@
 var newService = (function (newService) {
   // private properties
-  
+  var editingExisitingService = false;
+  var serviceId;
 
   // PUBLIC METHODS
   // initialize variables and load JSON
@@ -14,6 +15,7 @@ var newService = (function (newService) {
     _checkIfLoggedIn();
     // Get all the existing categories
     _getCategories();
+    _newOrEdit();
     // Controllers
     _iconUpload();
     _imageUpload();
@@ -55,6 +57,41 @@ var newService = (function (newService) {
       if ($("#category-id").val() == "add-new-category"){
         window.open("http://bizfriend.ly/new-category.html");
       }
+    });
+  }
+
+  function _newOrEdit(){
+    if (window.location.search.split('?')[1]){
+      editingExisitingService = true;
+      _getExistingService();
+    }
+  }
+
+  function _getExistingService(){
+    serviceId = window.location.search.split('?')[1];
+    $.getJSON(config.bfUrl+config.bfApiVersion+'/services/'+serviceId, function(response){
+      if (config.debug) console.log(response);
+      $("#new-service-name").val(response.name);
+      $("#new-service-url").val(response.url);
+      $("#new-service-short-description").val(response.short_description);
+      $("#new-service-long-description").val(response.long_description);
+      // Parse and display the tips
+      $.each(response.tips.split("</li>"), function(i,tip){
+        i = i + 1;
+        $("#tips"+i).val(tip.replace("<li>",""));
+      })
+      // Parse and display the additional resources
+      $.each(response.additional_resources.split("</a></li>"), function(i,resource){
+        i = i + 1;
+        $("#additional-resources-name"+i).val(resource.replace(/<li><a href=".*">/,""));
+        $("#additional-resources-url"+i).val(resource.replace(/<li><a href="(.*)">.*/,"$1"));
+      })
+      if (response.icon) {
+        $("#uploaded-icon").append("<img src="+response.icon+">");
+      }
+      $("#uploaded-image").append(response.media);
+      $("#category-id").val(response.category_id);
+      $('.selectpicker').selectpicker('refresh');
     });
   }
 
@@ -220,7 +257,11 @@ var newService = (function (newService) {
       $("#form-alert").text("Please enter a name for your new service.").removeClass("hidden");
     } else {
       $("#form-alert").hide();
-      _checkForService(state);
+      if (editingExisitingService) {
+        _putService(state);
+      } else {
+        _checkForService(state);
+      }
     }
   }
 
@@ -284,6 +325,55 @@ var newService = (function (newService) {
         // Send an email to admins
         if (newService.state == "submitted"){
           $.post(config.bfUrl+"/new_content_email", newService, function(response){
+            if (config.debug) console.log("Email sent to admins.")
+            if (config.debug) console.log(response);
+          })
+        }
+        
+      },
+      error : function(error){
+        $(".alert").removeClass("hidden");
+        console.log(JSON.stringify(error));
+      }
+    });
+  }
+
+  function _putService(state){
+    // If no video embed, use an image instead.
+    var media = $("#video-embed").val();
+    if (!media) {
+      if ($("#uploaded-image img").attr('src')){
+        media = $("#uploaded-image").html();
+      }
+    }
+    existingService = {
+      name : $("#new-service-name").val(),
+      url : $("#new-service-url").val(),
+      icon : $("#uploaded-icon img").attr("src"),
+      short_description : $("#new-service-short-description").val(),
+      long_description : $("#new-service-long-description").val(),
+      additional_resources : _getAdditionalResources(),
+      tips : _getTips(),
+      media : media,
+      state : state,
+      creator_id : BfUser.id,
+      category_id : $("#category-id").val()
+    }
+    console.log(JSON.stringify(existingService));
+
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: config.bfUrl+config.bfApiVersion+'/services/'+serviceId,
+      data: JSON.stringify(existingService),
+      dataType: "json",
+      success : function(){
+        $(".service-name").text($("#new-service-name").val())
+        $('#submissionModal').modal()
+
+        // Send an email to admins
+        if (existingService.state == "submitted"){
+          $.post(config.bfUrl+"/new_content_email", existingService, function(response){
             if (config.debug) console.log("Email sent to admins.")
             if (config.debug) console.log(response);
           })
