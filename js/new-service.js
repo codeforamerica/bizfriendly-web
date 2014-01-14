@@ -86,12 +86,15 @@ var newService = (function (newService) {
         $("#additional-resources-name"+i).val(resource.replace(/<li><a href=".*">/,""));
         $("#additional-resources-url"+i).val(resource.replace(/<li><a href="(.*)">.*/,"$1"));
       })
+
       if (response.icon) {
         $("#uploaded-icon").append("<img src="+response.icon+">");
       }
       $("#uploaded-image").append(response.media);
+
       $("#category-id").val(response.category_id);
-      $('.selectpicker').selectpicker('refresh');
+      // $('.selectpicker').selectpicker('refresh');
+
     });
   }
 
