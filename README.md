@@ -69,7 +69,31 @@ This is the main website for the BizFriend.ly service. It is powered by the [Biz
 </pre>
 
 ## <a name="development-setup"></a>Development Setup
-BizFriend.ly's website is just javascript and html. Run it on any webserver you'd like. I recommend forking this repository and letting github [host it for you](https://help.github.com/categories/20/articles).
+#### Previewing Your Changes Using Jekit
+
+Don't want to install anything? You can use the nifty [Jekit](https://jekit.codeforamerica.org/) app to preview changes you make to this site remotely.
+
+To do this, fork this repo, and commit your changes on a branch to your fork. You can then preview what your changes look like by navigating to:
+
+https://jekit.codeforamerica.org/USERNAME/codeforamerica.org/BRANCHNAME/
+
+For a basic example of its usage, if GitHub user **@lolname** has made changes to the about.html page on their fork, they can preview their changes using Jekit by going to:
+
+https://jekit.codeforamerica.org/lolname/bizfriendly-web/gh-pages/about.html
+
+#### Running the Site Locally on Your Computer
+To run the site locally on your own computer (most helpful for previewing your own changes), you will need Jekyll installed ([click here for Jekyll installation instructions](http://jekyllrb.com/docs/installation/).)
+
+Fork and clone the repository, then run the following command in the root directory of the repo:
+
+`jekyll serve -w`
+
+Your computer should now be serving your local copy of the site at:
+
+[http://localhost:4000](http://localhost:4000).
+
+## Technology Patterns
+Uses Jekyll for templating – converted HTML files are in the _site folder.
 
 ## <a name="contributing"></a>Contributing
 
