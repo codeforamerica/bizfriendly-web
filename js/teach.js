@@ -328,8 +328,8 @@ var teach = (function (teach) {
   function _orderSteps(){
     if (config.debug) console.log('ordering steps');
     newSteps = newSteps.sort(function(a, b){
-      if (a.step_number < b.step_number) return -1;
-      if (a.step_number > b.step_number) return 1;
+      if (parseInt(a.step_number) < parseInt(b.step_number)) return -1;
+      if (parseInt(a.step_number) > parseInt(b.step_number)) return 1;
       return 0;
     })
   }
@@ -716,10 +716,10 @@ var teach = (function (teach) {
       if (currentStep.step_number == newStep.step_number){
         newSteps[i].step_state = "active";
       }
-      if (currentStep.step_number > newStep.step_number){
+      if (parseInt(currentStep.step_number) > parseInt(newStep.step_number)){
         newSteps[i].step_state = "finished";
       }
-      if (currentStep.step_number < newStep.step_number){
+      if (parseInt(currentStep.step_number) < parseInt(newStep.step_number)){
         newSteps[i].step_state = "unfinished";
       }
     })

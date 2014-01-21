@@ -101,8 +101,8 @@ var instructions = (function (instructions) {
   function _orderSteps(){
     if (config.debug) console.log('ordering steps');
     steps = lesson.steps.sort(function(a, b){
-      if (a.step_number < b.step_number) return -1;
-      if (a.step_number > b.step_number) return 1;
+      if (parseInt(a.step_number) < parseInt(b.step_number)) return -1;
+      if (parseInt(a.step_number) > parseInt(b.step_number)) return 1;
       return 0;
     })
   }
@@ -115,7 +115,7 @@ var instructions = (function (instructions) {
       step = {
         id : steps[i].id,
         stepType : steps[i].step_type,
-        stepNumber : steps[i].step_number,
+        stepNumber : parseInt(steps[i].step_number),
         stepText : steps[i].step_text,
         triggerEndpoint : steps[i].trigger_endpoint,
         placeInCollection : steps[i].place_in_collection,
