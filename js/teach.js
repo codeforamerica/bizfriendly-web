@@ -225,11 +225,13 @@ var teach = (function (teach) {
     $("#options-form").on("change", "#what-to-watch", function(){
 
       if ($("#what-to-watch").val() != "What is this step watching?"){
+        $("#feedback-window").show();
         // Disable open, login, and text-input
         $("#login-element-drag").addClass("disabled").draggable("disable");
         $("#text-entry-drag").addClass("disabled").draggable("disable");
         $("#open-element-drag").addClass("disabled").draggable("disable");
       } else {
+        $("#feedback-window").hide();
         // Enable open, login, and text-input
         $("#open-element-drag").removeClass("disabled").draggable("enable");
         $("#login-element-drag").removeClass("disabled").draggable("enable");
@@ -421,15 +423,23 @@ var teach = (function (teach) {
     _updateStepsStates();
     // Update progress bar
     _updateProgressBar();
-
+    // Fill up the step-texts with content
     $("#step-texts").html(currentStep.step_text);
+    // Add in saved feedback or clone the prototype
     if (!currentStep.feedback) {
       var $clone = $("#feedback-prototype").clone();
       // Clean it up
       $clone.removeAttr("id").removeClass("hidden");
       $("#feedback-content").html($clone);
+    } else {
+      $("#feedback-content").html(currentStep.feedback);
     }
-    $("#feedback-content").html(currentStep.feedback);
+    // Only show feedback window if the step type is correct.
+    if (!currentStep.step_type || currentStep.step_type == "congrats") {
+      $("#feedback-window").hide();
+    } else {
+      $("#feedback-window").show();
+    }
     $('.element-editable').editable(function(value, settings) {
           return (value);
         },{
@@ -471,7 +481,6 @@ var teach = (function (teach) {
       }
 
       // Show three new temp texts
-      $("#feedback-window").show();
       $("#step-close-btn").show();
       while ($("#step-texts").children().length < 3){
         var $clone = $("#droppable-prototype").clone();
@@ -485,7 +494,6 @@ var teach = (function (teach) {
       }
     // Set up congrats step
     } else {
-      $("#feedback-window").hide();
       $("#step-close-btn").hide();
       // Become active when visible. Helps when searching for active elements on other steps.
       $(".step-text:visible").addClass("active");
@@ -604,6 +612,7 @@ var teach = (function (teach) {
         // If open-element
         if ($(ui.draggable[0]).attr("id") == "open-element-drag"){
           currentStep.step_type = "open";
+          $("#feedback-window").show();
           $("#login-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
           $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
@@ -638,6 +647,7 @@ var teach = (function (teach) {
         // If login-element
         if ($(ui.draggable[0]).attr("id") == "login-element-drag"){
           currentStep.step_type = "login";
+          $("#feedback-window").show();
           $("#open-element-drag").addClass("disabled").draggable("disable");
           $("#text-entry-drag").addClass("disabled").draggable("disable");
           $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
@@ -762,6 +772,7 @@ var teach = (function (teach) {
       $("#elements .disabled").removeClass("disabled").draggable("enable");
       $("#what-to-watch").prop("disabled",false).selectpicker("refresh");
       $("#collection-name").prop("disabled",false).selectpicker("refresh");
+      $("#feedback-window").hide();
     }
     // if ($("#feedback-content .step-text").length == 0){
     //   var $clone = $("#droppable-prototype").clone();
