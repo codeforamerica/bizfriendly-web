@@ -466,10 +466,8 @@ var teach = (function (teach) {
     // Set up non congrats steps
     if (currentStep.step_type != "congrats"){
       // Add close button back to existing steps
-      if (editingLesson) {
-        if ($(".step-text.active").find(".temp-close-btn").length == 0) {
-          $(".step-text.active").prepend('<img class="temp-close-btn right" src="img/close-btn.png">');
-        }
+      if ($(".step-text.active").find(".temp-close-btn").length == 0) {
+        $(".step-text.active").prepend('<img class="temp-close-btn right" src="img/close-btn.png">');
       }
 
       // Show three new temp texts
@@ -866,6 +864,7 @@ var teach = (function (teach) {
     var left = window.screen.width - 340;
     var instructionOptions = "height="+height+",width="+width+",left="+left;
     window.open(url,"instructions",instructionOptions);
+    _showCurrentStep();
   }
 
   function _saveDraft(){
