@@ -483,11 +483,16 @@ var teach = (function (teach) {
         // $clone.addClass("active");
         $("#feedback-content").append($clone);
       }
+    // Set up congrats step
     } else {
       $("#feedback-window").hide();
       $("#step-close-btn").hide();
       // Become active when visible. Helps when searching for active elements on other steps.
       $(".step-text:visible").addClass("active");
+      // Add text back to empty Congrats step.
+      if (!$('#step-texts .element-editable').text()){
+        $('#step-texts .element-editable').text("Click to edit text.")
+      };
       // Make congrats editable
       $('.element-editable').editable(function(value, settings) {
           return (value);
