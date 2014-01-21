@@ -9,7 +9,23 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 <link href="css/main.css" rel="stylesheet">
 
+<!--[if IE 9]>
+<script src="js/vendor/xdomain.js"></script>
+<script>
+	xdomain({
+	  slaves: {
+	    'http://app.bizfriend.ly': '/proxy.html',
+	    'http://app-staging.bizfriend.ly': '/proxy.html',
+	    'http://127.0.0.1:8000/': '/proxy.html'
+	  }
+	});
+</script>
+<script type="text/javascript">
+      // patch to handle suppression of JS errors in IE
+      window.onerror=function(){return true;};
+    </script>
+<![endif]-->
+
 <script src="js/vendor/jquery-1.9.1.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
 <script src="js/vendor/jquery.cookie.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>

@@ -129,7 +129,7 @@ var BfUser = (function (BfUser)  {
       email : $('#email').val(),
       password : $('#password').val()
     };
-    if (config.debug) console.log(returningUser);
+    if (config.debug) console.log(JSON.stringify(returningUser));
     $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
   }
 
