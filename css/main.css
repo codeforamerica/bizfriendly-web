@@ -294,6 +294,10 @@ hr {
 	text-decoration: underline;
 }
 
+#submissionModal .btn {
+	text-decoration: none;
+}
+
 #teach-landing #subheader, #teach-landing #main, #teach-header, 
 #teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
 #new-category #main, #teaching-guide #subheader, #teaching-guide #main {
@@ -1302,6 +1306,20 @@ section .btn{
 
 #new-service input {
 	margin-bottom: 10px;
+}
+
+legend {
+	font-family: 'Open Sans';
+	font-weight: 700;
+	color: #0F6095;
+	font-size: 18px;
+}
+
+label {
+	font-family: 'Open Sans';
+	font-weight: 700;
+	color: #0F6095;
+	font-size: 14px;
 }
 
 

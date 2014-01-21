@@ -24,7 +24,7 @@ js: new-category
 
     <section id="main" class="row">
         <form role="form" class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
-            <legend class="blue">Skill Category Information</legend>
+            <legend>Skill Category Information</legend>
             <p>To teach a skill that is new to BizFriend.ly, you'll have to provide some information that helps others know why they should learn this skill.</p>
             <div class="form-group">
                 <input type="text" class="form-control" id="new-skill-name" placeholder="New Skill Name">
@@ -32,9 +32,15 @@ js: new-category
             <div class="form-group">
                 <textarea id="new-skill-description" class="form-control" placeholder="Description of new skill" rows="4"></textarea>
             </div>
+            <div class="col-sm-6 col-md-5 col-lg-4">
             <!--<button id="preview" type="button" class="btn btn-blue">Preview</button>-->
-            <button id="save-draft" type="button" class="btn btn-blue">Save Draft</button>
-            <button id="submit" type="button" class="btn btn-primary">Submit</button>
+                <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
+                <button id="submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <input id="terms" type="checkbox" checked> <span class="bold">Agree to Terms</span>
+                <p><small>When you create new content on BizFriend.ly you’re agreeing to share with the community. All content on BizFriend.ly is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></p>
+            </div>
             <div id="form-alert" class="hidden alert alert-danger"></div>
         </form>
     </section>
@@ -65,10 +71,10 @@ js: new-category
           <h4 class="modal-title">Nice Work!</h4>
         </div>
         <div class="modal-body">
-            <b>You created a new skill called <span class="skill-name orange"></span></b>
+            <p>You created a new skill called <span class="skill-name orange"></span></p>
             <p>To ensure high quality content on BizFriend.ly, your skill will be reviewed before it goes live.</p>
             <a type="button" class="btn btn-default" href="/new-category.html">Create Another</a>
-            <!--<a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>-->
+            <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -137,7 +137,7 @@ var profile = (function (profile) {
       $.getJSON(config.bfUrl+config.bfApiVersion+'/categories', function(response){
         $.each(response.objects, function(i, category){
           if (category.creator_id == userID){
-            _displayContent(category, "category");
+            _displayContent(category, "skill"); // Called skill on web site.
           }
         });
       });
@@ -169,7 +169,7 @@ var profile = (function (profile) {
         html += '<a type="button" href="lesson-builder.html?'+content.id+'" class="btn btn-default">Edit</a>';
       } else if (content_type == "service") {
         html += '<a type="button" href="new-service.html?'+content.id+'" class="btn btn-default">Edit</a>';
-      } else if (content_type == "category") {
+      } else if (content_type == "skill") {
         html += '<a type="button" href="new-category.html?'+content.id+'" class="btn btn-default">Edit</a>';
       }
       
