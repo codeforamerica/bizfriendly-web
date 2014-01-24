@@ -1,6 +1,7 @@
 ---
 layout: default
 title: teaching guide
+published: true
 ---
 
 <div id="teaching-guide">
@@ -98,16 +99,31 @@ title: teaching guide
 			<span class="bold">There are two types of lessons on BizFriend.ly:</span> 
 			<ul>
 				<li>
-					<p><span class="bold">Simple Steps:</span> Simple step lessons can be created for absolutely any website or web service. You’ll create a series of steps that progress the learner through the lesson by guiding them with text, images, and even opening them to the correct part of a web service. You can also enter feedback for steps that will appear once the user clicks the "next" button in the lesson. Example:</p>
+					<p><span class="bold">Simple Steps:</span> Simple step lessons can be created for absolutely any website or web service. You’ll create a series of steps that progress the learner through the lesson by guiding them with text, images, and even opening them to the correct part of a web service.Example:</p>
 				</li>
 				<img class="padded-img" src="img/teaching-guide/simple_step.png">
 				<li>
-					<p><span class="bold">Dynamic Steps:</span> These lessons are connected to the back end of web services via APIs, which allow users to be able to login and authenticate with the web service, which then allows for automatic progression through steps based on actions in the service and dynamic feedback using information from those actions. You can tell which web services have these features by seeing  the "Advanced Options" box appear in the lesson builder when one of the services is selected. Example: <a href="http://bizfriend.ly/instructions.html?8">Creating a Facebook Page</a></p>
+					<p><span class="bold">Dynamic Steps:</span> These lessons are connected to the back end of web services via APIs, which allow users to be able to login and authenticate with the web service, which then allows for automatic progression through steps based on actions in the service and dynamic feedback using information from those actions. You can tell which web services have these features by seeing  the "Advanced Options" box appear in the lesson builder when one of the services is selected. Example lesson: <a href="http://bizfriend.ly/instructions.html?8">Creating a Facebook Page</a></p>
 				</li>
 			</ul>
 			<ol>
 				<li>
 					<p><span class="bold">Idea:</span> First, you’ll want to come up with an idea for a lesson that doesn’t exist yet on BizFriend.ly. Your lesson will be part of a skill, such as "promoting your business online" and a web service, such as "Facebook" or "Trello." You can check out existing skills and web services on the <a href="http://bizfriend.ly/learn.html">Learn</a> page. Click on the web service that you’re lesson is about to see what content is already there. Don’t see the skill or web service that your lesson is about? You’ll want to add it using the <a href="http://bizfriend.ly/new-category.html">skill creation form</a> or <a href="http://bizfriend.ly/new-service.html">web service creation form</a>, and referring to the <a href="#skills">How to Add Skills</a> and <a href="#services">How to Add Web Services</a> instructions above. </p>
+                  <p>
+                  You should first draft your lesson in a word processor like Google Drive, Microsoft Word, or Text Edit. It's helpful to compose your lesson there and then just copy and paste it over to the Lesson Builder. Writing out steps might look like this: 
+Step 1
+<b>First, you’re going to open Doodle. Click the button below.</b> 
+open button: http://www.doodle.com/
+<br>
+Step 2 
+<b>Click the “Schedule an event” button.</b>
+<br>
+Step 3
+<b>At a minimum, enter the title of your event, your name, and your email address.<b> 
+Entering your information does not open a Doodle account, it just sends  you a link so you can easily get back to your event later. 
+ <br>
+  If you'd like to see how these steps became a lesson, check out <a href="http://bizfriend.ly/instructions.html?72">Scheduling a group meeting on Trello</a>.
+                  </p>
 				</li>
 				<li>
 					<p>To build your lesson, you’ll use the <a href="lesson-builder.html">Lesson Builder</a>.</p>
@@ -138,7 +154,7 @@ title: teaching guide
 					<p>Images help add context or indicate what a learner might be looking for with a web service. Sometimes these visual guides can be more helpful that text alone. To add an image, draft the "image" element to the build window. You’ll have text that you can edit to provide instructions, and then you will click the "Choose File" button to select an image that’s saved to your computer. Images should be no larger than 250 pixels wide by 350 pixels tall. This ensures that they fit within the allotted space in the build window.</p>
 					
 					<img class="left" style="padding-right: 10px;" src="img/teaching-guide/open.png"/>
-					<p>You can help the learner get to exactly the right spot within a web service by using the open button element. Drag the "Text & Open Button" element to the build window and then write instruction text and change the box color. Then click the "Open" button to add the web address that the button should open.</p><br/>
+					<p>You can help the learner get to exactly the right spot within a web service by using the open button element. This is often going to be the first step to any lesson. Drag the "Text & Open Button" element to the build window and then write instruction text and change the box color. Then click the "Open" button to add the web address that the button should open.</p><br/>
 
 					<img class="left" style="padding-right: 10px;" src="img/teaching-guide/login.png"/>
 					<p>For some services, we have the ability to log the user into the web service. This will only appear for web services that have this functionality attached to them. If this option is here, you’ll want this to be the first step of your lesson so that user can authenticate with the service and we can then provide dynamic progression through the steps and dynamic feedback (see Advanced Options). Drag the "Text & Log In Button" element  to the build window and then write instruction text and change the box color. The button will work without you needing to add any information to it.</p>
@@ -147,7 +163,7 @@ title: teaching guide
 					<p><span class="bold">Color:</span> You may want to edit the color of boxes as the different colors help learners see discrete pieces of information within a step. You can update the box color anytime by clicking the color picker icon <img src="img/teaching-guide/color_picker.png" height="20px"/> in any element box in the build window.</p>
 				</li>
 				<li>
-					<p><span class="bold">Feedback:</span> For each step, you can provide feedback that encourages the learner and congratulates them for completing a task. Edit the feedback by clicking the text in the feedback window. You’ll want to create a headline (green text) and a short statement in the body text (gray text).  If you don’t use one of these, just leave it as "Click to edit." and it will automatically disappear in the actual lesson. The feedback appears as a modal overlay on top of the step within the helper window.</p>
+					<p><span class="bold">Feedback:</span> For certain steps, you can provide feedback that encourages the learner and congratulates them for completing a task. You'll see the feedback window open next to the main step window in the Lesson Builder for steps where this is possible. The most popular is on a step using the open button element. Edit the feedback by clicking the text in the feedback window. You’ll want to create a headline (green text) and a short statement in the body text (gray text).  If you don’t use one of these, just leave it as "Click to edit." and it will automatically disappear in the actual lesson. The feedback appears as a modal overlay on top of the step within the helper window.</p>
 				</li>
 				<li>
 					<p><span class="bold">Adding Steps:</span> To add more steps, click the gray "plus" button <img src="img/teaching-guide/tg3.png" height="20"> near the step number. You can add up to twelve more steps. Use the arrows to navigate between the steps. <img src="img/teaching-guide/arrows.png" height="20px"/></p> 
@@ -156,7 +172,16 @@ title: teaching guide
 					<p><span class="bold">Celebration Step:</span> The Lesson Builder automatically generates the celebration step and places it as the last step in your lesson. You can get to it using the arrows above the build window. You are able to select from a variety of icons at the top of the celebration step and also write a congratulatory message. The social icons and buttons below automatically work based on information in the system and do not require any input from the teacher.</p>
 				</li>
 				<li>
-					<p><span class="bold">Advanced Options:</span> This section is in prototype. Check back later.</p>
+                  <p><span class="bold">Advanced Options:</span> This section is in prototype. For certain web services, BizFriend.ly has the ability to connect to the API and create lessons with dynamic steps. Some of the services that currently have this functionality include: Facebook, Trello, and Foursquare. When you click on "Advanced Options" you get two menus to select from. First you'll set what the step is watching. You can pick from: 
+                <ul>
+                  <li>A new item</li>
+				<li>New attribute on item</li>
+				<li>Updated attribute on item</li>
+				<li>Attribute equals expected value</li>
+				<li>Attribute from input</li>
+                  </ul>
+ You'll then select what kind of item it is. This menu populates based on the web service.
+                  </p>
 				</li>
 				<li>
 					<p><span class="bold">Preview:</span> You can preview how the lesson will look by clicking the "preview" button. It will open the lesson exactly how it will appear on BizFriend.ly and you can test out all of your steps to make sure they are working properly.</p>
