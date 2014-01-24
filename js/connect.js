@@ -122,7 +122,6 @@ var connect = (function (connect) {
             return 0;
           })
           // Add to the page
-          console.log("Adding teachers");
           var html = "";
           $.each(namedCounts, function(i,namedCount){
             if (i < 5){ // Top five learners
@@ -152,7 +151,6 @@ var connect = (function (connect) {
       if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
       return 0;
     })
-    console.log(completedLessons);
     // Add to page
     var html = ""
     $.each(completedLessons, function(i,userLesson){
