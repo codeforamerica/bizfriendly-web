@@ -1,6 +1,6 @@
 // GLOBAL VARIABLES
 var config = {
-  debug : true,
+  debug : false,
   bfUrl : 'http://app.bizfriend.ly',
   // bfUrl : 'http://howtocity.herokuapp.com',
   // bfUrl : 'http://app-staging.bizfriend.ly',
