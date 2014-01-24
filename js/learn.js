@@ -53,7 +53,7 @@ var learn = (function (learn) {
       var services = categories[i].services;
       $.each(services, function(x){
         if (services[x].state == "published"){
-          console.log("SERVICE STATE: "+services[x].state);
+          // console.log("SERVICE STATE: "+services[x].state);
           // TODO: WHEN MORE THAN 4, ADD A NEW ROW
           // if (x % 4 == 0) {
           //   html += '</div><div class="row">';

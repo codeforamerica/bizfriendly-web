@@ -16,12 +16,12 @@ var connect = (function (connect) {
   // PRIVATE METHODS
   function _loading(){
     // console.log('Loading');
-    $('#main').toggle();
+    // $('#main').toggle();
   }
 
   function _main(response){
-    $('#loading').toggle();
-    $('#main').toggle();
+    // $('#loading').toggle();
+    // $('#main').toggle();
     _checkIfLoggedIn();
     // Get top learners
     _getTopLearners(response);
@@ -116,12 +116,13 @@ var connect = (function (connect) {
         numberOfTeachers -= 1;
         if (!numberOfTeachers){
           // Sort
-          namedCounts.sort(function(a,b){
+          namedCounts = namedCounts.sort(function(a,b){
             if (a.count > b.count) return -1;
             if (a.count < b.count) return 1;
             return 0;
           })
           // Add to the page
+          console.log("Adding teachers");
           var html = "";
           $.each(namedCounts, function(i,namedCount){
             if (i < 5){ // Top five learners
@@ -138,28 +139,28 @@ var connect = (function (connect) {
   }
 
   function _getLatestActivity(response){
-    var recentlyCompletedLessons = []
+    var completedLessons = []
     // Get finished lessons
-    var recentCounter = 10;
     $.each(response.objects, function(i,userLesson){
-      if (userLesson.completed && recentCounter > 0){
-        recentCounter -= 1;
-        recentlyCompletedLessons.push(userLesson);
+      if (userLesson.completed){
+        completedLessons.push(userLesson);
       }
     });
     // Sort by time
-    recentlyCompletedLessons.sort(function(a,b){
+    completedLessons = completedLessons.sort(function(a,b){
       if (Date.parse(a.end_dt) > Date.parse(b.end_dt)) return -1;
       if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
       return 0;
     })
+    console.log(completedLessons);
     // Add to page
     var html = ""
-    $.each(recentlyCompletedLessons, function(i,userLesson){
-      html += '<p><a>'+userLesson.user.name+'</a>';
-      html += " recently finished ";
-      html += '<a href="service.html?'+userLesson.lesson.service_id+'">'+userLesson.lesson.name+'</a></p>';
-      // html += '<hr/>';
+    $.each(completedLessons, function(i,userLesson){
+      if (i < 10){
+        html += '<p><a>'+userLesson.user.name+'</a>';
+        html += " recently finished ";
+        html += '<a href="service.html?'+userLesson.lesson.service_id+'">'+userLesson.lesson.name+'</a></p>';
+      }
     })
     // Add to the page
     $("#latest-activity").append(html);

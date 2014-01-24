@@ -1,5 +1,5 @@
 ---
-layout: new-content-layout
+layout: default
 title: Add a new service
 js: new-service
 ---
@@ -144,7 +144,7 @@ js: new-service
 
             <div class="form-group">
                 <label for="video-embed">Video Embed</label>
-                <input id="video-embed" type="url" class="form-control" placeholder="Copy and paste Vimeo embed code.">
+                <input id="video-embed" type="url" class="form-control" placeholder="Copy and paste a Vimeo or YouTube embed code with size set to 600 x 338.">
             </div>
             <div class="form-group">
                 <legend>Select A Skill</legend>
@@ -152,6 +152,7 @@ js: new-service
                 <br/>
                 <select id="category-id" class="selectpicker" data-width="auto"></select>
             </div>
+            <div id="form-alert" class="hidden alert alert-danger"></div>
             <div id="service-form-buttons" class="row">
                     <div class="col-sm-6 col-md-5 col-lg-4">
                     <!--<button id="preview" type="button" class="btn btn-blue">Preview</button>-->
@@ -162,7 +163,6 @@ js: new-service
                         <input id="terms" type="checkbox" checked> <span class="bold">Agree to Terms</span>
                         <p><small>When you create new content on BizFriend.ly you’re agreeing to share with the community. All content on BizFriend.ly is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></p>
                     </div>
-                    <div id="form-alert" class="hidden alert alert-danger"></div>
             </div>
         </form>
     </section>

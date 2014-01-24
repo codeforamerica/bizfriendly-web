@@ -93,17 +93,17 @@ var BfUser = (function (BfUser)  {
   }
 
   // Update page to reflect user state
-  function _updatePage(){
-    if (BfUser.signedIn) {
-      $('#signInLink').hide();
-      $('.bfUserName').text(BfUser.name);
-      $('#signOutLink').show();
-    }
-    else {
-      $('#signInLink').show();
-      $('#signOutLink').hide();
-    }
-  }
+  // function _updatePage(){
+  //   if (BfUser.signedIn) {
+  //     $('#signInLink').hide();
+  //     $('.bfUserName').text(BfUser.name);
+  //     $('#signOutLink').show();
+  //   }
+  //   else {
+  //     $('#signInLink').show();
+  //     $('#signOutLink').hide();
+  //   }
+  // }
 
   function _badPost(response){
     response = $.parseJSON(response.responseText);
@@ -130,7 +130,20 @@ var BfUser = (function (BfUser)  {
       password : $('#password').val()
     };
     if (config.debug) console.log(JSON.stringify(returningUser));
-    $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
+    // $.post(config.bfUrl + '/signin', returningUser, _signedIn).fail(_badPost);
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: config.bfUrl+'/signin',
+        data: returningUser,
+        dataType: "json",
+        success : function(response){
+          _signedIn(response);
+        },
+        error : function(error){
+          console.log(error);
+        }
+      });
   }
 
   // Sign out clicked, clear user state/cookie
@@ -193,7 +206,7 @@ var BfUser = (function (BfUser)  {
 
   //Set User state based on sign in response
   function _signedIn(response){
-    if (config.debug) console.log(response);
+    if (config.debug) console.log(response.name);
     BfUser.id = response.id;
     BfUser.email = response.email
     BfUser.bfAccessToken = response.access_token;
@@ -203,7 +216,7 @@ var BfUser = (function (BfUser)  {
     // Set a cookie!
     $.removeCookie('BfUser');
     _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-    if (config.debug) console.log($.cookie('BfUser'));
+    if (config.debug) console.log(JSON.stringify($.cookie('BfUser')));
 
     // disable input fields and button when successfully signed up
     $('#signin-form input').attr("disabled", "disabled");
@@ -218,14 +231,13 @@ var BfUser = (function (BfUser)  {
     if (BfUser.signedIn) {
       $('#signInLink').hide();
       $('#signUpLink').hide();
-      $('#bfUserName').text(BfUser.name);
-      $('#bfUserName').show();
+      $('#bfUserName').text(BfUser.name).show();
+      // $('#bfUserName').show();
       $('#signOutLink').show();
     }
     else {
       $('#signInLink').show();
       $('#signUpLink').show();
-      $('#bfUserName').html('<a href="#"></a>');
       $('#bfUserName').hide();
       $('#signOutLink').hide();
     }

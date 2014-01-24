@@ -1068,6 +1068,8 @@ var teach = (function (teach) {
         console.log("Lesson Posted");
         lessonId = data.id;
         _postSteps();
+        $(".lesson-name").text($("#lesson-name").text());
+        $('#submissionModal').modal();
       },
       error : function(error){
         console.log(error)
