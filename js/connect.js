@@ -151,6 +151,7 @@ var connect = (function (connect) {
       if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
       return 0;
     })
+    console.log("NEW NEW");
     // Add to page
     var html = ""
     $.each(completedLessons, function(i,userLesson){
