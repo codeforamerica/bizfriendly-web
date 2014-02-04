@@ -13,7 +13,6 @@ var profile = (function (profile) {
     if (config.debug) console.log('init');
     _loading();
     _main();
-    _editProfile();
   }
 
   // PRIVATE METHODS
@@ -22,7 +21,7 @@ var profile = (function (profile) {
     $('#main').toggle();
   }
 
-  function _main(response){
+  function _main(){
     $('#loading').toggle();
     $('#main').toggle();
 
@@ -60,6 +59,8 @@ var profile = (function (profile) {
       $("#profile-site").attr("href",response.business_url);
       $(".profile-description").text(response.description);
     });
+
+    
   }
 
   function _checkIfLoggedIn(){
@@ -187,89 +188,6 @@ var profile = (function (profile) {
     html += '</div>';
     html += '</div>';
     $("#"+content.state).append(html);
-  }
-
-  function _editProfile(){
-    $("#submit").click(function(evt){
-      updatedUser = {
-        name : $("#form-name").val(),
-        location : $("#form-location").val(),
-        business_name : $("#form-biz-name").val(),
-        business_url : $("#form-url").val(),
-        description : $("#form-description").val(),
-        linkedin : $("#form-linkedin").val(),
-        gplus : $("#form-gplus").val(),
-        facebook : $("#form-facebook").val(),
-        twitter : $("#form-twitter").val()
-      }
-      // Clean up updatedUser
-      if (!$("#form-name").val()) {
-          delete updatedUser.name;
-      }
-      if (!$("#form-location").val()) {
-        delete updatedUser.location;
-      }
-      if (!$("#form-biz-name").val()) {
-        delete updatedUser.business_name;
-      }
-      if (!$("#form-url").val()) {
-        delete updatedUser.business_url;
-      }
-      if (!$("#form-description").val()) {
-        delete updatedUser.description;
-      }
-      if (!$("#form-linkedin").val()) {
-        delete updatedUser.linkedin;
-      }
-      if (!$("#form-gplus").val()) {
-        delete updatedUser.gplus;
-      }
-      if (!$("#form-facebook").val()) {
-        delete updatedUser.facebook;
-      }
-      if (!$("#form-twitter").val()) {
-        delete updatedUser.twitter;
-      }
-      $.ajax({
-        type: "PUT",
-        contentType: "application/json",
-        url: config.bfUrl+config.bfApiVersion+'/users/'+BfUser.id,
-        data: JSON.stringify(updatedUser),
-        dataType: "json",
-        success : function(){
-          $("#form-alert").text("Great!").addClass("alert-success").removeClass("alert-danger").removeClass("hidden");
-          if ($("#form-name").val()) {
-            $(".user-name").text("Hi, " + $("#form-name").val());
-            $("#bfUserName").text($("#form-name").val());
-            BfUser.name = $("#form-name").val();
-          }
-          if ($("#form-location").val()) {
-            $(".location").text($("#form-location").val());
-          }
-          if ($("#form-biz-name").val()) {
-            $(".biz-name").text($("#form-biz-name").val());
-          }
-          if ($("#form-linkedin").val()) {
-            $("#profile-li").attr("href",$("#form-linkedin").val());
-          }
-          if ($("#form-gplus").val()) {
-            $("#profile-gplus").attr("href",$("#form-gplus").val());
-          }
-          if ($("#form-facebook").val()) {
-            $("#profile-fb").attr("href",$("#form-facebook").val());
-          }
-          if ($("#form-twitter").val()) {
-            $("#profile-twitter").attr("href",$("#form-twitter").val());
-          }
-          if ($("#form-description").val()) {
-            $(".profile-description").text($("#form-description").val());
-          }
-        },
-        error : function(error){
-          $("#form-alert").text(error).removeClass("hidden");
-        }
-      });
-    });
   }
 
   // add public methods to the returned module and return it

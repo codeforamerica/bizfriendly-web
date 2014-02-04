@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Edit your profile
-js: profile
+js: editProfile
 ---
 
 
@@ -31,7 +31,7 @@ js: profile
             <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
         </div>
 
-        <form role="form" class="col-sm-6 col-md-6 col-lg-6">
+        <form id="edit-profile" role="form" class="col-sm-6 col-md-6 col-lg-6">
             <legend>About You</legend>
             <p>Change your profile.</p>
             <div class="form-group">
@@ -41,6 +41,10 @@ js: profile
             <div class="form-group">
                 <label for="form-biz-name">Your Business' Name</label>
                 <input type="text" class="form-control" id="form-biz-name" placeholder="BizFriend.ly">
+            </div>
+            <div class="form-group">
+                <label for="form-location">Your Location</label>
+                <input type="text" class="form-control" id="form-location" placeholder="Kansas City">
             </div>
             <div class="form-group">
                 <label for="form-url"><img src="img/profile-site-icon.png"> Your Website URL</label>
