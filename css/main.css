@@ -300,7 +300,7 @@ hr {
 
 #teach-landing #subheader, #teach-landing #main, #teach-header, 
 #teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
-#new-category #main, #teaching-guide #subheader, #teaching-guide #main {
+#new-category #main {
 	position: relative;
 	top: -31px;
 }
@@ -1292,6 +1292,10 @@ section .btn{
 	list-style: disc;
 }
 
+#teaching-guide #tg-nav ul {
+	list-style: none;
+}
+
 #teaching-guide .padded-img {
 	padding-bottom: 25px;
 }
@@ -1300,7 +1304,7 @@ section .btn{
 	text-decoration: underline;
 }
 
-#teaching-guide #subnav a {
+#teaching-guide #subheader a {
 	text-decoration: none;
 }
 
