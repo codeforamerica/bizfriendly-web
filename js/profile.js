@@ -36,6 +36,7 @@ var profile = (function (profile) {
       if (profileID != BfUser.id) {
         $("#draft").hide();
         $("#submitted").hide();
+        $("#edit-profile-btn").hide();
       }
     } else {
     // If not, show logged in users private profile
