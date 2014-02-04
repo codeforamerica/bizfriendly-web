@@ -1,0 +1,74 @@
+---
+layout: default
+title: Edit your profile
+js: profile
+---
+
+
+<div id="profile">
+    <div id="subheader" class="row">
+        <div class="col-lg-offset-1 col-lg-11">
+            <h1>Nice work! Here's where you can see everything you've done on BizFriend.ly</h1>
+        </div>
+        <div class="alert alert-info login-required col-lg-offset-1 col-lg-11">
+            You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
+        </div>
+    </div>
+
+    <section id="main" class="row">
+        <div id="profile-info" class="col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 ">
+            <h1 class="user-name">Hi, </h1>
+            <p class="location"></p>
+            <p class="biz-name"></p>
+            <div id="profile-social-links">
+                <a id="profile-li"><img src="img/profile-li-icon.png"></a>
+                <a id="profile-gplus"><img src="img/profile-g+-icon.png"></a>
+                <a id="profile-fb"><img src="img/profile-fb-icon.png"></a>
+                <a id="profile-twitter"><img src="img/profile-twitter-icon.png"></a>
+                <a id="profile-site"><img src="img/profile-site-icon.png"></a>
+            </div>
+            <p class="profile-description"></p>
+            <!-- <button type="button" class="btn btn-default">Edit Your Profile</button> -->
+        </div>
+
+        <form role="form" class="col-sm-6 col-md-6 col-lg-6">
+            <legend>About You</legend>
+            <p>Change your profile.</p>
+            <div class="form-group">
+                <label for="form-name">Your Name</label>
+                <input type="text" class="form-control" id="form-name" placeholder="Jane Doe">
+            </div>
+            <div class="form-group">
+                <label for="form-biz-name">Your Business' Name</label>
+                <input type="text" class="form-control" id="form-biz-name" placeholder="BizFriend.ly">
+            </div>
+            <div class="form-group">
+                <label for="form-url"><img src="img/profile-site-icon.png"> Your Website URL</label>
+                <input type="text" class="form-control" id="form-url" placeholder="http://bizfriend.ly">
+            </div>
+            <div class="form-group">
+                <label for="form-description">Short Description</label>
+                <textarea class="form-control" id="form-description" placeholder="Put the web to work for your business"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="form-linkedin"><img src="img/profile-li-icon.png"> LinkedIn</label>
+                <input type="text" class="form-control" id="form-linkedin" placeholder="http://www.linkedin.com/in/hyd415">
+            </div>
+            <div class="form-group">
+                <label for="form-gplus"><img src="img/profile-g+-icon.png"> Google +</label>
+                <input type="text" class="form-control" id="form-gplus" placeholder="https://plus.google.com/u/0/103978907232488703693">
+            </div>
+            <div class="form-group">
+                <label for="form-facebook"><img src="img/profile-fb-icon.png"> Facebook</label>
+                <input type="text" class="form-control" id="form-facebook" placeholder="https://www.facebook.com/ondrae">
+            </div>
+            <div class="form-group">
+                <label for="form-twitter"><img src="img/profile-twitter-icon.png"> Twitter</label>
+                <input type="text" class="form-control" id="form-twitter" placeholder="http://twitter.com/hackyourcity">
+            </div>
+            <button id="submit" type="button" class="btn btn-primary">Submit</button>
+            <div id="form-alert" class="hidden alert alert-danger"></div>
+        </form>
+    </section>
+    </section>
+</div>
