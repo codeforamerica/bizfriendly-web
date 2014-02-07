@@ -41,9 +41,39 @@ var connect = (function (connect) {
 
   function _getUserInfo(userID){
     $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+userID, function(response){
-      $(".user-name").text(response.name);
-      $(".location").text(response.location);
-      $(".biz-name").text(response.business_name);
+      $(".user-name").append(response.name);
+      if (response.location) {
+        $(".location").text(response.location);
+      } 
+      if (response.business_name) {
+        $(".biz-name").text(response.business_name);
+      }
+      if (response.linkedin) {
+        $("#profile-li").attr("href",response.linkedin);
+      } else {
+        $("#profile-li").hide();
+      }
+      if (response.gplus) {
+        $("#profile-gplus").attr("href",response.gplus);
+      } else {
+        $("#profile-gplus").hide();
+      }
+      if (response.facebook) {
+        $("#profile-fb").attr("href",response.facebook);
+      } else {
+        $("#profile-fb").hide();
+      }
+      if (response.twitter) {
+        $("#profile-twitter").attr("href",response.twitter);
+      } else {
+        $("#profile-twitter").hide();
+      }
+      if (response.business_url) {
+        $("#profile-site").attr("href",response.business_url);
+      } else {
+        $("#profile-site").hide();
+      }
+      $(".profile-description").text(response.description);
     });
   }
 

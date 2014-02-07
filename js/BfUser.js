@@ -45,7 +45,12 @@ var BfUser = (function (BfUser)  {
     $('#request-password-reset-btn').click(_requestPasswordResetClicked);
     // The password is reset
     $('#password-reset-btn').click(_passwordResetClicked);
-  // Setup page based on signin state
+    if ($("#edit-profile").length == 1){
+      $("#submit").click(function(evt){
+        _setUserCookie(BfUser.id, $("#form-name").val(), BfUser.email, "true", BfUser.bfAccessToken);
+      })
+    }
+    // Setup page based on signin state
     _updatePage();
   };
   // Make a post to server with API access token appended
@@ -318,4 +323,3 @@ var BfUser = (function (BfUser)  {
 }(BfUser || {}));
 //Initialize Module
 BfUser.init();
-
