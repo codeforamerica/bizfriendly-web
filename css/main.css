@@ -305,6 +305,10 @@ hr {
 	top: -31px;
 }
 
+#profile #subheader, #connect #subheader {
+	padding-bottom: 15px;
+}
+
 #teach footer {
 	position: relative;
 	top: -56px;
@@ -1154,10 +1158,10 @@ section .btn{
 	font-weight: 700;
 }
 
-#profile-info .biz-name, #profile-social-links, #profile-info .profile-description {
+/*#profile-info .biz-name, #profile-social-links, #profile-info .profile-description {
 	position: relative;
 	top: -15px;
-}
+}*/
 
 #profile-social-links {
 	margin-bottom: 15px;
@@ -1182,6 +1186,12 @@ section .btn{
 	color: #ff4000;
 	line-height: 48px;
 	border-radius: 15px;
+}
+
+#edit-profile legend {
+	color: #ff4000;
+	font-size: 24px;
+	font-weight: 700;
 }
 
 #latest-activity {

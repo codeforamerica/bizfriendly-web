@@ -4,7 +4,6 @@ title: Edit your profile
 js: editProfile
 ---
 
-
 <div id="profile">
     <div id="subheader" class="row">
         <div class="col-lg-offset-1 col-lg-11">
@@ -47,30 +46,32 @@ js: editProfile
                 <input type="text" class="form-control" id="form-location" placeholder="Kansas City">
             </div>
             <div class="form-group">
-                <label for="form-url"><img src="img/profile-site-icon.png"> Business Website</label>
-                <input type="text" class="form-control" id="form-url" placeholder="http://bizfriend.ly">
-            </div>
-            <div class="form-group">
-                <label for="form-description">Short Description</label>
+                <label for="form-description">Introduce Yourself</label>
+                <p class="help-block">Write a brief intro to the community to let everyone get to know you.</p>
                 <textarea class="form-control" id="form-description" placeholder="Put the web to work for your business"></textarea>
             </div>
+            <legend>Social Networks and Web Links</legend>
             <div class="form-group">
-                <label for="form-linkedin"><img src="img/profile-li-icon.png"> LinkedIn</label>
-                <input type="text" class="form-control" id="form-linkedin" placeholder="http://www.linkedin.com/in/hyd415">
-            </div>
+                <label for="form-url"><img src="img/profile-site-icon.png"> Business Website</label>
+                <input type="text" class="form-control" id="form-url" placeholder="Copy and paste the web address for your business.">
+            </div>  
             <div class="form-group">
-                <label for="form-gplus"><img src="img/profile-g+-icon.png"> Google +</label>
-                <input type="text" class="form-control" id="form-gplus" placeholder="https://plus.google.com/u/0/103978907232488703693">
+                <label for="form-twitter"><img src="img/profile-twitter-icon.png"> Twitter</label>
+                <input type="text" class="form-control" id="form-twitter" placeholder="Copy and paste the web address for your Twitter profile..">
             </div>
             <div class="form-group">
                 <label for="form-facebook"><img src="img/profile-fb-icon.png"> Facebook</label>
-                <input type="text" class="form-control" id="form-facebook" placeholder="https://www.facebook.com/ondrae">
+                <input type="text" class="form-control" id="form-facebook" placeholder="Copy and paste the web address for your Facebook profile.">
             </div>
             <div class="form-group">
-                <label for="form-twitter"><img src="img/profile-twitter-icon.png"> Twitter</label>
-                <input type="text" class="form-control" id="form-twitter" placeholder="http://twitter.com/hackyourcity">
+                <label for="form-linkedin"><img src="img/profile-li-icon.png"> LinkedIn</label>
+                <input type="text" class="form-control" id="form-linkedin" placeholder="Copy and paste the web address for your LinkedIn profile.">
             </div>
-            <button id="submit" type="button" class="btn btn-primary">Save Your Profile</button>
+            <div class="form-group">
+                <label for="form-gplus"><img src="img/profile-g+-icon.png"> Google +</label>
+                <input type="text" class="form-control" id="form-gplus" placeholder="Copy and paste the web address for your Google Plus profile.">
+            </div>
+            <button id="submit" type="button" class="btn btn-default pull-right">Save Your Profile</button>
             <div id="form-alert" class="hidden alert alert-danger"></div>
         </form>
     </section>
