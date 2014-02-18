@@ -145,22 +145,25 @@ var profile = (function (profile) {
       html += '<button type="button" href="learn.html" class="btn btn-default">Start Learning</button>'
       $("#services-learned").append(html);
     } else {
-      $.each(lessonsCompleted, function(i){
-        var html ="";
-        url = config.bfUrl+config.bfApiVersion+'/services/'+lessonsCompleted[i].lesson.service_id;
-        $.getJSON(url, function(response){
-          html += '<div class="service-learned">';
+      var lessonsByService = {};
+      $.each(lessonsCompleted, function(i,lessonCompleted){
+        lessonsByService[lessonCompleted.lesson.service_id] = lessonsByService[lessonCompleted.lesson.service_id] || [];
+        lessonsByService[lessonCompleted.lesson.service_id].push(lessonCompleted);
+      });
+      $.each(Object.keys(lessonsByService), function(i, service_id){
+        var html = "";
+        html += '<div class="service-learned">';
+        url = config.bfUrl+config.bfApiVersion+'/services/'+service_id;
+        $.getJSON(url, function(response) {
           html += '<a href="/service.html?'+response.id+'" class="service-name">'+response.name+'</a>';
-          $.each(lessonsCompleted, function(x){
-            if (lessonsCompleted[x].lesson.service_id == response.id){
-              html += '<br/><img src="img/green-check.png">';
-              html += '<span class="lesson-name">'+lessonsCompleted[x].lesson.name+'</span>';
-              html += '<span class="pull-right">'+moment(lessonsCompleted[x].end_dt).format("MMM Do YY")+'</span>';
-            }
+          $.each(lessonsByService[service_id], function(x, lesson){
+            html += '<br/><img src="img/green-check.png">';
+            html += '<span class="lesson-name">'+lesson.lesson.name+'</span>';
+            html += '<span class="pull-right">'+moment(lesson.end_dt).format("MMM Do YY")+'</span>';
           })
           html += '</div>';
           $("#services-learned").append(html);
-        })
+        });
       });
     }
   }
