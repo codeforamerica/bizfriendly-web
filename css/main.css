@@ -69,7 +69,7 @@ a {
 	line-height: 14px;
 }
 
-#top-learners .bold {
+#top-learners .bold, #top-teachers .bold {
 	line-height: 20px;
 }
 

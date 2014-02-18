@@ -109,8 +109,6 @@ var connect = (function (connect) {
     var html = "";
     $.each(userLessonCounts, function(i,userLessonCount){
       if (i < 5){ // Top five learners
-        console.log(userLessonCount.user.id);
-        // Get business name
         html += '<br/><div class="row">';
         html += '<div class="col-sm-3 col-md-3 col-lg-3 center">';
         html += '<p class="orange bold">'+userLessonCount.count;
@@ -150,6 +148,7 @@ var connect = (function (connect) {
         namedCount = {};
         namedCount["id"] = response.id;
         namedCount["name"] = response.name;
+        namedCount["business_name"] = response.business_name;
         namedCount["count"] = count;
         namedCounts.push(namedCount);
         numberOfTeachers -= 1;
@@ -164,8 +163,19 @@ var connect = (function (connect) {
           var html = "";
           $.each(namedCounts, function(i,namedCount){
             if (i < 5){ // Top five learners
-              html += '<br/><p><a href="profile.html?'+namedCount.id+'">'+namedCount.name+'</a>';
-              html += " has taught "+namedCount.count+" lessons.</p>";
+              console.log(namedCount);
+              html += '<br/><div class="row">';
+              html += '<div class="col-sm-3 col-md-3 col-lg-3 center">';
+              html += '<p class="orange bold">'+namedCount.count;
+              html += '<br/>lessons</p>';
+              html += '</div>';
+              html += '<div class="col-sm-9 col-md-9 col-lg-9">';
+              html += '<a href="profile.html?'+namedCount.id+'">'+namedCount.name+'</a><br/>';
+              if (namedCount.business_name) {
+                html += namedCount.business_name;
+              }
+              html += '</div>';
+              html += '</div>';
               html += '<hr style= margin: 1em 0 2em;>';
             }
           })
