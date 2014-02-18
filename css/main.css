@@ -69,6 +69,10 @@ a {
 	line-height: 14px;
 }
 
+#top-learners .bold {
+	line-height: 20px;
+}
+
 #subheader h1 {
 	color: #79C040;
 	font-family: 'Open Sans';
@@ -1134,6 +1138,11 @@ section .btn{
 
 #connect #left-column {
 	min-width:330px;
+}
+
+#top-learners a, #top-teachers a, #latest-activity a {
+	font-weight: 700;
+	text-decoration: underline;
 }
 
 #profile-info {

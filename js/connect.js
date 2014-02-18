@@ -78,44 +78,52 @@ var connect = (function (connect) {
   }
 
   function _getTopLearners(response){
-    var userCounts = {};
-    var userNames = {};
+    var userLessonCounts = [];
     // Build an object of user ids and counts of lessons completed.
     $.each(response.objects, function(i,userLesson){
+      var userLessonCount = {};
       // If user isn't in the list yet, add them.
-      if (!userCounts[userLesson.user.id]) {
-        userCounts[userLesson.user.id] = 0;
-      }
-      // If they've finished a lesson, then plus one to the count.
-      if (userLesson.completed){
-        userCounts[userLesson.user.id] += 1;
-      }
-      // Build an object of user ids and names
-      if(!userNames[userLesson.user.id]){
-        userNames[userLesson.user.id] = userLesson.user.name;
+      var inList = false;
+      $.each(userLessonCounts, function(i){
+        if (userLessonCounts[i].user.id == userLesson.user.id) {
+          // If they've finished a lesson, then plus one to the count.
+          if (userLesson.completed){
+            userLessonCounts[i].count += 1;
+          }
+          inList = true;
+        }
+      });
+      if (!inList) {
+        userLessonCount.user = userLesson.user;
+        userLessonCount.count = 0;
+        userLessonCounts.push(userLessonCount);
       }
     });
-    // Match names to the userids
-    var namedCounts = []
-    $.each(userCounts,function(userId,completedLessonsCount){
-      var nameCount = {}
-      nameCount["name"] = userNames[userId];
-      nameCount["count"] = userCounts[userId];
-      namedCounts.push(nameCount);
-    })
     // Sort
-    namedCounts.sort(function(a,b){
+    userLessonCounts.sort(function(a,b){
       if (a.count > b.count) return -1;
       if (a.count < b.count) return 1;
       return 0;
     })
     // Add to page
     var html = "";
-    $.each(namedCounts, function(i,namedCount){
+    $.each(userLessonCounts, function(i,userLessonCount){
       if (i < 5){ // Top five learners
-        html += '<p><a>'+namedCount.name+'</a>';
-        html += " has taken "+namedCount.count+" lessons.</p>";
-        // html += '<hr/>';
+        console.log(userLessonCount.user.id);
+        // Get business name
+        html += '<br/><div class="row">';
+        html += '<div class="col-sm-3 col-md-3 col-lg-3 center">';
+        html += '<p class="orange bold">'+userLessonCount.count;
+        html += '<br/>lessons</p>';
+        html += '</div>';
+        html += '<div class="col-sm-9 col-md-9 col-lg-9">';
+        html += '<a href="profile.html?'+userLessonCount.user.id+'">'+userLessonCount.user.name+'</a><br/>';
+        if (userLessonCount.user.business_name) {
+          html += userLessonCount.user.business_name;
+        }
+        html += '</div>';
+        html += '</div>';
+        html += '<hr style= margin: 1em 0 2em;>';
       }
     })
     // Add to the page
@@ -140,6 +148,7 @@ var connect = (function (connect) {
     $.each(teacherCounts, function(id,count){
       $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+id, function(response){
         namedCount = {};
+        namedCount["id"] = response.id;
         namedCount["name"] = response.name;
         namedCount["count"] = count;
         namedCounts.push(namedCount);
@@ -155,9 +164,9 @@ var connect = (function (connect) {
           var html = "";
           $.each(namedCounts, function(i,namedCount){
             if (i < 5){ // Top five learners
-              html += '<p><a>'+namedCount.name+'</a>';
+              html += '<br/><p><a href="profile.html?'+namedCount.id+'">'+namedCount.name+'</a>';
               html += " has taught "+namedCount.count+" lessons.</p>";
-              // html += '<hr/>';
+              html += '<hr style= margin: 1em 0 2em;>';
             }
           })
           $("#top-teachers").append(html);
@@ -185,9 +194,10 @@ var connect = (function (connect) {
     var html = ""
     $.each(completedLessons, function(i,userLesson){
       if (i < 10){
-        html += '<p><a>'+userLesson.user.name+'</a>';
+        html += '<br/><p><a href="profile.html?'+userLesson.user.id+'">'+userLesson.user.name+'</a>';
         html += " recently finished ";
         html += '<a href="service.html?'+userLesson.lesson.service_id+'">'+userLesson.lesson.name+'</a></p>';
+        html += '<hr style= margin: 1em 0 2em;>';
       }
     })
     // Add to the page
