@@ -44,7 +44,7 @@ var connect = (function (connect) {
       $(".user-name").append(response.name);
       if (response.location) {
         $(".location").text(response.location);
-      } 
+      }
       if (response.business_name) {
         $(".biz-name").text(response.business_name);
       }
@@ -152,7 +152,7 @@ var connect = (function (connect) {
         namedCount["count"] = count;
         namedCounts.push(namedCount);
         numberOfTeachers -= 1;
-        if (!numberOfTeachers){
+        if (numberOfTeachers <= 1){
           // Sort
           namedCounts = namedCounts.sort(function(a,b){
             if (a.count > b.count) return -1;
