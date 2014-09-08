@@ -1302,16 +1302,17 @@ section .btn{
 	margin-right: 25px;
 }
 
-#teaching-guide h2 {
+#teaching-guide h2, #about-page h2 {
 	color: #79C040;
 }
 
-#teaching-guide ul {
+#teaching-guide ul, #about-page ul {
 	padding-left: 35px;
 	list-style: disc;
 }
 
-#teaching-guide #tg-nav ul {
+#teaching-guide #tg-nav ul,
+#about-page #tg-nav ul {
 	list-style: none;
 }
 
@@ -1323,7 +1324,7 @@ section .btn{
 	text-decoration: underline;
 }
 
-#teaching-guide #subheader a {
+#teaching-guide #subheader a, #about-page #subheader a {
 	text-decoration: none;
 }
 
@@ -1345,6 +1346,8 @@ label {
 	font-size: 14px;
 }
 
+#about-page #main hr {margin-bottom: 10px;}
+#about-page #main h2 {margin-bottom: 10px;}
 
 /* bootstrap additions */
 .alert-success a{
