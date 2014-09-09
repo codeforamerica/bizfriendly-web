@@ -1353,3 +1353,19 @@ label {
 .alert-success a{
 	color: #FF4000;
 }
+
+.back-to-top {text-align: right;}
+
+.back-to-top + p {
+    border-top: solid 1px #BFBFBF;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+.back-to-top a {
+  margin-right: 20px;
+  padding-top: -20px;
+  background: #fff;
+  padding: 0px 10px 0px 10px;
+  text-decoration: none;
+}
