@@ -1306,7 +1306,7 @@ section .btn{
 	color: #79C040;
 }
 
-#teaching-guide ul, #about-page ul {
+#teaching-guide #main ul, #teaching-guide #subheader ul, #about-page ul {
 	padding-left: 35px;
 	list-style: disc;
 }
@@ -1320,7 +1320,7 @@ section .btn{
 	padding-bottom: 25px;
 }
 
-#teaching-guide a {
+#teaching-guide #main a {
 	text-decoration: underline;
 }
 
