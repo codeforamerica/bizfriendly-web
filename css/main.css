@@ -162,17 +162,22 @@ th {
 }
 
 #subnav a {
-	color: #FF4000;
+		color: #FF4000;
 	font-weight: 700;
 	font-family: 'Open Sans';
 }
 
+#subnav a:hover {
+	color: #FF8C66;
+	text-decoration: none;
+	border-color: #FF8C66;
+}
+
 #subnav .active {
-	color: #0F6095;
+	border-bottom: 5px solid #FF4000;
 }
 
 #subheader a {
-	color: #FF4000;
 }
 
 #elements h3 {
@@ -480,11 +485,90 @@ ul{
 	line-height: 20px;
 	font-weight: 700;
 	color: #FFF;
+
 }
 
 .navbar-nav li a:hover{
-	color: #74BBD4;
-	text-decoration: none;
+	color: #74bbd4;
+}
+
+#learn:hover:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/learn.gif') center no-repeat;
+    background-size: 20px;
+}
+
+#learn.active:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/learn.gif') center no-repeat;
+    background-size: 20px;
+}
+
+#teach:hover:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/teach.gif') center no-repeat;
+    background-size: 20px;
+}
+
+#teach.active:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/teach.gif') center no-repeat;
+    background-size: 20px;
+}
+
+
+#connect:hover:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/connect.gif') center no-repeat;
+    background-size: 20px;
+}
+
+#connect.active:after{
+    content:'';
+    position:absolute;
+    left: 0px;
+    top: -50px;
+    bottom: 0px;
+    width: 100%;
+    background: url('/img/connect.gif') center no-repeat;
+    background-size: 20px;
+}
+
+
+.navbar-nav li a.active {
+	border-bottom: 5px solid #ffffff;
+}
+
+.nav > li > a
+{
+	padding:0px !important;
+	margin: 15px !important;
+	display: inline; !important;
 }
 
 #bfUserName, #signOutLink {
