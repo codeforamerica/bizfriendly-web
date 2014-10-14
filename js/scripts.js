@@ -7,10 +7,10 @@
 	          	$(this).addClass("active");
           	}
 
-			if (pgurl == "teaching-guide.html" || pgurl == "content-requests.html" || pgurl == "new-category.html" || pgurl == "new-skill.html" || pgurl == "lesson-builder.html") {
+			if (pgurl == "teaching-guide.html" || pgurl == "content-requests.html" || pgurl == "new-category.html" || pgurl == "new-skill.html" || pgurl == "lesson-builder.html" || pgurl == "new-service.html") {
 				$("#teach-header-nav").addClass("active");
 			}
-			if (pgurl.indexOf("service.html") != -1) {
+			if (pgurl.indexOf("service.html?") != -1) {
 				$("#learn-header-nav").addClass("active");
 			}
 	     })
