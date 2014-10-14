@@ -307,8 +307,8 @@ hr {
 	text-decoration: none;
 }
 
-#teach-landing #subheader, #teach-landing #main, #teach-header, 
-#teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
+#teach-landing #subheader, #teach-landing #main, #teach-header,
+#teach-main, #new-service #subheader, #new-service #main, #new-category #subheader,
 #new-category #main {
 	position: relative;
 	top: -31px;
