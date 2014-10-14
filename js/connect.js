@@ -196,10 +196,13 @@ var connect = (function (connect) {
     });
     // Sort by time
     completedLessons = completedLessons.sort(function(a,b){
-      if (Date.parse(a.end_dt) > Date.parse(b.end_dt)) return -1;
-      if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
+      // Remove some millisecond precision for IE9 support
+      var aEndDate = Date.parse(a.end_dt.slice(0,-3));
+      var bEndDate = Date.parse(b.end_dt.slice(0,-3));
+      if (aEndDate > bEndDate) return -1;
+      if (aEndDate < bEndDate) return 1;
       return 0;
-    })
+    });
     // Add to page
     var html = ""
     $.each(completedLessons, function(i,userLesson){
