@@ -7,7 +7,7 @@
 	          	$(this).addClass("active");
           	}
 
-			if (pgurl == "teaching-guide.html" || pgurl == "content-requests.html" || "new-category.html" || "new-skill.html" || "lesson-builder.html") {
+			if (pgurl == "teaching-guide.html" || pgurl == "content-requests.html" || pgurl == "new-category.html" || pgurl == "new-skill.html" || pgurl == "lesson-builder.html") {
 				$("#teach-header-nav").addClass("active");
 			}
 			if (pgurl.indexOf("service.html") != -1) {
