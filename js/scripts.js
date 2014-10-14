@@ -8,6 +8,6 @@
           	}
 
           	if (pgurl == "teaching-guide.html" || pgurl == "content-requests.html")
-          		$("#teach").addClass("active");
+				$("#teach-header-nav").addClass("active");
 	     })
 	});

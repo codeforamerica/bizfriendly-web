@@ -492,7 +492,7 @@ ul{
 	color: #74bbd4;
 }
 
-#learn:hover:after{
+#learn-header-nav:hover:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -503,7 +503,7 @@ ul{
     background-size: 20px;
 }
 
-#learn.active:after{
+#learn-header-nav.active:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -514,7 +514,7 @@ ul{
     background-size: 20px;
 }
 
-#teach:hover:after{
+#teach-header-nav:hover:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -525,7 +525,7 @@ ul{
     background-size: 20px;
 }
 
-#teach.active:after{
+#teach-header-nav.active:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -537,7 +537,7 @@ ul{
 }
 
 
-#connect:hover:after{
+#connect-header-nav:hover:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -548,7 +548,7 @@ ul{
     background-size: 20px;
 }
 
-#connect.active:after{
+#connect-header-nav.active:after{
     content:'';
     position:absolute;
     left: 0px;
@@ -1220,7 +1220,7 @@ section .btn{
 	text-align: center;
 }
 
-#connect-page #left-column {
+#connect #left-column {
 	min-width:330px;
 }
 
