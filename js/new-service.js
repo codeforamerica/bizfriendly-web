@@ -29,7 +29,6 @@ var newService = (function (newService) {
       _submitClicked("submitted");
     });
     window.onscroll = _fixOldTips;
-    //document.onLoad = _fixOldTips();
   }
 
   function _checkIfLoggedIn(){
@@ -56,12 +55,10 @@ var newService = (function (newService) {
     // Add a listener to the category menu.
     // If they choose to add a new category, open that page.
     $("#new-category-form").on("change", "#category-id", function(){
-      //var foo = $(this);
       if ($("#category-id").val() == "add-new-category"){
         window.open("http://bizfriend.ly/new-category.html");
       }
     });
-    //$('.selectpicker').selectpicker('refresh');
   }
 
   function _newOrEdit(){
@@ -160,8 +157,6 @@ var newService = (function (newService) {
   }
 
   function _addTipsClicked(){
-     
-    
     if ($("#tips2").hasClass("hidden")){
       $("#tips2").removeClass("hidden");
     } else {
@@ -169,8 +164,7 @@ var newService = (function (newService) {
         $("#tips3").removeClass("hidden");
         $("#add-tips").remove();
       }
-    }
-    
+    }   
   }
 
   function _addResourcesClicked(){
@@ -351,7 +345,6 @@ var newService = (function (newService) {
   }
 
   function _fixOldTips(){
-    
     console.log($("#category-id").val());
     $("#category-id").val(categoryIDVariable);
     if ($("#tips2").val()){
