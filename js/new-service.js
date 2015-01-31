@@ -28,6 +28,8 @@ var newService = (function (newService) {
     $("#submit").click(function(){
       _submitClicked("submitted");
     });
+    window.onscroll = _fixOldTips;
+    //document.onLoad = _fixOldTips();
   }
 
   function _checkIfLoggedIn(){
@@ -45,7 +47,7 @@ var newService = (function (newService) {
       })
       $('#category-id').append('<option value="add-new-category">Add new skill</option>');
     }).done(function(){
-      $('.selectpicker').selectpicker();
+      //$('.selectpicker').selectpicker('refresh');
       _watchCategory();
     })
   }
@@ -54,10 +56,12 @@ var newService = (function (newService) {
     // Add a listener to the category menu.
     // If they choose to add a new category, open that page.
     $("#new-category-form").on("change", "#category-id", function(){
+      //var foo = $(this);
       if ($("#category-id").val() == "add-new-category"){
         window.open("http://bizfriend.ly/new-category.html");
       }
     });
+    //$('.selectpicker').selectpicker('refresh');
   }
 
   function _newOrEdit(){
@@ -65,6 +69,7 @@ var newService = (function (newService) {
       editingExisitingService = true;
       _getExistingService();
     }
+
   }
 
   function _getExistingService(){
@@ -90,10 +95,11 @@ var newService = (function (newService) {
       if (response.icon) {
         $("#uploaded-icon").append("<img src="+response.icon+">");
       }
-      $("#uploaded-image").append(response.media);
+      $("#video-embed").val(response.media);
 
       $("#category-id").val(response.category_id);
-      // $('.selectpicker').selectpicker('refresh');
+      categoryIDVariable=response.category_id;
+      //$('.selectpicker').selectpicker('refresh');
 
     });
   }
@@ -154,6 +160,8 @@ var newService = (function (newService) {
   }
 
   function _addTipsClicked(){
+     
+    
     if ($("#tips2").hasClass("hidden")){
       $("#tips2").removeClass("hidden");
     } else {
@@ -162,6 +170,7 @@ var newService = (function (newService) {
         $("#add-tips").remove();
       }
     }
+    
   }
 
   function _addResourcesClicked(){
@@ -339,6 +348,19 @@ var newService = (function (newService) {
         console.log(JSON.stringify(error));
       }
     });
+  }
+
+  function _fixOldTips(){
+    
+    console.log($("#category-id").val());
+    $("#category-id").val(categoryIDVariable);
+    if ($("#tips2").val()){
+      $("#tips2").removeClass("hidden"); 
+    }
+    if ($("#tips3").val()){
+      $("#tips3").removeClass("hidden");
+    }
+    $('.selectpicker').selectpicker('refresh');
   }
 
   function _putService(state){
