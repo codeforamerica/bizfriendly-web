@@ -47,6 +47,9 @@ var editProfile = (function (editProfile) {
       if (response.business_name) {
         $(".biz-name").text(response.business_name);
       }
+      if (response.description) {
+        $(".profile-description").text(response.description);
+      }
       if (response.linkedin) {
         $("#profile-li").attr("href",response.linkedin);
       } else {
@@ -72,8 +75,7 @@ var editProfile = (function (editProfile) {
       } else {
         $("#profile-site").hide();
       }
-      $(".profile-description").text(response.description);
-      
+
       // Fill form with current info
       $("#form-name").val(response.name);
       $("#form-biz-name").val(response.business_name);
