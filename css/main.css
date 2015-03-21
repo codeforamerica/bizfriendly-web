@@ -1396,3 +1396,39 @@ label {
   padding: 0px 10px 0px 10px;
   text-decoration: none;
 }
+
+media (max-width: 1200px) {
+	.teach-top {
+		min-height: 480px;
+	}
+		.teach-bottom {
+		min-height: 255px;
+	}
+}
+
+@media (max-width: 990px) {
+	.teach-top {
+		min-height: 575px;
+	}
+		.teach-bottom {
+		min-height: 300px;
+	}
+}
+
+@media (max-width: 786px) {
+	.teach-top {
+		min-height: 585px;
+	}
+		.teach-bottom {
+		min-height: 355px;
+	}
+}
+
+@media (max-width: 768px) {
+	.teach-top {
+		min-height: 330px;
+	}
+	.teach-bottom {
+		min-height: 170px;
+	}
+}
