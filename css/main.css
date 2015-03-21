@@ -1152,6 +1152,12 @@ section .btn{
 	text-align: center;
 }
 
+.center-btn {
+	position: absolute;
+	bottom: 0px;
+	width: 270px;
+}
+
 #connect #left-column {
 	min-width:330px;
 }
@@ -1293,10 +1299,6 @@ section .btn{
 	font-family: 'Open Sans';
 }
 
-.teach-top a {
-	margin: 0 auto;
-}
-
 .teach-top {
 	background-color: #FFC9AE;
 	border-radius: 15px;
@@ -1313,6 +1315,9 @@ section .btn{
 	margin-bottom: 15px;
 }
 
+.teach-top a, .teach-bottom a {
+	margin: 15px auto;
+}
 
 .teach-top, .teach-bottom {
 	margin-right: 25px;
