@@ -1155,7 +1155,8 @@ section .btn{
 .center-btn {
 	position: absolute;
 	bottom: 0px;
-	width: 270px;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 #connect #left-column {
