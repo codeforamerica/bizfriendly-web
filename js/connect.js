@@ -73,7 +73,11 @@ var connect = (function (connect) {
       } else {
         $("#profile-site").hide();
       }
-      $(".profile-description").text(response.description);
+      if (response.description == null) {
+        $(".profile-description").html('You should <a href="edit-profile.html">add a description</a> to your profile!');
+      } else {
+        $(".profile-description").text(response.description);
+      }
     });
   }
 
