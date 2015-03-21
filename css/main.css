@@ -1188,6 +1188,11 @@ section .btn{
 	top: -15px;
 }*/
 
+#profile-info .profile-description a{
+	text-decoration: underline;
+	font-size: bold;
+}
+
 #profile-social-links {
 	margin-bottom: 15px;
 }
