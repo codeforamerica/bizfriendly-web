@@ -260,8 +260,25 @@ var newService = (function (newService) {
   function _submitClicked(state){
     // Validate form
     if (!$("#new-service-name").val()) {
-      $("#form-alert").text("Please enter a name for your new service.").removeClass("hidden");
-    } else {
+      $("#form-alert-name").append("Please enter a name <br>").removeClass("hidden");
+    }
+    if (!$("#new-service-url").val()) {
+      $("#form-alert-name").append(" Please enter a URL <br>").removeClass("hidden");
+    }
+    if (!$("#new-service-short-description").val()) {
+      $("#form-alert-name").append(" Please enter short_description <br>").removeClass("hidden");
+    }
+    if (!$("#tips1").val()) {
+      $("#form-alert-name").append(" Please enter Tips to keep in mind <br>").removeClass("hidden");
+    }
+    if (!$("#additional-resources-name1").val()) {
+      $("#form-alert-name").append(" Please enter additional_resources <br>").removeClass("hidden");
+    }
+    if (!$("#icon-upload-form").val()) {
+      $("#form-alert-name").append(" Please enter service icon <br>").removeClass("hidden");
+    }
+
+  else {
       $("#form-alert").hide();
       if (editingExisitingService) {
         _putService(state);
