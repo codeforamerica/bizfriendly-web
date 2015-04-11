@@ -1436,10 +1436,11 @@ label {
    ========================================================================== */
 
 .analytics { 
-	border-radius: 10px;
-  	background: gray;
-  	height: 107px;
-  	margin-bottom: 55px;
+  border-radius: 10px;
+  border: 3px solid gray;
+  height: 107px;
+  margin-bottom: 55px;
+  box-shadow: 4px 5px 19px rgb(69, 69, 69);
 }
 
 .analytics h1 { 
@@ -1455,10 +1456,9 @@ label {
 	margin-left: 25px;
 } 
 
-/** 
-** 
-**  Small Desktop 
-**/ 
+/* ==========================================================================
+	Tablet
+   ========================================================================== */
 
 @media (max-width: 993px) { 
 
@@ -1471,6 +1471,9 @@ label {
 	} 
 } 
 
+/* ==========================================================================
+ Phone 
+   ========================================================================== */
 @media (max-width:768px) { 
 	.teach-top { 
 		background-color: #FFC9AE;
