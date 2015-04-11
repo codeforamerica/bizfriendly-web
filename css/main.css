@@ -973,6 +973,11 @@ legend {
 	margin-left: 37px;
 }
 
+#footer-menu li { 
+	width: 65px;
+  	margin-left: 20px;	
+}
+
 footer a {
 	color: #FFF;
 }
