@@ -1471,13 +1471,14 @@ label {
 	} 
 } 
 
-@media (min-width:768px) { 
+@media (max-width:768px) { 
 	.teach-top { 
-		 background-color: #FFC9AE;
+		background-color: #FFC9AE;
   		border-radius: 15px;
   		padding: 15px;
   		min-height: 400px;
   		margin-bottom: 15px;
-  		margin: 20px 180px;	
+  		margin: 20px 180px;
+  		width:300px;
 	}
 } 
