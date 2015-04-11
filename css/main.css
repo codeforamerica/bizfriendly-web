@@ -1310,7 +1310,7 @@ section .btn{
 .teach-top {
 	background-color: #FFC9AE;
 	border-radius: 15px;
-	padding-top: 15px;
+	padding-top: 16px;
   padding-bottom: 50px;
 	min-height: 425px;
 	margin-bottom: 15px;
@@ -1319,7 +1319,7 @@ section .btn{
 .teach-bottom {
 	background-color: #C7E4EE;
 	border-radius: 15px;
-  padding-top:15px;
+  padding-top:16px;
 	padding-bottom: 50px;
 	min-height: 225px;
 	margin-bottom: 15px;
