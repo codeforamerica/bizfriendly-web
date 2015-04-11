@@ -1481,4 +1481,10 @@ label {
   		margin: 20px 180px;
   		width:300px;
 	}
+	
+	.teach-bottom { 
+		min-height: 235px;
+  		width: 300px;
+  		margin: 20px 195px;	
+	} 
 } 
