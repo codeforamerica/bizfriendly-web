@@ -1458,6 +1458,42 @@ label {
   	top: 10px;
 } 
 
+.radial-progress {
+  @circle-background: #d6dadc;
+  @circle-color: #97a71d;
+  background-color: @circle-background;
+  .circle .fill {
+    background-color: @circle-color;
+  }
+}
+
+.radial-progress {
+  @circle-size: 120px;
+  width: @circle-size;
+  height: @circle-size;
+  .circle .fill {
+    width: @circle-size;
+    height: @circle-size;
+  }
+}
+
+.radial-progress {
+  @transition-length: 1s;
+  .circle .fill {
+    transition: -webkit-transform @transition-length;
+    transition: -ms-transform @transition-length;
+    transition: transform @transition-length;
+  }
+}
+
+.radial-progress {
+  .circle .fill {
+    position: absolute;
+    /* rect(<top>, <right>, <bottom>, <left>) */
+    clip: rect(0px, @circle-size/2, @circle-size, 0px);
+  }
+}
+
 /* ==========================================================================
 	Tablet
    ========================================================================== */
