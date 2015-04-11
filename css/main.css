@@ -543,6 +543,10 @@ ul{
 	padding-bottom: 15px;
 }
 
+.btn { 
+	border-radius:5px;	
+}
+
 .btn-primary {
 	background-color: #FF4000;
 	border-color: #FF4000;
