@@ -1432,6 +1432,6 @@ label {
 	text-align:center; 	
 } 
 
-.analytics svg { 
+ellipse { 
 	fill: #7c7a79;	
 }
