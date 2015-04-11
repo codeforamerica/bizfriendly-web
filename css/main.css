@@ -1505,7 +1505,14 @@ label {
 	} 
 	
 	.analytics h1 { 
+		position:relative;
 		font-size: 36px;
   		margin-top: 26px;
+  		padding: 0px;
+	}
+	
+	.analytics span { 
+		margin-left: 0px;
+		top: 0px;
 	}
 } 
