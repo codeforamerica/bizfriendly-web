@@ -1432,7 +1432,9 @@ label {
 	text-align:center; 	
 } 
 
-ellipse { 
-	border-color: #7c7a79;	
-	fill: none;
-}
+.analytics h2 { 
+	padding-top: 36px;
+	text-align:center;
+	font-size: 56px;
+	color: #74bad3;
+} 
