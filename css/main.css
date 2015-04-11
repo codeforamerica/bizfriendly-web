@@ -318,7 +318,7 @@ hr {
 #teach-main, #new-service #subheader, #new-service #main, #new-category #subheader,
 #new-category #main {
 	position: relative;
-	top: -31px;
+	top: 0px;
 }
 
 #profile #subheader, #connect #subheader {
@@ -1487,4 +1487,9 @@ label {
   		width: 300px;
   		margin: 20px 195px;	
 	} 
+	
+	#teach-landing #subheader { 
+		width: 400px;
+  		margin-left: 50px;	
+	}
 } 
