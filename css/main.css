@@ -1428,9 +1428,16 @@ label {
   Analytics Page 
    ========================================================================== */
 
+.analytics { 
+	border-radius: 10px;
+  	background: gray;
+  	height: 100px;
+}
+
 .analytics h1 { 
 	text-align:center; 
 	font-size: 36px;
+	margin-top:36px;
 } 
 
 .analytics h1 span{ 
