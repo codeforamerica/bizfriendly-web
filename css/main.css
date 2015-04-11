@@ -544,7 +544,9 @@ ul{
 }
 
 .btn { 
-	border-radius:5px;	
+	border-radius:5px;
+	font-family: MuseoSlab;
+	text-align: center;
 }
 
 .btn-primary {
