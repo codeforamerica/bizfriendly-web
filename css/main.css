@@ -1429,10 +1429,11 @@ label {
    ========================================================================== */
 
 .analytics h1 { 
-	text-align:center; 	
+	text-align:center; 
+	font-size: 36px;
 } 
 
-.analytics h2 { 
+.analytics h1 span{ 
 	padding-top: 36px;
 	text-align:center;
 	font-size: 56px;
