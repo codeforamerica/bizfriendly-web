@@ -543,6 +543,10 @@ ul{
 	padding-bottom: 15px;
 }
 
+/* 
+ * 
+ * 	BUTTONS 
+ */ 
 .btn { 
 	border-radius:5px;
 	font-family: MuseoSlab;
@@ -558,6 +562,7 @@ ul{
 .btn-primary:hover {
 	background-color: #FF8C66;
 	border-color: #FF8C66;
+	color: black;
 	font-weight: 700;
 }
 
