@@ -1054,7 +1054,9 @@ section .btn{
 	width: 260px;
 }
 
-.feedback h2 {
+.feedback
+
+ {
 	color: #79C040;
 }
 
@@ -1308,7 +1310,7 @@ section .btn{
 .teach-top {
 	background-color: #FFC9AE;
 	border-radius: 15px;
-	padding: 15px;
+	padding: 50px;
 	min-height: 425px;
 	margin-bottom: 15px;
 }
@@ -1316,7 +1318,7 @@ section .btn{
 .teach-bottom {
 	background-color: #C7E4EE;
 	border-radius: 15px;
-	padding: 15px;
+	padding: 50px;
 	min-height: 225px;
 	margin-bottom: 15px;
 }
