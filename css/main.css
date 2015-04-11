@@ -1452,8 +1452,10 @@ label {
 
 .analytics span{ 
 	font-size: 56px;
-	color: #74bad3;
-	margin-left: 25px;
+  	color: #74bad3;
+  	position: relative;
+  	margin-left: 70%;
+  	top: 10px;
 } 
 
 /* ==========================================================================
