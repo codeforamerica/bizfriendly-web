@@ -13,22 +13,5 @@ title: analytics
     <span> 4,072 </span>
   </div>
   
-  <div class="radial-progress">
-    <div class="circle">
-      <div class="fill"></div>
-    </div>
-  </div>
-  
-  <script>
-    var transform_styles = ['-webkit-transform',
-                        '-ms-transform',
-                        'transform'];
-window.randomize = function() {
- var rotation = Math.floor(Math.random() * 360);
- for(i in transform_styles) {
-  $('.circle .fill').css(transform_styles[i],
-                         'rotate(' + rotation + 'deg)');
- }
-}
-  </script>
+
 </div> 
