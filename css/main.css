@@ -1431,18 +1431,19 @@ label {
 .analytics { 
 	border-radius: 10px;
   	background: gray;
-  	height: 100px;
+  	height: 107px;
+  	margin-bottom: 55px;
 }
 
 .analytics h1 { 
-	text-align:center; 
-	font-size: 36px;
-	margin-top:36px;
+  font-size: 36px;
+  margin-top: 36px;
+  position: absolute;
+  left: 60px;
 } 
 
 .analytics h1 span{ 
-	padding-top: 36px;
-	text-align:center;
 	font-size: 56px;
 	color: #74bad3;
+	margin-left: 25px;
 } 
