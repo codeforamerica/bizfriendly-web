@@ -2,6 +2,13 @@
    Author's custom styles
    ========================================================================== */
 
+/*Directory: 
+**
+**
+** 1.0 Fonts 
+** 2.0 Analytics 
+**
+*/
 /* Fonts */
 
 @font-face {
@@ -1415,4 +1422,16 @@ label {
   background: #fff;
   padding: 0px 10px 0px 10px;
   text-decoration: none;
+}
+
+/* ==========================================================================
+  Analytics Page 
+   ========================================================================== */
+
+.analytics h1 { 
+	text-align:center; 	
+} 
+
+.analytics svg { 
+	fill: #7c7a79;	
 }
