@@ -973,7 +973,7 @@ legend {
 	margin-left: 37px;
 }
 
-#footer-menu li { 
+#footer-menu li a { 
 	width: 65px;
   	margin-left: 20px;	
 }
@@ -987,7 +987,6 @@ footer a {
 	font-weight: 400;
 	text-align: right;
 	float:right;
-	width:200px;
 }
 
 #credits img {
