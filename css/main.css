@@ -1439,7 +1439,7 @@ label {
   font-size: 36px;
   margin-top: 36px;
   position: absolute;
-  left: 60px;
+  padding: 2px;
 } 
 
 .analytics h1 span{ 
