@@ -1454,3 +1454,30 @@ label {
 	color: #74bad3;
 	margin-left: 25px;
 } 
+
+/** 
+** 
+**  Small Desktop 
+**/ 
+
+@media (min-width: 993px) { 
+
+	.teach-top { 
+		min-height:580px;	
+	}
+	
+	.teach-bottom { 
+		min-height: 320px;	
+	} 
+} 
+
+@media (min-width:768px) { 
+	.teach-top { 
+		 background-color: #FFC9AE;
+  		border-radius: 15px;
+  		padding: 15px;
+  		min-height: 400px;
+  		margin-bottom: 15px;
+  		margin: 20px 180px;	
+	}
+} 
