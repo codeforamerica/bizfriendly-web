@@ -1497,4 +1497,15 @@ label {
 		width: 98%;
   		margin-left: 30px;	
 	}
+	
+	.analytics { 
+		text-align:center; 
+		height: 146px;
+		width: 90%;
+	} 
+	
+	.analytics h1 { 
+		font-size: 36px;
+  		margin-top: 26px;
+	}
 } 
