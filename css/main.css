@@ -1310,7 +1310,7 @@ section .btn{
 }
 
 #teach-landing #main hr {
-	margin: 10px;
+	margin: 20px;
 }
 
 #teach-landing #main ul {
@@ -1330,7 +1330,8 @@ section .btn{
 .teach-top {
 	background-color: #FFC9AE;
 	border-radius: 15px;
-	padding: 50px;
+	padding-top: 16px;
+  padding-bottom: 50px;
 	min-height: 425px;
 	margin-bottom: 15px;
 }
@@ -1338,7 +1339,8 @@ section .btn{
 .teach-bottom {
 	background-color: #C7E4EE;
 	border-radius: 15px;
-	padding: 50px;
+  padding-top:16px;
+	padding-bottom: 50px;
 	min-height: 225px;
 	margin-bottom: 15px;
 }
