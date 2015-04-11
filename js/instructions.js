@@ -88,6 +88,11 @@ var instructions = (function (instructions) {
     $('#next').click(_nextClicked);
     $("#close-lesson").click(function(evt){window.close();});
     $('li.progress-button').click(_progressClicked);
+
+    //Disable back button if step number is 1
+    if(currentStep.stepNumber == 1)
+      $('#back').prop( "disabled", true );
+
   }
 
   function _checkWindowSize(){
@@ -209,6 +214,8 @@ var instructions = (function (instructions) {
       _updateProgressBar();
       _showStep();
       _checkStep();
+      if(currentStep.stepNumber == 1)
+        $('#back').prop( "disabled", true );
     }
   }
 
@@ -260,6 +267,7 @@ var instructions = (function (instructions) {
 
   function _goToNextStep(){
     $("#feedback").modal("hide");
+    $("#back").prop("disabled",false);
     currentStep = steps[currentStep.stepNumber];
     _updateStepsStates();
     _updateProgressBar();
