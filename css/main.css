@@ -1460,7 +1460,7 @@ label {
 **  Small Desktop 
 **/ 
 
-@media (min-width: 993px) { 
+@media (max-width: 993px) { 
 
 	.teach-top { 
 		min-height:580px;	
