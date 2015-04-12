@@ -48,12 +48,12 @@ var profile = (function (profile) {
   }
 
   function _getUserInfo(userID){
-    // Display the user profile info 
+    // Display the user profile info
     $.getJSON(config.bfUrl+config.bfApiVersion+'/users/'+userID, function(response){
       $(".user-name").append(response.name);
       if (response.location) {
         $(".location").text(response.location);
-      } 
+      }
       if (response.business_name) {
         $(".biz-name").text(response.business_name);
       }
@@ -87,7 +87,7 @@ var profile = (function (profile) {
       }
     });
 
-    
+
   }
 
   function _checkIfLoggedIn(){

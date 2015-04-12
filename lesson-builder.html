@@ -4,10 +4,10 @@ title: lesson builder
 js: teach
 ---
 <div id="subnav" class="row hidden-xs">
-    <ul class="list-inline col-sm-8 col-md-8 col-lg-8 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
-        <li class="col-sm-4 col-md-3 col-lg-3"><a class="active">Content Creator</a></li>
-        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
-        <li class="col-sm-4 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1"><a href="https://docs.google.com/a/codeforamerica.org/forms/d/1walyyOEbAibc3lVtJgkyaMib7oHvfvEu7zfSCROzh70/viewform">Content Requests</a></li>
+    <ul class="list-inline col-sm-8 col-sm-offset-3">
+        <li class="col-sm-4 col-md-3"><a class="active">Content Creator</a></li>
+        <li class="col-sm-4 col-md-3 col-md-offset-1"><a href="teaching-guide.html">Teaching Guide</a></li>
+        <li class="col-sm-4 col-md-3 col-md-offset-1"><a href="content-requests.html">Content Requests</a></li>
     </ul>
 </div>
 
@@ -15,9 +15,9 @@ js: teach
     <div id="subheader" class="row">
         <div class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
             <h1>Build your lesson by creating step instructions and feedback.</h1>
-            <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin. You can access draft, submitted, and published lessons via your <a href="profile.html">profile</a>. Please note that editing lessons is still in beta and we appreciate your <a href="https://docs.google.com/forms/d/1-0s2k_gpkNDXWRpYYbzltFNaRT0FEOv2--gIwxGGZWU/viewform">feedback</a> on the experience.</p>
+            <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin. You can access draft, submitted, and published lessons via your <a href="profile.html">profile</a>. Please note that editing lessons is still in beta and we appreciate your <a href="feedback.html">feedback</a> on the experience.</p>
         </div>
-        <div class="alert alert-info login-required col-sm-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-8 col-md-8 col-lg-8">
+        <div class="alert alert-info login-required col-sm-offset-1 col-sm-8">
             You'll need to create a BizFriend.ly account before you can create a lesson. Sign up then come back here.
         </div>
     </div>
@@ -26,7 +26,7 @@ js: teach
 <div id="teach-main">
     <section id="teach-content" class="container">
         <form id="lesson-form" role="form" class="row">
-            <div class="col-sm-6 col-md-5 col-lg-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+            <div class="col-sm-6 col-md-5 col-lg-4 col-sm-offset-4">
                 <select id="category-id" class="selectpicker" data-width="100%">
                     <option val="none">Select a skill for your lesson</option>
                 </select>
@@ -49,7 +49,7 @@ js: teach
                 </ul>
             </div>
             <div id="step-builder" class="row">
-                <div id="left-column" class="col-xs-3 col-sm-2 col-md-2 col-lg-3 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">
+                <div id="left-column" class="col-xs-3 col-sm-2 col-lg-3 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">
                     <div class="row">
                         <div id="elements" class="col-lg-6 col-lg-offset-6 center">
                             <h3>Elements</h3>
@@ -83,7 +83,7 @@ js: teach
                     </div>
                 </div>
 
-                <div class="teach-column col-xs-3 col-sm-4 col-md-4 col-lg-4">
+                <div class="teach-column col-xs-3 col-sm-4">
                     <a id="step-close-btn" class="right"><img src="img/close-btn.png"></a>
                     <div id="teach-instructions" class="teach-box">
                         <h2 id="lesson-name" class="lesson-editable orange">Click to edit the lesson name</h2>
@@ -103,7 +103,7 @@ js: teach
                       </div>
                     </div>
                 </div>
-                <div id="right-column" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div id="right-column" class="col-xs-3">
                     <div id="feedback-window">
                         <div id="feedback-content">
                         </div>
@@ -154,7 +154,7 @@ js: teach
 
 <div id="login-prototype" class="login-element hidden">
     <p class="bold">Click to edit text.</p>
-    <button id="login" type="button" class="btn btn-teach btn-xs">Log In To <span class="service-name"></span></button>
+    <button id="login" type="button" class="btn btn-teach btn-xs">Log in to <span class="service-name"></span></button>
 </div>
 
 <div id="text-entry-prototype" class="text-entry-element hidden">
@@ -214,7 +214,7 @@ js: teach
         <ul>
             <li><a id="additional-resources" type="button" class="btn btn-teach btn-xs btn-block orange">Additional Resources</a><li>
             <li><a id="more-lessons" type="button" class="btn btn-teach btn-xs btn-block orange">More Lessons</a></li>
-            <li><a href="https://docs.google.com/forms/d/1-0s2k_gpkNDXWRpYYbzltFNaRT0FEOv2--gIwxGGZWU/viewform" target="_blank" id="leave-feedback" type="button" class="btn btn-teach btn-xs btn-block orange">Give Feedback</a></li>
+            <li><a href="feedback.html" id="leave-feedback" type="button" class="btn btn-teach btn-xs btn-block orange">Give Feedback</a></li>
         </ul>
     </div>
   </div>
@@ -238,8 +238,8 @@ js: teach
     </div>
     <div class="modal-body">
         <b>You created a new lesson called <span class="lesson-name orange"></span></b>
-        <p id="draftMessage">You can access your draft lessons via your <a href="profile.html">profile</a>. Please note that editing drafts is still in beta and we appreciate your <a href="https://docs.google.com/forms/d/1-0s2k_gpkNDXWRpYYbzltFNaRT0FEOv2--gIwxGGZWU/viewform">feedback</a> on the experience.</p>
-        <p id="submittedMessage">To ensure high quality content on BizFriend.ly, your service will be reviewed by a real human before it goes live. You can access your submitted lessons via your <a href="profile.html">profile</a>. Please note that editing lessons is still in beta and we appreciate your <a href="https://docs.google.com/forms/d/1-0s2k_gpkNDXWRpYYbzltFNaRT0FEOv2--gIwxGGZWU/viewform">feedback</a> on the experience.</p>
+        <p id="draftMessage">You can access your draft lessons via your <a href="profile.html">profile</a>. Please note that editing drafts is still in beta and we appreciate your <a href="feedback.html">feedback</a> on the experience.</p>
+        <p id="submittedMessage">To ensure high quality content on BizFriend.ly, your service will be reviewed by a real human before it goes live. You can access your submitted lessons via your <a href="profile.html">profile</a>. Please note that editing lessons is still in beta and we appreciate your <a href="feedback.html">feedback</a> on the experience.</p>
         <a type="button" class="btn btn-default" href="/teach.html">Create Another</a>
         <a type="button" class="btn btn-default" href="/profile.html">See What You've Created</a>
     </div>

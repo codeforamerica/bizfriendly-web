@@ -4,7 +4,31 @@
 	<![endif]-->
 	<script type="text/javascript" src="js/vendor/jquery.cookie.js"></script>
 	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/scripts.js"></script>
 
+
+	<!-- Let users know that older browsers do not work -->
+
+	<script> 
+		var $buoop = {c:2}; 
+		function $buo_f(){
+			var e = document.createElement("script"); 
+			e.src = "//browser-update.org/update.js"; 
+			document.body.appendChild(e);
+		};
+		try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+		catch(e){window.attachEvent("onload", $buo_f)}
+	</script>
+	<script> 
+	var $buoop = {c:2}; 
+	function $buo_f(){ 
+		var e = document.createElement("script"); 
+		e.src = "//browser-update.org/update.js"; 
+		document.body.appendChild(e);
+	};
+	try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+	catch(e){window.attachEvent("onload", $buo_f)}
+	</script>
 	{% if page.js == 'new-service' %}
 	<script type="text/javascript"  src="js/vendor/bootstrap-select.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>

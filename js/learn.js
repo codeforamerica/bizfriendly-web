@@ -80,8 +80,8 @@ var learn = (function (learn) {
                 </div> \
               </div> \
             </div> \
-          </div> \
-          <hr class="col-lg-offset-1 col-lg-10">';
+		 </div> \
+		<div class="col-md-offset-1 col-lg-offset-1 col-lg-10"><div class="back-to-top"><a href="#top">Back to Top</a></div><p></p></div> ';
 
       $("#categories").append(html);
     })

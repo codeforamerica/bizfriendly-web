@@ -162,17 +162,22 @@ th {
 }
 
 #subnav a {
-	color: #FF4000;
+		color: #FF4000;
 	font-weight: 700;
 	font-family: 'Open Sans';
 }
 
+#subnav a:hover {
+	color: #FF8C66;
+	text-decoration: none;
+	border-color: #FF8C66;
+}
+
 #subnav .active {
-	color: #0F6095;
+	border-bottom: 5px solid #FF4000;
 }
 
 #subheader a {
-	color: #FF4000;
 }
 
 #elements h3 {
@@ -302,8 +307,8 @@ hr {
 	text-decoration: none;
 }
 
-#teach-landing #subheader, #teach-landing #main, #teach-header, 
-#teach-main, #new-service #subheader, #new-service #main, #new-category #subheader, 
+#teach-landing #subheader, #teach-landing #main, #teach-header,
+#teach-main, #new-service #subheader, #new-service #main, #new-category #subheader,
 #new-category #main {
 	position: relative;
 	top: -31px;
@@ -480,11 +485,22 @@ ul{
 	line-height: 20px;
 	font-weight: 700;
 	color: #FFF;
+
 }
 
 .navbar-nav li a:hover{
-	color: #74BBD4;
-	text-decoration: none;
+	color: #74bbd4;
+}
+
+.navbar-nav li a.active {
+	border-bottom: 5px solid #ffffff;
+}
+
+.nav > li > a
+{
+	padding:0px !important;
+	margin: 15px !important;
+	display: inline; !important;
 }
 
 #bfUserName, #signOutLink {
@@ -1136,6 +1152,13 @@ section .btn{
 	text-align: center;
 }
 
+.center-btn {
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
 #connect #left-column {
 	min-width:330px;
 }
@@ -1171,6 +1194,11 @@ section .btn{
 	position: relative;
 	top: -15px;
 }*/
+
+#profile-info .profile-description a{
+	text-decoration: underline;
+	font-size: bold;
+}
 
 #profile-social-links {
 	margin-bottom: 15px;
@@ -1277,10 +1305,6 @@ section .btn{
 	font-family: 'Open Sans';
 }
 
-.teach-top a {
-	margin: 0 auto;
-}
-
 .teach-top {
 	background-color: #FFC9AE;
 	border-radius: 15px;
@@ -1297,21 +1321,25 @@ section .btn{
 	margin-bottom: 15px;
 }
 
+.teach-top a, .teach-bottom a {
+	margin: 15px auto;
+}
 
 .teach-top, .teach-bottom {
 	margin-right: 25px;
 }
 
-#teaching-guide h2 {
+#teaching-guide h2, #about-page h2 {
 	color: #79C040;
 }
 
-#teaching-guide ul {
+#teaching-guide #main ul, #teaching-guide #subheader ul, #about-page ul {
 	padding-left: 35px;
 	list-style: disc;
 }
 
-#teaching-guide #tg-nav ul {
+#teaching-guide #tg-nav ul,
+#about-page #tg-nav ul {
 	list-style: none;
 }
 
@@ -1319,11 +1347,11 @@ section .btn{
 	padding-bottom: 25px;
 }
 
-#teaching-guide a {
+#teaching-guide #main a {
 	text-decoration: underline;
 }
 
-#teaching-guide #subheader a {
+#teaching-guide #subheader a, #about-page #subheader a {
 	text-decoration: none;
 }
 
@@ -1345,8 +1373,30 @@ label {
 	font-size: 14px;
 }
 
+#about-page #main hr {margin-bottom: 10px;}
+#about-page #main h2 {margin-bottom: 10px;}
 
 /* bootstrap additions */
 .alert-success a{
 	color: #FF4000;
+}
+
+.back-to-top {text-align: right;}
+
+.back-to-top + p {
+    border-top: solid 1px #BFBFBF;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
+.back-to-top a {
+  margin-right: 20px;
+  padding-top: -20px;
+  background: #fff;
+  padding: 0px 10px 0px 10px;
+  text-decoration: none;
+}
+
+.centertext {
+  text-align: center;
 }

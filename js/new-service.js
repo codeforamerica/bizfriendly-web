@@ -28,6 +28,7 @@ var newService = (function (newService) {
     $("#submit").click(function(){
       _submitClicked("submitted");
     });
+    window.onscroll = _fixOldTips;
   }
 
   function _checkIfLoggedIn(){
@@ -45,7 +46,7 @@ var newService = (function (newService) {
       })
       $('#category-id').append('<option value="add-new-category">Add new skill</option>');
     }).done(function(){
-      $('.selectpicker').selectpicker();
+      //$('.selectpicker').selectpicker('refresh');
       _watchCategory();
     })
   }
@@ -65,6 +66,7 @@ var newService = (function (newService) {
       editingExisitingService = true;
       _getExistingService();
     }
+
   }
 
   function _getExistingService(){
@@ -90,10 +92,11 @@ var newService = (function (newService) {
       if (response.icon) {
         $("#uploaded-icon").append("<img src="+response.icon+">");
       }
-      $("#uploaded-image").append(response.media);
+      $("#video-embed").val(response.media);
 
       $("#category-id").val(response.category_id);
-      // $('.selectpicker').selectpicker('refresh');
+      categoryIDVariable=response.category_id;
+      //$('.selectpicker').selectpicker('refresh');
 
     });
   }
@@ -161,7 +164,7 @@ var newService = (function (newService) {
         $("#tips3").removeClass("hidden");
         $("#add-tips").remove();
       }
-    }
+    }   
   }
 
   function _addResourcesClicked(){
@@ -339,6 +342,18 @@ var newService = (function (newService) {
         console.log(JSON.stringify(error));
       }
     });
+  }
+
+  function _fixOldTips(){
+    console.log($("#category-id").val());
+    $("#category-id").val(categoryIDVariable);
+    if ($("#tips2").val()){
+      $("#tips2").removeClass("hidden"); 
+    }
+    if ($("#tips3").val()){
+      $("#tips3").removeClass("hidden");
+    }
+    $('.selectpicker').selectpicker('refresh');
   }
 
   function _putService(state){

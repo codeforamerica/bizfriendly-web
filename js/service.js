@@ -21,12 +21,17 @@ var service = (function (service) {
     $('#main').toggle();
   }
 
+  function _alphabetize(a, b) {
+    // Pass to Array.sort() method as a comparison function for categories, based on the 'name' property.
+    return (a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0);
+  }
+
   function _main(response){
     $('#loading').toggle();
     $('#main').toggle();
     service = response;
     lessons = service.lessons;
-    // _makeSummary();
+    lessons.sort(_alphabetize);
     _checkIfLoggedIn();
     _showService();
   }
@@ -53,44 +58,66 @@ var service = (function (service) {
 
   function _lessonTable(){
     // Fill up table tbody
-    $.each(lessons, function(i, lesson){
-      if (lesson.state == "published"){
-        var html = '';
-        var numberOfLearners;
-        lessonCompleted = false;
-        // Get number of learners
-        var filters = [{"name": "lesson_id", "op": "==", "val": lesson.id}];
-        $.ajax({
-          url: config.bfUrl+config.bfApiVersion+'/userlessons',
-          data: {"q": JSON.stringify({"filters": filters})},
-          dataType: "json",
-          contentType: "application/json",
-          success: function(data) {
-            numberOfLearners = data.num_results;
-            $.each(data.objects, function(i,userLesson){
-              if (userLesson.completed && userLesson.user_id == BfUser.id){
-                lessonCompleted = true;
-              }
-            })
-          },
-          error : function(error){
-            console.log(error);
-          }
-        }).done(function(){
-          if (config.debug) console.log(lessons);
-          html += '<tr><td>'
-          if (lessonCompleted){
-            html += '<img src="img/green-check.png">'
-          }
-          html +='<a id="'+lesson.id+'" class="orange bold instructions-link">'+lesson.name+'</a>';
-          html += '<br/><p class="author-name">Created by <span class="author-name'+lesson.creator_id+'"></span></p></td>';
-          html += '<td>'+numberOfLearners+'</td></tr>';
-          $("#tbody").append(html);
-          _getCreatorName(lesson.id);
-          $("#"+lesson.id).click(_instructionsLinkClicked);
-        })
+    var html = '';
+    var requests = [];
+    var numberOfLearners;
+    
+    var prepareAjax = function() {
+      $.each(lessons, function(i, lesson){
+        if (lesson.state == "published"){
+          lessonCompleted = false;
+          // Get number of learners
+          var filters = [{"name": "lesson_id", "op": "==", "val": lesson.id}];
+
+          var xhr = $.ajax({
+                      url: config.bfUrl+config.bfApiVersion+'/userlessons',
+                      data: {"q": JSON.stringify({"filters": filters})},
+                      dataType: "json",
+                      contentType: "application/json",
+                      error : function(error){
+                                console.log(error);
+                              }
+                      })
+          requests.push(xhr);
+        }
+      })
+      return requests;
+    }
+    // When each AJAX request is completed check if complete, add to the DOM 
+    $.when.apply($, prepareAjax()).done(function(){
+      var results = []; 
+      for (var i=0; i < arguments.length; i++) {
+        var html = '<tr><td>';
+        //for services that have only one lesson need to have the appropriate lesson pointer
+        if (arguments[i].hasOwnProperty('objects')) {
+          var lessonSelector = arguments[i];
+        } else {
+          var lessonSelector = arguments[i][0];
+        }
+        var isCompleted = _checkIfLessonCompleted(lessonSelector.objects);
+        if (isCompleted) {
+          html += '<img src="img/green-check.png">';
+        }
+        var lessonId = lessonSelector.objects[0].lesson_id;
+        html += '<a id="'+lessonId+'" class="orange bold instructions-link">'+lessonSelector.objects[0].lesson.name+'</a>';
+        html += '<br/><p class="author-name">Created by <span class="author-name'+lessonSelector.objects[0].lesson.creator_id+'"></span></p></td>';
+        html += '<td>'+ lessonSelector.num_results+'</td></tr>';
+        results.push(html);
+        $("#tbody").append(html);
+        _getCreatorName(lessonId);
+        $("#"+lessonId).click(_instructionsLinkClicked);
       }
-    })
+    });
+  }
+
+  function _checkIfLessonCompleted(userLessonsArray) {
+    var completed = false;
+    for (var user in userLessonsArray) {
+      if (userLessonsArray[user]['user_id'] === BfUser.id && userLessonsArray[user]['completed'] === true) {
+        completed = true;
+      }
+    }
+    return completed;
   }
 
   function _getCreatorName(lessonId){
@@ -98,7 +125,6 @@ var service = (function (service) {
       $('.author-name'+response.creator_id).text(response.creator.name);
     })
   }
-
 
   function _instructionsLinkClicked(evt){
     // Make sure they are logged in first

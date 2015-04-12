@@ -44,7 +44,7 @@ var connect = (function (connect) {
       $(".user-name").append(response.name);
       if (response.location) {
         $(".location").text(response.location);
-      } 
+      }
       if (response.business_name) {
         $(".biz-name").text(response.business_name);
       }
@@ -73,7 +73,11 @@ var connect = (function (connect) {
       } else {
         $("#profile-site").hide();
       }
-      $(".profile-description").text(response.description);
+      if (response.description == null) {
+        $(".profile-description").html('You should <a href="edit-profile.html">add a description</a> to your profile!');
+      } else {
+        $(".profile-description").text(response.description);
+      }
     });
   }
 
@@ -152,7 +156,7 @@ var connect = (function (connect) {
         namedCount["count"] = count;
         namedCounts.push(namedCount);
         numberOfTeachers -= 1;
-        if (!numberOfTeachers){
+        if (numberOfTeachers <= 1){
           // Sort
           namedCounts = namedCounts.sort(function(a,b){
             if (a.count > b.count) return -1;
@@ -196,10 +200,13 @@ var connect = (function (connect) {
     });
     // Sort by time
     completedLessons = completedLessons.sort(function(a,b){
-      if (Date.parse(a.end_dt) > Date.parse(b.end_dt)) return -1;
-      if (Date.parse(a.end_dt) < Date.parse(b.end_dt)) return 1;
+      // Remove some millisecond precision for IE9 support
+      var aEndDate = Date.parse(a.end_dt.slice(0,-3));
+      var bEndDate = Date.parse(b.end_dt.slice(0,-3));
+      if (aEndDate > bEndDate) return -1;
+      if (aEndDate < bEndDate) return 1;
       return 0;
-    })
+    });
     // Add to page
     var html = ""
     $.each(completedLessons, function(i,userLesson){

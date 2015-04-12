@@ -221,14 +221,8 @@ var BfUser = (function (BfUser)  {
     // Set a cookie!
     $.removeCookie('BfUser');
     _setUserCookie(BfUser.id, BfUser.name, BfUser.email, BfUser.signedIn, BfUser.bfAccessToken);
-    if (config.debug) console.log(JSON.stringify($.cookie('BfUser')));
-
-    // disable input fields and button when successfully signed up
-    $('#signin-form input').attr("disabled", "disabled");
-    $('#bfSignIn').attr("disabled", "disabled");
-
-    _updatePage();
-    $('#alert h2').removeClass('alert-danger').addClass('alert alert-success').html("Great. You're signed in. <a href='signin.html?signout=true'>Sign in under a different account?</a>");
+    // Redirect to homepage
+    window.open("/", "_self");
   };
 
   // Update page to reflect user state
