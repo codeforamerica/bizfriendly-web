@@ -30,6 +30,8 @@ var service = (function (service) {
     $('#loading').toggle();
     $('#main').toggle();
     service = response;
+	alert(“response is:”);
+	alert(response);
     lessons = service.lessons;
     lessons.sort(_alphabetize);
     _checkIfLoggedIn();
