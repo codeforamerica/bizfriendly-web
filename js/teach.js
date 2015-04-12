@@ -50,6 +50,7 @@ var teach = (function (teach) {
     $("#preview").click(_previewClicked);
     $("#save-draft").click(_saveDraft);
     $("#submit").click(_submitClicked);
+    $("#terms").click(_termsChecked);
     $(".temp-close-btn").click(_closeClicked);
     $("#step-options-btn").click(_optionsClicked);
     $('li.progress-button').click(_progressClicked);
@@ -899,6 +900,14 @@ var teach = (function (teach) {
     } else {
       $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
     }
+  }
+
+  function _termsChecked () {
+    if ($("#terms").prop("checked")) {
+      $("#alert").addClass("hidden")
+    } else {
+      $("#alert").removeClass("hidden").text("You need to agree to the Creative Commons terms.")
+    };
   }
 
   function _submitClicked(){

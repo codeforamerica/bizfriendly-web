@@ -119,13 +119,21 @@ var BfUser = (function (BfUser)  {
   // Send sign up info to server on signup click.
   function _signUpClicked(event){
     if (config.debug) console.log("Submitting signup info.")
-      newUser = {
+     if ($('#name').val() === "") {
+      alert("Enter Name");
+     } else if ($('#email').val() === "") {
+       alert("Enter Email");
+     } else if ($('#password').val() === "") {
+      alert("Enter Password");
+     } else {
+        newUser = {
         name : $('#name').val(),
         email : $('#email').val(),
         password : $('#password').val()
     }
     if (config.debug) console.log(JSON.stringify(newUser));
     $.post(config.bfUrl + '/signup', newUser, _signedUp).fail(_badPost);
+     }
   }
 
   // Send sign in info to server on signin click.
