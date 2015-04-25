@@ -114,11 +114,11 @@ var connect = (function (connect) {
     $.each(userLessonCounts, function(i,userLessonCount){
       if (i < 5){ // Top five learners
         html += '<br/><div class="row">';
-        html += '<div class="col-sm-3 col-md-3 col-lg-3 center">';
+        html += '<div class="col-sm-4 col-md-5 col-lg-3 center">';
         html += '<p class="orange bold">'+userLessonCount.count;
         html += '<br/>lessons</p>';
         html += '</div>';
-        html += '<div class="col-sm-9 col-md-9 col-lg-9">';
+        html += '<div class="col-sm-8 col-md-7 col-lg-9">';
         html += '<a href="profile.html?'+userLessonCount.user.id+'">'+userLessonCount.user.name+'</a><br/>';
         if (userLessonCount.user.business_name) {
           html += userLessonCount.user.business_name;
