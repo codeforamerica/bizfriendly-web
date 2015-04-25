@@ -1,2 +1,4 @@
 destination: _site
 include: ['__init__.html']
+highlighter: rouge
+encoding: utf-8
