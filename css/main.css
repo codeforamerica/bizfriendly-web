@@ -1310,6 +1310,10 @@ section .btn{
 	color: #FF4000;
 	text-align: center;
 }
+.teach-top, .teach-bottom{
+	min-height: 500px;
+	
+}
 
 .teach-bottom h2 {
 	text-align: center;
