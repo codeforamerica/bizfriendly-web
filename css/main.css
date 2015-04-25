@@ -342,6 +342,9 @@ hr {
 	padding-top: 35px;
 	width : 300px;
 }
+#teach-dots h1{
+	color:#ffffff;
+}
 
 #teach-dots-amount {
 	position: relative;
