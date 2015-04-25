@@ -15,7 +15,7 @@ js: new-category
     <div id="subheader" class="row">
         <div class="col-sm-offset-1">
             <h1>Use the form below to add a skill category to BizFriend.ly</h1>
-            <p>If you're new to creating content, we recommend checking out the <a href="#">Teaching Guide</a> before you begin.</p>
+            <p>If you're new to creating content, we recommend checking out the <a href="teaching-guide.html">Teaching Guide</a> before you begin.</p>
         </div>
         <div class="alert alert-info login-required col-sm-offset-1">
             You'll need to create a BizFriend.ly account before you can create a lesson. <a href="signup.html">Sign up</a> then come back here.
@@ -32,16 +32,16 @@ js: new-category
             <div class="form-group">
                 <textarea id="new-skill-description" class="form-control" placeholder="Description of new skill" rows="4"></textarea>
             </div>
-            <div class="col-sm-6 col-md-5 col-lg-4">
+            <div class="col-sm-6">
             <!--<button id="preview" type="button" class="btn btn-blue">Preview</button>-->
                 <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
                 <button id="submit" type="button" class="btn btn-primary">Submit</button>
+                <div id="form-alert" class="hidden alert alert-danger"></div>
             </div>
             <div class="col-sm-6">
                 <input id="terms" type="checkbox" checked> <span class="bold">Agree to Terms</span>
                 <p><small>When you create new content on BizFriend.ly you’re agreeing to share with the community. All content on BizFriend.ly is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.</small></p>
             </div>
-            <div id="form-alert" class="hidden alert alert-danger"></div>
         </form>
     </section>
 
