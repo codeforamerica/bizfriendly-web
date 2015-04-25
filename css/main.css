@@ -1038,8 +1038,8 @@ footer a:hover {
 
 .progress-dots .active h2 {
 	position: relative;
-	top: -10px;
-	/*left: 15px;*/
+	top: -15px;
+	left: 5px;
 }
 
 .progress-dots .finished {
