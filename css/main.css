@@ -73,6 +73,10 @@ a {
 	line-height: 20px;
 }
 
+#subheader {
+	margin: 30px;
+}
+
 #subheader h1 {
 	color: #79C040;
 	font-family: 'Open Sans';
