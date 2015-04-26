@@ -446,7 +446,7 @@ hr {
 h1 {
 	color: #79C040;
 	font-family: 'Open Sans', sans-serif;
-	font-size: 24px;
+	font-size: 24pt;
 	font-weight: 700;
 	line-height: 26px;
 	margin-top: 0px;
@@ -1375,9 +1375,9 @@ section .btn{
 #teaching-guide #main a {
 	text-decoration: underline;
 }
-
-#teaching-guide #subheader a, #about-page #subheader a {
-	text-decoration: none;
+/*modified*/
+#about-page #subheader a {
+	text-decoration: underline;
 }
 
 #new-service input {
@@ -1456,4 +1456,46 @@ media (max-width: 1200px) {
 	.teach-bottom {
 		min-height: 170px;
 	}
+}
+/*Modifications included on 25th April 2015*/
+#category-left a:hover{
+   color: #990066;
+
+}
+#category-right a:hover{
+   color: #990066;
+
+}
+#teach-landing #subheader a:hover{
+color:#990066;
+
+}
+#teaching-guide #subheader a{
+text-decoration:underline;
+}
+#teaching-guide #main a:hover{
+text-decoration:underline;
+color:#990066;
+}
+#connect #main a:hover{
+color: #990066;
+}
+.back-to-top a:hover{
+	color: #990066;
+}
+#teach-callout a:hover{
+	color: #990066;
+}
+#about-page #subheader a:hover{
+	color: #990066;
+}
+#about-page #main a:hover{
+	color: #990066;
+}
+#teach-header #subheader a:hover ,#new-service #subheader a:hover,#new-category #subheader a:hover{
+
+	color: #990066;
+}
+#main #additional-resources a:hover{
+ color: #990066;
 }

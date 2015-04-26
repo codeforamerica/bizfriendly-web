@@ -129,7 +129,8 @@ var service = (function (service) {
   function _instructionsLinkClicked(evt){
     // Make sure they are logged in first
     if (!BfUser.signedIn) {
-      $('.alert').text("Whoa! You need to log in first.").removeClass('hidden');
+      $('.alert').html("<p>Whoa! You need to log in first. <a id='signInLink' href='signin.html'>Sign In</a> | <a href='signup.html'>Sign up</a></p>").removeClass('hidden');
+	  //text("Whoa! You need to log in first.").removeClass('hidden');
     } else {
       // Open the lesson and the modal.
       $('#instructionsModal').modal()
