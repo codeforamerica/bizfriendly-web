@@ -460,7 +460,7 @@ h2 {
 	line-height: 20px;
 }
 
-h3 { 
+h3 {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14px;
 	font-weight: 700;
@@ -544,11 +544,11 @@ ul{
 	padding-bottom: 15px;
 }
 
-/* 
- * 
- * 	BUTTONS 
- */ 
-.btn { 
+/*
+ *
+ * 	BUTTONS
+ */
+.btn {
 	border-radius:5px;
 	font-family: MuseoSlab;
 	text-align: center;
@@ -1175,13 +1175,6 @@ section .btn{
 	text-align: center;
 }
 
-.center-btn {
-	position: absolute;
-	bottom: 0px;
-	left: 50%;
-	transform: translate(-50%, 0);
-}
-
 #connect #left-column {
 	min-width:330px;
 }
@@ -1332,7 +1325,7 @@ section .btn{
 	background-color: #FFC9AE;
 	border-radius: 15px;
 	padding-top: 16px;
-  padding-bottom: 50px;
+  padding-bottom: 16px;
 	min-height: 425px;
 	margin-bottom: 15px;
 }
@@ -1341,13 +1334,14 @@ section .btn{
 	background-color: #C7E4EE;
 	border-radius: 15px;
   padding-top:16px;
-	padding-bottom: 50px;
+	padding-bottom: 16px;
 	min-height: 225px;
 	margin-bottom: 15px;
 }
 
 .teach-top a, .teach-bottom a {
 	margin: 15px auto;
+  white-space: normal;
 }
 
 .teach-top, .teach-bottom {
