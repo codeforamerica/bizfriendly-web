@@ -3,7 +3,7 @@
 BizFriend.ly Web Site
 =========
 
-http://BizFriend.ly teaches you how to use the internet to increase your quality of life, be more effecient at work, and perhaps even how to be a better citizen.
+http://BizFriend.ly teaches you how to use the internet to increase your quality of life, be more efficient at work, and perhaps even how to be a better citizen.
 
 ## <a name="about"></a>About
 This is the main website for the BizFriend.ly service. It is powered by the [BizFriend.ly API](http://github.com/codeforamerica/bizfriendly-api)
