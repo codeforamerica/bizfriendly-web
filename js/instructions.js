@@ -184,13 +184,18 @@ var instructions = (function (instructions) {
     // Save progress of every step taken
     if (!previewLesson){
       console.log("Recording step completion.");
+
       // Record most recent opened step
       postData = {
           currentStepId : currentStep.id,
           currentLessonId : lesson.id,
           auth : BfUser.bfAccessToken
         }
-        // console.log(postData);
+
+      if (BfUser.bfAccessToken) {
+        postData.auth = BfUser.bfAccessToken;
+      }
+
       BfUser.record_step(postData, _recordedStep);
     }
   }

@@ -127,25 +127,19 @@ var service = (function (service) {
   }
 
   function _instructionsLinkClicked(evt){
-    // Make sure they are logged in first
-    if (!BfUser.signedIn) {
-      $('.alert').html("<p>Whoa! You need to log in first. <a id='signInLink' href='signin.html'>Sign In</a> | <a href='signup.html'>Sign up</a></p>").removeClass('hidden');
-	  //text("Whoa! You need to log in first.").removeClass('hidden');
-    } else {
-      // Open the lesson and the modal.
-      $('#instructionsModal').modal()
-      // 10 seconds later the modal closes.
-      setTimeout(function(){
-        $('#instructionsModal').modal('hide')
-      },10000);
-      lessonId = $(this).attr("id");
-      var url = 'instructions.html?'+lessonId;
-      var width = 340;
-      var height = window.screen.height;
-      var left = window.screen.width - 340;
-      var instructionOptions = "height="+height+",width="+width+",left="+left;
-      window.open(url,"instructions",instructionOptions);
-    }
+    // Open the lesson and the modal.
+    $('#instructionsModal').modal()
+    // 10 seconds later the modal closes.
+    setTimeout(function(){
+      $('#instructionsModal').modal('hide')
+    },10000);
+    lessonId = $(this).attr("id");
+    var url = 'instructions.html?'+lessonId;
+    var width = 340;
+    var height = window.screen.height;
+    var left = window.screen.width - 340;
+    var instructionOptions = "height="+height+",width="+width+",left="+left;
+    window.open(url,"instructions",instructionOptions);
   }
 
   // add public methods to the returned module and return it
