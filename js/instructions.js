@@ -278,6 +278,8 @@ var instructions = (function (instructions) {
   // Check steps
   function _checkStep(){
 
+	//var prev_completed_steps=false;
+
     if (config.debug) console.log(currentStep);
     // Create postData
     postData = {
