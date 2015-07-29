@@ -493,6 +493,7 @@ var teach = (function (teach) {
         // $clone.addClass("active");
         $("#feedback-content").append($clone);
       }
+
     // Set up congrats step
     } else {
       $("#step-close-btn").hide();
@@ -527,7 +528,6 @@ var teach = (function (teach) {
       // Disable advanced options
       $("#what-to-watch").prop("disabled",true).selectpicker("refresh");
       $("#collection-name").prop("disabled",true).selectpicker("refresh");
-
     }
     if (newSteps.length <= 2){
       $("#step-close-btn").hide();
@@ -703,6 +703,33 @@ var teach = (function (teach) {
               }
           });
         }
+
+        // If list-element
+        if ($(ui.draggable[0]).attr("id") == "list-element-drag"){
+          currentStep.step_type = "list";
+          var $clone = $("#list-prototype").clone();
+          $clone.attr("id","").removeClass("hidden");
+          $clone.appendTo( this );
+          _makeEditable($clone);
+
+          var content = '<input id="list-entry-text" type="url" placeholder="List Item Text"></input><button type="button" id="list-entry-done" class="btn btn-xs">Done</button>';
+          $("#list-entry-add").popover({ content: content, html: true, placement: 'right' });
+
+          $("#list-entry-add").click(function(){
+            if (config.debug) console.log("list add entry clicked");
+            $("#list-entry-add").popover("show");
+            $("#list-entry-done").click(function() {
+              $("#list").append('<li>'+$("#list-entry-text").val()+'</li>');
+              $("#list-entry-add").popover("hide");
+            });
+          });
+
+          $("#list-entry-remove").click(function(){
+            if (config.debug) console.log("list add remove clicked");
+            $("#list li:last-child").remove();
+          });
+        }
+
       }
     });
   }

@@ -57,7 +57,8 @@ js: teach
                             <div id="text-element-drag" class="draggable"><p>Text</p></div>
                             <div id="open-element-drag" class="draggable">Text & Open Button</div>
                             <div id="image-element-drag" class="draggable"><img src="img/upload-image-icon.png">Image</div>
-                             <div id="login-element-drag" class="draggable">Text & Log In Button</div>
+                            <div id="login-element-drag" class="draggable">Text & Log In Button</div>
+                            <div id="list-element-drag" class="draggable">List</div>
                          </div>
                     </div>
                     <div id="advanced-options" class="row">
@@ -217,7 +218,14 @@ js: teach
             <li><a href="feedback.html" id="leave-feedback" type="button" class="btn btn-teach btn-xs btn-block orange">Give Feedback</a></li>
         </ul>
     </div>
-  </div>
+</div>
+
+<div id="list-prototype" class="hidden">
+    <p class="bold element-editable">Click to edit list title.</p>
+    <ul id="list" style="list-style: disc inside none"></ul>
+    <button type="button" id="list-entry-add" class="btn btn-teach btn-xs" data-dismiss="modal">Add New Entry</button>
+    <button type="button" id="list-entry-remove" class="btn btn-teach btn-xs" data-dismiss="modal">Remove Last Entry</button>
+</div>
 
 <!-- Ghost Form -->
 <form name="preview" target="instructions">
