@@ -93,6 +93,10 @@ var instructions = (function (instructions) {
     if(currentStep.stepNumber == 1)
       $('#back').prop( "disabled", true );
 
+
+    // Remove list buttons
+    $("#step-text-content").find("#list-entry-add").remove();
+    $("#step-text-content").find("#list-entry-remove").remove();
   }
 
   function _checkWindowSize(){
